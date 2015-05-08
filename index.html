@@ -11,38 +11,41 @@
     <!-- my js file-->
     <script src="resources/javascript/app/main.js"></script>
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css">
-    <link rel="stylesheet" href="resources/css/app/main.css">
+    <!-- glyphicons -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css">
+
+    <link rel="stylesheet" href="resources/css/app/main.css">
+
 </head>
 <body>
-<timer interval="1000">{{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
-<!--<nav class="navbar navbar-default navbar-static-top">-->
-    <!--<div class="container-fluid">-->
-        <!--&lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;-->
-        <!--<div class="navbar-header">-->
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"-->
-                    <!--data-target="#bs-example-navbar-collapse-1">-->
-                <!--<span class="sr-only">Toggle navigation</span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
-            <!--<a class="navbar-brand" href="#">Brand</a>-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li><a href="#">Link</a> </li>-->
-                <!--<li><a href="#2"><i class="fa fa-heart-o fa-fw"></i>Link2</a> </li>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</nav>-->
-<!--&lt;!&ndash;<timer interval="1000">{{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>&ndash;&gt;-->
-<!--<div class="container-fluid testColor">-->
-    <!--<span>-->
-    <!--&lt;!&ndash;<timer interval="1000">{{hours}} hour{{hoursS}}, {{minutes}} minute{{minutesS}}, {{seconds}} second{{secondsS}}.</timer>&ndash;&gt;-->
-    <!--</span>-->
-<!--</div>-->
 
-{{1+1}}
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Link</a></li>
+                <li><a href="#2"><i class="fa fa-heart-o fa-fw"></i>Link2</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid testColor">
+    <span>
+        <timer interval="1000">{{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+    </span>
+</div>
+
+<div>{{1+1}}</div>
 </body>
 </html>

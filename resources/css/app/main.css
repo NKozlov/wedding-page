@@ -1,3 +1,41 @@
-div[class~="testColor"]{
+div[class~="testColor"] {
     background-color: bisque;
+}
+
+.header {
+    text-align: center;
+}
+
+.header-title {
+    font-family: 'Pudelinka', sans-serif;
+    font-size: 6em;
+    font-weight: normal;
+    font-style: normal;
+    text-align: center;
+    color: #de675f;
+}
+
+.title-message {
+    border-top: 4px double #ec6d65;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+    font-size: 1.1em;
+    text-align: center;
+    padding-top: 1.9%;
+}
+
+.subline {
+    font-family: Myriad Pro, Tahoma, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.head-img-heart {
+    font-size: 4em;
+}
+
+.photoBox-wedding {
+
 }

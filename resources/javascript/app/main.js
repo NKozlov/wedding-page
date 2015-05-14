@@ -1,1 +1,1 @@
-var app = angular.module('myApp', ['timer']);
+var app = angular.module('myApp', ['ngAnimate', 'timer']);

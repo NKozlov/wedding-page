@@ -12,11 +12,12 @@ div[class~="testColor"] {
     font-weight: normal;
     font-style: normal;
     text-align: center;
-    color: #de675f;
+    /*color: #de675f;*/
+    color: #354fec;
 }
 
 .title-message {
-    border-top: 4px double #ec6d65;
+    border-top: 4px double #354fec;
     width: 50%;
     margin-left: auto;
     margin-right: auto;

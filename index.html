@@ -35,18 +35,17 @@
     <p class="title-message subline">Приглашаем на нашу свадьбу</p>
 </div>
 
-<div class="photoBox-wedding">
-    <div class="container-fluid">
-        photo Box
-    </div>
-</div>
-
 <div class="container-fluid testColor">
     <span>
         <timer interval="1000"><i class="fa fa-heart-o fa-fw"></i>{{hours}} hours, {{minutes}} minutes, {{seconds}}
             seconds.
         </timer>
     </span>
+</div>
+
+<div ng-controller="PhotoBox">
+    <div class="photoBox-wedding" ng-repeat="photo in pictures" ng-style="{'background-image' : 'url(' + photo + ')'}">
+    </div>
 </div>
 
 <div>{{1+1}}</div>

@@ -5,6 +5,18 @@ app.controller('PhotoBox', function ($scope) {
         "resources/imgs/1.JPG",
         "resources/imgs/2.JPG"
     ];
+
+    var lengthPictures = $scope.pictures.length;
+    console.log(lengthPictures);
+    var currentPicIndex = 1;
+    $scope.next = function () {
+
+        if (currentPicIndex >= lengthPictures) {
+            currentPicIndex = 1;
+        } else {
+            currentPicIndex++;
+        }
+    }
 });
 
 //app.directive('animateOnChange', ["$animate", "$timeout", function($animate, $timeout) {
@@ -20,6 +32,8 @@ app.controller('PhotoBox', function ($scope) {
 //   };
 //}]);
 
+
+//not wor start
 app.directive('animateOnChangeTime', ["$animate", "$timeout", function ($animate, $timeout) {
     return {
         restrict: "A",
@@ -34,3 +48,20 @@ app.directive('animateOnChangeTime', ["$animate", "$timeout", function ($animate
     }
 }])
 ;
+//not work end
+
+
+app.directive('fade', ['$animate', '$interval', function ($animate, $interval) {
+    return function ($scope, element, attrs) {
+        $interval(function () {
+            $animate.enter(element, element.parent());
+            $scope.headline = $scope.next();
+            console.log("length=" + $scope.lengthPictures);
+            var debugI = 1;
+
+            /* $animate.leave(element); */ //    not required?
+        }, 6000);
+    }
+}]);
+
+

@@ -35,7 +35,7 @@
     <p class="title-message subline">Приглашаем на нашу свадьбу</p>
 </div>
 
-<div class="container-fluid testColor">
+<div class="container testColor">
     <span>
         <timer interval="1000"><i class="fa fa-heart-o fa-fw"></i>{{hours}} hours, {{minutes}} minutes, {{seconds}}
             seconds.
@@ -43,11 +43,27 @@
     </span>
 </div>
 
-<div ng-controller="PhotoBox">
-    <div animate-on-change-time="dsd" class="photoBox-wedding" ng-repeat="photo in pictures" ng-style="{'background-image' : 'url(' + photo + ')'}">
+<div class="container">
+    <div ng-controller="PhotoBox">
+        <div fade class="photoBox-wedding" ng-repeat="photo in pictures"
+             ng-style="{'background-image' : 'url(' + photo + ')'}" ng-class="{$index}">
+        </div>
     </div>
 </div>
 
 <div>{{1+1}}</div>
+
+
+<!--test animation angular-->
+<!--<div ng-init="checked=true">-->
+<!--<label>-->
+<!--<input type="checkbox" ng-model="checked" style="float:left; margin-right:10px;"> Is Visible...-->
+<!--</label>-->
+
+<!--<div class="check-element sample-show-hide" ng-show="checked" style="clear:both;">-->
+<!--Visible...-->
+<!--</div>-->
+<!--</div>-->
+
 </body>
 </html>

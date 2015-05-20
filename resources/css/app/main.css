@@ -46,20 +46,10 @@ div[class~="testColor"] {
     -moz-transition: all 1s ease-out;
     -o-transition: all 1s ease-out;
     transition: all 1s ease-out;
-    background-position: center 43%;
+    background-position: center;
     background-size: cover;
-    opacity: 0;
+    opacity: 1;
 }
-
-/*.photoBox-wedding-enter {*/
-/*-webkit-transition: 1s linear all; /!* Chrome *!/*/
-/*transition: 1s linear all;*/
-/*opacity: 0;*/
-/*}*/
-
-/*.photoBox-wedding-enter.photoBox-wedding-enter-active {*/
-/*opacity: 1;*/
-/*}*/
 
 /*
   We're using CSS transitions for when
@@ -137,3 +127,21 @@ div[class~="testColor"] {
         opacity: 0;
     }
 }
+
+/*test angular animation*/
+.sample-show-hide {
+    padding: 10px;
+    border: 1px solid black;
+    background: white;
+}
+
+.sample-show-hide {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+}
+
+.sample-show-hide.ng-hide {
+    opacity: 0;
+}
+
+/*/*test angular animation end*/

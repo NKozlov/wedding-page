@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngAnimate', 'timer']);
+var app = angular.module('myApp', ['ngAnimate', 'timer', 'angular-carousel']);
 
 app.controller('PhotoBox', function ($scope) {
     $scope.pictures = [

@@ -38,39 +38,43 @@
 </head>
 
 <body>
-<div class="header">
-    <div class="container">
-        <span class="header-title">Роман</span>
-        <span class="subline head-img-heart"><i class="fa fa-heart-o fa-fw"></i></span>
-        <span class="header-title">Анна</span>
+
+<div class="wdLayout-content">
+
+    <div class="header">
+        <div class="container">
+            <span class="header-title">Роман</span>
+            <span class="subline head-img-heart"><i class="fa fa-heart-o fa-fw"></i></span>
+            <span class="header-title">Анна</span>
+        </div>
+        <p class="title-message subline">Приглашаем на нашу свадьбу</p>
     </div>
-    <p class="title-message subline">Приглашаем на нашу свадьбу</p>
-</div>
 
+    <div class="photoBox-container" ng-controller="PhotoBox">
+        <ul rn-carousel rn-carousel-auto-slide="5" rn-carousel-transition="fadeAndSlide"
+            rn-carousel-duration="1300">
+            <li ng-repeat="photo in pictures">
+                <div class="photoBox-slide" ng-style="{'background-image' : 'url(' + photo + ')'}"></div>
+            </li>
+        </ul>
+        </div>
 
-<div class="container-fluid landingPage-box" ng-controller="PhotoBox">
-    <ul rn-carousel rn-carousel-auto-slide="5" rn-carousel-transition="fadeAndSlide" rn-carousel-duration="1300">
-        <li ng-repeat="photo in pictures">
-            <div class="photoBox-slide" ng-style="{'background-image' : 'url(' + photo + ')'}"></div>
-        </li>
-    </ul>
-
-    <div class="container-fluid">
+    <div class="container-fluid landingPage-lists">
         <div class="row">
-            <div class="col-xs-6">1</div>
-            <div class="col-xs-6">2</div>
+            <div class="col-xs-6">11111111</div>
+            <div class="col-xs-6">22222222</div>
         </div>
     </div>
+
+
+    <!--<div class="container testColor">-->
+    <!--<span>-->
+    <!--<timer interval="1000"><i class="fa fa-heart-o fa-fw"></i>{{hours}} hours, {{minutes}} minutes, {{seconds}}-->
+    <!--seconds.-->
+    <!--</timer>-->
+    <!--</span>-->
+    <!--</div>-->
 </div>
-
-
-<!--<div class="container testColor">-->
-<!--<span>-->
-<!--<timer interval="1000"><i class="fa fa-heart-o fa-fw"></i>{{hours}} hours, {{minutes}} minutes, {{seconds}}-->
-<!--seconds.-->
-<!--</timer>-->
-<!--</span>-->
-<!--</div>-->
 
 
 </body>

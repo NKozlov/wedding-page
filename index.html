@@ -42,10 +42,25 @@
 <div class="wdLayout-content">
 
     <div class="header">
-        <div class="container">
-            <span class="header-title">Роман</span>
-            <span class="subline head-img-heart"><i class="fa fa-heart-o fa-fw"></i></span>
-            <span class="header-title">Анна</span>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="date-container col-xs-6 col-md-4">
+                    <span class="day-date title-message subline">Воскресение, 12 июля в 15:00</span><br>
+                    <span class="day-year accent">2015</span>
+                </div>
+                <div class="col-xs-6 col-md-4"><span class="header-title">Роман</span>
+                    <span class="subline head-img-heart"><i class="fa fa-heart-o fa-fw"></i></span>
+                    <span class="header-title">Анна</span>
+                </div>
+                <div class="col-xs-6 col-md-4">
+                    <!-- service for time: http://www.ruddwire.com/handy-code/date-to-millisecond-calculators/#.VWCV-lm8MXA -->
+                    <timer end-time="1436698800000"><i class="fa fa-heart-o fa-fw"></i>{{days}}days, {{hours}} hours,
+                        {{minutes}} minutes,
+                        {{seconds}}
+                        seconds.
+                    </timer>
+                </div>
+            </div>
         </div>
         <p class="title-message subline">Приглашаем на нашу свадьбу</p>
     </div>
@@ -57,7 +72,7 @@
                 <div class="photoBox-slide" ng-style="{'background-image' : 'url(' + photo + ')'}"></div>
             </li>
         </ul>
-        </div>
+    </div>
 
     <div class="container-fluid landingPage-lists">
         <div class="row">

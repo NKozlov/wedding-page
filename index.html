@@ -51,18 +51,31 @@
                 <div class="col-xs-6 col-md-4"><span class="header-title">Роман</span>
                     <span class="subline head-img-heart"><i class="fa fa-heart-o fa-fw"></i></span>
                     <span class="header-title">Анна</span>
+
+                    <div class="border-line">
+                        <p class="title-message subline">Приглашаем на нашу свадьбу</p>
+                    </div>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <!-- service for time: http://www.ruddwire.com/handy-code/date-to-millisecond-calculators/#.VWCV-lm8MXA -->
-                    <timer end-time="1436698800000"><i class="fa fa-heart-o fa-fw"></i>{{days}}days, {{hours}} hours,
-                        {{minutes}} minutes,
-                        {{seconds}}
-                        seconds.
-                    </timer>
+                    <div class="day-meta">До нашей свадьбы осталось:</div>
+                    <div class="hasCountdown">
+                        <!-- service for time: http://www.ruddwire.com/handy-code/date-to-millisecond-calculators/#.VWCV-lm8MXA -->
+                        <timer end-time="1436698800000" language="ru">
+                            <div class="countdown_section">
+                                <div class="countdown_amount">{{days}}</div>
+                                <span class="days-label">{{dayLabel}}</span>
+                            </div>
+                            <div class="countdown_section">
+                                <div class="countdown_amount">{{hours}}</div>
+                                <span class="days-label">{{hourLabel}}</span>
+                            </div>
+                            {{minutes}} {{minuteLabel}}, {{seconds}} {{secondLabel}}.<br>
+
+                        </timer>
+                    </div>
                 </div>
             </div>
         </div>
-        <p class="title-message subline">Приглашаем на нашу свадьбу</p>
     </div>
 
     <div class="photoBox-container" ng-controller="PhotoBox">

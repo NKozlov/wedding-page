@@ -61,16 +61,27 @@
                     <div class="hasCountdown">
                         <!-- service for time: http://www.ruddwire.com/handy-code/date-to-millisecond-calculators/#.VWCV-lm8MXA -->
                         <timer end-time="1436698800000" language="ru">
-                            <div class="countdown_section">
-                                <div class="countdown_amount">{{days}}</div>
-                                <span class="days-label">{{dayLabel}}</span>
-                            </div>
-                            <div class="countdown_section">
-                                <div class="countdown_amount">{{hours}}</div>
-                                <span class="days-label">{{hourLabel}}</span>
-                            </div>
-                            {{minutes}} {{minuteLabel}}, {{seconds}} {{secondLabel}}.<br>
+                            <div class="container">
+                                <div class="row">
 
+                                    <div class="countdown_section col-md-1">
+                                        <div class="countdown_amount">{{days}}</div>
+                                        <span class="days-label">{{dayLabel}}</span>
+                                    </div>
+                                    <div class="countdown_section col-md-1">
+                                        <div class="countdown_amount">{{hours}}</div>
+                                        <span class="days-label">{{hourLabel}}</span>
+                                    </div>
+                                    <div class="countdown_section col-md-1">
+                                        <div class="countdown_amount">{{minutes}}</div>
+                                        <span class="days-label">{{minuteLabel}}</span>
+                                    </div>
+                                    <div class="countdown_section col-md-1 seconds">
+                                        <div class="countdown_amount">{{seconds}}</div>
+                                        <span class="days-label">{{secondLabel}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </timer>
                     </div>
                 </div>

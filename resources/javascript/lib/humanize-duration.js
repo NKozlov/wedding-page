@@ -526,15 +526,8 @@
         var dictionary = languages[lang];
         var dictionaryValue = dictionary[type];
         var word;
-        var unitMS = UNITS[type];
-        var unitCount = value / unitMS;
-        //if (options.round) {
-        //    unitCount = Math.round(unitCount);
-        //}
-        unitCount = Math.floor(unitCount);
-
         if (typeof dictionaryValue === "function") {
-            word = dictionaryValue(unitCount);
+            word = dictionaryValue(value);
         } else {
             word = dictionaryValue;
         }

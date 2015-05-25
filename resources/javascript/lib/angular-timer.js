@@ -224,6 +224,13 @@ var timerModule = angular.module('timer', [])
           $scope.mmonths = $scope.months < 10 ? '0' + $scope.months : $scope.months;
           $scope.yyears = $scope.years < 10 ? '0' + $scope.years : $scope.years;
 
+            //localized labels for values
+            $scope.secondLabel = i18nService.getValueLabel($scope.seconds, "second");
+            $scope.minuteLabel = i18nService.getValueLabel($scope.minutes, "minute");
+            $scope.hourLabel = i18nService.getValueLabel($scope.hours, "hour");
+            $scope.dayLabel = i18nService.getValueLabel($scope.days, "day");
+            $scope.monthLabel = i18nService.getValueLabel($scope.months, "month");
+            $scope.yearLabel = i18nService.getValueLabel($scope.years, "year");
         }
 
         //determine initial values of time units and add AddSeconds functionality
@@ -362,6 +369,10 @@ app.factory('I18nService', function() {
         }
 
         return time;
+    };
+
+    I18nService.prototype.getValueLabel = function getValueLabel(value, type) {
+        return humanizeDuration.getLocalizedHumanizerWord(value, type, this.language);
     };
 
     return I18nService;

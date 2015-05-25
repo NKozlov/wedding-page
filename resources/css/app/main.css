@@ -25,14 +25,81 @@ div[class~="testColor"] {
 
 .title-message {
     /*border-top: 4px double #354fec;*/
-    border-top: 4px double #de675f;
+    /*border-top: 4px double #de675f;*/
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 12px;
     font-size: 1.1em;
     text-align: center;
     padding-top: 1.9%;
+}
+
+.border-line {
+    border-top: 4px double #de675f;
+    margin-top: 12px;
+}
+
+.hasCountdown {
+    display: table;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.day-meta {
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    text-transform: none;
+    color: #ec6d65;
+    font-weight: normal;
+    font-size: 1.8em;
+    margin-top: 15px;
+}
+
+.countdown_section {
+    font-weight: normal;
+    font-size: 12px;
+    padding: 0;
+    margin: 0 12px;
+    color: #de675f;
+    width: 60px;
+    text-align: center;
+}
+
+.countdown_amount {
+    display: block;
+    font-weight: bold;
+    font-size: 45px;
+    background: none repeat scroll 0 0 #de675f;
+    border-radius: 6px;
+    font-family: 'Pudelinka', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    width: 100%;
+    height: 62px;
+    color: #fff;
+    margin-bottom: 15px;
+    line-height: 62px;
+    position: relative;
+}
+
+.countdown_amount:after {
+    display: block;
+    content: ":";
+    position: absolute;
+    width: 5px;
+    height: 62px;
+    line-height: 62px;
+    top: 0;
+    right: -14px;
+    color: #de675f;
+}
+
+.seconds:after {
+    content: "";
+}
+
+.days-label {
+
 }
 
 .subline {

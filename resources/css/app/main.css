@@ -40,15 +40,16 @@ div[class~="testColor"] {
 }
 
 .hasCountdown {
-    display: table;
-    margin-top: 15px;
-    text-align: center;
+    display: inline-block;
+    /*text-align: center;*/
+    position: relative;
+    width: 100%;
 }
 
 .timer-block {
-    text-align: center;
-    margin-left: 10%;
-    margin-top: 2.5%;
+    /*text-align: center;*/
+    padding-left: 20%;
+    padding-top: 2.5%;
 }
 
 .day-meta {
@@ -62,13 +63,15 @@ div[class~="testColor"] {
 }
 
 .countdown_section {
+    display: inline-block
     font-weight: normal;
     font-size: 12px;
     padding: 0;
-    margin: 0 1%;
+    margin: 0 2.5%;
     color: #de675f;
     width: 60px;
     text-align: center;
+    float: left;
 }
 
 .countdown_amount {
@@ -96,7 +99,8 @@ div[class~="testColor"] {
     height: 62px;
     line-height: 62px;
     top: 0;
-    right: -14px;
+    right: -20%;
+    /*left: 14px;*/
     color: #de675f;
 }
 

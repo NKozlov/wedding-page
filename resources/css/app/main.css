@@ -31,7 +31,7 @@ div[class~="testColor"] {
     margin-right: auto;
     font-size: 1.1em;
     text-align: center;
-    padding-top: 1.9%;
+    padding-top: 5%;
 }
 
 .border-line {
@@ -45,6 +45,12 @@ div[class~="testColor"] {
     text-align: center;
 }
 
+.timer-block {
+    text-align: center;
+    margin-left: 10%;
+    margin-top: 2.5%;
+}
+
 .day-meta {
     font-family: Cambria, Georgia, sans-serif;
     font-style: italic;
@@ -52,14 +58,14 @@ div[class~="testColor"] {
     color: #ec6d65;
     font-weight: normal;
     font-size: 1.8em;
-    margin-top: 15px;
+    margin-top: 1%;
 }
 
 .countdown_section {
     font-weight: normal;
     font-size: 12px;
     padding: 0;
-    margin: 0 12px;
+    margin: 0 1%;
     color: #de675f;
     width: 60px;
     text-align: center;
@@ -117,15 +123,16 @@ div[class~="testColor"] {
     border-bottom: none;
     text-align: center;
     padding-bottom: 0;
-    padding-right: 15em;
-    vertical-align: middle;
+    padding-right: 1%;
+    /*vertical-align: middle;*/
 }
 
 .day-date {
     font-weight: normal;
     /*padding-right: 5px;*/
     font-size: 1.3em;
-    padding: 20px 10px 0 0;
+    padding: 1% 1% 0 0;
+    /*margin-top: 0.5%;*/
 }
 
 .accent {
@@ -137,7 +144,7 @@ div[class~="testColor"] {
 
 .day-year {
     font-size: 9em;
-    padding: 20px 10px 0 0;
+    /*padding: 20px 10px 0 0;*/
 }
 
 .photoBox-container {

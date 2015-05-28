@@ -2,6 +2,7 @@ div[class~="testColor"] {
     background-color: bisque;
 }
 
+/*header */
 .wdLayout-content {
     /*width: 100%;*/
     /*height: 100%;*/
@@ -172,3 +173,5 @@ div[class~="testColor"] {
     width: 100%;
     height: 100%;
 }
+
+/* after vegas show*/

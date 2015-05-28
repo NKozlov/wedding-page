@@ -162,6 +162,11 @@ div[class~="testColor"] {
     position: absolute;
 }
 
+/* fixed vegas + angularjs bug*/
+.vegas-container {
+    min-height: 65%;
+}
+
 .photoBox-slide {
     width: 100%;
     height: 100%;

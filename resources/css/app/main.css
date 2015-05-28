@@ -3,14 +3,15 @@ div[class~="testColor"] {
 }
 
 .wdLayout-content {
-    width: 100%;
-    height: 100%;
-    position: relative;
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*position: relative;*/
     background-color: ivory;
 }
 
 .header {
     text-align: center;
+    min-height: 30%;
 }
 
 .header-title {
@@ -153,28 +154,21 @@ div[class~="testColor"] {
 
 .photoBox-container {
     width: 100%;
-    height: 100%;
+    height: 65%;
+
+    /*fix XZ bug*/
+    min-height: 65%;
+    position: absolute;
 }
 
 .photoBox-slide {
     width: 100%;
     height: 100%;
-    background-position: center 43%;
-    background-size: cover;
+    /*background-position: center 43%;*/
+    /*background-size: cover;*/
 }
 
 .landingPage-lists {
     width: 100%;
     height: 100%;
-}
-
-ul[rn-carousel] {
-    width: 100%;
-    height: 80%;
-    /*needed for slider*/
-    min-height: 500px;
-    /* _ */
-    margin: 0 auto;
-    display: inline-block;
-    /*min-height: 200px;*/
 }

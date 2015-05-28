@@ -11,32 +11,29 @@
     <!-- angular-timer -->
     <script src="resources/javascript/lib/angular-timer.js"></script>
 
-    <!-- jquery -->
-    <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
-    <!-- vegas js -->
-    <script src="resources/javascript/lib/vegas-2.1.3.js"></script>
+    <!-- angular animate-->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.js"></script>
 
+    <!-- dependencies for angular-carousel.js https://github.com/revolunet/angular-carousel -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-touch.js"></script>
+    <!-- angular-carousel-->
+    <script src="resources/javascript/lib/angular-carousel.js"></script>
 
     <!-- my js file-->
     <script src="resources/javascript/app/main.js"></script>
-    <!--<script src="resources/javascript/app/myscript.js"></script>-->
 
     <!-- CSS -->
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css">
     <!-- glyphicons -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css">
+    <!-- main css for app-->
+    <link rel="stylesheet" href="resources/css/app/main.css">
     <!-- css for angular-carousel -->
     <link rel="stylesheet" href="resources/css/lib/angular-carousel.css">
 
-    <!-- vegas css -->
-    <link rel="stylesheet" href="resources/css/lib/vegas-2.1.3.css">
-
     <!-- fonts-->
     <link href="http://allfont.ru/css/?fonts=pudelinka" rel="stylesheet" type="text/css"/>
-
-    <!-- main css for app-->
-    <link rel="stylesheet" href="resources/css/app/main.css">
 
 </head>
 
@@ -96,7 +93,14 @@
         </div>
     </div>
 
-    <div vegas class="photoBox-container"></div>
+    <div class="photoBox-container" ng-controller="PhotoBox">
+        <ul rn-carousel rn-carousel-auto-slide="5" rn-carousel-transition="fadeAndSlide"
+            rn-carousel-duration="1300">
+            <li ng-repeat="photo in pictures">
+                <div class="photoBox-slide" ng-style="{'background-image' : 'url(' + photo + ')'}"></div>
+            </li>
+        </ul>
+    </div>
 
     <div class="container-fluid landingPage-lists">
         <div class="row">
@@ -105,6 +109,14 @@
         </div>
     </div>
 
+
+    <!--<div class="container testColor">-->
+    <!--<span>-->
+    <!--<timer interval="1000"><i class="fa fa-heart-o fa-fw"></i>{{hours}} hours, {{minutes}} minutes, {{seconds}}-->
+    <!--seconds.-->
+    <!--</timer>-->
+    <!--</span>-->
+    <!--</div>-->
 </div>
 
 

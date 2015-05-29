@@ -1,4 +1,4 @@
 # wedding-page
-wedding page Angular JS
+wedding page using JQuery
 
 Demo: http://nkozlov.github.io/wedding-page/

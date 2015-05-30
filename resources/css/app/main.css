@@ -69,7 +69,7 @@ div[class~="testColor"] {
 }
 
 .title-box {
-    margin-top: -8%;
+    margin-top: -6%;
 }
 
 .header-title {
@@ -200,7 +200,9 @@ div[class~="testColor"] {
 }
 
 .day-year {
-    font-size: 5em;
+    /*font-size: 5em;*/
+    padding-top: 3%;
+    font-size: 3vw;
 }
 
 .title-time-text {
@@ -214,7 +216,7 @@ div[class~="testColor"] {
     height: 600px;
 
     /*fix XZ bug*/
-    min-height: 500px;
+    min-height: 600px;
     position: absolute;
 }
 

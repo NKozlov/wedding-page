@@ -31,6 +31,20 @@ $(document).ready(function () {
                 + '</div>'
         ));
     });
+    $(document).ready(function () {
+        $('#fullpage').fullpage({
+            'sectionsColor': ['ivory', 'ivory', 'ivory', 'ivory'],
+            //Navigation
+            menu: '#menu',
+            anchors: ['firstPage', 'secondPage'],
+            navigation: true,
+            navigationPosition: 'right',
+            navigationTooltips: ['firstSlide', 'secondSlide'],
+            showActiveTooltips: false,
+            slidesNavigation: true,
+            slidesNavPosition: 'bottom',
+        });
+    });
 });
 
 

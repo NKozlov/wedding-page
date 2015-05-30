@@ -58,15 +58,12 @@ div[class~="testColor"] {
 
 /*header */
 .wdLayout-content {
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*position: relative;*/
     background-color: ivory;
 }
 
 .header {
     text-align: center;
-    top: 40px;
+    top: 4%;
     min-height: 20%;
     position: relative;
 }
@@ -82,12 +79,9 @@ div[class~="testColor"] {
     font-style: normal;
     text-align: center;
     color: #de675f;
-    /*color: #354fec;*/
 }
 
 .title-message {
-    /*border-top: 4px double #354fec;*/
-    /*border-top: 4px double #de675f;*/
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -103,13 +97,11 @@ div[class~="testColor"] {
 
 .hasCountdown {
     display: inline-block;
-    /*text-align: center;*/
     position: relative;
     width: 100%;
 }
 
 .timer-block {
-    /*text-align: center;*/
     padding-left: 20%;
     padding-top: 1.5%;
 }
@@ -220,7 +212,6 @@ div[class~="testColor"] {
 .photoBox-container {
     width: 100%;
     height: 70%;
-    /*top: 30%;*/
 
     /*fix XZ bug*/
     min-height: 500px;

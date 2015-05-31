@@ -56,6 +56,27 @@ div[class~="testColor"] {
     margin: 0;
 }
 
+/*fullpage css settings*/
+#fp-nav.left {
+    left: 17px;
+    background: rgba(255, 255, 240, 0.7);
+}
+
+#fp-nav ul li .fp-tooltip {
+    position: absolute;
+    top: -2px;
+    color: #de675f;
+    font-size: 40px;
+    /*font-family: arial, helvetica, sans-serif;*/
+    font-family: 'Pudelinka', sans-serif;
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    width: 0;
+}
+
 /*header */
 .wdLayout-content {
     background-color: ivory;
@@ -65,11 +86,12 @@ div[class~="testColor"] {
     text-align: center;
     top: 4%;
     min-height: 20%;
+    background: rgba(255, 255, 255, 0.7);
     position: relative;
 }
 
 .title-box {
-    margin-top: -6%;
+    /*margin-top: -6%;*/
 }
 
 .header-title {

@@ -1,9 +1,11 @@
 $(document).ready(function () {
     // vegas (slide show)
-    $(".photoBox-container").vegas({
+    $("#slideShow").vegas({
         slides: [
-            {src: 'resources/imgs/1.JPG'},
-            {src: 'resources/imgs/2.JPG'}
+            {src: 'resources/imgs/IMG_1209.JPG'},
+            {src: 'resources/imgs/IMG_0586.JPG'},
+            {src: 'resources/imgs/IMG_0487.JPG'},
+            {src: 'resources/imgs/IMG_0665.JPG'}
         ],
         transition: 'fade',
         timer: false,
@@ -33,16 +35,26 @@ $(document).ready(function () {
     });
     $(document).ready(function () {
         $('#fullpage').fullpage({
-            'sectionsColor': ['ivory', 'ivory', 'ivory', 'ivory'],
+
             //Navigation
             menu: '#menu',
             anchors: ['firstPage', 'secondPage'],
             navigation: true,
-            navigationPosition: 'right',
-            navigationTooltips: ['firstSlide', 'secondSlide'],
-            showActiveTooltips: false,
+            navigationPosition: 'left',
+            navigationTooltips: ['У нас свадьба', 'Программа'],
+            showActiveTooltips: true,
             slidesNavigation: true,
             slidesNavPosition: 'bottom',
+
+            //Design
+            controlArrows: true,
+            verticalCentered: true,
+            resize: false,
+            sectionsColor: ['ivory', 'ivory', 'ivory', 'ivory'],
+            paddingTop: '3em',
+            paddingBottom: '10px',
+            //fixedElements: '#header, .footer',
+            responsive: 0
         });
     });
 });

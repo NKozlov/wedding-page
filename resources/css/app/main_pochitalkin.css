@@ -1,0 +1,181 @@
+div[class~="testColor"] {
+    background-color: bisque;
+}
+
+/*header */
+.wdLayout-content {
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*position: relative;*/
+    background-color: ivory;
+}
+
+.header {
+    text-align: center;
+    min-height: 30%;
+}
+
+.header-title {
+    font-family: 'Pudelinka', sans-serif;
+    font-size: 6em;
+    font-weight: normal;
+    font-style: normal;
+    text-align: center;
+    color: #BD7BD5;
+    /*color: #354fec;*/
+}
+
+.title-message {
+    /*border-top: 4px double #BD7BD5;*/
+    /*border-top: 4px double #de675f;*/
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.1em;
+    text-align: center;
+    padding-top: 5%;
+}
+
+.border-line {
+    border-top: 4px double #BD7BD5;
+    margin-top: 12px;
+}
+
+.hasCountdown {
+    display: inline-block;
+    /*text-align: center;*/
+    position: relative;
+    width: 100%;
+}
+
+.timer-block {
+    /*text-align: center;*/
+    padding-left: 20%;
+    padding-top: 2.5%;
+}
+
+.day-meta {
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    text-transform: none;
+    color: #4A3781;
+    font-weight: normal;
+    font-size: 1.8em;
+    margin-top: 1%;
+}
+
+.countdown_section {
+    display: inline-block font-weight : normal;
+    font-size: 12px;
+    padding: 0;
+    margin: 0 2.5%;
+    color: #4A3781;
+    width: 60px;
+    text-align: center;
+    float: left;
+}
+
+.countdown_amount {
+    display: block;
+    font-weight: bold;
+    font-size: 45px;
+    background: none repeat scroll 0 0 #CD0AB8;
+    border-radius: 6px;
+    font-family: 'Pudelinka', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    width: 100%;
+    height: 62px;
+    color: #fff;
+    margin-bottom: 15px;
+    line-height: 62px;
+    position: relative;
+}
+
+.countdown_amount:after {
+    display: block;
+    content: ":";
+    position: absolute;
+    width: 5px;
+    height: 62px;
+    line-height: 62px;
+    top: 0;
+    right: -20%;
+    /*left: 14px;*/
+    color: #4A3781;
+}
+
+.seconds:after {
+    content: "";
+}
+
+.days-label {
+
+}
+
+.subline {
+    font-family: Myriad Pro, Tahoma, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #4A3781;
+}
+
+.head-img-heart {
+    font-size: 4em;
+}
+
+.date-container {
+    border-bottom: none;
+    text-align: center;
+    padding-bottom: 0;
+    padding-right: 1%;
+    /*vertical-align: middle;*/
+}
+
+.day-date {
+    font-weight: normal;
+    /*padding-right: 5px;*/
+    font-size: 1.3em;
+    padding: 1% 1% 0 0;
+    /*margin-top: 0.5%;*/
+}
+
+.accent {
+    color: #CD0AB8;
+    font-family: 'Pudelinka', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.day-year {
+    font-size: 9em;
+    /*padding: 20px 10px 0 0;*/
+}
+
+.photoBox-container {
+    width: 100%;
+    height: 65%;
+
+    /*fix XZ bug*/
+    min-height: 65%;
+    position: absolute;
+}
+
+/* fixed vegas + angularjs bug*/
+.vegas-container {
+    min-height: 65%;
+}
+
+.photoBox-slide {
+    width: 100%;
+    height: 100%;
+    /*background-position: center 43%;*/
+    /*background-size: cover;*/
+}
+
+.landingPage-lists {
+    width: 100%;
+    height: 100%;
+}
+
+/* after vegas show*/

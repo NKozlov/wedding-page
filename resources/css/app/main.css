@@ -6,17 +6,65 @@ div[class~="testColor"] {
     box-sizing: border-box;
 }
 
+/*b-mouse*/
+.b-mouse {
+    position: fixed;
+    right: 40px;
+    bottom: 20px;
+    width: 30px;
+    height: 50px;
+    border: 3px solid #fff;
+    z-index: 100;
+    border-radius: 15px;
+    margin-bottom: 36px;
+    opacity: 1;
+    -webkit-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: bottom right;
+    transform-origin: bottom right;
+}
+
+.b-mouse__arrow {
+    position: absolute;
+    top: 55px;
+    left: 50%;
+    margin-left: -6px;
+    width: 14px;
+    height: 14px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    opacity: 0;
+    -webkit-animation: mouseScrollAllow 3s infinite linear .3s;
+    animation: mouseScrollAllow 3s infinite linear .3s;
+}
+
+.b-mouse__arrow:first-child {
+    top: 44px;
+    -webkit-animation: mouseScrollAllow 3s infinite linear 0s;
+    animation: mouseScrollAllow 3s infinite linear 0s;
+}
+
+.b-mouse__arrow:last-child {
+    top: 65px;
+    -webkit-animation: mouseScrollAllow 3s infinite linear .6s;
+    animation: mouseScrollAllow 3s infinite linear .6s;
+}
+
 /* menu */
 
 #menu li {
     display: inline-block;
     margin: 10px;
     /*color: #000;*/
-    color: #755f49;
+    color: #4A3781;
     text-transform: uppercase;
     font-family: Cambria, Georgia, sans-serif;
     /*background: #fff;*/
-    background: #de675f;
+    background: #BD7BD5;
     background: rgba(222, 103, 95, 0.5);
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -71,7 +119,7 @@ div[class~="testColor"] {
 #fp-nav ul li .fp-tooltip {
     position: absolute;
     top: -2px;
-    color: #de675f;
+    color: #BD7BD5;
     font-size: 40px;
     /*font-family: arial, helvetica, sans-serif;*/
     font-family: 'Pudelinka', sans-serif;
@@ -91,6 +139,7 @@ div[class~="testColor"] {
 .header {
     text-align: center;
     top: 4%;
+    height: 20%;
     min-height: 20%;
     background: rgba(255, 255, 240, 0.7);
     position: relative;
@@ -106,7 +155,20 @@ div[class~="testColor"] {
     font-weight: normal;
     font-style: normal;
     text-align: center;
-    color: #de675f;
+    /*color: #BD7BD5;*/
+    color: #a854d5
+}
+
+.phone-email.nav-header {
+    padding-top: 0.5%;
+    text-align: center;
+
+}
+
+.nav-header a {
+    text-transform: none;
+    font-size: 1.5vw;
+
 }
 
 .title-message {
@@ -119,7 +181,7 @@ div[class~="testColor"] {
 }
 
 .border-line {
-    border-top: 4px double #de675f;
+    border-top: 4px double #BD7BD5;
     margin-top: 2%;
 }
 
@@ -139,7 +201,7 @@ div[class~="testColor"] {
     font-family: Cambria, Georgia, sans-serif;
     font-style: italic;
     text-transform: none;
-    color: #ec6d65;
+    color: #a854d5;
     font-weight: normal;
     font-size: 1.3vw;
     margin-top: 1%;
@@ -150,7 +212,7 @@ div[class~="testColor"] {
     font-size: 12px;
     padding: 0;
     margin: 0 2.5%;
-    color: #de675f;
+    color: #BD7BD5;
     width: 13%;
     text-align: center;
     float: left;
@@ -160,7 +222,7 @@ div[class~="testColor"] {
     display: block;
     font-weight: bold;
     font-size: 2.5vw;
-    background: none repeat scroll 0 0 #de675f;
+    background: none repeat scroll 0 0 #BD7BD5;
     border-radius: 6px;
     font-family: 'Pudelinka', sans-serif;
     font-weight: normal;
@@ -183,7 +245,7 @@ div[class~="testColor"] {
     top: 0;
     right: -25%;
     /*left: 14px;*/
-    color: #de675f;
+    color: #BD7BD5;
 }
 
 .seconds:after {
@@ -194,7 +256,7 @@ div[class~="testColor"] {
     font-family: Myriad Pro, Tahoma, sans-serif;
     font-weight: bold;
     text-transform: uppercase;
-    color: #553736;
+    color: #4A3781;
 }
 
 .head-img-heart {
@@ -218,7 +280,7 @@ div[class~="testColor"] {
 }
 
 .accent {
-    color: #755f49;
+    color: #4A3781;
     font-family: 'Pudelinka', sans-serif;
     font-weight: normal;
     font-style: normal;
@@ -234,7 +296,7 @@ div[class~="testColor"] {
 
 .section-title {
     position: relative;
-    color: #de675f;
+    color: #BD7BD5;
     display: inline-block;
     font-family: Cambria, Georgia, sans-serif;
     font-weight: normal;
@@ -246,13 +308,13 @@ div[class~="testColor"] {
     padding-bottom: 3%;
     /*padding-bottom: 2.6rem;*/
     width: 100%;
-    /*border-bottom: 4px double #ec6d65;*/
-    /*border-color: #ec6d65 !important;*/
+    /*border-bottom: 4px double #4A3781;*/
+    /*border-color: #4A3781 !important;*/
 
 }
 
 .section-title.border-bottom {
-    border-bottom: 4px double #ec6d65;
+    border-bottom: 4px double #4A3781;
 }
 
 .fp-tableCell {
@@ -283,7 +345,7 @@ div[class~="testColor"] {
 .post-title {
     float: left;
     text-transform: uppercase;
-    color: #553736;
+    color: #4A3781;
     font-size: 1vw;
     font-weight: bold;
     margin-right: 1%;
@@ -292,14 +354,14 @@ div[class~="testColor"] {
 .post-place {
     float: left;
     text-transform: uppercase;
-    color: #553736;
+    color: #4A3781;
     font-size: 1vw;
 }
 
 .addr {
     float: left;
     width: 100%;
-    color: #de675f;
+    color: #BD7BD5;
     margin-bottom: 2%;
     font-family: Cambria, Georgia, sans-serif;
     font-style: italic;
@@ -327,7 +389,7 @@ time {
 
 .post time {
     font-size: 1.5vw;
-    color: #553736;
+    color: #4A3781;
     font-weight: normal;
 }
 
@@ -338,12 +400,12 @@ time {
     font-weight: normal;
     font-size: 1vw;
     line-height: 1.4em;
-    color: #553736;
+    color: #4A3781;
 }
 
 /*section 3*/
 .section-title h1 {
-    color: #de675f;
+    color: #BD7BD5;
     padding: 1% 0 0.6%;
     margin: 0;
     font-family: Cambria, Georgia, sans-serif;
@@ -382,7 +444,7 @@ strong, b {
 
 .phone-email span {
     text-transform: uppercase;
-    color: #553736;
+    color: #4A3781;
     font-size: 1vw;
     display: inline-block;
     padding: 0 1%;
@@ -395,7 +457,7 @@ strong, b {
 }
 
 a {
-    color: #de675f;
+    color: #BD7BD5;
     -webkit-transition: all 300ms ease-out;
     -moz-transition: all 300ms ease-out;
     transition: all 300ms ease-out;
@@ -405,7 +467,7 @@ a {
 
 .footer {
     /*margin-top: 3%;*/
-    background-color: #de675f;
+    background-color: #BD7BD5;
     bottom: 0;
     height: 12%;
     overflow: hidden;

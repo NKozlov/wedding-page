@@ -1,6189 +1,4838 @@
-"use strict";
-angular.module("hotelbookApp",
-        ["ngAnimate", "ngCookies", "ngResource", "ngAnimate", "ui.router", "mgcrea.ngStrap", "toaster", "ngSanitize", "angularUtils.directives.dirPagination",
-            "ngMessages", "xeditable", "ui.mask", "taiPlaceholder"]), angular.module("hotelbookApp").config(["$stateProvider", "$locationProvider",
-    "$urlRouterProvider", "$selectProvider", "$modalProvider", "$provide", "$animateProvider", "$httpProvider", function (a, b, c, d, e, f) {
-        f.decorator("ngModelDirective", ["$delegate", function (a) {
-            var b = a[0], c = b.controller;
-            return b.controller = ["$scope", "$element", "$attrs", "$injector", function (a, b, d, e) {
-                var f = e.get("$interpolate");
-                d.$set("name", f(d.name || "")(a)), e.invoke(c, this, {$scope: a, $element: b, $attrs: d})
-            }], a
-        }]), f.decorator("formDirective", ["$delegate", function (a) {
-            var b = a[0], c = b.controller;
-            return b.controller = ["$scope", "$element", "$attrs", "$injector", function (a, b, d, e) {
-                var f = e.get("$interpolate");
-                d.$set("name", f(d.name || d.ngForm || "")(a)), e.invoke(c, this, {$scope: a, $element: b, $attrs: d})
-            }], a
-        }]), angular.extend(d.defaults,
-                {caretHtml: '&nbsp;<div class="CaretBg"><div class="caret"></div></div>'}), b.html5Mode(!0).hashPrefix("!"), c.otherwise("/"), angular.extend(e.defaults,
-                {animation: "am-fade", placement: "top", show: !1}), f.decorator("$state", ["$delegate", "$stateParams", function (a, b) {
-            return a.forceReload = function () {
-                return a.go(a.current, b, {reload: !0, notify: !0})
-            }, a
-        }]), a.state("hb", {
-            "abstract": !0, templateUrl: "/views/hb-layout.0bd9c6dd788b4766509d.html", resolve: {
-                initData: ["staticResources", function (a) {
-                    return a.initialDataLoaded
-                }]
-            }
-        }).state("hb.info",
-                {templateUrl: "/views/hb/hb-info-layout.95c0a30c38bfc462ccb5.html", controller: "InfoCtrl", "abstract": !0}).state("hb.info.contacts",
-                {url: "/contacts", templateUrl: "/views/hb/contacts.e1963dc7f04c530fd043.html", controller: "ContactsCtrl"}).state("hb.info.about",
-                {url: "/about", templateUrl: "/views/hb/about.f8722cecae3ef43e0d57.html"}).state("hb.info.faq",
-                {url: "/faq", templateUrl: "/views/hb/faq.83c283341e50ab8ebf66.html", controller: "FaqCtrl"}).state("hb.info.partner",
-                {url: "/partner", templateUrl: "/views/hb/partner.f7c739c95f5b10d2df80.html", controller: "PartnerCtrl"}).state("hb.cabinet",
-                {"abstract": !0, templateUrl: "/views/cabinet-layout.c310cbbd2bdcf1476713.html", controller: "CabinetCtrl"}).state("hb.cabinet.booking", {
-                    url: "/cabinet?page&token",
-                    controller: "CabinetBookingCtrl",
-                    templateUrl: "/views/cabinet/booking.fa572d1fc134ba04b456.html",
-                    reloadOnSearch: !1,
-                    "class": "g-Cabinet"
-                }).state("hb.cabinet.feed", {
-                    url: "/cabinet/feed?page",
-                    controller: "CabinetFeedCtrl",
-                    templateUrl: "/views/cabinet/feed.7b0fba575f4893406eb5.html",
-                    "class": "g-Cabinet"
-                }).state("hb.cabinet.settings", {
-                    url: "/cabinet/settings",
-                    controller: "CabinetSettingsCtrl",
-                    templateUrl: "/views/cabinet/settings.e1141aebcdede2dfb57b.html",
-                    "class": "g-Cabinet"
-                }).state("hb.unsubscribe", {
-                    url: "/unsubscribe/:id/:hash",
-                    controller: "UnsubscribeCtrl",
-                    templateUrl: "/views/hb/unsubscribe.2743d43fceda6c0510cb.html",
-                    "class": "g-Cabinet"
-                }).state("hb.landing", {url: "/", controller: "HbLandingCtrl", templateUrl: "/views/hb/landing.83f45e6cd2132a9903c9.html"}).state("hb.hotels",
-                {"abstract": !0, controller: "HbHotelsLayoutCtrl", templateUrl: "/views/hb/hotels-layout.089bbf99bea5c39ca9ad.html"}).state("hb.hotels.list",
-                {url: "/hotels/search/:searchId?filters&search", templateUrl: "/views/hb/hotels-list.deade90aaa67d090346a.html"}).state("hb.hotels.list.page",
-                {url: "/page/:page"}).state("hb.hotels.map", {
-                    url: "/hotels/search/map/:searchId?filters&search&hotelId",
-                    templateUrl: "/views/hb/hotels-map.4f990fd56aef95d6a154.html",
-                    "class": "g-HotelsMap"
-                }).state("hb.hotels.map.page", {url: "/page/:page"}).state("hb.hotels.view", {
-                    url: "/hotels/search/hotel/:hotelId?filters&search",
-                    controller: "HbHotelCtrl",
-                    templateUrl: "/views/hb/hotel.dec7dab2dca761932284.html",
-                    "abstract": !0
-                }).state("hb.hotels.view.rooms",
-                {url: "/rooms/:searchId", controller: "HbHotelRoomCtrl", templateUrl: "/views/hb/rooms.5272f394ee67f1066919.html"}).state("hb.booking", {
-                    url: "/booking/:code/:searchId?status&token",
-                    controller: "BookingCtrl",
-                    templateUrl: "/views/hb/booking.5afdcc50194210a101fc.html",
-                    reloadOnSearch: !1
-                }).state("hb.pay", {
-                    url: "/booking/:code?status&token",
-                    controller: "BookingCtrl",
-                    templateUrl: "/views/hb/booking.5afdcc50194210a101fc.html",
-                    reloadOnSearch: !1
-                }).state("hb.restore", {
-                    url: "/user/restore?restoreCode&email",
-                    controller: "RestorePasswordCtrl",
-                    templateUrl: "/views/restore-password.b4d38c46372ffa01f3f0.html"
-                }).state("hb.notFound", {url: "/404", templateUrl: "/views/hb/404.d1e11d0b3e96c0c6a033.html", controller: "NotFoundCtrl"}).state("hb.feedback",
-                {
-                    url: "/feedback/hotel/:orderCode?token",
-                    templateUrl: "/views/hb/feedback-layout.75b0fda2be85b4374506.html",
-                    controller: "HbFeedbackCtrl",
-                    "abstract": !0
-                }).state("hb.feedback.new", {url: "/new", templateUrl: "/views/hb/feedback-new.327f1d9a46beb1690121.html"}).state("hb.feedback.saved",
-                {url: "/saved", templateUrl: "/views/hb/feedback-saved.081d4b1e17dfc7f33d61.html"}).state("hb.external",
-                {"abstract": !0, template: "<div ui-view></div>"}).state("hb.external.hotelsearch", {
-                    url: "/external/hotel-search?dateFrom&dateTo&city",
-                    controller: "ExternalHotelSearchCtrl",
-                    templateUrl: "/views/hb/external-hotel-search.c39fe8ba4d1380e59397.html"
-                })
-    }]), angular.module("hotelbookApp").value("api", {}).run(["$http", "api", function (a, b) {
-    b.user = {
-        favorites: function () {
-            return a.apiUrl + "/user/favorites"
+!function (e) {
+    "use strict";
+    if (/localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}/.test(e.location.hostname)) {
+        var t = e.document, n = t.createElement("link"), i = "DEBUG вЂ” " + t.title;
+        n.rel = "icon", n.href = "/debug.ico", t.getElementsByTagName("head")[0].appendChild(n), t.title = i, console && console.info && console.info(i)
+    }
+}(window), !function (e, t) {
+    "object" == typeof module && "object" == typeof module.exports ? module.exports = e.document ? t(e, !0) : function (e) {
+        if (!e.document) {
+            throw new Error("jQuery requires a window with a document");
         }
-    }, b.search = {
-        chargeConditions: function (b) {
-            return a.apiUrl + "/search/" + b + "/chargeConditions"
-        }
-    }
-}]), angular.module("hotelbookApp").value("defaultSearch",
-        {rooms: [{adults: 2, children: 0, childrenAges: []}], userSearch: {stars: [!1, !1, !1, !1, !1], sort: "-popularity"}}).value("defaultFilters",
-        {stars: [!1, !1, !1, !1, !1], sort: "-popularity"}), angular.module("hotelbookApp").constant("apiUrl", "/api/v1").config(["$httpProvider",
-    function (a) {
-        function b(a, b) {
-            return {
-                request: function (c) {
-                    var d = a.localStorage.getItem("token"), e = a.localStorage.getItem("partnerId");
-                    return null !== d && (c.headers["X-HB-Token"] = d), null !== e && (c.headers["X-HB-PartnerId"] = e), c.headers["X-HB-Lang"] = b.lang, c
-                }
-            }
-        }
-
-        a.interceptors.unshift(["$q", "toaster", "initialData", function (a, b, c) {
-            function d() {
-                return "prod" === c.env
-            }
-
-            var e = ["$promise", "$resolved", "createdAt", "updatedAt", "deleted", "id"];
-            return {
-                request: function (b) {
-                    if (b.data && b.data.resourceName && ("POST" === b.method || "PUT" === b.method)) {
-                        var c = {}, d = b.data.resourceName;
-                        c[d] = {};
-                        for (var f in b.data) {
-                            b.data.hasOwnProperty(f) && (_.contains(e, f) || (c[d][f] = b.data[f]));
-                        }
-                        b.data = c
-                    }
-                    return b || a.when(b)
-                }, response: function (a) {
-                    return "undefined" != typeof a.data.response && (a.data = a.data.response), a
-                }, responseError: function (c) {
-                    var e = "";
-                    return c.data.errors ? (_.each(c.data.errors.children, function (a, b) {
-                        _.isEmpty(a) || (e = b + " - " + a.errors)
-                    }), d() ? trackJs.track(c.data.code + " " + c.data.message + " " + e) : b.pop("error", c.data.code + " " + c.data.message, e)) :
-                            c.data.error ? d() ? trackJs.track(c.data.error.code + " " + c.data.error.message) :
-                                    b.pop("error", c.data.error.code + " " + c.data.error.message) :
-                                    d() ? trackJs.track(c.data.code + " " + c.data.message) : b.pop("error", c.data.code + " " + c.data.message), a.reject(c)
-                }
-            }
-        }]), b.$inject = ["$window", "initialData"], a.interceptors.push(b)
-    }]).run(["$http", "apiUrl", "$rootScope", function (a, b, c) {
-    function d(c) {
-        c && (a.apiUrl = b + "/" + c)
+        return t(e)
+    } : t(e)
+}("undefined" != typeof window ? window : this, function (e, t) {
+    function n(e) {
+        var t = e.length, n = rt.type(e);
+        return "function" === n || rt.isWindow(e) ? !1 : 1 === e.nodeType && t ? !0 : "array" === n || 0 === t || "number" == typeof t && t > 0 && t - 1 in e
     }
 
-    a.apiUrl = b + "/ru", c.$watch("d.lang", d)
-}]), angular.module("hotelbookApp").value("includes", {}).run(["includes", function (a) {
-    a.name = "hotelbook", a.wlDomain = "hotelbook.ru", a.header = "/views/header.19d646cd5808761ddb76.html", a.landingFooter =
-            "/views/landing-footer.3c1202cc33db8c8a66ee.html", a.footer = "/views/footer.f6efddab3696968022da.html", a.authorization =
-            "/views/modal/authorization.a1cbdc4ebc7f42920c51.html"
-}]), angular.module("hotelbookApp").controller("BookingCtrl",
-        ["RichMarker", "placesOnMap", "$scope", "$http", "$interval", "$stateParams", "initialData", "$state", "$document", "$window", "$modal", "Utils",
-            function (a, b, c, d, e, f, g, h, i, j, k, l) {
-                function m(a) {
-                    c.step = 4, c.redirectTime = 3, c.redirectHref = a, q = e(function () {
-                        c.redirectTime--, 0 === c.redirectTime && (j.location.href = a)
-                    }, 1e3, 3)
-                }
-
-                function n() {
-                    d.post(d.apiUrl + "/order/make/" + c.code + "?token=" + c.token, c.data).success(function (a) {
-                        1 === a.statusId && a.paymentUrl ? m(a.paymentUrl) : o()
-                    }).error(function () {
-                        c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.errorTryAgain
-                    })
-                }
-
-                function o() {
-                    var a, b = function () {
-                        return 0 === a ? (c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.cantBookTrayAgain, void c.$apply()) :
-                                (d.get(d.apiUrl + "/order/" + c.code + "/status?token=" + c.token).success(function (a) {
-                                    switch (a.result) {
-                                        case"ok":
-                                            c.step = 6;
-                                            break;
-                                        case"continue":
-                                            setTimeout(b, 0);
-                                            break;
-                                        case"fail":
-                                            c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.cantBookTrayAgain
-                                    }
-                                }).error(function () {
-                                    c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.cantBookTrayAgain
-                                }), void a--)
-                    };
-                    a = 5, b()
-                }
-
-                function p() {
-                    d.get(d.apiUrl + "/order/" + f.code + "/initPayment?token=" + c.token).success(function (a) {
-                        c.differencePrice = a.price - c.data.hotelOrder.price, c.newTax = a.tax, c.newPriceWithoutTax = a.priceWithoutTax, 0 ===
-                        c.differencePrice ? m(a.paymentUrl) : (c.redirect = function () {
-                            m(a.paymentUrl)
-                        }, c.step = 7)
-                    }).error(function () {
-                        c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.errorTryAgain
-                    })
-                }
-
-                c.goBack = function () {
-                    c.searchId ? h.go("hb.hotels.view.rooms", {searchId: f.searchId, hotelId: c.hotel.id}) : h.go("hb.cabinet.booking")
-                }, c.retry = function () {
-                    2 === c.stepDetail ? (c.step = 4, d.get(d.apiUrl + "/order/" + f.code + "/initPayment?token=" + c.token).success(function (a) {
-                        m(a.paymentUrl)
-                    }).error(function () {
-                        c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.errorTryAgain
-                    })) : c.goBack()
-                }, c.formValidSuccess = function () {
-                    console.log("form valid"), c.makeOrderLoader = !0, n()
-                }, c.print = function (a) {
-                    d.get(d.apiUrl + "/order/voucher/" + a.replace(/-/g, "")).then(function (a) {
-                        l.print(a.data)
-                    })
-                }, c.$watch("step", function (a) {
-                    if (a) {
-                        switch (a) {
-                            case 1:
-                                l.event("step_prepare_booking");
-                                break;
-                            case 2:
-                                l.event("step_prepare_fail");
-                                break;
-                            case 3:
-                                l.event("step_enter_data");
-                                break;
-                            case 4:
-                                l.event("step_payment");
-                                break;
-                            case 5:
-                                l.event("step_payment_fail", c.stepDetail);
-                                break;
-                            case 6:
-                                l.event("step_success")
-                        }
-                    }
-                }), c.$on("map.ready", function (e, f) {
-                    a.createMarker(f, "/images/hotel-map-icon.96308b072ceeb3c7913c.png", c.hotel.coords.lat, c.hotel.coords.lng, c.hotel), d.get(d.apiUrl +
-                            "/hotel/" + c.hotel.id + "/places").success(function () {
-                        b.show(f, c.hotel), f.setCenterWithOffset(new google.maps.LatLng(c.hotel.coords.lat, c.hotel.coords.lng),
-                                i.find(".BookingPage-contentColumn")[i.find(".BookingPage-contentColumn").length - 1].offsetLeft / 2, 0), f.setZoom(14)
-                    })
-                }), c.step = 1, c.code = f.code, c.token = f.token, c.searchId = f.searchId, c.makeOrderLoader = !1, c.roomTypesInfo = {}, c.data =
-                {hotelOrder: {paymentSystem: 1, items: []}}, d.get(d.apiUrl + "/order/" + f.code, {params: {token: c.token}}).error(function (a, b) {
-                    404 === b && h.go("hb.notFound")
-                }).success(function (a) {
-                    if (c.hotel = a.hotel, c.order = a.order, c.order.createdAt = moment().format(g.modelFormat), a.order.statusId) {
-                        if (a.order.paymentResult &&
-                                "fail" === a.order.paymentResult) {
-                            c.step = 5, c.paymentError = c.$root.i18n.booking.transactionFailTryAgain, c.stepDetail =
-                                    2;
-                        } else {
-                            switch (c.data.hotelOrder = a.order, a.order.statusId) {
-                                case 1:
-                                    p();
-                                    break;
-                                case 2:
-                                    "pay" === f.status ? p() : c.step = 6;
-                                    break;
-                                case 3:
-                                    c.step = 6;
-                                    break;
-                                case 5:
-                                    c.step = 5, c.stepDetail = 1, c.paymentError = c.$root.i18n.booking.errorTryAgain;
-                                    break;
-                                case 6:
-                                    o();
-                                    break;
-                                case 7:
-                                    o()
-                            }
-                        }
-                    } else {
-                        c.order.items.forEach(function (a) {
-                            var b = [];
-                            a.rooms.forEach(function (a, c) {
-                                b.push({persons: []}), a.pax.forEach(function (a) {
-                                    b[c].persons.push({title: "", name: "", surname: "", isChild: "child" === a})
-                                })
-                            }), c.data.hotelOrder.items.push({rooms: b, comment: ""})
-                        }), c.$watch("data.hotelOrder.items[0].rooms[0].persons[0].name + data.hotelOrder.items[0].rooms[0].persons[0].surname", function (a) {
-                            a && (c.notRoom || (c.data.hotelOrder.name = c.data.hotelOrder.items[0].rooms[0].persons[0].name, c.data.hotelOrder.surname =
-                                    c.data.hotelOrder.items[0].rooms[0].persons[0].surname))
-                        }, !0), c.$watch("notRoom", function (a) {
-                            a ? (c.data.hotelOrder.name = "", c.data.hotelOrder.surname = "") :
-                                    (c.data.hotelOrder.name = c.data.hotelOrder.items[0].rooms[0].persons[0].name, c.data.hotelOrder.surname =
-                                            c.data.hotelOrder.items[0].rooms[0].persons[0].surname)
-                        }), c.step = 3
-                    }
-                }), c.$on("$destroy", function () {
-                    e.cancel(q)
-                });
-                var q
-            }]), angular.module("hotelbookApp").controller("CabinetBookingCtrl",
-        ["$scope", "$stateParams", "HotelOrderResource", "$http", "$window", "Utils", "$location", function (a, b, c, d, e, f) {
-            c().then(function (b) {
-                a.orders = b.items
-            }), a.parseFloat = function (a) {
-                return parseFloat(a)
-            }, a.daysCount = function (a, b) {
-                return f.daysCount([moment(a), moment(b)])
-            }, a.print = function (a) {
-                var b = window.open("", "", "width=800,height=" + .7 * e.innerHeight);
-                d.get(d.apiUrl + "/order/voucher/" + a.replace(/-/g, "")).then(function (a) {
-                    b.document.write(a.data), b.document.close(), b.focus(), b.print()
-                })
-            }
-        }]), angular.module("hotelbookApp").controller("CabinetCtrl",
-        ["$scope", "defaultSearch", "$state", "$http", "initialData", "$stateParams", "$location", "Utils", function (a, b, c, d, e, f, g) {
-            a.isFacilities = function (a, b) {
-                return a.facilities && -1 !== a.facilities.indexOf(b)
-            }, a.makeOrder = function (a) {
-                c.go("hb.pay", {code: a.code, token: a.token, status: "pay"})
-            }, a.removeOrder = function (b) {
-                function c() {
-                    d.get(d.apiUrl + "/order/" + b.code + "/status?token=" + b.token).success(function (a) {
-                        switch (a.result) {
-                            case"ok":
-                                b.canceling = !1, b.canceled = !0, b.showMoneyBackWarn = !0;
-                                break;
-                            case"fail":
-                                b.canceling = !1, b.cancelFail = !0;
-                                break;
-                            case"continue":
-                                e--, e && setTimeout(c, 0)
-                        }
-                    }).error(function () {
-                        b.canceling = !1, b.error = !0
-                    })
-                }
-
-                var e = 5;
-                confirm(a.$root.i18n.cabinet.areYouShoreYouwantCancelYourOrder) &&
-                (b.canceling = !0, d.get(d.apiUrl + "/personal/order/cancel/" + b.code).success(function (a) {
-                    "ok" == a.result ? c() : (b.canceling = !1, b.error = !0)
-                }))
-            }, a.goToHotel = function (a) {
-                var f = $.extend(!0, {}, b);
-                f.city = a.cityId, f.dateFrom = moment().add(1, "day").format(e.modelFormat), f.dateTo =
-                        moment().add(2, "day").format(e.modelFormat), d.post(d.apiUrl + "/search", {hotelSearchQuery: f}).then(function (b) {
-                    c.go("hb.hotels.view.rooms", {searchId: b.data.id, hotelId: a.id})
-                })
-            }, a.$watch("paginationParams", function (b) {
-                b && (g.search("page", b.page), a.$broadcast("perfectScrollbar.toTop"))
-            }, !0), a.paginationParams = {page: f.page || 1, itemsPerPage: 10}
-        }]), angular.module("hotelbookApp").controller("CabinetFeedCtrl",
-        ["$scope", "$q", "$http", "HotelOrderResource", "RichMarker", function (a, b, c, d, e) {
-            a.$on("map.ready", function (c, d) {
-                b.all(f).then(function () {
-                    _.each(a.orders, function (a) {
-                        a.hotel.marker || (a.hotel.marker =
-                                e.createMarker(d, "/images/common/pointer-book.edf3881f9cc1d13aca29.png", a.hotel.coords.lat, a.hotel.coords.lng, a.hotel))
-                    }), _.each(a.favorites, function (a) {
-                        a.marker = e.createMarker(d, "/images/common/pointer-favorites.6457113a3367263f87dc.png", a.coords.lat, a.coords.lng, a)
-                    })
-                })
-            }), a.isFacilities = function (a, b) {
-                return a.facilities && -1 !== a.facilities.indexOf(b)
-            }, a.addFavorite = function (b) {
-                a.favorites.unshift(b)
-            }, a.removeFavorite = function (b) {
-                a.favorites.splice(a.favorites.indexOf(b), 1)
-            }, a.changeState = function (b) {
-                a.state = b, a.scrollToTop()
-            }, a.scrollToTop = function () {
-                a.$broadcast("perfectScrollbar.toTop")
-            };
-            var f = [];
-            f.push(d().then(function (b) {
-                a.orders = b.items
-            })), f.push(c.get(c.apiUrl + "/user/favorites").then(function (b) {
-                a.favorites = b.data
-            })), f.push(c.get(c.apiUrl + "/user/me/searchHistory").then(function (a) {
-                return a.data
-            })), b.all(f).then(function () {
-                a.orders.forEach(function (b) {
-                    a.favorites.forEach(function (a) {
-                        a.id === b.hotel.id && (b.hotel.liked = !0)
-                    })
-                })
-            }), a.city = {lat: 37.821504, lng: 12.667547, zoom: 2}
-        }]), angular.module("hotelbookApp").controller("CabinetSettingsCtrl", ["$scope", "$http", function (a, b) {
-    b.get(b.apiUrl + "/personal/user").then(function (b) {
-        a.user = b.data, delete a.user.id, delete a.user.email, a.email = b.data.email
-    }), a.$watch("user", function (c, d) {
-        c && d && c !== d && b.put(b.apiUrl + "/personal/user", {user_profile: a.user}).then(function () {
-        })
-    }, !0)
-}]), angular.module("hotelbookApp").controller("NotFoundCtrl", ["$scope", "SearchForm", "initialData", function (a, b, c) {
-    b.init(a), a.suggestedCity = _.shuffle(c.suggestionCity)[0], a.$on("lang.change", function () {
-        a.suggestedCity = _.find(c.suggestionCity, {id: a.suggestedCity.id})
-    })
-}]), angular.module("hotelbookApp").controller("ContactsCtrl",
-        ["$scope", "$modal", "SearchForm", "initialData", "mapOptions", "mapDefaultOptions", "$window", function (a, b, c, d, e, f) {
-            a.coords = {lat: 55.7530587, lng: 37.6638849}, a.metroCoords = {lat: 55.758973, lng: 37.657995}, angular.extend(e,
-                    f), e.styles.splice(e.styles.length, 0, {featureType: "administrative.land_parcel", elementType: "all", stylers: [{visibility: "on"}]},
-                    {featureType: "landscape.man_made", elementType: "all", stylers: [{visibility: "on"}]}), a.$on("map.ready", function (b, c) {
-                a.HBCoords = new google.maps.LatLng(a.coords.lat, a.coords.lng), c.setCenterWithOffset(a.HBCoords, 0,
-                        -100), c.setZoom(15), new google.maps.Marker({
-                    position: a.HBCoords,
-                    map: c,
-                    icon: "/images/common/hb-pointer.618bf9e4370190eb3673.png",
-                    draggable: !1
-                }), new google.maps.Marker({
-                    position: a.metroCoords,
-                    map: c,
-                    icon: "/images/common/pointer.106ec83712ff88865430.png",
-                    draggable: !1
-                }), c.drawRoute(new google.maps.LatLng(a.metroCoords.lat, a.metroCoords.lng), a.HBCoords, "#46bcea")
-            }), setTimeout(function () {
-                angular.extend(e, f)
-            }, 2e3)
-        }]), angular.module("hotelbookApp").controller("ExternalHotelSearchCtrl", ["$scope", "$stateParams", "$state", "$http", function (a, b, c, d) {
-    var e = {dateFrom: b.dateFrom, dateTo: b.dateTo, undefinedDates: !1, city: 2322, rooms: [{adults: 2, children: 0, childrenAges: []}]};
-    d.get(d.apiUrl + "/location/cityByAirCity/" + b.city).success(function (a) {
-        e.city = a, d.post(d.apiUrl + "/search", {hotelSearchQuery: e}).success(function (a) {
-            c.go("hb.hotels.list.page", {searchId: a.id, page: 1})
-        })
-    })
-}]), angular.module("hotelbookApp").controller("FaqCtrl", ["$scope", "$http", "$q", "SearchForm", function (a, b, c, d) {
-    function e(b) {
-        a.groups = _.groupBy(b[1].data, "category"), _.map(a.groups, function (a, c) {
-            return angular.extend(a, _.find(b[0].data, {id: parseInt(c)}))
-        }), a.activeGroup = a.groups[_.keys(a.groups)[0]], a.activeQuestionIndex = 0
-    }
-
-    a.setActiveGroup = function (b) {
-        a.activeGroup = b, a.activeQuestionIndex = 0
-    }, a.setActiveQuestion = function (b) {
-        a.activeQuestionIndex = b
-    };
-    var f = [];
-    f.push(b.get(b.apiUrl + "/faqCategory")), f.push(b.get(b.apiUrl + "/faq")), c.all(f).then(e), d.init(a)
-}]), angular.module("hotelbookApp").controller("HbFeedbackCtrl",
-        ["$scope", "$stateParams", "$state", "$http", "initialData", "toaster", "$modal", function (a, b, c, d, e, f, g) {
-            a.afterPost = function () {
-                f.pop("success", "отзыв сохранен"), c.go("hb.feedback.saved", b)
-            }, a.actionUrl = "/hotelReview/" + b.orderCode + "?token=" + b.token, a.travelTypes = _.transform(e.travelTypes, function (a, b, c) {
-                a.push({id: c, name: b})
-            }, []), a.travelerTypes = _.transform(e.travelerTypes, function (a, b, c) {
-                a.push({id: c, name: b})
-            }, []), d.get(d.apiUrl + "/hotelReview/" + b.orderCode, {params: {token: b.token}}).success(function (b) {
-                if (a.hotel = b.hotel, a.order = b.order, b.review) {
-                    a.hotelReview = b.review, a.alreadyDone = !0;
-                    var c = g({html: !0, template: "/views/modal/modal-notification.33b8979a643cb5629451.html"});
-                    c.$scope.title = a.i18n.common.IWarning, c.$scope.content = a.i18n.common.FeedbackAlreadyExists, c.$promise.then(c.show)
-                } else {
-                    a.hotelReview = {
-                        hotel: a.hotel.id,
-                        hotelOrder: a.order.id,
-                        cleanlinessRating: 0,
-                        comfortRating: 0,
-                        locationRating: 0,
-                        staffRating: 0,
-                        valueForMoneyRating: 0,
-                        wifiRating: 0,
-                        positiveComment: null,
-                        negativeComment: null,
-                        travelTypeId: null,
-                        travelerTypeId: null
-                    };
-                }
-                a.review = {hotelReview: a.hotelReview}
-            }).error(function () {
-                c.go("hb.notFound")
-            })
-        }]), angular.module("hotelbookApp").controller("HbHotelCtrl",
-        ["$scope", "$http", "$state", "$sce", "$modal", "initialData", "RichMarker", "Utils", "SearchForm", "placesOnMap",
-            function (a, b, c, d, e, f, g, h, i, j) {
-                function k(b) {
-                    a.placeNameField = j.getPlaceLocaleProperty("name"), a.placesStatus = j.status, j.show(b, a.hotel), a.placesNearBy = j.placesNearBy
-                }
-
-                function l(b, c) {
-                    c = c || -100, a.hotel.standAlone = !0, g.createMarker(b, "/images/hotel-map-icon.96308b072ceeb3c7913c.png", a.hotel.coords.lat,
-                            a.hotel.coords.lng, a.hotel), k(b), b.setCenterWithOffset(new google.maps.LatLng(a.hotel.coords.lat, a.hotel.coords.lng), 0,
-                            c), b.setZoom(15)
-                }
-
-                function m() {
-                    var b = _.find(a.hotels, {id: Number(c.params.hotelId)});
-                    a.hotel = $.extend(!0, {}, b, a.hotel), a.hotel.showMarker = !0
-                }
-
-                function n() {
-                    var b = 0;
-                    for (var c in a.hotel.ta.review_rating_count) {
-                        b < parseInt(a.hotel.ta.review_rating_count[c]) && (b = a.hotel.ta.review_rating_count[c]);
-                    }
-                    a.hotel.ta.review_rating_count = _.map(a.hotel.ta.review_rating_count, function (c, d) {
-                        var e = {value: c, percents: Math.ceil(c / (2 * b) * 100)};
-                        switch (d) {
-                            case"1":
-                                e.label = a.$root.i18n.dictionary.aweful;
-                                break;
-                            case"2":
-                                e.label = a.$root.i18n.dictionary.bad;
-                                break;
-                            case"3":
-                                e.label = a.$root.i18n.dictionary.notBad;
-                                break;
-                            case"4":
-                                e.label = a.$root.i18n.dictionary.good;
-                                break;
-                            case"5":
-                                e.label = a.$root.i18n.dictionary.excellent
-                        }
-                        return e
-                    }), a.hotel.ta.review_rating_count = a.hotel.ta.review_rating_count.reverse(), a.hotel.ta.subsubratigs = [];
-                    var d = ["rate_room", "rate_service", "rate_value", "rate_cleanliness"];
-                    _.each(a.hotel.ta.subratings, function (b) {
-                        d.indexOf(b.name) >= 0 && a.hotel.ta.subsubratigs.push(b)
-                    })
-                }
-
-                a.$on("map.ready", function (b, c) {
-                    "map" == a.headerInfo && l(c), "nearBy" == a.headerInfo && l(c, 0)
-                }), a.$on("lang.change", function () {
-                    b.get(b.apiUrl + "/hotel/" + c.params.hotelId).success(function (b) {
-                        a.hotel && (a.hotel.description = b.hotel.description)
-                    }), a.placeNameField = j.getPlaceLocaleProperty("name"), g.removeAllMarkers(), b.get(b.apiUrl + "/hotel/" + c.params.hotelId +
-                            "/tripAdvisorInfo").success(function (b) {
-                        a.hotel.ta = b, a.hotel.ta && n()
-                    }), a.$broadcast("map.getMap", l)
-                }), a.$on("rooms.noResults", function () {
-                    a.hotelStates.noRoomsInHotel = !0, a.hotelStates.roomsLoading = !1
-                }), a.$on("rooms.loadFinished", function () {
-                    a.hotelStates.roomsLoading = !1
-                }), a.$on("$stateChangeStart", function (b, c) {
-                    "hb.hotels.view.rooms" === c.name && (a.hotelStates.roomsLoading = !0, a.hotelStates.noRoomsInHotel = !1)
-                }), a.openPlace = function (b) {
-                    a.$broadcast("map.getMap", function (a) {
-                        a.setCenterWithOffset(new google.maps.LatLng(b.latitude, b.longitude), 0, -50), _.find(g.markers, {id: b.id}).show()
-                    })
-                }, a.showSearchPopap = function () {
-                    if (!a.searchFormOpened) {
-                        var b = e({html: !0, template: "/views/modal/modal-search-form.eedc1948e1f130414392.html"});
-                        b.$promise.then(b.show), i.parse(b.$scope, a.searchForm.formData, a.searchForm.filters, {}, !0), b.$scope.suggestedCity =
-                                _.shuffle(f.suggestionCity)[0], b.$scope.$on("search-form.new-search", function () {
-                            b.$scope.$hide(), a.searchFormOpened = !1
-                        }), b.$scope.$on("modal.hide", function () {
-                            a.searchFormOpened = !1
-                        }), a.searchFormOpened = !0
-                    }
-                }, a.selectPreviousDate = function () {
-                    if (!a.hotelStates.roomsLoading) {
-                        var b = a.searchForm.dates;
-                        a.searchForm.dates = [], a.searchForm.dates[0] = b[0].subtract(1, "day"), a.searchForm.dates[1] = b[1].subtract(1, "day")
-                    }
-                }, a.selectNextDate = function () {
-                    if (!a.hotelStates.roomsLoading) {
-                        var b = a.searchForm.dates;
-                        a.searchForm.dates = [], a.searchForm.dates[0] = b[0].add(1, "day"), a.searchForm.dates[1] = b[1].add(1, "day")
-                    }
-                }, a.showGallery = function (b) {
-                    var c = [];
-                    b.forEach(function (b) {
-                        c.push({href: a.rawData.roomPhoto[a.hotel.id][b.providerId][b.id], title: ""})
-                    }), $.swipebox(c)
-                }, a.showNextComments = function () {
-                    var d = parseInt(a.hotel.ta.reviews.paging.skipped) / parseInt(a.hotel.ta.reviews.paging.results) + 2;
-                    b.get(b.apiUrl + "/hotel/" + c.params.hotelId + "/tripAdvisorReview/" + d).success(function (b) {
-                        a.hotel.ta.reviews = b
-                    })
-                }, a.showPrevComments = function () {
-                    var d = parseInt(a.hotel.ta.reviews.paging.skipped) / parseInt(a.hotel.ta.reviews.paging.results);
-                    b.get(b.apiUrl + "/hotel/" + c.params.hotelId + "/tripAdvisorReview/" + d).success(function (b) {
-                        a.hotel.ta.reviews = b
-                    })
-                }, a.getVideoUrl = function () {
-                    return d.trustAsResourceUrl(a.hotel.videourl)
-                }, a.goToFeedBack = function () {
-                    a.headerInfo = "feedback", h.event("show_feedback_brt"), h.scrollTo("feedbackTab")
-                }, a.goToHotelInfo = function () {
-                    a.headerInfo = "description", h.scrollTo("infoTab")
-                }, a.bookingLoader = !1, a.hotelStates = {
-                    hotelInfoLoading: !0,
-                    isDescriptionOverflow: !1,
-                    roomsLoading: c.params.searchId ? !0 : !1,
-                    noRoomsInHotel: !1,
-                    videoInfoLoading: !0
-                }, a.feedback = {
-                    position: _.random(100),
-                    service: _.random(100),
-                    cleanness: _.random(100),
-                    price: _.random(100),
-                    usersCount: _.random(50)
-                }, m(), b.get(b.apiUrl + "/hotel/" + c.params.hotelId).success(function (d) {
-                    _.each(d.images, function (b, c) {
-                        hotel.images[c] = a.rawData.hotelPhoto[d.id][b]
-                    }), a.hotel = $.extend(!0, a.hotel, d.hotel), a.hotelStates.hotelInfoLoading = !1, a.roomTypes = d.roomTypes, a.headerInfo =
-                            "gallery", a.hotel.videourl && (a.hotel.videourl = a.hotel.videourl.replace("http:", "https:")), b.get(b.apiUrl + "/hotel/" +
-                            c.params.hotelId + "/tripAdvisorInfo").success(function (b) {
-                        a.hotel.ta = b, a.hotel.ta && n()
-                    })
-                }).error(function (a, b) {
-                    404 === b && c.go("hb.notFound")
-                })
-            }]), angular.module("hotelbookApp").controller("HbHotelsLayoutCtrl",
-        ["$scope", "$http", "$state", "$stateParams", "$q", "$timeout", "Utils", "initialData", "HotelsResource", "RoomsResource", "SearchForm", "Favorites",
-            "filterEngine", "HotelPhoto", "RoomPhoto", "$modal", "$rootScope", "orderByFilter",
-            function (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r) {
-                function s() {
-                    var a = "https://www.tripadvisor.com/img/cdsi/partner/transparent_pixel-27109-5.gif?search=" + Math.random();
-                    return a
-                }
-
-                function t(b) {
-                    if (b && b.length && a.states.roomsLoaded && a.rawData.allHotels && a.rawData.allHotels.length) {
-                        var c = g.daysCount(a.searchForm.dates), d = 0, e = b[0].price;
-                        _.each(a.rawData.allHotels, function (a) {
-                            _.each(a.rooms, function (a) {
-                                a.price > d && (d = a.price), a.price < e && (e = a.price)
-                            })
-                        }), e = Math.floor(e / c), d = Math.floor(d / c) + 1, e = 100 * Math.floor(e / 100), d =
-                                100 * (Math.floor(d / 100) + 1), a.searchForm.priceOpt.from = e, a.searchForm.priceOpt.to = d, a.searchForm.price &&
-                        a.searchForm.price.length && !_.isNaN(a.searchForm.price[0]) || (a.searchForm.price = [e, d])
-                    }
-                }
-
-                function u(b) {
-                    if (b && b.length) {
-                        var c = 0, d = 1e5;
-                        _.each(b, function (a) {
-                            a.center && c < a.center && (c = a.center), a.center && d > a.center && (d = a.center)
-                        }), 1e5 === d && 0 === c && (d = 1, c = 99998), d--, c++, d = 100 * Math.floor(d / 100), c =
-                                100 * (Math.floor(c / 100) + 1), a.searchForm.distanceOpt.from = d, a.searchForm.distanceOpt.to =
-                                c, a.searchForm.filters.center && a.searchForm.filters.center.length || (a.searchForm.filters.center = [d, c])
-                    }
-                }
-
-                function v(a) {
-                    var b = {}, c = {}, d = [1, 2, 5, 6, 10], e = {};
-                    return _.each(a, function (a) {
-                        a.mainFacilities = _.intersection(a.facilities, d), _.each(a.amenities, function (a) {
-                            e[a] = a
-                        }), _.each(a.facilities, function (a) {
-                            b[a] = a
-                        }), _.each(a.themes, function (a) {
-                            c[a] = a
-                        })
-                    }), h.filteredThemes = [], _.each(c, function (a, b) {
-                        h.filteredThemes.push({value: b, label: h.generateDropdownOption(h.themes[a], ".i-hotel-theme i40")})
-                    }), a
-                }
-
-                function w(b) {
-                    D = j.search(b.searchId), a.rawData.cityRooms = D
-                }
-
-                function x(c) {
-                    var d = [];
-                    return d.push(i(c.city)), d.push(l.getLikedHotels(c.city)), d.push(b.get(b.apiUrl + "/hotel/popularity/" +
-                            c.city)), e.all(d).then(function (b) {
-                        var c = b[1], d = (b[0], b[2].data);
-                        a.rawData.allHotels = _.filter(b[0], function (a) {
-                            return !!a.images.length
-                        }), a.rawData.likedHotels = b[1], _.each(c, function (b) {
-                            var c = _.find(a.rawData.allHotels, {id: b});
-                            c && (c.liked = !0)
-                        }), _.map(a.rawData.allHotels, function (a) {
-                            a.popularity = d[a.id] || 0
-                        }), a.states.roomsLoaded && a.isWithRoomsMode() ?
-                                (A(a.rawData.allHotels, D), a.rawData.hotels = m.filter(a.rawData.allHotels, a.searchForm.filters, "withRooms", a.searchForm)) :
-                                (a.rawData.filtered = a.rawData.hotels = a.rawData.allHotels, a.searchForm.filters.liked &&
-                                (a.rawData.filtered = m.filter(a.rawData.filtered, a.searchForm.filters, "favorites", a.searchForm)), u(a.rawData.allHotels));
-                        for (var e = [7, 10, 15, 7, 10, 15, 7, 10], f = 0; f < a.rawData.hotels.length; f++) {
-                            var g = Math.random();
-                            if (.4 > g) {
-                                a.rawData.hotels[f].discount = !0;
-                                var h = Math.floor(100 * Math.random() % e.length);
-                                a.rawData.hotels[f].discountRate = e[h]
-                            } else {
-                                a.rawData.hotels[f].discount = !1
-                            }
-                        }
-                        a.states.hotelsLoaded = !0, a.$broadcast("hotels.loaded")
-                    }, function () {
-                        a.states.hotelsLoaded = !0, a.states.roomsLoadFinished = !0, a.rawData.filtered = []
-                    })
-                }
-
-                function y() {
-                    a.rawData.hotels = a.rawData.allHotels, a.rawData.hotels && a.rawData.hotels.length && _.each(a.rawData.hotels, function (a) {
-                        delete a.rooms
-                    }), u(a.rawData.hotels), a.rawData.filtered = m.filter(a.rawData.hotels, a.searchForm.filters, "noDates", a.searchForm)
-                }
-
-                function z(d, f, g, h) {
-                    var i, j, l, m = $.parseJSON(f.filters), n = ($.parseJSON(h.filters) || {}, []);
-                    E = s(), f.searchId ? n.push(b.get(b.apiUrl + "/search/" + f.searchId + "/info").then(function (a) {
-                        return 404 == a.status && c.go("hb.notFound"), i = a.data, l = i.userSearch, delete i.userSearch, a.data
-                    })) : i = $.parseJSON(f.search), h && h.searchId ? n.push(b.get(b.apiUrl + "/search/" + h.searchId + "/info").then(function (a) {
-                        return j = a.data, a.data
-                    })) : h.search && (j = $.parseJSON(h.search)), e.all(n).then(function () {
-                        var b = /^hb.hotels.+/, d = !j || j.hash !== i.hash || !i.hash && i.city !== j.city || !b.test(g.name);
-                        a.$stateParams = c.params, k.parse(a, i, l || m, a.searchForm, d), i.undefinedDates ?
-                                (a.mode = "noDates", a.states.roomsLoaded = !0, y()) : a.mode = "withRooms", (j && j.city !== i.city || !b.test(g.name)) &&
-                        (a.states.hotelsLoaded = !1, x(i)), "withRooms" !== a.mode || h.searchId === f.searchId && b.test(g.name) ||
-                        (a.states.roomsLoaded = !1, a.states.roomsLoadFinished = !1, w(f, i))
-                    }, function (a) {
-                        404 === a.status && c.go("hb.notFound")
-                    })
-                }
-
-                function A(a, b) {
-                    if (a && a.length && b && b.length) {
-                        var c = _.unique(_.pluck(b, "hotelId"));
-                        _.each(a, function (a) {
-                            var d;
-                            -1 !== c.indexOf(a.id) ? (a.rooms = _.sortBy(_.where(b, {hotelId: a.id}), "price"), a.cheapest = a.rooms[0], a.expensive =
-                                    a.rooms[a.rooms.length - 1], d = _.sortBy(_.where(a.rooms, function (a) {
-                                return a.rooms.length > 1
-                            }), "price"), d && d.length && a.rooms.unshift(a.rooms.splice(a.rooms.indexOf(d[0]), 1)[0])) : delete a.rooms
-                        }), t(D)
-                    }
-                }
-
-                function B() {
-                    if (a.states.roomsLoaded = !0, a.rawData.allHotels && a.rawData.allHotels.length) {
-                        var b = a.rawData.allHotels;
-                        A(b, D), a.searchForm.filters.liked && (b = m.filter(b, a.searchForm.filters, "favorites", a.searchForm)), a.rawData.hotels =
-                                m.filter(b, a.searchForm.filters, "withRooms", a.searchForm)
-                    }
-                }
-
-                function C(b, c) {
-                    return a.searchForm.filters.liked ? void(a.rawData.hotels = m.filter(a.rawData.hotels, a.searchForm.filters, "favorites", a.searchForm)) :
-                            c.liked === !0 ? (a.rawData.hotels = a.rawData.allHotels, void("withRooms" == a.mode &&
-                            (a.rawData.hotels = m.filter(a.rawData.allHotels, a.searchForm.filters, "withRooms", a.searchForm)))) : (a.rawData.filtered =
-                                    "withRooms" === a.mode ? m.filter(a.rawData.hotels, a.searchForm.filters, "default", a.searchForm) :
-                                            m.filter(a.rawData.hotels, a.searchForm.filters, "noDates", a.searchForm), void(a.rawData.filtered =
-                                    r(a.rawData.filtered, [a.searchForm.filters.sort])))
-                }
-
-                a.$watch("searchForm.filters", function (b, c) {
-                    return angular.toJson(b) !== angular.toJson(c) && a.rawData.hotels && a.states.roomsLoaded ?
-                            (C(b, c), void a.$broadcast("filters.update")) : void 0
-                }, !0), a.$watch("rawData.hotels", function (b) {
-                    b && "withRooms" === a.mode && a.states.roomsLoaded &&
-                    (t(D), u(b), a.rawData.filtered = m.filter(b, a.searchForm.filters, "default", a.searchForm)), b && "withRooms" !== a.mode &&
-                    (u(b), a.rawData.filtered = m.filter(b, a.searchForm.filters, "noDates", a.searchForm)), a.showVideoFilter =
-                            _.some(a.rawData.hotels, "videourl"), b && v(b), a.searchForm &&
-                    (a.rawData.filtered = r(a.rawData.filtered, [a.searchForm.filters.sort]))
-                }), a.$watch("rawData.filtered", function (b) {
-                    b && (a.rawData.favorites = m.filter(b, a.searchForm.filters, "favoritesCount"), g.inStates(["hotels.list", "hotels-map"]) &&
-                    !a.searchForm.filters.liked && !a.isInitialLoad() &&
-                    a.searchForm.pagination.page > Math.ceil(a.rawData.filtered.length / a.searchForm.pagination.itemsPerPage) &&
-                    (a.searchForm.pagination.page = Math.ceil(a.rawData.filtered.length / a.searchForm.pagination.itemsPerPage) || 1))
-                }), a.$watch("searchForm.pagination", function (a, b) {
-                    if (a && b && a.page !== b.page || void 0 == b && void 0 != a) {
-                        var e = angular.copy(d);
-                        e.page = a.page, c.go(c.current.name, e), setTimeout(g.scrollTo.bind(null, "HbLayout-content"), 10)
-                    }
-                }, !0), a.$watch("facilities", function (b, c) {
-                    if (0 !== b.length && void 0 !== a.searchForm && b !== c) {
-                        for (var d = [], e = 0; e < b.length; e++) {
-                            b[e] && d.push(e);
-                        }
-                        a.searchForm.filters.facilities = d
-                    }
-                }, !0), a.$on("$stateChangeSuccess", function (a, b, c, d, e) {
-                    if (b.name !== d.name || c.search !== e.search || c.searchId !== e.searchId) {
-                        if ("hb.hotels.view.rooms" === b.name && "hb.hotels.view.rooms" === d.name) {
-                            return;
-                        }
-                        z(b, c, d, e)
-                    }
-                    e.hotelId && setTimeout(function () {
-                        g.scrollTo(e.hotelId)
-                    }, 100)
-                }), a.$on("rooms.newRooms", function () {
-                    D && D.length && B()
-                }), a.$on("rooms.noResults", function () {
-                    B()
-                }), a.$on("hotelLike.liked", function () {
-                    a.rawData.filtered && (a.rawData.favorites = m.filter(a.rawData.filtered, a.searchForm.filters, "favoritesCount", a.searchForm))
-                }), a.$on("rooms.loadFinished", function () {
-                    a.states.roomsLoadFinished = !0, a.rawData.filtered && g.inStates(["hotels.list", "hotels-map"]) && !a.searchForm.filters.liked &&
-                    !a.searchForm.pagination.page > Math.ceil(a.rawData.filtered.length / a.searchForm.pagination.itemsPerPage) &&
-                    (a.searchForm.pagination.page = Math.ceil(a.rawData.filtered.length / a.searchForm.pagination.itemsPerPage))
-                }), a.$on("currency.change", function (b, c, d, e) {
-                    _.each(D, function (a) {
-                        a.originalPrice = a.originalPrice || a.price, a.originalCurrency = a.originalCurrency || a.currency, a.price =
-                                d === a.originalCurrency ? a.originalPrice : c[a.originalCurrency].rate * a.originalPrice, a.currency = d
-                    }), a.searchForm.priceOpt.from = a.searchForm.priceOpt.from * c[e].rate, a.searchForm.priceOpt.to =
-                            a.searchForm.priceOpt.to * c[e].rate, a.searchForm.filters.price[0] =
-                            a.searchForm.filters.price[0] * c[e].rate, a.searchForm.filters.price[1] =
-                            a.searchForm.filters.price[1] * c[e].rate, a.searchForm.price[0] = a.searchForm.price[0] * c[e].rate, a.searchForm.price[1] =
-                            a.searchForm.price[1] * c[e].rate, t(D)
-                }), a.sortTa = function (a) {
-                    return a.ta ? -a.ta.rating : 0
-                }, a.goToHotel = function (b) {
-                    g.goToHotel(b, a.searchForm)
-                }, a.goToHotelOnMap = function (b) {
-                    g.event("hotel_on_map_from_list"), g.goToHotelOnMap(b, a.searchForm)
-                }, a.isFacilities = function (a, b) {
-                    return a.facilities && -1 !== a.facilities.indexOf(b)
-                }, a.showOnMap = function (b) {
-                    a.$broadcast("hotel.showOnMap", b)
-                }, a.getFacilityText = function (a) {
-                    return 2 === a ? "FREE WI-FI" : ""
-                }, a.showAllPhoto = function (b) {
-                    var c = 0;
-                    b.allRooms && (c = 400, b.allRooms = !1, b.allPhoto = !1), setTimeout(function () {
-                        b.allPhoto = !b.allPhoto, a.$apply()
-                    }, c)
-                }, a.taSubrating = function (b) {
-                    return _.find(a.ta.subtatings, {nameKey: b})
-                }, a.isWithRoomsMode = function () {
-                    return "withRooms" === a.mode
-                }, a.isInitialLoad = function () {
-                    var b;
-                    return b = "hb.hotels.view.rooms" == c.current.name ? !a.states.hotelsLoaded || !a.states.roomsLoaded :
-                            1 != parseInt(c.params.page) && "withRooms" === a.mode ? !a.states.roomsLoadFinished :
-                            !a.states.hotelsLoaded || !a.states.roomsLoaded || !a.rawData.filtered || !a.rawData.filtered.length && !a.states.roomsLoadFinished
-                }, a.isShowRoomStaff = function () {
-                    return a.isWithRoomsMode() && a.states.roomsLoaded
-                }, a.isShowNoHotels = function () {
-                    return a.rawData.hotels && !a.rawData.hotels.length && a.states.hotelsLoaded ||
-                            a.states.hotelsLoaded && !(a.rawData.allHotels && a.rawData.allHotels.length)
-                }, a.isShowNoFilters = function () {
-                    return a.rawData.hotels && a.rawData.hotels.length && !(a.rawData.filtered && a.rawData.filtered.length) && a.states.hotelsLoaded &&
-                            (a.states.roomsLoadFinished || "withRooms" !== a.mode)
-                }, a.getMagicPixelUrl = function () {
-                    var b = "";
-                    if (a.rawData.filtered && a.rawData.filtered.length && a.searchForm && a.searchForm.pagination) {
-                        for (var c = a.searchForm.pagination.page *
-                                a.searchForm.pagination.itemsPerPage, d = c; d < c + a.searchForm.pagination.itemsPerPage; d++) {
-                            if (a.rawData.filtered[d] &&
-                                    a.rawData.filtered[d].ta) {
-                                b = E;
-                                break
-                            }
-                        }
-                    }
-                    return b
-                };
-                var D, E = s();
-                a.rawData = {cityRooms: D}, a.facilities = [], a.states = {hotelsLoaded: !1, roomsLoaded: !1, roomsLoadFinished: !1, filtering: !1}
-            }]), angular.module("hotelbookApp").controller("HbHotelsMapListCtrl", ["$scope", "RichMarker", "$timeout", "$state", function (a, b, c, d) {
-    function e(c) {
-        b.removeAllMarkers(), a.$broadcast("map.getMap", function (e) {
-            e.ready && (_.each(c, function (c) {
-                c.coords && c.coords.lat && c.coords.lng && c.images.length && (c.rooms || !a.isWithRoomsMode()) &&
-                (c.marker = b.createMarker(e, "/images/pointer.106ec83712ff88865430.png", c.coords.lat, c.coords.lng, c, a.searchForm)), d.params.hotelId &&
-                c.id == d.params.hotelId && c.marker && c.marker.show()
-            }), a.showLoader = !1)
-        })
-    }
-
-    a.$on("filters.update", function () {
-        a.showLoader = !0, a.rawData.hotels && a.rawData.hotels.length && c(function () {
-            e(a.rawData.filtered)
-        }, 0)
-    }), a.$on("hotels.loaded", function () {
-        e(a.rawData.filtered)
-    }), a.$on("rooms.newRooms", function () {
-        a.rawData.hotels && a.rawData.hotels.length && e(a.rawData.hotels)
-    }), a.$on("map.ready", function () {
-        a.rawData.hotels && a.rawData.hotels.length && e(a.rawData.hotels)
-    }), a.hideAllMarkers = function () {
-        _.each(a.rawData.hotels, function (a) {
-            a.showMarker = !1
-        })
-    }, a.showLoader = !0, a.mapLoad = !0
-}]), angular.module("hotelbookApp").controller("InfoCtrl", ["$scope", "$modal", "SearchForm", "$window", "initialData", function (a, b, c, d, e) {
-    a.showSearchPopup = function () {
-        if (!a.searchFormOpened) {
-            var d = b({html: !0, template: "/views/modal/modal-search-form.eedc1948e1f130414392.html"});
-            d.$promise.then(d.show), c.init(d.$scope), d.$scope.suggestedCity = _.shuffle(e.suggestionCity)[0], d.$scope.$on("search-form.new-search",
-                    function () {
-                        d.$scope.$hide(), a.searchFormOpened = !1
-                    }), d.$scope.$on("modal.hide", function () {
-                a.searchFormOpened = !1
-            }), a.searchFormOpened = !0
-        }
-    }, a.print = function () {
-        d.focus(), d.print()
-    }
-}]), angular.module("hotelbookApp").controller("HbLandingCtrl",
-        ["$scope", "LocationResource", "$http", "$state", "$filter", "SearchForm", "initialData", "defaultSearch", "Utils", "$document", "$window", "$q",
-            function (a, b, c, d, e, f, g, h, i, j, k, l) {
-                function m() {
-                    var b = ["Moscow", "Russia", "Worldwide"], d = [];
-                    _.each(b, function (a) {
-                        d.push(c.get(c.apiUrl + "/topOffer", {params: {categoryCode: a}}))
-                    }), d.push(c.get(c.apiUrl + "/location/city/weather")), l.all(d).then(function (b) {
-                        var c = b.pop().data;
-                        _.each(b, function (b) {
-                            a.topOffers[b.data[0].categoryName] = b.data, _.map(b.data, function (a) {
-                                a.weather = _.find(c, {cityId: a.cityId})
-                            }), a.topOffersLoaded = !0
-                        })
-                    })
-                }
-
-                a.updateLocations = function (c) {
-                    c && b.city(c).then(function (b) {
-                        a.cities = b, a.locations = b
-                    })
-                }, a.selectLocation = function () {
-                    if (a.city) {
-                        var b = _.find(a.cities, {fullName: a.city});
-                        b && (a.data.cityId = b.id)
-                    }
-                }, a.goToSearch = function (a) {
-                    var b = a.search.id, c = {
-                        city: a.search.city,
-                        dateFrom: "",
-                        dateTo: "",
-                        rooms: a.search.rooms,
-                        userSearch: {accommodation: a.accommodation, rating: a.rating, stars: a.stars}
-                    };
-                    d.go("hb.hotels.list.page", {searchId: b, params: angular.toJson(c)})
-                }, a.goToHotel = function (a) {
-                    i.event("top_offers_hotel", a.id), d.go("hb.hotels.view.rooms", {searchId: a.searchHash, hotelId: a.id})
-                }, a.goToCity = function (a) {
-                    i.event("top_offers_city", a.hotels[0].cityId), d.go("hb.hotels.list.page", {searchId: a.hotels[0].searchHash, page: 1})
-                }, a.goToBestOffer = function () {
-                    i.scrollTo("bestOffer")
-                }, a.range = function (a) {
-                    return new Array(a)
-                }, a.$on("lang.change", function () {
-                    a.suggestedCity = _.find(g.suggestionCity, {id: a.suggestedCity.id}), m()
-                }), a.$on("currency.change", function (b, c, d, e) {
-                    _.each(a.topOffers, function (a) {
-                        _.each(a.hotels, function (a) {
-                            a.price = c[e].rate * a.price
-                        })
-                    }), a.searchForm.priceOpt.from = a.searchForm.priceOpt.from * c[e].rate, a.searchForm.priceOpt.to =
-                            a.searchForm.priceOpt.to * c[e].rate, a.searchForm.filters.price[0] =
-                            a.searchForm.filters.price[0] * c[e].rate, a.searchForm.filters.price[1] =
-                            a.searchForm.filters.price[1] * c[e].rate, a.searchForm.price[0] = a.searchForm.price[0] * c[e].rate, a.searchForm.price[1] =
-                            a.searchForm.price[1] * c[e].rate
-                }), f.init(a), a.suggestedCity = _.shuffle(g.suggestionCity)[0], a.topOffers = {}, a.topOffersLoaded = !1, m()
-            }]), angular.module("hotelbookApp").controller("PartnerCtrl", ["$scope", "$modal", function (a, b) {
-    a.partnerRegistrationData = {}, a.showPartnerRegistrationModal = function () {
-        var c = b({scope: a, html: !0, template: "/views/modal/partner-registration.dba349137b6019a8e095.html"});
-        c.$promise.then(c.show)
-    }
-}]), angular.module("hotelbookApp").controller("HbHotelRoomCtrl",
-        ["$scope", "$stateParams", "$state", "$http", "RoomsResource", "SearchForm", "initialData", "Utils", "toaster", "$modal", "$q", "$window",
-            function (a, b, c, d, e, f, g, h, i, j, k, l) {
-                function m() {
-                    var b, c;
-                    if (a.hotel && p && p.length &&
-                            (a.hotel.rooms = p, a.hotelRoomLoading = !1, a.datesReloading = !1, a.roomsByType = [], c = _.groupBy(p, function (a) {
-                                return a.isCheapest = !1, a.rooms.length
-                            }), a.teamRooms = _.compact((c[2] || []).concat(c[3])), b = _.groupBy(c[1], function (a) {
-                                return a.rooms[0].roomConnectId
-                            }), a.teamRooms = _.sortBy(a.teamRooms, "price"), _.each(a.teamRooms, function (b) {
-                                _.each(b.rooms, function (b) {
-                                    b.data = _.find(a.roomTypes, {roomTypeId: Number(b.roomConnectId)})
-                                })
-                            }), _.each(b, function (b, c) {
-                                b = _.sortBy(b, "price"), b.data = _.find(a.roomTypes, {roomTypeId: Number(c)}), a.roomsByType.push(b)
-                            }), _.isEmpty(b) || (a.roomsByType = _.sortBy(a.roomsByType, function (a) {
-                                return a[0].price
-                            }), a.roomsByType[0][0].isCheapest = !0, a.hotel.cheapest = a.roomsByType[0][0]), g.stateData.room)) {
-                        var d = _.find(p, {hash: g.stateData.room.hash});
-                        d && (setTimeout(h.scrollTo.bind(null, g.stateData.room.hash), 20), delete g.stateData.room)
-                    }
-                }
-
-                function n() {
-                    a.searchForm.dates.length < 2 || f.search(a).then(function (a) {
-                        c.go("hb.hotels.view.rooms", {searchId: a.data.id, hotelId: b.hotelId})
-                    })
-                }
-
-                function o() {
-                    a.bookingNotFull ? (a.bookingLoader = !1, a.bookingError = !0, a.bucket.forEach(function (a) {
-                        a.item.error = !0, a.item.selected = !1
-                    })) : (a.bucket[0].item.bookingError = !0, a.bucket[0].item.bookingLoader = !1)
-                }
-
-                a.booking = function () {
-                    var e = [];
-                    a.bucket.forEach(function (a) {
-                        for (var b = 0; b < a.count; b++) {
-                            e.push({
-                                hash: a.item.hash,
-                                rateHash: a.item.rateHash ? a.item.rateHash : "",
-                                providerId: a.item.providerId
-                            })
-                        }
-                    }), a.bookingNotFull && (a.bookingLoader = !0), q = !0, d.post(d.apiUrl + "/order/prepare",
-                            {hotelPrepareOrder: {searchId: c.params.searchId, currency: g.currency, hotelId: a.hotel.id, items: e}}).success(function (a) {
-                                q = !1, a && a.code ? c.go("hb.booking", {code: a.code, searchId: b.searchId, token: a.token, params: b.params}) : o()
-                            }).error(function () {
-                                q = !1, o()
-                            })
-                }, a.selectRoom = function (b) {
-                    q || (a.bookingError && (a.bucket = [], a.bookingNotFull = !1), a.bookingNotFull =
-                            a.searchForm.search.rooms.length !== b.rooms.length, a.bookingNotFull ?
-                            (a.bucket.push({item: b, count: 1}), b.selected = !0, a.bookingError = !1) :
-                            (b.bookingLoader = !0, a.bucket = [], a.bucket.push({item: b, count: 1}), a.booking()))
-                }, a.removeRoom = function (b) {
-                    var c = [];
-                    a.bucket.forEach(function (a) {
-                        a.item !== b ? c.push(a) : b.selected = !1
-                    }), a.bucket = c
-                }, a.removeFromBucket = function (b) {
-                    b.item.selected = !1, a.bucket.splice(a.bucket.indexOf(b), 1)
-                }, a.roomsSum = function () {
-                    var b = 0;
-                    return _.each(a.bucket, function (a) {
-                        b += a.item.price * a.count
-                    }), b
-                }, a.subscribeOnPriceChange = function (c) {
-                    function e() {
-                        var d = k.defer(), e = {
-                            hotel: a.hotel.id,
-                            roomConnect: c[0].rooms[0].roomConnectId,
-                            lastPrice: c[0].price,
-                            currency: "RUB",
-                            search: b.searchId
-                        };
-                        if (g.user) {
-                            e.email = g.user.email, d.resolve(e);
-                        } else {
-                            var f = j({html: !0, template: "/views/modal/modal-email-form.d3373ed55879175d8161.html"});
-                            f.$scope.submit = function () {
-                                h.setFormDirty(f.$scope.subscriptionEmailForm), f.$scope.subscriptionEmailForm.$valid &&
-                                (e.email = f.$scope.email, d.resolve(e), f.$scope.$hide())
-                            }, f.$promise.then(f.show)
-                        }
-                        return d.promise
-                    }
-
-                    function f(e) {
-                        d.post(d.apiUrl + "/subscription/price", {priceSubscription: e}).success(function (d) {
-                            i.pop("success", "подписка успешно оформлена"), a.hotelSubscriptions.push({
-                                roomConnectId: c[0].rooms[0].roomConnectId,
-                                id: d.id
-                            }), r[b.searchId + "::" + a.hotel.id] = a.hotelSubscriptions, l.localStorage.setItem("subscriptions", JSON.stringify(r))
-                        }).error(function () {
-                            i.pop("error", "ошибка оформления подписки")
-                        })
-                    }
-
-                    e().then(f)
-                }, a.isSubscribed = function (b) {
-                    return _.find(a.hotelSubscriptions, {roomConnectId: b}) ? !0 : !1
-                }, a.$on("searchForm.dateChanged", n), a.$on("rooms.newRooms", m), a.$on("rooms.noResults", function () {
-                    a.roomsStates.noRoomsInHotel = !0, a.roomsStates.roomsLoading = !1
-                }), a.$on("rooms.loadFinished", function () {
-                    a.roomsStates.roomsLoading = !1
-                }), a.$on("currency.change", function (b, c, d, e) {
-                    function f(a) {
-                        function b(a, b) {
-                            var e;
-                            return e = a === d ? b : c[a].rate * b
-                        }
-
-                        if (a.originalCurrency = a.originalCurrency || a.currency, a.originalPrice = a.originalPrice || a.price, a.price =
-                                        b(a.originalCurrency, a.originalPrice), a.currency = d, a.chargeConditions) {
-                            for (var e = 0;
-                                    e < a.chargeConditions.length; e++) {
-                                a.chargeConditions[e].originalPrice =
-                                        a.chargeConditions[e].originalPrice || a.chargeConditions[e].price, a.chargeConditions[e].price =
-                                        b(a.originalCurrency, a.chargeConditions[e].originalPrice)
-                            }
-                        }
-                    }
-
-                    if (void 0 != e) {
-                        a.hotel.cheapest && f(a.hotel.cheapest);
-                        for (var g = 0; g < a.roomsByType.length; g++) {
-                            for (var h = 0; h < a.roomsByType[g].length; h++) {
-                                f(a.roomsByType[g][h]);
-                            }
-                        }
-                        for (var g = 0; g < a.teamRooms.length; g++) {
-                            f(a.teamRooms[g])
-                        }
-                    }
-                });
-                var p, q = !1;
-                a.bucket = [], a.$stateParams = b, a.roomsStates = {roomsLoading: !0, noRoomsInHotel: !1};
-                var r = JSON.parse(l.localStorage.getItem("subscriptions")) || {};
-                a.hotelSubscriptions = r[b.searchId + "::" + b.hotelId] || [], b.searchId ? p = e.search(b.searchId, b.hotelId) :
-                        a.roomsStates.roomsLoading = !1
-            }]), angular.module("hotelbookApp").controller("UnsubscribeCtrl", ["$scope", "$http", "$stateParams", "$window", function (a, b, c, d) {
-    a.unsubscribing = !1, b.delete(b.apiUrl + "/subscription/price/" + c.id + "/" + c.hash).success(function () {
-        a.unsubscribing = !1;
-        var b = JSON.parse(d.localStorage.getItem("subscriptions")) || {};
-        _.each(b, function (a, d) {
-            a = _.remove(a, function (a) {
-                return a.id != parseInt(c.id)
-            }), b[d] = a
-        }), d.localStorage.setItem("subscriptions", JSON.stringify(b))
-    })
-}]), angular.module("hotelbookApp").controller("HeaderCtrl",
-        ["$scope", "initialData", "$modal", "$http", "$state", "$stateParams", "Utils", function (a, b, c, d, e, f, g) {
-            a.showRegistrationModal = function () {
-                var b = c({scope: a, html: !0, template: "/views/modal/authorization.a1cbdc4ebc7f42920c51.html"});
-                b.$promise.then(b.show)
-            }, a.logout = function () {
-                d.get(d.apiUrl + "/logout").success(function (a) {
-                    g.deleteItemsFromLocalStorage(["token", "partnerId"]), b.user = a.user, b.lang = a.lang, b.currency = a.currency, b.env =
-                            a.env, g.setItemsToLocalStorage({token: a.token, partnerId: a.partnerId}), -1 !== e.current.name.indexOf("cabinet") ?
-                            e.go("hb.landing") : e.forceReload()
-                })
-            }, a.$state = e, a.$stateParams = f
-        }]), angular.module("hotelbookApp").controller("ModalAuthorizationCtrl", ["$scope", "$http", "Utils", "initialData", function (a, b, c, d) {
-    a.tab = a.switchTab ? a.switchTab : 1, a.loginData = {login: {email: a.loginEmail ? a.loginEmail : ""}}, a.restoreData = {email: ""}, a.regData =
-    {userRegister: {currency: d.currency, lang: d.lang, email: a.regEmail ? a.regEmail : ""}}, a.login = function (b) {
-        d.user = b.user, d.lang = b.lang, d.currency = b.currency, d.env = b.env, c.setItemsToLocalStorage({token: b.token, partnerId: b.partnerId}), a.$hide()
-    }, a.registration = function (b) {
-        d.user = b.user, d.env = b.env, d.currency = b.currency, d.lang = b.lang, c.setItemsToLocalStorage({token: b.token, partnerId: b.partnerId}), a.$hide()
-    }, a.restoreSuccess = function () {
-        a.restoreSentSuccess = !0
-    }
-}]), angular.module("hotelbookApp").controller("ModalSearchDeadCtrl", ["$scope", function () {
-}]), angular.module("hotelbookApp").controller("RestorePasswordCtrl", ["$scope", "$stateParams", "initialData", "$state", function (a, b, c, d) {
-    a.action = "/user/restore?email=" + b.email + "&restoreCode=" + b.restoreCode, a.email = b.email, a.restored = function () {
-        c.firstRequest = !0, d.go("hb.landing")
-    }
-}]), angular.module("hotelbookApp").directive("animateOnChange", ["$animate", "$timeout", function (a, b) {
-    return {
-        restrict: "A", link: function (a, c, d) {
-            var e = Number.parseInt(d.animationDelay);
-            a.$watch(d.animateOnChange, function (a) {
-                a ? b(function () {
-                    $(c).addClass("slide-left-stagger-active")
-                }, e) : $(c).removeClass("slide-left-stagger-active")
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("autoHeight", ["$window", "$document", function (a, b) {
-    return function (c, d, e) {
-        function f() {
-            var c = d[0].offsetTop, f = 0, g = 0, h = 0, c = 0;
-            if (e.footer) {
-                var i = b.find(e.footer);
-                f = i.height(), g = parseInt(i.css("padding-top")) + parseInt(i.css("padding-bottom"))
-            }
-            if (e.header) {
-                var j = b.find(e.header);
-                c = j.height()
-            }
-            h = a.innerHeight - c - f - g, d.css("min-height" === e.autoHeight ? {"min-height": h, position: "relative"} : {height: h, position: "relative"})
-        }
-
-        setTimeout(f), angular.element(a).bind("resize", f), e.footer && c.$watch(function () {
-            return angular.element(e.footer).height()
-        }, function (a, b) {
-            a !== b && f()
-        }), c.$on("$destroy", function () {
-            angular.element(a).unbind("resize", f)
-        })
-    }
-}]), angular.module("hotelbookApp").directive("autocomplete", ["$parseOptions", "$tooltip", "LocationResource", "$parse", "$http", function (a, b, c, d) {
-    var e = {
-        template: "/views/directives/autocomplete.cf3a5191c28dd26bef53.html",
-        animation: "popup-toggle",
-        prefixEvent: "autocomplete",
-        trigger: "manual",
-        placement: "bottom-left",
-        autoClose: !0,
-        method: "autocomplete"
-    };
-    return {
-        restrict: "A", scope: {}, require: "ngModel", link: function (a, f, g, h) {
-            function i() {
-                var a;
-                return a = $(document).height() - f.offset().top < 650 ? "top-left" : "bottom-left"
-            }
-
-            function j(b) {
-                var e = x++, f = t;
-                13 === b.keyCode ? a.$apply(function () {
-                    a.locations && a.locations.cities.length && a.select(a.locations.cities[0]), a.$parent.$broadcast("autocomplete.enterKey", a.locations)
-                }) : t ? t.length > 1 && (a.$apply(function () {
-                    a.loading = !0
-                }), c[u.method](t).then(function (b) {
-                    e >= y && (y = e, a.locations = b, a.currentTerm = f, g.locationsModel && d(g.locationsModel).assign(a.$parent, b), a.loading = !1, l())
-                })) : q.hide()
-            }
-
-            function k(a) {
-                var b = angular.element(a.target);
-                q && q.$element && !$.contains(q.$element[0], b[0]) && b[0] !== f[0] && q.hide()
-            }
-
-            function l() {
-                t && t.length > 1 && a.locations && !q.$isShown && q.show(), a.$$phase || a.$root.$$phase || a.$apply(), setTimeout(function () {
-                    q.$applyPlacement()
-                }, 100)
-            }
-
-            function m(a) {
-                h.$setViewValue(u.model ? d(u.model)(a) : a), f.val(u.label ? d(u.label)(a) : a)
-            }
-
-            function n(a) {
-                h.$setViewValue(a.cityId), f.val(a.name + ", " + a.cityName + ", " + a.countryName)
-            }
-
-            function o(a) {
-                a.preventDefault(), a.stopPropagation(), h.$setViewValue(null), f.val(null)
-            }
-
-            a.cityTitle = function (b) {
-                var c = '<span class="is-blue">$1</span>', d = new RegExp("(" + a.locations.inverseTerm + "|" + t + ")", "gi"), e = b.name.replace(d,
-                        c), f = b.countryName.replace(d, c);
-                return '<span class="is-black">' + e + '</span><span class="is-gray">, ' + f + "</span>"
-            }, a.hotelTitle = function (b) {
-                var c = new RegExp("(" + a.locations.inverseTerm + "|" + t + ")", "gi");
-                return b.name.replace(c, '<span class="is-blue">$1</span>')
-            }, a.select = function (b) {
-                b.cityId ? (n(b), s = b, d(g.hotelModel).assign(a.$parent, b)) :
-                        (m(b), r = b, d(g.hotelModel).assign(a.$parent, null), s = null), q.hide(), f.removeClass("is-attended"), setTimeout(function () {
-                    f.addClass("is-attended")
-                })
-            }, h.$parsers.push(function (a) {
-                return t = a, a ? w.show() : w.hide(), a
-            }), a.$parent.$watch(g.cityModel, function (a) {
-                !a || s || r && a.id === r.id || (r = a, a.cityId ? n(a) : m(a))
-            }), a.$parent.$watch(g.hotelModel, function (a) {
-                !a || s && a.id === s.id || (s = a, a.cityId ? n(a) : m(a))
-            }), a.$parent.$watch(g.cityModel + "." + g.label, function () {
-                s || m(d(g.cityModel)(a.$parent))
-            }), a.$on("$destroy", function () {
-                q.destroy(), u = null, q = null, v.off("click", k), f.off("focus", l), f.off("keyup", j), w.off("click", o)
-            }), a.$on("autocomplete.select", function (b, c, d) {
-                !c && a.locations && (c = a.locations.cities[0]), a.select(c), c && d && d(!0)
-            }), f.on("click", function () {
-                return this.select(), !1
+    function i(e, t, n) {
+        if (rt.isFunction(t)) {
+            return rt.grep(e, function (e, i) {
+                return !!t.call(e, i, e) !== n
             });
-            var p, q, r, s, t = "", u = angular.extend({scope: a},
-                    e), v = angular.element("body"), w = angular.element('<div class="AutoComplete-clear"><span class="i-cross"></span></div>'), x = 0, y = 0;
-            f.wrap('<div class="AutoCompleteBox">'), p = f.parent(), p.addClass(g.autocompleteClass), p.append(w), w.hide(), angular.forEach(["label", "model",
-                "method", "template"], function (a) {
-                angular.isDefined(g[a]) && (u[a] = g[a])
-            }), u.placement = i(), q = b(f, u), v.on("click", k), f.on("focus", l), f.on("keyup", j), w.on("click", o), p.addClass(g.classes)
         }
-    }
-}]), angular.module("hotelbookApp").directive("bodyClick", ["$rootScope", function (a) {
-    return {
-        restrict: "A", link: function (b, c) {
-            c.on("click", function () {
-                a.$broadcast("body.click")
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("bookingConditionsInline", ["BookingConditions", function (a) {
-    return {
-        templateUrl: "/views/directives/booking-conditions-inline.31e17bbce035b68824d3.html",
-        scope: {item: "=bookingConditionsInline"},
-        link: function (b) {
-            b.BookingConditions = a
-        }
-    }
-}]), angular.module("hotelbookApp").directive("bookingConditionsTooltip", ["$tooltip", "BookingConditions", function (a, b) {
-    return {
-        scope: {item: "=bookingConditionsTooltip"}, link: function (c, d, e) {
-            var f;
-            d.hover(function () {
-                f ? f.show() : (f = a(d, {
-                    placement: e.placement ? e.placement : "top",
-                    template: "/views/directives/booking-conditions-tooltip.9bf1989596072ac6ee4b.html",
-                    trigger: "manual",
-                    html: !0,
-                    autoClose: !0,
-                    container: "body",
-                    animation: "am-fade Tooltip " + (e.tooltipManagerClass ? e.tooltipManagerClass : "Tooltip--info")
-                }), f.$promise.then(function () {
-                    f.show()
-                }), f.$scope.item = c.item, f.$scope.BookingConditions = b)
-            }, function () {
-                f.hide()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("bookingConditions",
-        ["api", "$http", "$tooltip", "initialData", "Utils", "$filter", "$rootScope", function (a, b, c, d, e, f, g) {
-            {
-                var h = _.template('<span><%= text %> <i class="i-extra-info"></i></span>');
-                f("dateTime")
-            }
-            return {
-                require: "ngModel", link: function (a, e, f, i) {
-                    function j(a) {
-                        a.withCancelation = _.some(a.chargeConditions, function (b) {
-                            return a.price - b.price > 0
-                        }), a.chargeConditions && moment(a.chargeConditions[0].fromDate).diff(moment(), "days") > 0 &&
-                        (a.withCancelation = !0, a.chargeConditions.unshift({
-                            price: 0,
-                            hasCharge: !1,
-                            fromDate: null,
-                            toDate: a.chargeConditions[0].fromDate
-                        })), _.map(a.chargeConditions, function (b) {
-                            return a.price - b.price <= 0 && (b.fullCharge = !0), b
-                        }), q = g.i18n.directives.cancelationConditions, a.chargeConditions && !a.withCancelation &&
-                        (q = g.i18n.directives.withoutCancelation, a.withoutCancellation = !0, e.addClass("is-noBorder")), a.chargeConditions &&
-                        a.chargeConditions.length && _.each(a.chargeConditions, function (a) {
-                            a.hasCharge || (q = g.i18n.directives.freeCancelation, e.addClass("is-green"))
-                        }), e.html(h({text: q}))
-                    }
-
-                    function k(a) {
-                        return b.get(b.apiUrl + "/search/" + f.searchId + "/chargeConditions",
-                                {params: {providerId: a.providerId, hash: a.hash, currency: d.currency, extended: r}}).then(function (b) {
-                                    a.chargeConditions = [], _.each(b.data.cancelConditions, function (b) {
-                                        a.chargeConditions.push(b)
-                                    }), j(a), o.$scope.cancelConditions = a.chargeConditions, o.$scope.currency = a.currency, setTimeout(function () {
-                                        o.$applyPlacement()
-                                    }, 100)
-                                })
-                    }
-
-                    function l() {
-                        o || (o = c(e, {
-                            title: n,
-                            placement: f.placement ? f.placement : "top",
-                            trigger: "hover",
-                            autoClose: !0,
-                            template: "/views/directives/booking-conditions.a4377aa35c95611ffa28.html",
-                            animation: "am-fade Tooltip " + (f.tooltipManagerClass ? f.tooltipManagerClass : "Tooltip--info")
-                        }), o.$scope.cancelConditions = m.chargeConditions, o.$scope.currency = m.currency, o.$promise.then(function () {
-                            o.show()
-                        })), m.chargeConditions || p || (p = !0, k(m))
-                    }
-
-                    a.$on("lang.change", function () {
-                        j(m)
-                    }), a.$on("currency.change", function () {
-                        o && (o.$scope.currency = m.currency, setTimeout(function () {
-                            o.$scope.$apply()
-                        }, 0))
-                    });
-                    var m, n, o, p, q = g.i18n.directives.cancelationConditions, r = "true" === f.extended ? 1 : null;
-                    i.$formatters.push(function (a) {
-                        return !m && a && (m = a, j(m), e.on("mouseenter", l), e.html(h({text: q}))), a
-                    })
-                }
-            }
-        }]), angular.module("hotelbookApp").directive("bounce", function () {
-    return {
-        link: function (a, b, c) {
-            a.$on(c.bounce, function () {
-                b.addClass("is-bounced"), setTimeout(function () {
-                    b.removeClass("is-bounced")
-                }, 200)
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("checkbox", function () {
-    var a = function (a) {
-        var b = (new Date).getTime();
-        return '<div class="Checkbox clearfix" for="' + a.name + b +
-                '" type="checkbox"><span class="Checkbox-icons"><span class="Checkbox-checked glyphicon glyphicon-ok"></span></span><input type="checkbox" ng-model="' +
-                a.ngModel + '" name="' + a.name + '" id="' + a.name + b + '"' + (a.hasOwnProperty("required") ? "required" : "") +
-                '/><span class="Checkbox-label">' + a.label + "</span></div>"
-    };
-    return {
-        require: "ngModel", compile: function (b, c) {
-            return b.replaceWith(a(c)), function (a, b, d, e) {
-                b.addClass(c.class), b.click(function (b) {
-                    b.preventDefault(), a.$apply(function () {
-                        e.$setViewValue(!e.$viewValue), e.$render()
-                    })
-                }), e.$render = function () {
-                    console.log("rendering", !!e.$viewValue), b.toggleClass("is-checked", !!e.$viewValue)
-                }
-            }
-        }, replace: !0
-    }
-}), angular.module("hotelbookApp").directive("clipText", function () {
-    return {
-        restrict: "A",
-        require: "ngModel",
-        replace: !0,
-        scope: !0,
-        template: '<div>{{text}} <a class="cp" ng-show="showClipped && isClippable" ng-click="showFull();">{{$root.i18n.directives.showExtended}}</a><a class="cp" ng-show="!showClipped && isClippable" ng-click="hideFull();">{{$root.i18n.directives.showClipped}}</a></div>',
-        link: function (a, b, c, d) {
-            function e() {
-                var b = d.$modelValue;
-                if (b && a.isClippable && a.showClipped) {
-                    for (var e = parseInt(c.clipLength), f = e; f < b.length && (" " !== b[f] && "\n" !== b[f]); f++) {
-                        e++;
-                    }
-                    b = b.substr(0, e), b += "...  "
-                }
-                return a.text = b, b
-            }
-
-            a.showClipped = !0, a.isClippable = !0, a.showFull = function () {
-                a.showClipped = !1
-            }, a.hideFull = function () {
-                a.showClipped = !0
-            }, d.$formatters.push(function (b) {
-                return a.isClippable = c.clipLength && b && b.length > parseInt(c.clipLength) ? !0 : !1, b
-            }), d.$formatters.push(e), a.$watch("showClipped", function () {
-                e()
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("compile", ["$compile", function (a) {
-    return {
-        link: function (b, c, d) {
-            d.$observe("compile", function (d) {
-                c.empty().append(a("<span>" + d + "</span>")(b))
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("creditCardType", function () {
-    return {
-        require: "ngModel", link: function (a, b, c, d) {
-            d.$parsers.unshift(function (a) {
-                var b = a.replace(/ /g, "").replace(/_/g, ""), c = /^5[1-5]/.test(b) ? "MasterCard" :
-                        /^(5018)|^(5020)|^(5038)|^(5893)|^(6304)|^(6759)|^(6761)|^(6762)|^(6763)|^(0604)/.test(b) ? "Maestro" : /^4/.test(b) ? "Visa" :
-                                /^(4026)|^(417500)|^(4405)|^(4508)|^(4844)|^(4913)|^(4917)/.test(b) ? "Visa Electron" : /^3[47]/.test(b) ? "American Express" :
-                                        /^6011|65|64[4-9]|622(1(2[6-9]|[3-9]\d)|[2-8]\d{2}|9([01]\d|2[0-5]))/.test(b) ? "discover" : void 0;
-                return d.$setValidity("invalid", !!c), d.cardType = c, a
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("currency", function () {
-    var a = ["rub", "usd", "eur"];
-    return {
-        require: "ngModel", link: function (b, c, d, e) {
-            function f(a) {
-                return "i-currency-" + a
-            }
-
-            function g(a) {
-                c.removeClass(h.join(" ")), c.addClass(f(a))
-            }
-
-            var h = [];
-            _.each(a, function (a) {
-                h.push(f(a))
-            }), c.addClass("Currency"), c.toggleClass("is-bold", !!d.bold), e.$formatters.push(function (a) {
-                return a && g(a.toLowerCase()), a
-            })
-        }
-    }
-}), angular.module("hotelbookApp").value("dateRangeOptions", {format: "YYYY-MM-DD", viewFormat: "DD.MM.YYYY"}).directive("dateRange",
-        ["$tooltip", "dateRangeOptions", "$parse", "Utils", function (a, b, c, d) {
-            return {
-                require: "ngModel",
-                scope: {},
-                templateUrl: "/views/directives/date-range-control.e654d5e981bf8ce2b402.html",
-                replace: !0,
-                link: function (e, f, g, h) {
-                    function i() {
-                        var a;
-                        return a = $(document).height() - f.offset().top < 550 ? "top" : "bottom", f.offset().left < 120, a
-                    }
-
-                    function j(a) {
-                        e.disabled || (a.originalEvent.dateRange = !0, r.show())
-                    }
-
-                    function k(a, b) {
-                        return a.date() === b.date() && a.month() === b.month() && a.year() === b.year()
-                    }
-
-                    function l() {
-                        function a(a) {
-                            a.selected = !1, a.amid = !1
-                        }
-
-                        _.each(e.firstMonth, a), _.each(e.secondMonth, a)
-                    }
-
-                    function m(a) {
-                        function b(b) {
-                            a[0] <= b.m && b.m <= a[1] && (b.amid = !0), (k(b.m, a[0]) || k(b.m, a[1])) && (b.selected = !0)
-                        }
-
-                        _.each(e.firstMonth, b), _.each(e.secondMonth, b)
-                    }
-
-                    function n(a) {
-                        if (r.$isShown && (!a.originalEvent || !a.originalEvent.dateRange)) {
-                            var b = angular.element(a.target);
-                            r.$element && !$.contains(r.$element[0], b[0]) && b[0] !== f[0] && r.hide()
-                        }
-                    }
-
-                    function o(a, b) {
-                        var c = "DD.MM.YYYY";
-                        return a.format(c) === b.format(c)
-                    }
-
-                    e.generateMonth = function (a) {
-                        for (var b, c = moment(a), d = [], e = a.month() === moment().month() && a.year() === moment().year(), f = moment(); 1 !== c.date();) {
-                            c =
-                                    moment(c).subtract(1, "days"), d.unshift({m: c, month: !0});
-                        }
-                        for (; 1 !== c.day();) {
-                            c = moment(c).subtract(1, "days"), d.unshift({m: c, month: !1});
-                        }
-                        c = moment(a);
-                        do {
-                            d.push({m: c, month: !0}), c = moment(c).add(1, "days");
-                        } while (1 !== c.date());
-                        for (; 1 !== c.day();) {
-                            d.push({m: c, month: !1}), c = moment(c).add(1, "days");
-                        }
-                        if (e) {
-                            b = moment().date();
-                            for (var g = 0; g < d.length; g++) {
-                                d[g].m.date() === b && (d[g].today = !0)
-                            }
-                        }
-                        return _.each(d, function (a) {
-                            f > a.m && (a.disabled = !0)
-                        }), d.month = moment.localeData().months(a, "MMMM"), d.year = a.year().toString(), d.m = a, d
-                    }, e.prevMonth = function () {
-                        e.secondMonth = e.firstMonth, e.firstMonth = e.generateMonth(moment(e.firstMonth.m).subtract(1, "month")), 2 === h.$viewValue.length &&
-                        m(h.$viewValue)
-                    }, e.nextMonth = function () {
-                        e.firstMonth = e.secondMonth, e.secondMonth = e.generateMonth(moment(e.secondMonth.m).add(1, "month")), 2 === h.$viewValue.length &&
-                        m(h.$viewValue)
-                    }, e.selectDay = function (a) {
-                        var b = [];
-                        return a.disabled ? !1 : void(a.selected ?
-                                (a.selected = !a.selected, o(h.$viewValue[0], a.m) ? h.$viewValue.shift() : h.$viewValue.pop(), h.$viewValue.length &&
-                                b.push(h.$viewValue[0]), l(), h.$setViewValue(b)) : (1 === h.$viewValue.length ?
-                                (b.push(h.$viewValue[0]), h.$viewValue[0] > a.m ? b.unshift(a.m) :
-                                        b.push(a.m), m(b), h.$setViewValue(b), f.removeClass("is-attended"), setTimeout(function () {
-                                    f.addClass("is-attended"), r.hide()
-                                }, 10)) : (l(), h.$setViewValue([a.m])), a.selected = !0))
-                    }, g.$observe("disabled", function (a) {
-                        e.disabled = a
-                    });
-                    var p = angular.extend({}, b, c(g.options)(e)), q = i(), r = a(f, {
-                        template: "/views/directives/date-range.1d97d7e7ed925dbaf027.html",
-                        placement: q,
-                        trigger: "manual",
-                        scope: e,
-                        autoClose: !0,
-                        animation: "popup-toggle",
-                        prefixEvent: "dateRange",
-                        container: g.container || "body"
-                    }), s = angular.element("body");
-                    e.u = d, e.firstMonth = e.generateMonth(moment()), e.secondMonth = e.generateMonth(moment().add(1, "month")), e.weekdays =
-                            angular.copy(moment.localeData()._weekdaysMin), e.weekdays.push(e.weekdays.shift()), g.viewFormat &&
-                    (p.viewFormat = g.viewFormat), h.$parsers = [function (a) {
-                        return e.dates = a, a
-                    }], h.$formatters = [function (a) {
-                        return e.dates = a, a && a.length > 0 &&
-                        (e.firstMonth = e.generateMonth(a[0]), e.secondMonth = e.generateMonth(moment(a[0]).add(1, "month")), 2 === a.length && m(a)), a
-                    }], e.$on("$destroy", function () {
-                        s.off("click", n), f.parents(".DateRangeBox").off("click", j)
-                    }), s.on("click", n), f.on("click", j), e.$on("lang.change", function (a, b) {
-                        moment.locale(b), e.weekdays = angular.copy(moment.localeData()._weekdaysMin), e.firstMonth.month =
-                                moment.localeData().months(e.firstMonth[10].m, "MMMM"), e.secondMonth.month =
-                                moment.localeData().months(e.secondMonth[10].m, "MMMM")
-                    })
-                }
-            }
-        }]), angular.module("hotelbookApp").directive("dropdownPatched", ["$parseOptions", "$select", "$window", "$rootScope", function (a, b, c, d) {
-    return {
-        require: "ngModel", scope: !0, link: function (e, f, g, h) {
-            function i(a) {
-                if ("auto-patched" === m) {
-                    var b = 0, g = f.offset().top, h = c.innerHeight - 50, i = 40 * r.$scope.$matches.length + 20;
-                    b = 0 > h - (g + i / 2) ? c.innerHeight - i :
-                            0 > g - i / 2 ? 20 : g - i / 2 + 10, t.css({top: b}), t.addClass("hidden"), setTimeout(function () {
-                        $(".dropdown-menu", t).css({top: 0, left: 0}), t.removeClass("hidden")
-                    }, 200)
-                }
-                return a.stopImmediatePropagation(), r.toggle(), d.$broadcast("dropdown.closeAll", e.$id), !1
-            }
-
-            function j(a) {
-                r.$isShown && a.target !== f[0] && a.target !== f.find(".MultiSelect-choose")[0] && r.hide()
-            }
-
-            var k = g.caretHtml || "<div class='CaretBg'><div class='caret'></div></div>", l = g.placeholder || b.defaults.placeholder, m = g.placement ||
-                    "auto", n = g.container || !1, o = g.html || !0, p = angular.element("body"), q = a(g.ngOptions), r = b(f, h, {
-                html: o,
-                trigger: "manual",
-                multiple: !1,
-                animation: "popup-toggle",
-                placement: m,
-                sort: !1,
-                container: n
-            }), s = q.$match[7].replace(/\|.+/, "").trim();
-            e.$watch(s, function () {
-                q.valuesFn(e, h).then(function (a) {
-                    r.update(a), h.$render()
-                })
-            }, !0);
-            var t;
-            n && (t = angular.element(n)), h.$render = function () {
-                var a = !1;
-                if (null !== h.$modelValue && void 0 !== h.$modelValue) {
-                    var b = r.$scope.$matches[r.$scope.$activeIndex];
-                    b && (a = b.label)
-                }
-                f.html((a ? a : l) + k)
-            }, e.$watch(g.ngModel, function () {
-                r.$updateActiveIndex(), h.$render(), r.$isShown && r.hide()
-            }, !0), g.$observe("placeholder", function (a) {
-                l = a, h.$render()
-            }), f.on("click", i), p.on("click", j), e.$on("$destroy", function () {
-                r.destroy(), r = null, f.off("click", i), p.off("click", j)
-            }), d.$on("dropdown.closeAll", function (a, b) {
-                a.preventDefault(), e.$id !== b && r.$isShown && r.hide()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("fixedBox", ["$window", "$parse", function (a) {
-    var b = [];
-    return $(a).on("scroll", function (a) {
-        _.each(b, function (b, c) {
-            b(a, c)
-        })
-    }), {
-        require: "^fixedBoxCont", link: function (a, c, d, e) {
-            function f(a, b, c, d) {
-                return a > b && d + k >= c && c + a - b >= d + k
-            }
-
-            function g(a, b, c, d) {
-                return a > b && d + k > c + a - b
-            }
-
-            function h() {
-                if (i) {
-                    var a = $(document).scrollTop(), b = j.offset().top, d = c.height(), e = j.height();
-                    c.toggleClass("is-fixed", f(e, d, b, a)), j.toggleClass("is-fixed", f(e, d, b, a)), f(e, d, b, a) && k ? c.css("top", k) :
-                            c.css("top", ""), c.toggleClass("is-bottom", g(e, d, b, a)), j.toggleClass("is-bottom", g(e, d, b, a)), g(e, d, b, a) &&
-                    c.css("top", "")
-                } else {
-                    c.removeClass("is-bottom is-fixed"), j.removeClass("is-bottom is-fixed")
-                }
-            }
-
-            var i, j = e.getParent(), k = Number(d.top) || 0;
-            a.$on("$destroy", function () {
-                b.splice(b.indexOf(h), 1)
-            }), a.$watch(d.fixedBox, function (a) {
-                i = a
-            }), b.push(h), c.addClass("FixedBox clearfix");
-            c.children()[0]
-        }
-    }
-}]).directive("fixedBoxCont", function () {
-    return {
-        controller: ["$element", function (a) {
-            a.addClass("FixedBoxCont"), this.getParent = function () {
-                return a
-            }
-        }]
-    }
-}), angular.module("hotelbookApp").directive("formValidator", ["$parse", "$http", "Utils", function (a, b, c) {
-    return {
-        restrict: "A", require: "^form", link: function (d, e, f, g) {
-            function h() {
-                b({method: f.method, url: b.apiUrl + f.action, data: j(d)}).success(function (a) {
-                    k && angular.isFunction(k) && k(a)
-                })
-            }
-
-            function i() {
-                c.setFormDirty(g), g.$valid && (l && angular.isFunction(l) ? l(h) : h())
-            }
-
-            var j = a(f.formValidator), k = a(f.afterSuccess)(d), l = a(f.afterValidation)(d);
-            g.serverError = {}, g.fieldHasError = function (a) {
-                var b = !1;
-                return _.each(g[a].$error, function (a) {
-                    a && _.isBoolean(a) && (b = !0)
-                }), b = g.serverError[a] ? !0 : b
-            }, d.$on("form-validation.submit", i), e.bind("keypress", function (a) {
-                if (13 === a.which && "textarea" !== a.target.localName && (e.find(".submit-btn")[0].click(), a.preventDefault()), "textarea" ===
-                        a.target.localName) {
-                    if (f.inverse) {
-                        if (13 === a.keyCode && a.shiftKey || 10 === a.which) {
-                            var b = a.target.value, c = a.target.selectionStart;
-                            a.target.value = b.substring(0, c) + "\n" + b.substring(c, b.length), a.preventDefault()
-                        } else {
-                            13 === a.keyCode && (e.find(".submit-btn")[0].click(), a.preventDefault());
-                        }
-                    } else {
-                        10 === a.which &&
-                        (e.find(".submit-btn")[0].click(), a.preventDefault())
-                    }
-                }
-            }), e.find(".Btn--submit").on("click", function (a) {
-                d.$apply(i()), a.preventDefault(), a.stopPropagation()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("gallery", function () {
-    return {
-        link: function (a, b, c) {
-            function d(a, c) {
-                var d, e, f, g = b.find(".item.active"), i = b.find(".Gallery-thumb.active"), j = c ? angular.element(b.find(".item").get(c.index())) :
-                        g[a](), k = c || i[a](), l = "prev" === a ? "right" : "left", m = "next" === a ? "first" : "last";
-                "to" === a && (a = "next"), j.length || (j = b.find(".item")[m]()), k.length || (k = b.find(".Gallery-thumb")[m]()), k.length &&
-                (e = k.position(), f = "translate3d(" + e.left + "px, " + e.top + "px, 0px)"), $.support.transition && b.hasClass("slide") ?
-                        (j.addClass(a), d = j[0].offsetWidth, g.addClass(l), j.addClass(l), g.one($.support.transition.end, function () {
-                            j.removeClass([a, l].join(" ")).addClass("active"), g.removeClass(["active", l].join(" "))
-                        }).emulateTransitionEnd(1e3 * g.css("transition-duration").slice(0, -1))) :
-                        (g.removeClass("active"), j.addClass("active")), i.removeClass("active"), k.addClass("active"), h.css({
-                    transform: f,
-                    MozTransform: f,
-                    WebkitTransform: f,
-                    msTransform: f
-                })
-            }
-
-            var e = b.find(".Gallery-left"), f = b.find(".Gallery-right"), g = !0, h = b.find(".Gallery-thumbActive");
-            e.on("click", function (a) {
-                a.preventDefault(), a.stopPropagation(), d("prev")
-            }), f.on("click", function (a) {
-                a.preventDefault(), a.stopPropagation(), d("next")
-            }), b.on("click", ".Gallery-thumb", function (a) {
-                var b = angular.element(a.target);
-                d("to", b)
-            }), a.$on("$destroy", function () {
-                e.off(), f.off()
-            }), a.$watch(c.gallery, function (a) {
-                a && a.length && g && (g = !1), b.find(".item").first().addClass("active"), b.find(".Gallery-thumb").first().addClass("active")
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("hbVideo", ["$templateCache", function (a) {
-    return {
-        restrict: "E", template: a.get("/views/directives/hb-video.d4fe1c1f59ebcfd6f766.html"), replace: !0, link: function (a, b) {
-            function c(a) {
-                e.noUiSlider({start: 0, step: 1, range: {min: 0, max: a}}, !0)
-            }
-
-            var d = b.find("#video")[0];
-            a.toggle = function (b) {
-                b.stopPropagation(), 1 == d.paused ? (a.state.isPlaying = !0, d.play()) : (d.pause(), a.state.isPlaying = !1)
-            }, a.fullScreen = function () {
-                d.requestFullscreen ? d.requestFullscreen() :
-                        d.mozRequestFullScreen ? d.mozRequestFullScreen() : d.webkitRequestFullscreen && d.webkitRequestFullscreen()
-            }, a.stop = function (b) {
-                b.stopPropagation(), d.pause(), a.state.isPlaying = !1
-            };
-            var e = b.find("#seekBar");
-            c(1), d.oncanplay = function () {
-                a.totalTime = d.duration, a.currentTime = 0, c(Math.ceil(a.totalTime)), a.$apply()
-            }, d.ontimeupdate = function () {
-                a.$apply(function () {
-                    a.currentTime = d.currentTime, e.val(a.currentTime)
-                })
-            }, e.on("change", function () {
-                a.$apply(function () {
-                    d.currentTime = e.val()
-                })
-            }), a.state = {isPlaying: !1}
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hiddenFileInput", ["$compile", function (a) {
-    return {
-        link: function (b, c, d) {
-            var e, f = '<input type="file" style="position: absolute; left: -1000px; opacity: 0;" nv-file-select uploader="' + d.hiddenFileInput +
-                    '"/>', g = '<input type="file" style="position: absolute; left: -1000px; opacity: 0;" nv-file-select uploader="' + d.hiddenFileInput +
-                    '" multiple/>';
-            e = d.hasOwnProperty("multi") ? a(g)(b) : a(f)(b), c.after(e), c.click(function () {
-                return e.click(), !1
-            }), e.change(function () {
-                b.$apply()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hotelGallery", ["$parse", "$window", "Utils", function (a, b) {
-    return {
-        templateUrl: "/views/directives/hotel-gallery.ca22740b6f22a71e806d.html", restrict: "A", scope: !0, link: function (c, d, e) {
-            function f(a) {
-                k -= a, h < Math.abs(k) && (k = -h), k > 0 && (k = 0), n()
-            }
-
-            function g() {
-                i.css("left", k + "px"), j.css("left", -k * m + "px")
-            }
-
-            c.$watch(e.hotelGallery, function (f) {
-                f && (c.targetId = a(e.targetId)(c), c.images = a(e.hotelGallery)(c), d.find(".HotelGallery-smallImages").width(50 * c.images.length + 5), h =
-                        c.images.length * l + 5 - b.innerWidth, j.width(b.innerWidth * m), c.images.length * l + 5 < b.innerWidth &&
-                (d.find(".HotelGallery-leftArrow").hide(), d.find(".HotelGallery-rightArrow").hide(), d.find(".HotelGallery-smallImages").hide()))
-            }, !0), c.moveGallery = function (a) {
-                f(b.innerWidth * ("left" === a ? -1 : 1))
-            }, c.showGallery = function (a) {
-                var b = $("a.lightbox"), c = function () {
-                    $('<div id="imagelightbox-loading"><div></div></div>').appendTo("body")
-                }, d = function () {
-                    $("#imagelightbox-loading").remove()
-                }, e = function () {
-                    $('<div id="imagelightboxmask"></div>').appendTo("body")
-                }, f = function () {
-                    $("#imagelightboxmask").remove()
-                };
-                a.preventDefault(), b.imagelightbox({
-                    onLoadStart: function () {
-                        c()
-                    }, onLoadEnd: function () {
-                        d()
-                    }, onEnd: function () {
-                        d(), f()
-                    }, onStart: function () {
-                        e()
-                    }
-                })
-            };
-            var h, i = d.find(".HotelGallery-images"), j = d.find(".HotelGallery-mask"), k = 0, l = 220, m = .2286, n = _.throttle(g, 100);
-            d.on("mousewheel", function (a) {
-                return f(2 * a.deltaX), 0 !== a.deltaX ? !1 : void 0
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hotelLike", ["Favorites", function (a) {
-    return {
-        templateUrl: "/views/directives/hotel-like.5e6d2a3612604f0ae2bc.html",
-        restrict: "A",
-        replace: !0,
-        scope: {hotel: "=hotelLike", cityId: "="},
-        link: function (b, c) {
-            c.on("click", function (c) {
-                c.stopPropagation(), a.like(b.hotel, b.cityId).then(function (a) {
-                    b.$emit("hotelLike.liked", a)
-                })
-            }), b.$on("$destroy", function () {
-                c.off()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hotelRating", ["$parse", function (a) {
-    return {
-        restrict: "A", link: function (b, c, d) {
-            var e;
-            d.noTripLogo && c.find("i").hide(), b.$watch(d.hotelRating, function (f) {
-                f && (e = a(d.hotelRating)(b), 1 == e.length && (e += ".0"), c.addClass("i-common-ta-rating-" + e.replace(".", "-")))
-            }, !0)
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hotelsList", ["$state", "SearchForm", "$filter", function () {
-    return {
-        link: function (a, b) {
-            function c() {
-                if (a.rawData.filtered && a.searchForm.pagination && a.searchForm.pagination.page) {
-                    d = a.rawData.filtered;
-                    var c, g;
-                    a.searchForm.filters.liked ? (c = 0, g = 100) : (c = 10 * (a.searchForm.pagination.page - 1), g = a.searchForm.pagination.itemsPerPage), e =
-                            React.render(f({hotels: d, $scope: a, offset: c, hotelsPerPage: g}), b[0])
-                }
-            }
-
-            var d, e, f = React.createFactory(HotelsList);
-            a.$watch("rawData.filtered", function (a) {
-                a && c()
-            }), a.$watch("searchForm.pagination", function (a) {
-                a && c()
-            }, !0), a.$on("lang.change", function () {
-                c()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("hoverGallery", ["$compile", "$parse", "$window", "$state", function (a, b, c) {
-    var d = angular.element("body"), e = angular.element("<div></div>");
-    return d.append(e), {
-        restrict: "A", scope: !0, controller: ["$scope", "$element", "$attrs", function (d, f, g) {
-            function h() {
-                var a, b;
-                switch (l = !0, j.addClass(k.classes), e.empty().append(j), k.position) {
-                    case"horizontal":
-                        c.innerWidth < f.offset().left + f.width() + j.width() + m ? (b = f.offset().left - j.width() - m, j.addClass("left")) :
-                                (b = f.offset().left + f.width(), j.addClass("right")), c.innerHeight + c.scrollY < f.offset().top + j.height() ? (a =
-                                c.innerHeight + c.scrollY < f.offset().top + f.height() ? c.innerHeight + c.scrollY - j.height() - m :
-                                f.offset().top + f.height() - j.height(), j.addClass("is-bottom")) :
-                                (a = c.scrollY > f.offset().top ? c.scrollY + m : f.offset().top, j.addClass("is-top"));
-                        break;
-                    case"vertical":
-                        f.offset().top - j.height() - m > c.scrollY ? (a = f.offset().top - j.height() - m, f.offset().left + j.width() < c.innerWidth ?
-                                (b = f.offset().left, j.addClass("top-left")) : (b = f.offset().left + f.width() - j.width(), j.addClass("top-right"))) :
-                                (a = f.offset().top + f.height(), f.offset().left + j.width() < c.innerWidth ?
-                                        (b = f.offset().left, j.addClass("bottom-left")) :
-                                        (b = f.offset().left + f.width() - j.width(), j.addClass("bottom-right"))), j.addClass("vertical")
-                }
-                j.css("top", a + "px"), j.css("left", b + "px")
-            }
-
-            function i() {
-                l = !1, j && j.removeClass("left right is-top is-bottom vertical bottom-left bottom-right"), e.empty()
-            }
-
-            this.show = function (a) {
-                d.$apply(function () {
-                    d.imageId = a
-                }), h()
-            }, this.hide = i, d.$on("$destroy", function () {
-                i()
-            }), d.$watch("imageId", function (b, c) {
-                b !== c && (j = a(n)(d))
+        if (t.nodeType) {
+            return rt.grep(e, function (e) {
+                return e === t !== n
             });
-            var j, k = {
-                trigger: "",
-                position: "horizontal",
-                classes: ""
-            }, l = !1, m = 10, n = '<div class="tooltip in HoverGallery"><div class="tooltip-arrow"></div><div class="tooltip-inner"><div loading="true" data-svg="circle.svg"></div><div class="HoverGallery-image" ng-style="{\'background-image\': \'url(\' + $root.u[func](imageId, targetId) + \')\'}"></div></div></div>';
-            switch (k = angular.extend(k, g), d.targetId = b(g.targetId)(d), d.func = g.room ? "rImage" : "hImage", k.trigger) {
-                case"hover":
-                    f.on("mouseover", function () {
-                        d.imageId = b(g.hoverGallery)(d), j || (j = a(n)(d)), d.$apply(), h()
-                    }), f.on("mouseout", function () {
-                        i()
-                    });
-                    break;
-                case"click":
-                    f.on("click", function () {
-                        l ? i() : h()
-                    })
+        }
+        if ("string" == typeof t) {
+            if (pt.test(t)) {
+                return rt.filter(t, e, n);
             }
-            k.hideOnClick && f.on("click", function () {
-                l && i()
-            })
-        }]
-    }
-}]).directive("hoverGalleryImage", ["$parse", function (a) {
-    return {
-        restrict: "A", require: "^hoverGallery", link: function (b, c, d, e) {
-            var f = {trigger: "hover"};
-            f = angular.extend(f, d);
-            var g = a(d.hoverGalleryImage)(b);
-            switch (f.trigger) {
-                case"hover":
-                    c.on("mouseover", function () {
-                        e.show(g)
-                    }), c.on("mouseout", function () {
-                        e.hide()
-                    });
-                    break;
-                case"click":
-                    c.on("click", function () {
-                    })
-            }
+            t = rt.filter(t, e)
         }
+        return rt.grep(e, function (e) {
+            return rt.inArray(e, t) >= 0 !== n
+        })
     }
-}]), angular.module("hotelbookApp").directive("icheck", ["$parse", function (a) {
-    var b = {checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-blue"};
-    return {
-        require: "ngModel", link: function (c, d, e, f) {
-            var g, h = angular.extend({}, b, a(e.options)(c));
-            g = e.value, c.$watch(e.ngModel, function () {
-                $(d).iCheck("update")
-            }), $(d).iCheck(h).on("ifChanged", function (a) {
-                "checkbox" === $(d).attr("type") && e.ngModel && c.$apply(function () {
-                    f.$setViewValue(a.target.checked)
-                }), "radio" === $(d).attr("type") && e.ngModel && c.$apply(function () {
-                    f.$setViewValue(g)
-                })
-            })
-        }
+
+    function r(e, t) {
+        do {
+            e = e[t];
+        } while (e && 1 !== e.nodeType);
+        return e
     }
-}]), angular.module("hotelbookApp").directive("imageLoader", ["Utils", function () {
-    return {
-        restrict: "A", scope: {}, template: '<img ng-src="{{src}}" />', link: function (a, b, c) {
-            var d = "images/common/photo_load.png";
-            a.src = d;
-            var e = new Image;
-            e.src = c.imageLoader, e.addEventListener("load", function () {
-                a.src = e.src, a.$apply()
-            })
-        }
+
+    function o(e) {
+        var t = bt[e] = {};
+        return rt.each(e.match(wt) || [], function (e, n) {
+            t[n] = !0
+        }), t
     }
-}]), angular.module("hotelbookApp").directive("imagesAutoAlign", ["$window", function (a) {
-    return {
-        scope: {inner: "=", totalBlocks: "="}, link: function (b, c, d) {
-            function e() {
-                if (b.totalBlocks) {
-                    f = c.width();
-                    var a = Math.floor(f / (g + j));
-                    if (0 === a && setTimeout(e, 100), a < b.totalBlocks) {
-                        if (i && i > a) {
-                            a = i;
-                        } else {
-                            var d = (f - a * j) / (a + 1);
-                            d >= h && a++
-                        }
-                    } else {
-                        a = b.totalBlocks;
-                    }
-                    var k = (f - a * j) / a;
-                    c.children().css("width", k)
+
+    function a() {
+        ht.addEventListener ? (ht.removeEventListener("DOMContentLoaded", s, !1), e.removeEventListener("load", s, !1)) :
+                (ht.detachEvent("onreadystatechange", s), e.detachEvent("onload", s))
+    }
+
+    function s() {
+        (ht.addEventListener || "load" === event.type || "complete" === ht.readyState) && (a(), rt.ready())
+    }
+
+    function l(e, t, n) {
+        if (void 0 === n && 1 === e.nodeType) {
+            var i = "data-" + t.replace(Et, "-$1").toLowerCase();
+            if (n = e.getAttribute(i), "string" == typeof n) {
+                try {
+                    n = "true" === n ? !0 : "false" === n ? !1 : "null" === n ? null : +n + "" === n ? +n : Ct.test(n) ? rt.parseJSON(n) : n
+                } catch (r) {
                 }
-            }
-
-            var f, g, h, i, j = 0;
-            d.$observe("minBlocks", function (a, b) {
-                a && a !== b && (h = parseInt(a))
-            }), d.$observe("minWidth", function (a, b) {
-                a && a !== b && (h = parseInt(a))
-            }), d.$observe("marginBlock", function (a, b) {
-                a && a !== b && (j = 2 * parseInt(a))
-            }), b.$watch("inner", function (a) {
-                a && (g = c.children().width(), e())
-            }), angular.element(a).bind("resize", e), setTimeout(function () {
-                g = c.children().width(), e()
-            }, 100)
-        }
-    }
-}]), angular.module("hotelbookApp").directive("includeReplace", function () {
-    return {
-        require: "ngInclude", restrict: "A", link: function (a, b) {
-            b.replaceWith(b.children())
-        }
-    }
-}), angular.module("hotelbookApp").directive("inheritHeight", ["$window", "$document", function (a) {
-    return function (b, c, d) {
-        function e() {
-            var a;
-            a = c.height() > g.height() ? c.height() + ("true" === d.noFooter ? f : 0) : g.height() + ("true" === d.noFooter ? f : 0), d.offsetBlock &&
-            (a -= $(d.offsetBlock).height()), c.css(d.cssHeightType || "height", a)
-        }
-
-        var f = 115, g = c.parent();
-        a.angular.element(a).bind("resize", e), b.$on("$destroy", function () {
-            angular.element(a).unbind("resize", e)
-        }), setTimeout(e)
-    }
-}]), angular.module("hotelbookApp").directive("inputSet", function () {
-    var a = function (a) {
-        var b = (new Date).getTime();
-        return '<div class="InputSet" ng-form name="form"><div class="clearfix" tooltip-manager="' + a.tooltipManagerDatas +
-                '" data-tooltip-manager-class="Tooltip--error popup-slide-down" data-placement="top-right"name="' + a.name + '"><label for="' + a.name + b +
-                '"><span class="InputSet-icons"><span class="' + a.iconClass + '"></span></span><span class="InputSet-label">' + a.label +
-                '</span></label><div class="InputSet-box"><input class="InputSet-input slide-left" ng-model="' + a.ngModel +
-                '[$index]" ng-repeat="input in inputSetRange(' + a.counter + ')" name="' + a.name + '{{$index}}" required/></div></div></div>'
-    };
-    return {
-        restrict: "A", require: "ngModel", compile: function (b, c) {
-            return b.replaceWith(a(c)), function (a, b) {
-                a.inputSetRange = function (a) {
-                    return _.range(a)
-                }, b.addClass(c.class), a.$watch(c.counter, function (a) {
-                    b.toggleClass("is-show", !!a)
-                }), b.on("keyup", "input", function (a) {
-                    var b = $(a.currentTarget), d = b.val();
-                    d > Number(c.max) && (d = Number(c.max), b.val(c.max), b.data("$ngModelController").$setViewValue(d)), d < Number(c.min) &&
-                    (d = Number(c.min), b.val(c.max), b.data("$ngModelController").$setViewValue(d))
-                })
-            }
-        }, replace: !0
-    }
-}), angular.module("hotelbookApp").directive("inputTel", function () {
-    return {
-        restrict: "AE", link: function (a, b) {
-            b.intlTelInput({
-                defaultCountry: "auto",
-                preferredCountries: ["ru"],
-                utilsScript: "/bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("isOverflow", function () {
-    return {
-        restrict: "A", scope: {isOverflow: "="}, link: function (a, b) {
-            function c() {
-                d = b[0].scrollHeight, e = b.height(), a.isOverflow = d > e
-            }
-
-            var d = b[0].scrollHeight, e = b.height();
-            a.$watch(function () {
-                return b[0].scrollHeight
-            }, c)
-        }
-    }
-}), angular.module("ui.router").directive("isStateActive", ["$state", function (a) {
-    return {
-        link: function (b, c, d) {
-            var e = d.isStateActive;
-            b.$watch(function () {
-                return -1 !== a.current.name.indexOf(e)
-            }, function (a) {
-                _.isBoolean(a) && c.toggleClass("active", a)
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("jslider", ["$parse", function (a) {
-    return {
-        require: "ngModel", link: function (b, c, d, e) {
-            var f = function (a) {
-                var b = a.split(";");
-                e.$setViewValue([Number(b[0]), Number(b[1])])
-            }, g = {
-                onstatechange: function (a) {
-                    f(a)
-                }, callback: function () {
-                    b.$apply()
-                }
-            }, h = a(d.jslider)(b);
-            c.slider(angular.extend({}, g, h)), e.$formatters.push(function (a) {
-                return a && a.length && c.slider("value", a[0] >= h.from ? a[0] : h.from, a[1] <= h.to ? a[1] : h.to), a
-            }), b.$watch(d.jslider, function (a) {
-                if (a && (a.from !== h.from || a.to !== h.to)) {
-                    var b = c.data("jslider");
-                    b.domNode.remove(), c.data("jslider", null), h = angular.extend({}, g, a), c.slider(h), c.slider("value",
-                            e.$modelValue[0] >= h.from ? e.$modelValue[0] : h.from, e.$modelValue[1] <= h.to ? e.$modelValue[1] : h.to)
-                }
-            }, !0)
-        }
-    }
-}]), angular.module("hotelbookApp").directive("landingBanner", ["initialData", "$document", "$compile", function (a, b, c) {
-    return {
-        link: function (b, d) {
-            function e() {
-                h = ++h === a.landingPictures.length ? 0 : h, i = ++i === a.landingPictures.length ? 0 : i
-            }
-
-            var f = "<div class=\"LandingPage-photo\"  ng-repeat=\"photo in d.landingPictures\" ng-style=\"{'background-image' : 'url(' + photo + ')'}\">", g = c(f)(b), h = Math.floor(100 *
-                    Math.random() % a.landingPictures.length), i = h + 1 === a.landingPictures.length ? 0 : h + 1;
-            d.prepend(g);
-            var j;
-            setTimeout(function () {
-                j = g.siblings(), angular.element(j[h]).css("opacity", 1)
-            }, 0), setInterval(function () {
-                e(), angular.element(j[h]).css("opacity", 0), angular.element(j[i]).css("opacity", 1)
-            }, 1e4)
-        }
-    }
-}]), angular.module("hotelbookApp").directive("loading", function () {
-    return {scope: {title: "@", svg: "@", loading: "=loading"}, templateUrl: "/views/directives/loading.875a60cd969897979bf4.html", replace: !0}
-}), angular.module("hotelbookApp").constant("mapDefaultOptions", {
-    disableDefaultUI: !0,
-    scrollwheel: !0,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: [{featureType: "road", elementType: "labels", stylers: [{visibility: "simplified"}, {lightness: 20}]},
-        {featureType: "administrative.land_parcel", elementType: "all", stylers: [{visibility: "off"}]},
-        {featureType: "landscape.man_made", elementType: "all", stylers: [{visibility: "off"}]},
-        {featureType: "transit", elementType: "all", stylers: [{visibility: "off"}]},
-        {featureType: "road.local", elementType: "labels", stylers: [{visibility: "simplified"}]},
-        {featureType: "road.local", elementType: "geometry", stylers: [{visibility: "simplified"}]},
-        {featureType: "road.highway", elementType: "labels", stylers: [{visibility: "simplified"}]},
-        {featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
-        {featureType: "road.arterial", elementType: "labels", stylers: [{visibility: "off"}]},
-        {featureType: "water", elementType: "all", stylers: [{hue: "#a1cdfc"}, {saturation: 30}, {lightness: 49}]},
-        {featureType: "road.highway", elementType: "geometry", stylers: [{hue: "#f49935"}]},
-        {featureType: "road.arterial", elementType: "geometry", stylers: [{hue: "#fad959"}]}]
-}).value("mapOptions", {}).directive("map", ["$rootScope", "$templateCache", "mapOptions", "mapDefaultOptions", function (a, b, c, d) {
-    return {
-        template: b.get("/views/directives/map.60a6da2b5adec9168c1e.html"), replace: !0, require: "?ngModel", link: function (a, b, e, f) {
-            function g() {
-                h.setZoom(f.$viewValue.zoom || 13), h.setCenter(new google.maps.LatLng(f.$viewValue.lat, f.$viewValue.lng)), setTimeout(function () {
-                    google.maps.event.trigger(h, "resize")
-                }, 200)
-            }
-
-            _.isEmpty(c) && (c = d), c.center = new google.maps.LatLng(f.$viewValue.lat, f.$viewValue.lng);
-            var h = new google.maps.Map(b.find(".Map-mapBox")[0], c);
-            google.maps.event.addListenerOnce(h, "idle", function () {
-                h.setZoom(h.zoom || 13), f.$viewValue && h.setCenter(new google.maps.LatLng(f.$viewValue.lat, f.$viewValue.lng)), google.maps.event.trigger(h,
-                        "resize"), h.ready = !0, a.$broadcast("map.ready", h), a.$emit("map.ready", h)
-            }), google.maps.Map.prototype.drawRoute = function (a, b, c) {
-                var d = new google.maps.DirectionsService, e = this, f = new google.maps.Polyline({map: e, strokeColor: c}), g = new google.maps.MVCArray;
-                d.route({origin: a, destination: b, travelMode: google.maps.DirectionsTravelMode.WALKING}, function (b, c) {
-                    if (c == google.maps.DirectionsStatus.OK) {
-                        g.push(a);
-                        for (var d = 0, e = b.routes[0].overview_path.length; e > d; d++) {
-                            g.push(b.routes[0].overview_path[d]);
-                        }
-                        f.setPath(g)
-                    }
-                })
-            }, google.maps.Map.prototype.setCenterWithOffset = function (a, b, c) {
-                var d = this, e = new google.maps.OverlayView;
-                e.onAdd = function () {
-                    var e = this.getProjection(), f = e.fromLatLngToContainerPixel(a);
-                    f.x = f.x + b, f.y = f.y + c, d.setCenter(e.fromContainerPixelToLatLng(f))
-                }, e.draw = function () {
-                }, e.setMap(this)
-            }, f.$render = function () {
-                f.$viewValue && g()
-            }, b.on("click", ".Map-zoomIn", function () {
-                h.setZoom(h.getZoom() + 1)
-            }).on("click", ".Map-zoomOut", function () {
-                h.setZoom(h.getZoom() - 1)
-            }), a.$watch("loading", function (a) {
-                a === !1 && g()
-            }), e.$observe("showLoader", function (b) {
-                a.showLoader = JSON.parse(b)
-            }), a.$on("map.getMap", function (a, b) {
-                b(h)
-            }), a.$on("rooms.newRooms", function () {
-                f.$viewValue && g()
-            }), a.$on("hotel.showOnMap", function (a, b) {
-                function c() {
-                    h.zoom < 15 && (h.setZoom(h.zoom + 1), setTimeout(c, 50))
-                }
-
-                h.setCenter(new google.maps.LatLng(b.coords.lat, b.coords.lng)), google.maps.event.trigger(h, "resize"), c()
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("markControl", ["$window", "$document", function () {
-    return {
-        scope: !0, require: "ngModel", templateUrl: "/views/directives/mark-control.1f096bd827adb73fe50c.html", link: function (a, b, c, d, e) {
-            console.log(e), a.select = function (b) {
-                a.selectedMark = b, d.$setViewValue(b)
-            }, a.hover = function (b) {
-                a.hoveredMark = b
-            }, d.$formatters.push(function (b) {
-                a.selectedMark = b
-            }), c.$observe("title", function (b) {
-                a.title = b
-            }), a.selectedMark = d.$modelValue, a.hoveredMark = 0
-        }
-    }
-}]), angular.module("hotelbookApp").directive("multiSelect", ["$parseOptions", "$select", "$window", "$parse", function (a, b, c) {
-    return {
-        require: "ngModel", scope: !0, templateUrl: "/views/directives/multi-select.6fbad474b8eeb54e0462.html", link: function (d, e, f, g) {
-            function h() {
-                return m.$options.placement =
-                        c.innerHeight + c.scrollY - e.offset().top - e.height() < 40 * (j.length - (g.$viewValue ? g.$viewValue.length : 0)) + 20 ? "top-left" :
-                                "bottom-left", g.$viewValue && g.$viewValue.length === j.length ? void 0 : (m.toggle(), !1)
-            }
-
-            function i(a) {
-                m.$isShown && a.target !== e[0] && a.target !== e.find(".MultiSelect-choose")[0] && m.hide()
-            }
-
-            var j, k = angular.element("body"), l = a(f.options), m = b(e, g, {
-                html: !0,
-                trigger: "manual",
-                placement: "bottom-left",
-                multiple: !0,
-                animation: "popup-toggle MultiSelectDropdown",
-                sort: !1
-            }), n = l.$match[7].replace(/\|.+/, "").trim();
-            d.$watch(n, function () {
-                l.valuesFn(d, g).then(function (a) {
-                    m.update(a), g.$render()
-                })
-            }, !0), d.$watch(f.ngModel, function (a) {
-                m.$updateActiveIndex(), g.$render(), m.$isShown && m.hide(), d.selectedItems = a, a && j &&
-                (a.length === j.length ? e.find(".MultiSelect-choose").hide() : e.find(".MultiSelect-choose").show())
-            }, !0), l.valuesFn(d).then(function (a) {
-                j = a
-            }), d.label = f.label, d.selectedItems = [], d.removeFromList = function (a, b) {
-                b.preventDefault(), b.stopPropagation();
-                var c = [];
-                g.$viewValue.forEach(function (b, d) {
-                    d !== a && c.push(b)
-                }), g.$setViewValue(c), d.selectedItems = c
-            }, d.getLabel = function (a) {
-                return _.find(j, {value: a}).label
-            }, e.on("click", h), k.on("click", i), d.$on("$destroy", function () {
-                m.destroy(), m = null, e.off("click", h), k.off("click", i)
-            })
-        }, replace: !0
-    }
-}]), angular.module("hotelbookApp").directive("nouislider", ["$compile", function (a) {
-    return {
-        require: "ngModel",
-        templateUrl: "/views/directives/nouislider.22f43f5fc50864bfb101.html",
-        replace: !0,
-        scope: {from: "=", to: "=", step: "=", range: "=ngModel", measurement: "="},
-        link: function (b, c, d, e) {
-            function f(a, b) {
-                var c = {};
-                if (c.min = a, b - a > 5e3) {
-                    for (var d = 25; 100 > d; d += 25) {
-                        c[d + "%"] = _.parseInt(g(d / 100, a, b));
-                    }
-                }
-                return c.max = b, c
-            }
-
-            function g(a, b, c) {
-                return Math.pow(a, 3) * (c - b) + b
-            }
-
-            function h() {
-                if (j) {
-                    var a = k.val();
-                    a[0] = _.parseInt(a[0]), a[1] = _.parseInt(a[1]), e.$setViewValue(a), b.$apply()
-                }
-            }
-
-            function i(a) {
-                return a && a.length &&
-                (j ? k.val(a) : (k.noUiSlider({start: a, connect: !0, step: 100, range: f(b.from, b.to), format: wNumb({decimals: 0})}), j = !0)), a
-            }
-
-            b.getLegendValue = function (a) {
-                var c;
-                switch (a) {
-                    case 0:
-                        c = b.from;
-                        break;
-                    case 1:
-                        c = b.to;
-                        break;
-                    default:
-                        c = g(a, b.from, b.to)
-                }
-                return c
-            }, b.$watch("from + to", function () {
-                if (j) {
-                    var a = k.noUiSlider("options").range, c = k.val(), d = [Number(c[0]), Number(c[1])];
-                    (a.min == c[0] || a.max == c[1]) &&
-                    (d[0] = a.min == c[0] ? b.from : d[0], d[1] = a.max == c[1] ? b.to : d[1], e.$setViewValue(d)), window.start = d, window.range =
-                            f(b.from, b.to), k.noUiSlider({start: d, range: f(b.from, b.to)}, !0)
-                }
-            }), b.$watch("measurement", function (d) {
-                d && c.find(".NoUiSlider-measurement").each(function (c, e) {
-                    angular.element(e).empty().append(a(d)(b))
-                })
-            }), b.$watch("range", i, !0);
-            var j = !1, k = c.find(".NoUiSlider-slider");
-            k.on("change", h);
-            var l = c.find(".NoUiSlider-input", c[0]);
-            k.on("slide", function () {
-                var a = k.val();
-                angular.element(l[0]).val(a[0]), angular.element(l[1]).val(a[1])
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("numberPicker", function () {
-    var a = function (a) {
-        var b = (new Date).getTime();
-        return '<div class="NumberPicker"><label for="' + a.name + b + '"><div class="NumberPicker-icons"><span class="' + a.iconClass +
-                '"></span></div><div class="NumberPicker-label">' + a.label + '</div></label><input type="input" readonly ng-model="' + a.ngModel + '" name="' +
-                a.name + '" id="' + a.name + b +
-                '"/><div class="NumberPicker-controls"><div class="NumberPicker-up"></div><div class="NumberPicker-down"></div></div></div>'
-    };
-    return {
-        require: "ngModel", compile: function (b, c) {
-            return b.replaceWith(a(c)), function (a, b, d, e) {
-                b.find("input");
-                angular.isDefined(e.$viewValue) || e.$setViewValue(Number(c.min) || 0), b.addClass(c.class), b.on("click", ".NumberPicker-up", function () {
-                    (c.max > e.$viewValue || !angular.isDefined(c.max)) && a.$apply(function () {
-                        e.$setViewValue(++e.$viewValue)
-                    })
-                }), b.on("click", ".NumberPicker-down", function () {
-                    (c.min < e.$viewValue || !angular.isDefined(c.min)) && a.$apply(function () {
-                        e.$setViewValue(--e.$viewValue)
-                    })
-                })
-            }
-        }, replace: !0
-    }
-}), angular.module("hotelbookApp").directive("paginationControls", ["$state", "SearchForm", "$filter", function () {
-    return {
-        templateUrl: "/views/directives/hb-pagination-controls.45b442bbee8f01257a0b.html", scope: {pagination: "=", totalItems: "="}, link: function (a) {
-            function b(a, b, c, d) {
-                var e = Math.ceil(c / 2);
-                return a === c ? d : 1 === a ? a : d > c ? b > d - e ? d - c + a : b > e ? b - e + a : a : a
-            }
-
-            function c(c, d, e, f) {
-                var g = [], h = Math.ceil(d / e);
-                a.lastPage = h;
-                var i, j = Math.ceil(f / 2);
-                i = j >= c ? "start" : c > h - j ? "end" : "middle";
-                for (var k = h > f, l = 1; h >= l && f >= l;) {
-                    var m = b(l, c, f, h), n = 2 === l && ("middle" === i || "end" === i), o = l === f - 1 && ("middle" === i || "start" === i);
-                    g.push(k && (n || o) ? "..." : m), l++
-                }
-                return g
-            }
-
-            function d() {
-                a.pages = c(a.pagination.page, a.totalItems, a.pagination.itemsPerPage, 9)
-            }
-
-            a.setCurrent = function (b) {
-                a.pagination.page = b
-            }, a.$watch("pagination", function (a) {
-                a && d()
-            }, !0), a.$watch("totalItems", function (a, b) {
-                void 0 != a && a != b && d()
-            }), a.boundaryLinks = !0
-        }
-    }
-}]), angular.module("hotelbookApp").directive("percentage", function () {
-    return {
-        require: "ngModel", link: function (a, b, c, d) {
-            d.$parsers.push(function (a) {
-                return a / 100
-            }), d.$formatters.push(function (a) {
-                return 100 * a
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("perfectScrollbar", ["$parse", function (a) {
-    var b = ["wheelSpeed", "wheelPropagation", "minScrollbarLength", "useBothWheelAxes", "useKeyboard", "suppressScrollX", "suppressScrollY",
-        "scrollXMarginOffset", "scrollYMarginOffset", "includePadding"];
-    return {
-        restrict: "AE", transclude: !0, template: "<div><div ng-transclude></div></div>", replace: !0, link: function (c, d, e) {
-            for (var f = {}, g = 0, h = b.length; h > g; g++) {
-                var i = b[g];
-                void 0 !== e[i] && (f[i] = a(e[i])())
-            }
-            d.perfectScrollbar(f), e.refreshOnChange && c.$watchCollection(e.refreshOnChange, function () {
-                c.$evalAsync(function () {
-                    d.perfectScrollbar("update")
-                })
-            }), c.$on("perfectScrollbar.toTop", function () {
-                d.scrollTop(0), c.$evalAsync(function () {
-                    d.perfectScrollbar("update")
-                })
-            }), d.bind("$destroy", function () {
-                d.perfectScrollbar("destroy")
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("progressbar", ["$compile", function (a) {
-    function b(a) {
-        return '<div class="Progressbar clearfix"><div class="Progressbar-text">' + a.label +
-                '</div><div class="Progressbar-bar"><div class="Progressbar-progress" ng-style="{width: ' + a.ngModel +
-                ' + \'%\'}"></div></div><div class="Progressbar-value">' + a.value + "</div></div>"
-    }
-
-    return {
-        require: "ngModel", replace: !0, link: function (c, d, e) {
-            d.append(a(b(e))(c)), d.addClass(e.class), e.$observe("label", function () {
-                d.empty(), d.append(a(b(e))(c)), d.addClass(e.class)
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("radio", function () {
-    var a = function (a) {
-        return '<label class="Radio"><span class="Radio-icon"></span><span class="Radio-iconCheck"></span><input type="radio" ng-model="' + a.ngModel +
-                '" ng-value="' + a.value + '" name="' + a.name + '" required/><span class="Radio-label">' + a.label + "</span></label>"
-    };
-    return {
-        require: "ngModel", compile: function (b, c) {
-            return b.replaceWith(a(c)), function (a, b, d, e) {
-                b.addClass(c.class), b.click(function (b) {
-                    b.preventDefault(), a.$apply(function () {
-                        e.$setViewValue(d.value), e.$render()
-                    })
-                }), e.$render = function () {
-                    b.toggleClass("is-checked", e.$viewValue === d.value)
-                }
-            }
-        }, replace: !0
-    }
-}), angular.module("hotelbookApp").directive("roomSize", ["$tooltip", "$rootScope", "initialData", function (a, b, c) {
-    return {
-        require: "ngModel", link: function (d, e, f, g) {
-            var h, i = f["class"] || "Tooltip--info";
-            g.$render = function () {
-                g.$viewValue && (f.title ? e.text(b.i18n.common.roomSizes[c.roomTypes[g.$viewValue].pax - 1]) : h || (h = a(e, {
-                    title: b.i18n.common.roomSizes[c.roomTypes[g.$viewValue].pax - 1],
-                    animation: "popup-slide-down Tooltip " + i,
-                    autoClose: !0
-                }), e.append('<i class="i-room-size' + c.roomTypes[g.$viewValue].pax + '"></i>'), d.searchForm &&
-                0 !== d.searchForm.formData.rooms[0].children &&
-                e.append('<i class="i-room-size' + d.searchForm.formData.rooms[0].children + ' is-children"></i>')))
-            }
-        }
-    }
-}]), angular.module("hotelbookApp").directive("screenHeight", ["$window", function (a) {
-    return {
-        restrict: "A", link: function (b, c) {
-            var d = angular.element(a), e = d.height();
-            c.height(e)
-        }
-    }
-}]), angular.module("hotelbookApp").directive("searchFormAnimation", function () {
-    return function (a, b, c) {
-        function d() {
-            if (a.searchForm.isFull) {
-                var d = (b.height() - e) / 2;
-                d = d > f ? f : d, b.css("transform", "translate(0,-" + d + "px)")
+                rt.data(e, t, n)
             } else {
-                b.css("transform", "translateY(0)"), e > b.height() && (e = b.height(), f = (b.parent().height() - e) / 2 - 2 * parseInt(c.offset))
+                n = void 0
             }
         }
-
-        var e = 99999, f = b.parent().height() / 2 - parseInt(c.offset);
-        a.$watch(function () {
-            return b.height()
-        }, function () {
-            setTimeout(d, 0)
-        }), a.$watch("searchForm.isFull", function () {
-            setTimeout(d, 0)
-        })
+        return n
     }
-}), angular.module("hotelbookApp").directive("select", ["$interpolate", function (a) {
-    return {
-        restrict: "E", require: "?ngModel", link: function (b, c, d, e) {
-            function f() {
-                e && e.$viewValue ? c.css("color", "#555555") : c.css("color", "#A6A6A6")
+
+    function u(e) {
+        var t;
+        for (t in e) {
+            if (("data" !== t || !rt.isEmptyObject(e[t])) && "toJSON" !== t) {
+                return !1;
             }
+        }
+        return !0
+    }
 
-            var g;
-            b.placeholderText = d.placeholder || "Select...", g =
-                    '<option value="" disabled selected style="display: none;">{{placeholderText}}</option>', c.prepend(a(g)(b)), f(), e.$viewChangeListeners =
-                    [function () {
-                        f()
-                    }]
-        }
-    }
-}]), angular.module("hotelbookApp").directive("shakeThat", ["$animate", function (a) {
-    return {
-        require: "^form", scope: {submit: "&", submitted: "="}, link: function (b, c, d, e) {
-            c.on("submit", function () {
-                b.$apply(function () {
-                    return e.$valid ? b.submit() : (b.submitted = !0, void a.addClass(c, "shake", function () {
-                        a.removeClass(c, "shake")
-                    }))
-                })
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("sort", function () {
-    return {
-        require: "ngModel", link: function (a, b, c, d) {
-            function e() {
-                return d.$viewValue && -1 !== d.$viewValue.indexOf(c.sort)
+    function c(e, t, n, i) {
+        if (rt.acceptData(e)) {
+            var r, o, a = rt.expando, s = e.nodeType, l = s ? rt.cache : e, u = s ? e[a] : e[a] && a;
+            if (u && l[u] && (i || l[u].data) || void 0 !== n || "string" != typeof t) {
+                return u || (u = s ? e[a] = Y.pop() || rt.guid++ : a), l[u] ||
+                (l[u] = s ? {} : {toJSON: rt.noop}), ("object" == typeof t || "function" == typeof t) &&
+                (i ? l[u] = rt.extend(l[u], t) : l[u].data = rt.extend(l[u].data, t)), o = l[u], i || (o.data || (o.data = {}), o = o.data), void 0 !== n &&
+                (o[rt.camelCase(t)] = n), "string" == typeof t ? (r = o[t], null == r && (r = o[rt.camelCase(t)])) : r = o, r
             }
-
-            d.$render = function () {
-                e() ? b.addClass("is-active") : b.removeClass("is-up").removeClass("is-active").addClass("is-down")
-            }, b.on("click", function () {
-                a.$apply(function () {
-                    e() && "-" !== d.$viewValue.charAt(0) ? (d.$setViewValue("-" + c.sort), b.removeClass("is-down").addClass("is-up")) :
-                            (d.$setViewValue(c.sort), b.removeClass("is-up").addClass("is-down")), d.$render()
-                })
-            })
         }
     }
-}), angular.module("hotelbookApp").directive("stars", function () {
-    return {
-        restrict: "A", require: "ngModel", templateUrl: "/views/directives/stars.e343cb87364ce248d473.html", replace: !0, link: function (a, b, c, d) {
-            function e(a, b) {
-                var c = !1;
-                switch (a) {
-                    case 0:
-                        c = -1 !== [1, 2, 3, 4, 5].indexOf(b);
-                        break;
-                    case 1:
-                        c = -1 !== [1, 2, 3, 4].indexOf(b);
-                        break;
-                    case 2:
-                        c = -1 !== [1, 2, 3].indexOf(b);
-                        break;
-                    case 3:
-                        c = -1 !== [1, 3].indexOf(b);
-                        break;
-                    case 4:
-                        c = -1 !== [1].indexOf(b)
+
+    function d(e, t, n) {
+        if (rt.acceptData(e)) {
+            var i, r, o = e.nodeType, a = o ? rt.cache : e, s = o ? e[rt.expando] : rt.expando;
+            if (a[s]) {
+                if (t && (i = n ? a[s] : a[s].data)) {
+                    rt.isArray(t) ? t = t.concat(rt.map(t, rt.camelCase)) : t in i ? t = [t] : (t = rt.camelCase(t), t = t in i ? [t] : t.split(" ")), r =
+                            t.length;
+                    for (; r--;) {
+                        delete i[t[r]];
+                    }
+                    if (n ? !u(i) : !rt.isEmptyObject(i)) {
+                        return
+                    }
                 }
-                return c
+                (n || (delete a[s].data, u(a[s]))) && (o ? rt.cleanData([e], !0) : nt.deleteExpando || a != a.window ? delete a[s] : a[s] = null)
             }
-
-            d.$render = function () {
-                b.find(".Stars-star").each(function (b, f) {
-                    var g = angular.element(f);
-                    _.isArray(d.$viewValue) ? (void 0 == d.$viewValue[b] && (d.$viewValue[b] = !1), g.toggleClass("i-star", d.$viewValue[b])) :
-                    _.isNumber(d.$viewValue) &&
-                    (g.toggleClass("i-star", e(b, d.$viewValue)), "false" === c.showStarHolders && (a.starsVisibility[b] = e(b, d.$viewValue)))
-                })
-            }, c.small && b.addClass("Stars--small"), c.select && (b.addClass("is-select").on("click", ".Stars-star", function (b) {
-                var c = angular.element(b.currentTarget);
-                a.$apply(function () {
-                    var a = angular.copy(d.$viewValue);
-                    a[c.index()] = !a[c.index()], d.$setViewValue(a), d.$render()
-                })
-            }), b.find(".Stars-star").each(function (a, b) {
-                var c = angular.element(b);
-                c.on("mouseenter", function (a) {
-                    var b = angular.element(a.currentTarget);
-                    b.addClass("i-stars-opacity")
-                }).on("mouseleave", function (a) {
-                    var b = angular.element(a.currentTarget);
-                    b.removeClass("i-stars-opacity")
-                })
-            }), a.$on("$destroy", function () {
-                b.off()
-            })), a.starsVisibility = [!0, !0, !0, !0, !0]
         }
-    }
-}), angular.module("hotelbookApp").directive("statusBar", ["$templateCache", "$rootScope", function (a, b) {
-    return {
-        template: a.get("/views/directives/statusbar.cd0fbc97719b254f06b8.html"), restrict: "A", scope: {}, link: function (a) {
-            a.message = "", a.showLoader = !1, a.show = !1, a.queue = [], b.$on("statusBar.showLoader", function (b, c) {
-                a.showLoader = c, a.show = !0
-            }), b.$on("statusBar.addMessage", function (b, c) {
-                a.queue.push(c), a.message = a.queue[0], a.show = !0
-            }), b.$on("statusBar.removeMessage", function (b, c) {
-                a.queue = _.without(a.queue, c), a.queue.length ? a.message = a.queue[0] : (a.message = "", a.show = !1)
-            }), b.$on("statusBar.hide", function () {
-                a.show = !1
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("taRating", ["$compile", function (a) {
-    function b() {
-        return '<div class="TARating clearfix"><div class="TARating-bar"></div><div class="TARating-rate" ng-style="{width: normalizedRate + \'%\'}"></div></div>'
     }
 
-    return {
-        require: "ngModel", replace: !0, link: function (c, d, e, f) {
-            c.normalizedRate = parseFloat(f.$modelValue) / 5 * 100, d.append(a(b())(c)), d.addClass(e.class), f.$formatters.push(function (a) {
-                return c.normalizedRate = parseFloat(a) / 5 * 100, a
-            })
+    function p() {
+        return !0
+    }
+
+    function f() {
+        return !1
+    }
+
+    function h() {
+        try {
+            return ht.activeElement
+        } catch (e) {
         }
     }
-}]), angular.module("hotelbookApp").directive("tooltipManager", ["$tooltip", "$rootScope", function (a, b) {
-    var c = {
-        required: {
-            text: b.$root.i18n.directives.thisFieldIsRequired,
-            checkbox: b.$root.i18n.directives.shouldAcceptCondition,
-            radio: b.$root.i18n.directives.enterValue,
-            email: b.$root.i18n.directives.thisFieldIsRequired,
-            password: b.$root.i18n.directives.enterPassword,
-            dropdown: b.$root.i18n.directives.thisFieldIsRequired
-        },
-        email: b.$root.i18n.directives.youEnterInvalidEmail,
-        pattern: {"/^[a-z A-Z]+$/": b.$root.i18n.directives.nameAndSurnameShouldUseLatinAlphabet, "/^[0-9]+$/": "Поле должно содержать только цифры"}
-    };
-    return {
-        restrict: "AE", require: "^form", link: function (b, d, e, f) {
-            function g(a) {
-                switch (a) {
-                    case"pattern":
-                        return c[a][e[a]];
-                    case"email":
-                        return c.email;
-                    case"required":
-                        return c[a][d[0].attributes.type.value]
+
+    function g(e) {
+        var t = Wt.split("|"), n = e.createDocumentFragment();
+        if (n.createElement) {
+            for (; t.length;) {
+                n.createElement(t.pop());
+            }
+        }
+        return n
+    }
+
+    function m(e, t) {
+        var n, i, r = 0, o = typeof e.getElementsByTagName !== St ? e.getElementsByTagName(t || "*") :
+                typeof e.querySelectorAll !== St ? e.querySelectorAll(t || "*") : void 0;
+        if (!o) {
+            for (o = [], n = e.childNodes || e; null != (i = n[r]); r++) {
+                !t || rt.nodeName(i, t) ? o.push(i) : rt.merge(o, m(i, t));
+            }
+        }
+        return void 0 === t || t && rt.nodeName(e, t) ? rt.merge([e], o) : o
+    }
+
+    function v(e) {
+        Mt.test(e.type) && (e.defaultChecked = e.checked)
+    }
+
+    function y(e, t) {
+        return rt.nodeName(e, "table") && rt.nodeName(11 !== t.nodeType ? t : t.firstChild, "tr") ?
+        e.getElementsByTagName("tbody")[0] || e.appendChild(e.ownerDocument.createElement("tbody")) : e
+    }
+
+    function w(e) {
+        return e.type = (null !== rt.find.attr(e, "type")) + "/" + e.type, e
+    }
+
+    function b(e) {
+        var t = Xt.exec(e.type);
+        return t ? e.type = t[1] : e.removeAttribute("type"), e
+    }
+
+    function x(e, t) {
+        for (var n, i = 0; null != (n = e[i]); i++) {
+            rt._data(n, "globalEval", !t || rt._data(t[i], "globalEval"))
+        }
+    }
+
+    function T(e, t) {
+        if (1 === t.nodeType && rt.hasData(e)) {
+            var n, i, r, o = rt._data(e), a = rt._data(t, o), s = o.events;
+            if (s) {
+                delete a.handle, a.events = {};
+                for (n in s) {
+                    for (i = 0, r = s[n].length; r > i; i++) {
+                        rt.event.add(t, n, s[n][i])
+                    }
                 }
             }
+            a.data && (a.data = rt.extend({}, a.data))
+        }
+    }
 
-            var h, i;
-            switch (b.$watch(function () {
-                return angular.toJson(b[f.$name] ? [b[f.$name][e.name].$error, b[f.$name][e.name].$dirty, b[f.$name].submited] : [null, null, null])
-            }, function (b) {
-                var c = angular.fromJson(b);
-                c[1] && c[2] && (h && h.$scope.$hide(), _.each(c[0], function (b, c) {
-                    b && (h = a(d, {
-                        title: g(c),
-                        placement: e.placement ? e.placement : "left",
-                        trigger: "manual",
-                        animation: "am-fade Tooltip Tooltip--error"
-                    }), h.$scope.$show())
-                }))
-            }, !0), b.$watch(e.tooltipManager, function (b) {
-                b && b.flag ? (i = a(d, {
-                    title: b.title,
-                    placement: e.placement ? e.placement : "left",
-                    trigger: "manual",
-                    animation: "am-fade Tooltip " + (e.tooltipManagerClass ? e.tooltipManagerClass : "Tooltip--info")
-                }), i.$scope.$show()) : i && i.$scope.$hide()
-            }, !0), d[0].tagName) {
-                case"INPUT":
-                    d.bind("blur", function () {
-                        b[f.$name][e.name].$valid && $(d[0]).parents(".InputBox").addClass("InputBox-success")
-                    }), d.bind("keydown", function () {
-                        $(d[0]).parents(".InputBox").removeClass("InputBox-success")
-                    })
+    function S(e, t) {
+        var n, i, r;
+        if (1 === t.nodeType) {
+            if (n = t.nodeName.toLowerCase(), !nt.noCloneEvent && t[rt.expando]) {
+                r = rt._data(t);
+                for (i in r.events) {
+                    rt.removeEvent(t, i, r.handle);
+                }
+                t.removeAttribute(rt.expando)
             }
+            "script" === n && t.text !== e.text ? (w(t).text = e.text, b(t)) : "object" === n ?
+                    (t.parentNode && (t.outerHTML = e.outerHTML), nt.html5Clone && e.innerHTML && !rt.trim(t.innerHTML) && (t.innerHTML = e.innerHTML)) :
+                    "input" === n && Mt.test(e.type) ? (t.defaultChecked = t.checked = e.checked, t.value !== e.value && (t.value = e.value)) :
+                            "option" === n ? t.defaultSelected = t.selected = e.defaultSelected :
+                            ("input" === n || "textarea" === n) && (t.defaultValue = e.defaultValue)
         }
     }
-}]), angular.module("hotelbookApp").directive("topDestinations", ["$tooltip", "LocationResource", function (a, b) {
-    var c, d = {
-        template: "/views/directives/top-destinations.b7e00da313399b5c7be5.html",
-        animation: "popup-toggle",
-        trigger: "manual",
-        placement: "bottom-left",
-        autoClose: !0,
-        method: "topDestinations"
-    };
-    return {
-        restrict: "A", require: "ngModel", link: function (e, f, g, h) {
-            function i() {
-                var a;
-                return a = $(document).height() - f.offset().top < 550 ? "top-left" : "bottom-left"
-            }
 
-            function j(a) {
-                var b = angular.element(a.target);
-                l.$element && !$.contains(l.$element[0], b[0]) && b[0] !== f[0] && l.hide()
-            }
+    function C(t, n) {
+        var i, r = rt(n.createElement(t)).appendTo(n.body), o = e.getDefaultComputedStyle && (i = e.getDefaultComputedStyle(r[0])) ? i.display :
+                rt.css(r[0], "display");
+        return r.detach(), o
+    }
 
-            function k() {
-                m || (o.click(), l.toggle())
-            }
+    function E(e) {
+        var t = ht, n = Zt[e];
+        return n || (n = C(e, t), "none" !== n && n || (Jt = (Jt || rt("<iframe frameborder='0' width='0' height='0'/>")).appendTo(t.documentElement), t =
+                (Jt[0].contentWindow || Jt[0].contentDocument).document, t.write(), t.close(), n = C(e, t), Jt.detach()), Zt[e] = n), n
+    }
 
-            h.$parsers.push(function (a) {
-                return "" !== a ? l.hide() : l.show(), m = a, a
-            }), e.chooseContinent = function (a) {
-                e.select = a
-            }, e.chooseCity = function (a) {
-                e.$broadcast("autocomplete.select", a)
-            }, e.$on("$destroy", function () {
-                l.destroy(), n = null, l = null, o.off("click", j), f.off("focus", k)
-            }), e.$on("lang.change", function () {
-                b[n.method]().then(function (a) {
-                    e.destinations = c = a, e.select = 0
-                })
-            });
-            var l, m, n = angular.extend({scope: e}, d), o = angular.element("body");
-            n.placement = i(), l = a(f, n), o.on("click", j), f.on("focus", k), e.icons =
-                    [".i-pointer", ".i-europe", ".i-north-america", ".i-asia", ".i-south-america", ".i-oceania", ".i-middle-east", ".i-africa"], c ?
-                    (e.destinations = c, e.select = 0) : b[n.method]().then(function (a) {
-                e.destinations = c = a, e.select = 0
-            })
-        }
-    }
-}]), angular.module("hotelbookApp").directive("tripRatingFilter", function () {
-    return {
-        templateUrl: "/views/directives/trip-rating-filter.9a97c88c13844abff39a.html",
-        require: "ngModel",
-        scope: {},
-        replace: !0,
-        link: function (a, b, c, d) {
-            a.setFilter = function () {
-                d.$setViewValue(a.circles.toString()), a.selectedCircle = a.circles
-            }, b.bind("mousemove", function (b) {
-                b.offsetX = b.offsetX || b.originalEvent.layerX;
-                var c = b.offsetX - 38 < 0 ? -1 : b.offsetX - 38, d = Math.floor(c / 16) + 1;
-                a.circles = d > 5 ? 5 : d, a.$apply()
-            }), b.bind("mouseenter", function () {
-                a.mouseover = !0, a.$apply()
-            }), b.bind("mouseleave", function () {
-                a.mouseover = !1, a.$apply()
-            }), d.$formatters.push(function (b) {
-                return a.selectedCircle = parseInt(b), b
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("weather", function () {
-    return {
-        template: '<div class="i-weather-{{weather.type}}"></div><div>{{weather.temperature}} C</div>', link: function (a, b, c) {
-            c.$observe("weather", function (b) {
-                b && (a.weather = b)
-            })
-        }
-    }
-}), angular.module("hotelbookApp").directive("windowScroll", ["$window", function (a) {
-    return {
-        link: function (b) {
-            function c() {
-                angular.element(document).find("body").addClass("isNotScrolling"), d()
+    function k(e, t) {
+        return {
+            get: function () {
+                var n = e();
+                return null != n ? n ? void delete this.get : (this.get = t).apply(this, arguments) : void 0
             }
+        }
+    }
 
-            var d = _.debounce(function () {
-                angular.element(document).find("body").removeClass("isNotScrolling")
-            }, 150);
-            angular.element(a).bind("scroll", c), b.$on("$destroy", function () {
-                angular.element(a).unbind("scroll", c)
-            })
+    function L(e, t) {
+        if (t in e) {
+            return t;
         }
-    }
-}]), angular.module("hotelbookApp").filter("abs", function () {
-    return function (a) {
-        return Math.abs(a)
-    }
-}), angular.module("hotelbookApp").filter("br", function () {
-    var a = new RegExp("\n", "g");
-    return function (b) {
-        return b && b.replace(a, "<br/>")
-    }
-}), angular.module("hotelbookApp").filter("dateFormat", ["$rootScope", "initialData", function (a, b) {
-    return function (a, c) {
-        return c ? (moment.locale(b.lang), moment(a).format(c)) : a
-    }
-}]), angular.module("hotelbookApp").filter("dateTime", ["$rootScope", function (a) {
-    return function (b, c, d) {
-        moment.locale(a.d.lang);
-        var d = d || "D MMMM YYYY";
-        return b && 19 === b.length ? (d += " H:mm", moment(b + "+03:00").zone(moment().zone()).format(d)) :
-                b && 10 === b.length ? moment(b, "YYYY-MM-DD").format(d) : b
-    }
-}]), angular.module("hotelbookApp").filter("dayMonth", ["initialData", function (a) {
-    return function (b, c, d) {
-        if (c && d) {
-            var e;
-            switch (a.lang) {
-                case"ru":
-                    "март" === d || "август" === d ? d += "a" : d = d.slice(0, -1) + "я", e = c + " " + d;
-                    break;
-                case"en":
-                    e = d + " " + c
+        for (var n = t.charAt(0).toUpperCase() + t.slice(1), i = t, r = fn.length; r--;) {
+            if (t = fn[r] + n, t in e) {
+                return t;
             }
-            return e
         }
-        return b
+        return i
     }
-}]), angular.module("hotelbookApp").filter("decline", function () {
-    return function (a, b, c) {
-        if (!angular.isArray(b) && !angular.isString(b)) {
-            return "";
+
+    function N(e, t) {
+        for (var n, i, r, o = [], a = 0, s = e.length; s > a; a++) {
+            i = e[a], i.style && (o[a] = rt._data(i, "olddisplay"), n = i.style.display, t ?
+                    (o[a] || "none" !== n || (i.style.display = ""), "" === i.style.display && Nt(i) && (o[a] = rt._data(i, "olddisplay", E(i.nodeName)))) :
+                    (r = Nt(i), (n && "none" !== n || !r) && rt._data(i, "olddisplay", r ? n : rt.css(i, "display"))));
         }
-        "string" == typeof b && (b = b.split("|"));
-        var d = a, e = d % 100, f = b[1];
-        return e > 10 && 20 > e ? f = b[2] : (e = d % 10, 0 === e || e >= 5 && 10 > e ? f = b[2] : 1 === e && (f = b[0])), (c ? "" : d + " ") + f
-    }
-}), angular.module("hotelbookApp").filter("defined", function () {
-    return function (a) {
-        var b = [];
-        return _.each(a, function (a) {
-            a && (_.isPlainObject(a) || _.isArray(a) && a.length) && b.push(a)
-        }), b
-    }
-}), angular.module("hotelbookApp").filter("distance", function () {
-    return function (a, b) {
-        return (a / 1e3).toFixed(b || 1)
-    }
-}), angular.module("hotelbookApp").filter("food", function () {
-    return function (a, b) {
-        return b && -1 !== b ? _.filter(a, {mealId: b}) : a
-    }
-}), angular.module("hotelbookApp").filter("hbCurrency", ["$filter", "initialData", function (a, b) {
-    return function (c, d) {
-        var e = a("smartDigits");
-        switch (d = d || b.currency, c = e(c), d) {
-            case"RUB":
-                c += " руб.";
-                break;
-            case"USD":
-                c += " $";
-                break;
-            default:
-                c += " " + d
+        for (a = 0; s > a; a++) {
+            i = e[a], i.style && (t && "none" !== i.style.display && "" !== i.style.display || (i.style.display = t ? o[a] || "" : "none"));
         }
-        return c
+        return e
     }
-}]), angular.module("hotelbookApp").filter("hotelRooms", ["$filter", function (a) {
-    return function (b, c, d) {
-        return d ? b : _.filter(b, function (b) {
-            var d = b.rooms;
-            return _.each(c, function (b, c) {
-                d = a(c)(d, b)
-            }), d && d.length
-        })
+
+    function A(e, t, n) {
+        var i = un.exec(t);
+        return i ? Math.max(0, i[1] - (n || 0)) + (i[2] || "px") : t
     }
-}]), angular.module("hotelbookApp").filter("list", function () {
-    return function (a) {
-        if (a) {
-            var b = '<ul class="List"><li><span>', c = a.trim().split(/\\n|\,/);
-            return b += c.join("</span></li><li><span>"), b + "</span></li></ul>"
+
+    function M(e, t, n, i, r) {
+        for (var o = n === (i ? "border" : "content") ? 4 : "width" === t ? 1 : 0, a = 0; 4 > o; o += 2) {
+            "margin" === n &&
+            (a += rt.css(e, n + Lt[o], !0, r)), i ?
+                    ("content" === n && (a -= rt.css(e, "padding" + Lt[o], !0, r)), "margin" !== n && (a -= rt.css(e, "border" + Lt[o] + "Width", !0, r))) :
+                    (a += rt.css(e, "padding" + Lt[o], !0, r), "padding" !== n && (a += rt.css(e, "border" + Lt[o] + "Width", !0, r)));
         }
         return a
     }
-}),angular.module("hotelbookApp").filter("monthLocale", ["initialData", function (a) {
-    return function (b) {
-        if (!b) {
-            return b;
-        }
-        if ("ru" === a.lang) {
-            var c = /март\s|август\s/, d = /январь|февраль|апрель|май|июнь|июль|сентябрь|октябрь|ноябрь|декабрь/;
-            b = b.replace(c, "$&а"), b = b.replace(d, function (a) {
-                return a.slice(0, -1) + "я"
-            })
-        }
-        return b
-    }
-}]),angular.module("hotelbookApp").filter("notZero", function () {
-    return function (a, b) {
-        return _.filter(a, b)
-    }
-}),angular.module("hotelbookApp").filter("null", function () {
-    return function (a) {
-        return _.isNull(a) ? "" : a
-    }
-}),angular.module("hotelbookApp").filter("percent", function () {
-    return function (a) {
-        return a ? 100 * a + "%" : ""
-    }
-}),angular.module("hotelbookApp").filter("price", function () {
-    return function (a, b) {
-        return _.filter(a, function (a) {
-            return b ? a.price >= b[0] && a.price <= b[1] ? !0 : !1 : !0
-        })
-    }
-}),angular.module("hotelbookApp").filter("skipZeroValue", function () {
-    return function (a) {
-        return _.filter(a, function (a) {
-            return 0 !== a.value
-        })
-    }
-}),angular.module("hotelbookApp").filter("smartDigits", ["Utils", function (a) {
-    return a.smartDigits
-}]),angular.module("hotelbookApp").filter("template", function () {
-    return function (a, b) {
-        return _.template(a, b)
-    }
-}),angular.module("hotelbookApp").filter("time", function () {
-    return function (a) {
-        if (void 0 != a) {
-            var b = Math.floor(a / 60), c = Math.ceil(a - 60 * b), d = 1 === b.toString().length ? "0" + b.toString() : b.toString(), e = 1 ===
-            c.toString().length ? "0" + c.toString() : c.toString();
-            return d + ":" + e
-        }
-    }
-}),angular.module("hotelbookApp").filter("withRooms", function () {
-    return function (a, b) {
-        var c, d;
-        if (b && a && _.isArray(a)) {
-            for (c = [], d = 0; d < a.length; d++) {
-                a[d].rooms && _.isArray(a[d].rooms) && a[d].rooms.length && c.push(a[d]);
+
+    function D(e, t, n) {
+        var i = !0, r = "width" === t ? e.offsetWidth : e.offsetHeight, o = en(e), a = nt.boxSizing && "border-box" === rt.css(e, "boxSizing", !1, o);
+        if (0 >= r || null == r) {
+            if (r = tn(e, t, o), (0 > r || null == r) && (r = e.style[t]), rn.test(r)) {
+                return r;
             }
-        } else {
-            c = a;
+            i = a && (nt.boxSizingReliable() || r === e.style[t]), r = parseFloat(r) || 0
         }
-        return c
-    }
-}),angular.module("hotelbookApp").service("HotelOrderResource", ["$http", "$rootScope", function (a) {
-    function b() {
-        return a.get(a.apiUrl + "/personal/order?f[pageSize]=100").then(function (a) {
-            return a.data
-        })
+        return r + M(e, t, n || (a ? "border" : "content"), i, o) + "px"
     }
 
-    return b
-}]),angular.module("hotelbookApp").service("HotelPhoto", ["$http", function (a) {
-    function b(b) {
-        var c = b % 500;
-        return a.get("/js/static/city/" + c + "/" + b + "_hotel_photo").then(function (a) {
-            return a.data
-        })
+    function P(e, t, n, i, r) {
+        return new P.prototype.init(e, t, n, i, r)
     }
 
-    return b
-}]),angular.module("hotelbookApp").service("HotelsResource", ["$http", "initialData", "$rootScope", "$q", function (a, b, c, d) {
-    function e(e) {
-        var f = e % 500, g = b.lang, h = [f, g, e].join("/"), i = [f, e].join("/"), j = [], k = d.defer();
-        return c.$broadcast("statusBar.addMessage", c.i18n.directives.statusBarLoadingHotels), c.$broadcast("statusBar.showLoader",
-                !0), j.push(a.get("/js/static/city/" + h).error(function () {
-            j[0].rejected = !0
-        })), j.push(a.get("/js/static/tripAdvisor/" + i)), d.all(j).then(function (a) {
-            _.map(a[0].data.hotels, function (b) {
-                return b.ta = a[1].data[b.id], b
-            }), c.$broadcast("statusBar.removeMessage", c.i18n.directives.statusBarLoadingHotels), k.resolve(a[0].data.hotels)
-        }, function () {
-            j[0].rejected ? k.reject() : j[0].success(function (a) {
-                k.resolve(a.hotels)
-            }).error(function () {
-                k.reject()
-            })
-        }), k.promise
+    function H() {
+        return setTimeout(function () {
+            hn = void 0
+        }), hn = rt.now()
     }
 
-    return e
-}]),angular.module("hotelbookApp").service("LocationResource", ["$http", "$q", function (a, b) {
-    return {
-        city: function (b) {
-            return a.get(a.apiUrl + "/location/cities", {params: {term: b}}).then(function (a) {
-                return a.data.cities
-            })
-        }, country: function (b) {
-            return a.get(a.apiUrl + "/location/countries", {params: {term: b}}).then(function (a) {
-                return a.data.countries
-            })
-        }, hotel: function (b) {
-            return b ? a.get(a.apiUrl + "/location/autocomplete", {params: {term: b}}).then(function (a) {
-                var b = a.data.hotels;
-                return _.map(b, function (a) {
-                    delete a.cityId, delete a.cityName, delete a.countryId, delete a.countryName
-                }), a.data.hotels
-            }) : void 0
-        }, autocomplete: function (c) {
-            return c ? a.get(a.apiUrl + "/location/autocomplete", {params: {term: c}}).then(function (a) {
-                return a.data
-            }) : b.when(c)
-        }, topDestinations: function () {
-            return a.get(a.apiUrl + "/location/top_destinations").then(function (a) {
-                return a.data
-            })
+    function _(e, t) {
+        var n, i = {height: e}, r = 0;
+        for (t = t ? 1 : 0; 4 > r; r += 2 - t) {
+            n = Lt[r], i["margin" + n] = i["padding" + n] = e;
+        }
+        return t && (i.opacity = i.width = e), i
+    }
+
+    function j(e, t, n) {
+        for (var i, r = (bn[t] || []).concat(bn["*"]), o = 0, a = r.length; a > o; o++) {
+            if (i = r[o].call(n, t, e)) {
+                return i
+            }
         }
     }
-}]),angular.module("hotelbookApp").service("RoomPhoto", ["$http", function (a) {
-    function b(b) {
-        var c = b % 500;
-        return a.get("/js/static/city/" + c + "/" + b + "_room_photo").then(function (a) {
-            return a.data
-        })
-    }
 
-    return b
-}]),angular.module("hotelbookApp").service("RoomsResource", ["$http", "$timeout", "$rootScope", "initialData", function (a, b, c, d) {
-    function e(a) {
-        var b = [];
-        _.each(a, function (a) {
-            -1 === b.indexOf(a.mealId) && b.push(a.mealId)
-        }), d.food = [{value: -1, label: d.generateDropdownOption(c.i18n.dictionary.haveNoSance, ".i-food i40")}], _.each(b, function (a) {
-            d.food.push({value: a, label: d.generateDropdownOption(d.meals[a], ".i-food i40")})
-        })
-    }
-
-    function f(g, h, i, j) {
-        var k;
-        return c.$broadcast("statusBar.addMessage", c.i18n.directives.statusBarLoadingRooms), c.$broadcast("statusBar.showLoader", !0), a.get(a.apiUrl +
-                "/search/" + h, {params: {sessionId: j, hotelId: i, currency: d.currency}}).then(function (a) {
-            return a.data.finished ? c.$broadcast("rooms.loadFinished") : (k && k(), k = b(function () {
-                f(g, h, i, a.data.sessionId)
-            }, 10)), _.each(a.data.results, function (a) {
-                if ("string" == typeof a.price && (a.price = _.parseInt(a.price)), a.price) {
-                    if (a.rooms[0].roomNumber > 1) {
-                        var b = a.rooms[0], c = b.roomNumber;
-                        for (b.roomNumber = 1; c > 1;) {
-                            a.rooms.push($.extend(!0, {}, b)), c--
-                        }
+    function W(e, t, n) {
+        var i, r, o, a, s, l, u, c, d = this, p = {}, f = e.style, h = e.nodeType && Nt(e), g = rt._data(e, "fxshow");
+        n.queue || (s = rt._queueHooks(e, "fx"), null == s.unqueued && (s.unqueued = 0, l = s.empty.fire, s.empty.fire = function () {
+            s.unqueued || l()
+        }), s.unqueued++, d.always(function () {
+            d.always(function () {
+                s.unqueued--, rt.queue(e, "fx").length || s.empty.fire()
+            })
+        })), 1 === e.nodeType && ("height"in t || "width"in t) && (n.overflow = [f.overflow, f.overflowX, f.overflowY], u = rt.css(e, "display"), c =
+                "none" === u ? rt._data(e, "olddisplay") || E(e.nodeName) : u, "inline" === c && "none" === rt.css(e, "float") &&
+        (nt.inlineBlockNeedsLayout && "inline" !== E(e.nodeName) ? f.zoom = 1 : f.display = "inline-block")), n.overflow &&
+        (f.overflow = "hidden", nt.shrinkWrapBlocks() || d.always(function () {
+            f.overflow = n.overflow[0], f.overflowX = n.overflow[1], f.overflowY = n.overflow[2]
+        }));
+        for (i in t) {
+            if (r = t[i], mn.exec(r)) {
+                if (delete t[i], o = o || "toggle" === r, r === (h ? "hide" : "show")) {
+                    if ("show" !== r || !g || void 0 === g[i]) {
+                        continue;
                     }
-                    g.push(a)
+                    h = !0
                 }
-            }), (g.length > 10 || a.data.finished) && c.$broadcast("rooms.newRooms", g, i), a.data.finished && !g.length &&
-            c.$broadcast("rooms.noResults", g, i), i || e(g), c.$broadcast("statusBar.removeMessage", c.i18n.directives.statusBarLoadingRooms), g
-        }), g
-    }
-
-    var g;
-    return c.$on("lang.change", function () {
-        e(g)
-    }), {
-        search: function (a, b) {
-            var c = [];
-            return b || (g = c), f(c, a, b)
-        }
-    }
-}]),angular.module("hotelbookApp").run(["$http", "apiUrl", "$rootScope", "initialData", "$state", "$select", "Utils", "editableOptions", "editableThemes",
-    "includes", "$modal", "$q", "staticResources", function (a, b, c, d, e, f, g, h, i, j, k, l, m) {
-        function n(a, b) {
-            w.removeClass(b).addClass(a), d.generateLocaleProperty(a), c.$broadcast("lang.change", a)
-        }
-
-        function o(b) {
-            return a.put(a.apiUrl + "/user/changeLang", {changeLang: {lang: b}}).success(function () {
-                g.setItemsToLocalStorage({lang: b})
-            })
-        }
-
-        function p(b, e) {
-            b && e && b !== e && (d.currency = b, a.get(a.apiUrl + "/currency/" + b).then(function (a) {
-                var d = {};
-                _.each(a.data.rates, function (a) {
-                    d[a.currencyTo] = a
-                }), c.$broadcast("currency.change", d, b, e)
-            }))
-        }
-
-        function q(a, b) {
-            if (a && (a !== b || d.firstRequest)) {
-                moment.locale(a);
-                m.get(a).then(function (e) {
-                    c.i18n = e[0].data, angular.extend(d, e[1].data), d.filteredFacilities = [], _.each(d.facilities, function (a, b) {
-                        d.filteredFacilities.push({
-                            value: parseInt(b),
-                            label: d.generateDropdownOption(d.facilities[b], ".i40 " + g.getFacilityClass(parseInt(b)))
-                        })
-                    }), n(a, b)
-                }), a !== b && o(a)
-            }
-        }
-
-        function r(a) {
-            a = a.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var b = new RegExp("[\\?&]" + a + "=([^&#]*)"), c = b.exec(location.search) || b.exec(location.hash);
-            return null === c ? "" : decodeURIComponent(c[1].replace(/\+/g, " "))
-        }
-
-        function s(a, b) {
-            d.loginModal ||
-            (d.loginModal = k({html: !0, template: j.authorization}), d.loginModal.$promise.then(d.loginModal.show), d.loginModal.$scope.$on("modal.hide",
-                    function () {
-                        d.user ? e.go(a, b) : e.go("hb.landing")
-                    }))
-        }
-
-        function t(a, b, f) {
-            delete d.firstRequest, moment.locale(d.lang), m.initialDataLoaded.then(function (h) {
-                c.i18n = h[0][0].data, angular.extend(d, h[0][1].data), d.user = h[1].data.user, d.lang = h[1].data.lang, d.currency =
-                        h[1].data.currency, d.env = h[1].data.env, g.setItemsToLocalStorage({token: h[1].data.token, partnerId: h[1].data.partnerId}), e.go(a,
-                        b), -1 !== a.name.indexOf("cabinet") && v(a, b, f)
-            })
-        }
-
-        function u() {
-            var a = r("lang"), b = l.defer();
-            return a ? (d.lang = a.toLowerCase(), o(a).then(function () {
-                b.resolve()
-            })) : b.resolve(), b.promise
-        }
-
-        function v(b, c, f) {
-            r("order") && r("pin") && !d.pinAuth ?
-                    (f.preventDefault(), a.post(a.apiUrl + "/order/auth", {orderCode: r("order"), pin: r("pin")}).success(function (a) {
-                        d.user = a.user, d.pinAuth = !0, g.setItemsToLocalStorage({token: a.token, partnerId: a.partnerId}), e.go(b, c)
-                    }).error(function () {
-                        s(b, c)
-                    })) : d.user || (f.preventDefault(), s(b, c))
-        }
-
-        c.$on("$stateChangeSuccess", function (a, b) {
-            g.page({page: b.url, title: b.name}), g.event(b.name), x || (g.event("run"), x = !1)
-        }), c.$on("$stateChangeStart", function (a, b, c, e) {
-            e.class && w.removeClass(e["class"]), b.class && w.addClass(b["class"]), d.firstRequest ?
-                    (-1 !== b.name.indexOf("cabinet") && a.preventDefault(), u().then(t.bind(null, b, c, a))) : -1 !== b.name.indexOf("cabinet") && v(b, c, a)
-        }), c.$watch("d.lang", q), c.$watch("d.currency", p);
-        var w = $("body"), x = !0;
-        f.defaults.animation = "popup-toggle", c.d = d, c.u = g, c.includes = j, d.firstRequest = !0, h.theme = "bs3", i.bs3.submitTpl =
-                '<button type="submit" class="EditText-button"><span class="glyphicon glyphicon-ok"></span> </button>', i.bs3.cancelTpl =
-                '<button type="button" class="EditText-button" ng-click="$form.$cancel()"><span class="glyphicon glyphicon-remove"></span></button>', $.formatNumber =
-                g.smartDigits
-    }]),angular.module("hotelbookApp").factory("AjaxLoading", function () {
-    return function (a, b) {
-        b.addClass("Btn--loading"), a.finally(function () {
-            b.removeClass("Btn--loading")
-        })
-    }
-}),angular.module("hotelbookApp").factory("BookingConditions", ["$filter", "$rootScope", function (a, b) {
-    function c(a) {
-        return {
-            fromDate: a.fromDate ? e(b.i18n.directives.fromDatePattern, {date: f(a.fromDate)}) : "",
-            toDate: a.toDate ? e(b.i18n.directives.toDatePattern, {date: f(a.toDate)}) : "",
-            price: a.price ? e(b.i18n.directives.goesWithPrice, {price: g(a.price)}) : b.i18n.directives.free
-        }
-    }
-
-    var d = {}, e = a("template"), f = a("dateTime"), g = a("smartDigits");
-    return d.getAmendText = function (a) {
-        return e(b.i18n.directives.bookingAbendFromToPrice, c(a))
-    }, d.getCancelText = function (a) {
-        return e(b.i18n.directives.bookingCancelationFromToPrice, c(a))
-    }, d
-}]),angular.module("hotelbookApp").service("Favorites", ["initialData", "$q", "api", "$http", function (a, b, c, d) {
-    var e = "hb-favorites-";
-    return {
-        like: function (f, g) {
-            var h = b.defer();
-            if (a.user) {
-                d({method: f.liked ? "DELETE" : "POST", url: c.user.favorites() + "/" + f.id}).success(function () {
-                    f.liked = !f.liked, h.resolve(f.liked)
-                });
+                p[i] = g && g[i] || rt.style(e, i)
             } else {
-                if (localStorage) {
-                    var i = JSON.parse(localStorage.getItem(e + g) || "[]");
-                    f.liked ? i.splice(i.indexOf(f.id), 1) : i.push(f.id), localStorage.setItem(e + g, JSON.stringify(i))
-                }
-                f.liked = !f.liked, h.resolve(f.liked)
+                u = void 0;
             }
-            return h.promise
-        }, getLikedHotels: function (f) {
-            var g, h = b.defer();
-            return a.user ? d({method: "GET", url: c.user.favorites(), data: {city: f}}).success(function (a) {
-                h.resolve(_.pluck(a, "id"))
-            }) : localStorage ? (g = JSON.parse(localStorage.getItem(e + f) || "[]"), h.resolve(g)) : h.resolve([]), h.promise
+        }
+        if (rt.isEmptyObject(p)) {
+            "inline" === ("none" === u ? E(e.nodeName) : u) && (f.display = u);
+        } else {
+            g ? "hidden"in g && (h = g.hidden) : g = rt._data(e, "fxshow", {}), o && (g.hidden = !h), h ? rt(e).show() : d.done(function () {
+                rt(e).hide()
+            }), d.done(function () {
+                var t;
+                rt._removeData(e, "fxshow");
+                for (t in p) {
+                    rt.style(e, t, p[t])
+                }
+            });
+            for (i in p) {
+                a = j(h ? g[i] : 0, i, d), i in g || (g[i] = a.start, h && (a.end = a.start, a.start = "width" === i || "height" === i ? 1 : 0))
+            }
         }
     }
-}]),angular.module("hotelbookApp").service("filterEngine", ["$rootScope", "$timeout", "$q", function (a, b, c) {
-    function d(a) {
-        var b = 5 - a;
-        return 2 === a && (b = 2), 3 === a && (b = 3), b
+
+    function O(e, t) {
+        var n, i, r, o, a;
+        for (n in e) {
+            if (i = rt.camelCase(n), r = t[i], o = e[n], rt.isArray(o) && (r = o[1], o = e[n] = o[0]), n !== i && (e[i] = o, delete e[n]), a =
+                            rt.cssHooks[i], a && "expand"in a) {
+                o = a.expand(o), delete e[i];
+                for (n in o) {
+                    n in e || (e[n] = o[n], t[n] = r)
+                }
+            } else {
+                t[i] = r
+            }
+        }
     }
 
-    var e = this, e = this, f = {
-        "default": [{name: "stars", paramName: "stars"}, {name: "rating", paramName: "rating"}, {name: "freeWifi", paramName: "freeWifi"},
-            {name: "facilities", paramName: "facilities"}, {name: "center", paramName: "center"}, {name: "hotelTypes", paramName: "type"},
-            {name: "food", paramName: "food"}, {name: "price", paramName: "price"}, {name: "video", paramName: "video"}],
-        withRooms: [{name: "center", forced: [0, 1e10]}, {name: "withRooms"}],
-        favorites: [{name: "liked", paramName: "liked"}],
-        favoritesCount: [{name: "liked", paramName: "liked", forced: !0}],
-        noDates: [{name: "stars", paramName: "stars"}, {name: "rating", paramName: "rating"}, {name: "freeWifi", paramName: "freeWifi"},
-            {name: "facilities", paramName: "facilities"}, {name: "center", paramName: "center"}, {name: "hotelTypes", paramName: "type"},
-            {name: "video", paramName: "video"}],
-        room: [{name: "roomPrice", paramName: "price"}, {name: "roomFood", paramName: "food"}]
-    };
-    return this.roomPrice = function (a, b) {
-        var c = !1;
-        return b ? (a.price >= b[0] && a.price <= b[1] && (c = !0), c) : !b
-    }, this.roomFood = function (a, b) {
-        var c = !1;
-        return -1 !== b && b ? (a.mealId === b && (c = !0), c) : !0
-    }, this.withRooms = function (a) {
-        return !!a.rooms && !!a.rooms.length
-    }, this.stars = function (a, b) {
-        return !b || b[d(a.categoryId)] || -1 === b.indexOf(!0)
-    }, this.rating = function (a, b) {
-        return b = parseFloat(b), !b || !!a.ta && Number(a.ta.rating) >= b
-    }, this.freeWifi = function (a, b) {
-        return !b || b && !!a.facilities && -1 !== a.facilities.indexOf(3)
-    }, this.video = function (a, b) {
-        return !b || b && a.videourl
-    }, this.facilities = function (a, b) {
-        var c = !0;
-        if (b) {
-            for (var d = 0; d < b.length; d++) {
-                if (-1 === a.facilities.indexOf(Number(b[d]))) {
-                    c = !1;
+    function I(e, t, n) {
+        var i, r, o = 0, a = wn.length, s = rt.Deferred().always(function () {
+            delete l.elem
+        }), l = function () {
+            if (r) {
+                return !1;
+            }
+            for (var t = hn || H(), n = Math.max(0, u.startTime + u.duration - t), i = n / u.duration || 0, o = 1 - i, a = 0, l = u.tweens.length; l > a;
+                    a++) {
+                u.tweens[a].run(o);
+            }
+            return s.notifyWith(e, [u, o, n]), 1 > o && l ? n : (s.resolveWith(e, [u]), !1)
+        }, u = s.promise({
+            elem: e,
+            props: rt.extend({}, t),
+            opts: rt.extend(!0, {specialEasing: {}}, n),
+            originalProperties: t,
+            originalOptions: n,
+            startTime: hn || H(),
+            duration: n.duration,
+            tweens: [],
+            createTween: function (t, n) {
+                var i = rt.Tween(e, u.opts, t, n, u.opts.specialEasing[t] || u.opts.easing);
+                return u.tweens.push(i), i
+            },
+            stop: function (t) {
+                var n = 0, i = t ? u.tweens.length : 0;
+                if (r) {
+                    return this;
+                }
+                for (r = !0; i > n; n++) {
+                    u.tweens[n].run(1);
+                }
+                return t ? s.resolveWith(e, [u, t]) : s.rejectWith(e, [u, t]), this
+            }
+        }), c = u.props;
+        for (O(c, u.opts.specialEasing); a > o; o++) {
+            if (i = wn[o].call(u, e, c, u.opts)) {
+                return i;
+            }
+        }
+        return rt.map(c, j, u), rt.isFunction(u.opts.start) && u.opts.start.call(e, u), rt.fx.timer(rt.extend(l,
+                {elem: e, anim: u, queue: u.opts.queue})), u.progress(u.opts.progress).done(u.opts.done,
+                u.opts.complete).fail(u.opts.fail).always(u.opts.always)
+    }
+
+    function F(e) {
+        return function (t, n) {
+            "string" != typeof t && (n = t, t = "*");
+            var i, r = 0, o = t.toLowerCase().match(wt) || [];
+            if (rt.isFunction(n)) {
+                for (; i = o[r++];) {
+                    "+" === i.charAt(0) ? (i = i.slice(1) || "*", (e[i] = e[i] || []).unshift(n)) : (e[i] = e[i] || []).push(n)
+                }
+            }
+        }
+    }
+
+    function R(e, t, n, i) {
+        function r(s) {
+            var l;
+            return o[s] = !0, rt.each(e[s] || [], function (e, s) {
+                var u = s(t, n, i);
+                return "string" != typeof u || a || o[u] ? a ? !(l = u) : void 0 : (t.dataTypes.unshift(u), r(u), !1)
+            }), l
+        }
+
+        var o = {}, a = e === $n;
+        return r(t.dataTypes[0]) || !o["*"] && r("*")
+    }
+
+    function B(e, t) {
+        var n, i, r = rt.ajaxSettings.flatOptions || {};
+        for (i in t) {
+            void 0 !== t[i] && ((r[i] ? e : n || (n = {}))[i] = t[i]);
+        }
+        return n && rt.extend(!0, e, n), e
+    }
+
+    function q(e, t, n) {
+        for (var i, r, o, a, s = e.contents, l = e.dataTypes; "*" === l[0];) {
+            l.shift(), void 0 === r && (r = e.mimeType || t.getResponseHeader("Content-Type"));
+        }
+        if (r) {
+            for (a in s) {
+                if (s[a] && s[a].test(r)) {
+                    l.unshift(a);
                     break
                 }
             }
         }
-        return c
-    }, this.hotelTypes = function (a, b) {
-        return !b || -1 !== b.indexOf(a.type)
-    }, this.center = function (a, b, c) {
-        return (null === a.center || void 0 === a.center) && c && c.distanceOpt ? b[1] >= c.distanceOpt.to ? !0 : !1 :
-        !b || a.center >= b[0] && a.center <= b[1]
-    }, this.price = function (a, b) {
-        return a.rooms && b ? (a.tempRooms = _.filter(a.tempRooms, function (a) {
-            return a.price >= b[0] && a.price <= b[1] ? !0 : !1
-        }), a.tempRooms.length ? !0 : !1) : !b
-    }, this.food = function (a, b) {
-        return -1 !== b && b ? a.rooms && a.rooms.length ? (a.tempRooms = _.filter(a.tempRooms, function (a) {
-            return a.mealId === b
-        }), a.tempRooms.length ? !0 : !1) : !1 : !0
-    }, this.liked = function (a, b) {
-        return !b || !!a.liked
-    }, this.filter = function (a, b, c, d) {
-        var g, h = f[c];
-        if (a) {
-            for (var i = 0; i < a.length; i++) {
-                a[i].tempRooms = a[i].rooms;
-            }
-            for (var i = 0; i < h.length; i++) {
-                g = [];
-                for (var j = 0; j < a.length; j++) {
-                    e[h[i].name](a[j], h[i].forced || b[h[i].paramName], d) ? (g.push(a[j]), delete a[j].filtered) :
-                    h[i].forced || (a[j].filtered = h[i].name);
+        if (l[0]in n) {
+            o = l[0];
+        } else {
+            for (a in n) {
+                if (!l[0] || e.converters[a + " " + l[0]]) {
+                    o = a;
+                    break
                 }
-                a = g
+                i || (i = a)
+            }
+            o = o || i
+        }
+        return o ? (o !== l[0] && l.unshift(o), n[o]) : void 0
+    }
+
+    function z(e, t, n, i) {
+        var r, o, a, s, l, u = {}, c = e.dataTypes.slice();
+        if (c[1]) {
+            for (a in e.converters) {
+                u[a.toLowerCase()] = e.converters[a];
+            }
+        }
+        for (o = c.shift(); o;) {
+            if (e.responseFields[o] && (n[e.responseFields[o]] = t), !l && i && e.dataFilter && (t = e.dataFilter(t, e.dataType)), l = o, o =
+                            c.shift()) {
+                if ("*" === o) {
+                    o = l;
+                } else if ("*" !== l && l !== o) {
+                    if (a = u[l + " " + o] || u["* " + o], !a) {
+                        for (r in u) {
+                            if (s = r.split(" "), s[1] === o && (a = u[l + " " + s[0]] || u["* " + s[0]])) {
+                                a === !0 ? a = u[r] : u[r] !== !0 && (o = s[0], c.unshift(s[1]));
+                                break
+                            }
+                        }
+                    }
+                    if (a !== !0) {
+                        if (a && e["throws"]) {
+                            t = a(t);
+                        } else {
+                            try {
+                                t = a(t)
+                            } catch (d) {
+                                return {state: "parsererror", error: a ? d : "No conversion from " + l + " to " + o}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return {state: "success", data: t}
+    }
+
+    function $(e, t, n, i) {
+        var r;
+        if (rt.isArray(t)) {
+            rt.each(t, function (t, r) {
+                n || Yn.test(e) ? i(e, r) : $(e + "[" + ("object" == typeof r ? t : "") + "]", r, n, i)
+            });
+        } else if (n || "object" !== rt.type(t)) {
+            i(e, t);
+        } else {
+            for (r in t) {
+                $(e + "[" + r + "]", t[r], n, i)
+            }
+        }
+    }
+
+    function V() {
+        try {
+            return new e.XMLHttpRequest
+        } catch (t) {
+        }
+    }
+
+    function G() {
+        try {
+            return new e.ActiveXObject("Microsoft.XMLHTTP")
+        } catch (t) {
+        }
+    }
+
+    function X(e) {
+        return rt.isWindow(e) ? e : 9 === e.nodeType ? e.defaultView || e.parentWindow : !1
+    }
+
+    var Y = [], U = Y.slice, K = Y.concat, Q = Y.push, J = Y.indexOf, Z = {}, et = Z.toString, tt = Z.hasOwnProperty, nt = {}, it = "1.11.2", rt = function (e,
+            t) {
+        return new rt.fn.init(e, t)
+    }, ot = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, at = /^-ms-/, st = /-([\da-z])/gi, lt = function (e, t) {
+        return t.toUpperCase()
+    };
+    rt.fn = rt.prototype = {
+        jquery: it, constructor: rt, selector: "", length: 0, toArray: function () {
+            return U.call(this)
+        }, get: function (e) {
+            return null != e ? 0 > e ? this[e + this.length] : this[e] : U.call(this)
+        }, pushStack: function (e) {
+            var t = rt.merge(this.constructor(), e);
+            return t.prevObject = this, t.context = this.context, t
+        }, each: function (e, t) {
+            return rt.each(this, e, t)
+        }, map: function (e) {
+            return this.pushStack(rt.map(this, function (t, n) {
+                return e.call(t, n, t)
+            }))
+        }, slice: function () {
+            return this.pushStack(U.apply(this, arguments))
+        }, first: function () {
+            return this.eq(0)
+        }, last: function () {
+            return this.eq(-1)
+        }, eq: function (e) {
+            var t = this.length, n = +e + (0 > e ? t : 0);
+            return this.pushStack(n >= 0 && t > n ? [this[n]] : [])
+        }, end: function () {
+            return this.prevObject || this.constructor(null)
+        }, push: Q, sort: Y.sort, splice: Y.splice
+    }, rt.extend = rt.fn.extend = function () {
+        var e, t, n, i, r, o, a = arguments[0] || {}, s = 1, l = arguments.length, u = !1;
+        for ("boolean" == typeof a && (u = a, a = arguments[s] || {}, s++), "object" == typeof a || rt.isFunction(a) || (a = {}), s === l && (a = this, s--);
+                l > s; s++) {
+            if (null != (r = arguments[s])) {
+                for (i in r) {
+                    e = a[i], n = r[i], a !== n && (u && n && (rt.isPlainObject(n) || (t = rt.isArray(n))) ?
+                            (t ? (t = !1, o = e && rt.isArray(e) ? e : []) : o = e && rt.isPlainObject(e) ? e : {}, a[i] = rt.extend(u, o, n)) :
+                    void 0 !== n && (a[i] = n));
+                }
             }
         }
         return a
-    }, this.filterVerbose = function (d, f, g, h) {
-        var i = c.defer();
-        return a.$broadcast("statusBar.addMessage", a.i18n.directives.statusBarFiltering), a.$broadcast("statusBar.showLoader", !0), b(function () {
-            var c = e.filter(d, f, g, h);
-            i.resolve(c), b(function () {
-                a.$broadcast("statusBar.removeMessage", a.i18n.directives.statusBarFiltering)
-            }, 400)
-        }), i.promise
-    }, this
-}]),angular.module("hotelbookApp").constant("CDN_DOMAIN", "https://hotelbook-a.akamaihd.net/").service("ImageFactory", ["CDN_DOMAIN", function (a) {
-    return function (b, c) {
-        return function (d, e) {
-            if (!d || !e) {
-                return "/images/common/no-image.7ce4ed17ba7e08e3ec45.png";
+    }, rt.extend({
+        expando: "jQuery" + (it + Math.random()).replace(/\D/g, ""), isReady: !0, error: function (e) {
+            throw new Error(e)
+        }, noop: function () {
+        }, isFunction: function (e) {
+            return "function" === rt.type(e)
+        }, isArray: Array.isArray || function (e) {
+            return "array" === rt.type(e)
+        }, isWindow: function (e) {
+            return null != e && e == e.window
+        }, isNumeric: function (e) {
+            return !rt.isArray(e) && e - parseFloat(e) + 1 >= 0
+        }, isEmptyObject: function (e) {
+            var t;
+            for (t in e) {
+                return !1;
             }
-            d = d.toString();
-            var f = e.toString();
-            for ("room" === b && (f = d.toString()); f.length < 4;) {
-                f = "0" + f;
+            return !0
+        }, isPlainObject: function (e) {
+            var t;
+            if (!e || "object" !== rt.type(e) || e.nodeType || rt.isWindow(e)) {
+                return !1;
             }
-            return a + b + "/" + f.substr(f.length - 2, f.length - 1) + "/" + f.substr(0, 2) + "/" + e + "/" + d + (c ? "_" + c + "x" + c : "") + ".jpg"
-        }
-    }
-}]),angular.module("hotelbookApp").service("initialData", ["$rootScope", "includes", function (a, b) {
-    function c(a, b, c) {
-        var d, e = '<span class=""></span>';
-        return b ? (d = "." === b[0] ? e.replace('""', '"' + b.substr(1) + '"') : b, c && (d = '<span class="Dropdown-icon">' + d + "</span>"), d +=
-                '<span class="Dropdown-label">' + a + "</span>") : d = '<span class="Dropdown-label">' + a + "</span>", d
-    }
-
-    function d(b) {
-        e.languagesBig = [{value: "ru", label: c(a.i18n.dictionary.russian)}, {value: "en", label: c(a.i18n.dictionary.english)}], e.sex =
-                [{value: "mr", label: c(a.i18n.dictionary.male, ".i-man ii1740")},
-                    {value: "mrs", label: c(a.i18n.dictionary.female, ".i-woman ii1740")}], e.currencies =
-                [{value: "RUB", label: c("Руб", ".i-currency-rub ii1740", !0)}, {value: "USD", label: c("Usd", ".i-currency-usd ii1740", !0)},
-                    {value: "EUR", label: c("Eur", ".i-currency-eur ii1740", !0)}], e.personList =
-                [{label: c(a.i18n.dictionary["1guests"], ".i-person-full i40"), value: 1},
-                    {label: c(a.i18n.dictionary["2guests"], ".i-person-full i40"), value: 2},
-                    {label: c(a.i18n.dictionary.otherVariants, ".i-baby i40"), value: -1}], e.priceCategories =
-                [{label: c(a.i18n.dictionary.haveNoSance, ".i-price i40"), value: [100, 1e6]},
-                    {label: c(a.i18n.dictionary.budget, ".i-price i40"), value: [100, 3e3]},
-                    {label: c(a.i18n.dictionary.economy, ".i-price i40"), value: [3e3, 6e3]},
-                    {label: c(a.i18n.dictionary.middlePrice, ".i-price i40"), value: [6e3, 1e4]},
-                    {label: c(a.i18n.dictionary.delux, ".i-price i40"), value: [1e4, 5e4]},
-                    {label: c(a.i18n.dictionary.premium, ".i-price i40"), value: [5e4, 1e6]}], e.accommodations =
-                [{label: c(a.i18n.dictionary.haveNoSance, ".i-accommodation i40"), value: 0},
-                    {label: c(a.i18n.dictionary.hotels, ".i-accommodation i40"), value: 1},
-                    {label: c(a.i18n.dictionary.hostels, ".i-accommodation i40"), value: 2},
-                    {label: c(a.i18n.dictionary.apartmens, ".i-accommodation i40"), value: 3},
-                    {label: c(a.i18n.dictionary.guestsHouse, ".i-accommodation i40"), value: 4},
-                    {label: c(a.i18n.dictionary.hotelBnB, ".i-accommodation i40"), value: 5},
-                    {label: c(a.i18n.dictionary.villas, ".i-accommodation i40"), value: 6}], e.ratings =
-                [{label: c(a.i18n.dictionary.haveNoSance, ".i-rating-full i40"), value: "0"},
-                    {label: c(a.i18n.dictionary.wonderful + ": 4.5+", ".i-rating-full i40"), value: "4.5"},
-                    {label: c(a.i18n.dictionary.veryGood + ": 4+", ".i-rating-full i40"), value: "4"},
-                    {label: c(a.i18n.dictionary.good + ": 3.5+", ".i-rating-full i40"), value: "3.5"},
-                    {label: c(a.i18n.dictionary.pleasant + ": 3+", ".i-rating-full i40"), value: "3"},
-                    {label: c(a.i18n.dictionary.noEstimation, ".i-rating-full i40"), value: -1}], e.food = [], e.sorts =
-                [{label: c(a.i18n.dictionary.popularety, ".i-popularity ii1740"), value: "-popularity"},
-                    {label: c(a.i18n.dictionary.priceUp, ".i-price ii1740"), value: "cheapest.price"},
-                    {label: c(a.i18n.dictionary.priceDown, ".i-price ii1740"), value: "-expensive.price"},
-                    {label: c(a.i18n.dictionary.distanationFromCenter, ".i-pointer ii1740"), value: "center"},
-                    {label: c(a.i18n.dictionary.userFeedback, ".i-rating-full ii1740"), value: "-ta.rating"}], e.suggestionCity = e["suggestionCity" + b]
-    }
-
-    var e = {
-        modelFormat: "YYYY-MM-DD",
-        viewFormat: "DD.MM.YYYY",
-        languages: [{value: "ru", label: c("Рус", ".i-CommonRu", !0)}, {value: "en", label: c("Eng", ".i-CommonEn", !0)}],
-        suggestionCityen: [{fullName: "Phuket, Thailand", id: 4444, name: "Phuket"}, {fullName: "Paphos, Cyprus", id: 913, name: "Paphos"},
-            {fullName: "Dubai, United Arab Emirates", id: 125, name: "Dubai"}, {fullName: "Barcelona, Spain", id: 1271, name: "Barcelona"},
-            {fullName: "Zurich, Switzerland", id: 616, name: "Zurich"}],
-        suggestionCityru: [{fullName: "Пхукет, Тайланд", id: 4444, name: "Пхукет"}, {fullName: "Пафос, Кипр", id: 913, name: "Пафос"},
-            {fullName: "Дубай, ОАЭ", id: 125, name: "Дубай"}, {fullName: "Барселона, Испания", id: 1271, name: "Барселона"},
-            {fullName: "Цюрих, Швейцария", id: 616, name: "Цюрих"}],
-        landingPictures: ["/images/head_bg2.f137a764499760e38c50.jpg", "/images/head_bg3.56ffa14d35100efe53e5.jpg", "/images/head_bg4.4a2819fad41ef6ce0996.jpg",
-            "/images/head_bg5.d723c86bdc22a2b44bd0.jpg", "/images/head_bg6.77c44d17f73b68bf6b9a.jpg", "/images/head_bg7.f583200863bd170e9a1e.jpg",
-            "/images/head_bg8.c9255310be68b9016c96.jpg"]
-    };
-    return e.user = null, e.lang = localStorage.getItem("lang") || "ru", e.currency = "RUB", e.ta_keys =
-            ["rate_cleanliness", "rate_value", "rate_service", "rate_room", "rate_location", "rate_sleep"], e.generateDropdownOption =
-            c, e.generateLocaleProperty = d, e.selectizeOptions = {plugins: ["remove_button", "no_scape"]}, e.stateData = {}, e.currentYear =
-            (new Date).getFullYear(), e.includes = b, e
-}]),angular.module("hotelbookApp").service("placesOnMap", ["$rootScope", "$http", "RichMarker", function (a, b, c) {
-    function d(a, d) {
-        _.each(f.placesNearBy, function (a) {
-            a.marker && a.marker.setMap(null)
-        }), f.hotelId === d.id ? _.each(f.placesNearBy, function (b) {
-            b.marker = c.createMarker(a, "/images/pointer.106ec83712ff88865430.png", b.latitude, b.longitude, b, null,
-                    "/views/popovers/place-rich-marker.fc32aee42016ba137b46.html")
-        }) : (f.status.loadingPlaces = !0, b.get(b.apiUrl + "/hotel/" + d.id + "/places").success(function (b) {
-            f.placesNearBy.length = 0, _.each(b.places, function (b) {
-                b.name = b[e("name")], b.address = b[e("address")], b.photo = b.photos && b.photos[0], f.placesNearBy.push(b), c.createMarker(a,
-                        "/images/pointer.106ec83712ff88865430.png", b.latitude, b.longitude, b, null,
-                        "/views/popovers/place-rich-marker.fc32aee42016ba137b46.html")
-            }), f.hotelId = d.id, f.status.loadingPlaces = !1
-        }))
-    }
-
-    function e(b) {
-        if (b) {
-            switch (a.d.lang) {
-                case"ru":
-                    b += "Ru";
-                    break;
-                case"en":
-                    b += "En"
-            }
-            return b
-        }
-    }
-
-    var f = this;
-    this.hotelId = void 0, this.status = {loadingPlaces: !1}, this.placesNearBy = [], this.show = d, this.getPlaceLocaleProperty = e
-}]),angular.module("hotelbookApp").service("RichMarker",
-        ["$rootScope", "$compile", "$templateCache", "$timeout", "$state", "Utils", function (a, b, c, d, e, f) {
-            function g() {
-                _.each(this.markers, function (a) {
-                    a.setMap(null)
-                }), this.markers.length = 0
-            }
-
-            function h(d, g, h, j, k, l, m) {
-                m = m || "/views/popovers/hotel-rich-marker.5ee808bd587632dd7bfa.html";
-                var n = c.get(m), o = this.linkingFunctions[m];
-                void 0 === o && (o = b(n), this.linkingFunctions[m] = o);
-                var p = a.$new();
-                p.obj = k, p.searchForm = l, p.href = e.href("hb.hotels.view.rooms", f.getHotelParams(k, l)), p.hideInfoBox = function (a) {
-                    a.stopPropagation(), i.infobox.close()
-                }, p.$on("markers.hideAll", function () {
-                    i.infobox.close()
-                });
-                var q = new google.maps.Marker({position: new google.maps.LatLng(h, j), map: d, icon: g, draggable: !1});
-                return q.id = k.id, this.markers.push(q), q.hide = function () {
-                    i.infobox.close()
-                }, q.show = function () {
-                    a.$broadcast("markers.hideAll"), setTimeout(function () {
-                        p.$apply()
-                    }), i.infobox.setContent(o(p)[0]), i.infobox.open(d, this)
-                }, google.maps.event.addListener(q, "click", q.show), q
-            }
-
-            this.markers = [];
-            var i = this;
-            this.infobox = new InfoBox({pixelOffset: new google.maps.Size(-10, 0)}), this.createMarker = h, this.removeAllMarkers = g, this.linkingFunctions =
-                    []
-        }]),angular.module("hotelbookApp").factory("SearchForm",
-        ["$http", "$state", "defaultSearch", "defaultFilters", "Utils", "AjaxLoading", "$rootScope", "$stateParams", "$q",
-            function (a, b, c, d, e, f, g, h, i) {
-                function j(a) {
-                    _.each(a.errors, function (a) {
-                        a.flag = !1
-                    })
+            try {
+                if (e.constructor && !tt.call(e, "constructor") && !tt.call(e.constructor.prototype, "isPrototypeOf")) {
+                    return !1
                 }
-
-                function k(b, c) {
-                    a.get(a.apiUrl + "/location/city/" + b).then(function (a) {
-                        c.city = a.data.city
-                    })
+            } catch (n) {
+                return !1
+            }
+            if (nt.ownLast) {
+                for (t in e) {
+                    return tt.call(e, t);
                 }
-
-                function l(a, b) {
-                    var c = !0;
-                    return _.isNaN(_.parseInt(a.formData.city)) && a.formData.city && a.locations && a.locations.cities.length &&
-                    (a.formData.city = a.locations.cities[0].id), b[o].formData.dateFrom && b[o].formData.dateTo || b[o].formData.undefinedDates ||
-                    (a.errors.dates.flag = !0, c = !1), _.isNaN(_.parseInt(b[o].formData.city)) &&
-                    (a.errors.city.flag = !0, c = !1), a.formData.rooms.forEach(function (b, d) {
-                        b.children !== b.childrenAges.length && (a.errors.rooms[d].childrenAges.flag = !0, c = !1), b.childrenAges.forEach(function (b) {
-                            _.parseInt(b) <= 11 && _.parseInt(b) >= 1 || (a.errors.rooms[d].childrenAges.flag = !0, c = !1)
-                        })
-                    }), c
+            }
+            for (t in e) {
+                ;
+            }
+            return void 0 === t || tt.call(e, t)
+        }, type: function (e) {
+            return null == e ? e + "" : "object" == typeof e || "function" == typeof e ? Z[et.call(e)] || "object" : typeof e
+        }, globalEval: function (t) {
+            t && rt.trim(t) && (e.execScript || function (t) {
+                e.eval.call(e, t)
+            })(t)
+        }, camelCase: function (e) {
+            return e.replace(at, "ms-").replace(st, lt)
+        }, nodeName: function (e, t) {
+            return e.nodeName && e.nodeName.toLowerCase() === t.toLowerCase()
+        }, each: function (e, t, i) {
+            var r, o = 0, a = e.length, s = n(e);
+            if (i) {
+                if (s) {
+                    for (; a > o && (r = t.apply(e[o], i), r !== !1); o++) {
+                        ;
+                    }
+                } else {
+                    for (o in e) {
+                        if (r = t.apply(e[o], i), r === !1) {
+                            break
+                        }
+                    }
                 }
-
-                function m(d, i) {
-                    d.addRoom = function () {
-                        4 !== d.formData.rooms.length && (d.formData.rooms.push(angular.copy(c.rooms[0])), d.errors.rooms.push({
-                            childrenAges: {
-                                title: "Введите, пожалуйста, возраст ребенка",
-                                flag: !1
+            } else if (s) {
+                for (; a > o && (r = t.call(e[o], o, e[o]), r !== !1); o++) {
+                    ;
+                }
+            } else {
+                for (o in e) {
+                    if (r = t.call(e[o], o, e[o]), r === !1) {
+                        break;
+                    }
+                }
+            }
+            return e
+        }, trim: function (e) {
+            return null == e ? "" : (e + "").replace(ot, "")
+        }, makeArray: function (e, t) {
+            var i = t || [];
+            return null != e && (n(Object(e)) ? rt.merge(i, "string" == typeof e ? [e] : e) : Q.call(i, e)), i
+        }, inArray: function (e, t, n) {
+            var i;
+            if (t) {
+                if (J) {
+                    return J.call(t, e, n);
+                }
+                for (i = t.length, n = n ? 0 > n ? Math.max(0, i + n) : n : 0; i > n; n++) {
+                    if (n in t && t[n] === e) {
+                        return n
+                    }
+                }
+            }
+            return -1
+        }, merge: function (e, t) {
+            for (var n = +t.length, i = 0, r = e.length; n > i;) {
+                e[r++] = t[i++];
+            }
+            if (n !== n) {
+                for (; void 0 !== t[i];) {
+                    e[r++] = t[i++];
+                }
+            }
+            return e.length = r, e
+        }, grep: function (e, t, n) {
+            for (var i, r = [], o = 0, a = e.length, s = !n; a > o; o++) {
+                i = !t(e[o], o), i !== s && r.push(e[o]);
+            }
+            return r
+        }, map: function (e, t, i) {
+            var r, o = 0, a = e.length, s = n(e), l = [];
+            if (s) {
+                for (; a > o; o++) {
+                    r = t(e[o], o, i), null != r && l.push(r);
+                }
+            } else {
+                for (o in e) {
+                    r = t(e[o], o, i), null != r && l.push(r);
+                }
+            }
+            return K.apply([], l)
+        }, guid: 1, proxy: function (e, t) {
+            var n, i, r;
+            return "string" == typeof t && (r = e[t], t = e, e = r), rt.isFunction(e) ? (n = U.call(arguments, 2), i = function () {
+                return e.apply(t || this, n.concat(U.call(arguments)))
+            }, i.guid = e.guid = e.guid || rt.guid++, i) : void 0
+        }, now: function () {
+            return +new Date
+        }, support: nt
+    }), rt.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function (e, t) {
+        Z["[object " + t + "]"] = t.toLowerCase()
+    });
+    var ut = function (e) {
+        function t(e, t, n, i) {
+            var r, o, a, s, l, u, d, f, h, g;
+            if ((t ? t.ownerDocument || t : R) !== P && D(t), t = t || P, n = n || [], s = t.nodeType, "string" != typeof e || !e ||
+                    1 !== s && 9 !== s && 11 !== s) {
+                return n;
+            }
+            if (!i && _) {
+                if (11 !== s && (r = yt.exec(e))) {
+                    if (a = r[1]) {
+                        if (9 === s) {
+                            if (o = t.getElementById(a), !o || !o.parentNode) {
+                                return n;
                             }
-                        }))
-                    }, d.removeRoom = function (a) {
-                        var b = d.search.rooms.indexOf(a);
-                        d.formData.rooms.splice(b, 1), d.errors.rooms.splice(b, 1)
-                    }, d.showFull = function () {
-                        d.isFull = !0, e.event("full_search_show")
-                    }, d.applySuggestion = function (a) {
-                        i.$broadcast("autocomplete.select", a)
-                    }, d.hideFull = function () {
-                        d.isFull = !1, e.event("full_search_hide")
-                    }, i.$watch(o + ".formData.undefinedDates", function (a) {
-                        a ? (delete d.formData.dateFrom, delete d.formData.dateTo) : i[o].dates && i[o].dates.length &&
-                        (d.formData.dateFrom = i[o].dates[0].format("DD.MM.YYYY"), i[o].dates[1] &&
-                        (d.formData.dateTo = i[o].dates[1].format("DD.MM.YYYY"))), _.isBoolean(a) && e.event("click_undefinedDates", a)
-                    }), i.$on("lang.change", function () {
-                        d.city && k(d.city.id, d)
-                    }), i.search = function (c) {
-                        var g, k, m = $(c.currentTarget);
-                        if (j(d), l(i[o], i)) {
-                            if (e.event("new_search"), i.$emit("search-form.new-search"), d.formData.undefinedDates) {
-                                g =
-                                {searchId: "", search: angular.toJson(i[o].formData), filters: angular.toJson(d.filters), page: 1}, d.hotel ?
-                                        (g.hotelId = d.hotel.id, b.go("hb.hotels.view.rooms", g)) : b.go("hb.hotels.list.page", g);
-                            } else {
-                                var n = angular.copy(i[o].formData);
-                                n.userSearch = d.filters, n.userSearch.video = !1, k = a.post(a.apiUrl + "/search", {hotelSearchQuery: n}).then(function (a) {
-                                    return h.searchId = a.data.id, d.hotel ? (h.hotelId = d.hotel.id, void b.go("hb.hotels.view.rooms", h)) :
-                                            (h.page = 1, void(e.inStates(["hotels.view", "landing", "notFound", "contacts", "hb.info"]) ?
-                                                    b.go("hb.hotels.list.page", h) : b.go(b.current.name, h)))
-                                }), f(k, m)
+                            if (o.id === a) {
+                                return n.push(o), n
                             }
-                        } else {
-                            e.event("new_search_fail_validation")
-                        }
-                    }, i.$watch(o + ".formData.rooms", function (a) {
-                        a && (_.each(a, function (a) {
-                            a.childrenAges = a.childrenAges.slice(0, a.children)
-                        }), i[o].peopleCount = 1 === a.length && 0 === a[0].children && a[0].adults < 3 ? a[0].adults : -1, _.each(d.errors.rooms,
-                                function (a) {
-                                    a.childrenAges.flag = !1
-                                }))
-                    }, !0), i.$watch(o + ".peopleCount", function (a) {
-                        -1 === a ? d.showFull() :
-                                (d.formData.rooms.length = 1, d.formData.rooms[0].adults = a, d.formData.rooms[0].children = 0, ("hb.hotels.list.page" ===
-                                b.current.name || "hb.hotels.map.page" === b.current.name) && d.hideFull())
-                    }), i.$watch(o + ".dates", function (a) {
-                        a && a.length && (d.formData.dateFrom = a[0].format("DD.MM.YYYY"), a[1] &&
-                        (d.formData.dateTo = a[1].format("DD.MM.YYYY"), d.daysCount = _.parseInt(e.daysCount(d.dates)))), 2 === a.length &&
-                        (d.formData.undefinedDates = !1), g.$broadcast("searchForm.dateChanged")
-                    }, !0), i.$watch(o + ".price", function (a) {
-                        a && a.length && (d.filters.price = [a[0] * d.daysCount, a[1] * d.daysCount])
-                    }, !0), i.$watch(o + ".filters.price", function (a) {
-                        a && a.length && (d.price = [_.parseInt(a[0] / d.daysCount), _.parseInt(a[1] / d.daysCount)])
-                    }, !0), i.$watch(o + ".filters", function (a) {
-                        a && p(d)
-                    }, !0), i.$watch(o + ".formData.city", function (a) {
-                        a && (d.errors.city.flag = !1, a && _.isNumber(a) && (d.city && d.city.id === a || k(a, d)))
-                    }), i.$watch(o + ".formData.dateFrom + " + o + ".formData.dateTo", function () {
-                        i[o].formData.dateFrom && i[o].formData.dateTo && (d.errors.dates.flag = !1)
-                    }), i.$watch(o + ".filters.sort", function (a, b) {
-                        angular.isDefined(a) && angular.isDefined(b) && a !== b && e.event("search_sort", a)
-                    }), i.$watch(o + ".formData", function (a) {
-                        if (a) {
-                            var b = !0;
-                            _.each(a, function (a, c) {
-                                return angular.equals(a, i[o].search[c]) ? void 0 : (b = !1, !1)
-                            }), i[o].changed = !b, i[o].hotel && (i[o].changed = !0)
-                        }
-                    }, !0), i.$on("autocomplete.enterKey", function (a, b) {
-                        b && i.search()
-                    })
-                }
-
-                function n(a, b, c) {
-                    a.search = angular.copy(b), a.filters = angular.copy(c), a.filters.sort = a.filters.sort || d.sort, a.filters.stars =
-                            a.filters.stars || d.stars, a.formData = _.pick(b, ["city", "undefinedDates", "rooms"]), a.peopleCount =
-                            1 === a.formData.rooms.length && 0 === a.formData.rooms[0].children && a.formData.rooms[0].adults < 3 ? a.formData.rooms[0].adults :
-                                    -1, a.dates = [], a.priceOpt = a.priceOpt || {from: 100, to: 1e6, step: 100}, a.distanceOpt =
-                            a.distanceOpt || {from: 100, to: 1e5, step: 100}, a.errors = {
-                        city: {title: g.i18n.directives.enterNameofCityOrHotel, flag: !1},
-                        dates: {title: g.i18n.directives.enterCheckinAndCheckoutDates, flag: !1},
-                        rooms: [{childrenAges: {title: g.i18n.directives.enterRightChildrenAge, flag: !1}}]
-                    }
-                }
-
-                var o = "searchForm", p = _.throttle(function (b) {
-                    b.search.hash && a.put(a.apiUrl + "/search/" + b.search.hash + "/userSearch", {userHotelSearch: b.filters})
-                }, 1e4);
-                return {
-                    init: function (a) {
-                        var b = {};
-                        return a[o] = b, n(b, c, d), b.pagination = {page: parseInt(h.page) || 1, itemsPerPage: 10}, b.dates = [], m(b, a), b
-                    }, search: function (b) {
-                        var c;
-                        if (j(b[o]), l(b[o], b)) {
-                            e.event("new_search"), b.$emit("search-form.new-search");
-                            var d = angular.copy(b[o].formData);
-                            d.userSearch = b[o].filters, c = a.post(a.apiUrl + "/search", {hotelSearchQuery: d})
-                        } else {
-                            e.event("new_search_fail_validation");
-                            var f = i.defered();
-                            f.reject(), c = f.promise
-                        }
-                        return c
-                    }, parse: function (b, c, f, g, i) {
-                        if (g = g || {}, f = _.isEmpty(f) ? d : f, "filteredRooms[0].price" === f.sort &&
-                                (f.sort = "cheapest.price"), "-filteredRooms[0].price" === f.sort && (f.sort = "-expensive.price"), i && n(g, c, f), f.stars &&
-                                f.stars.length || (f.stars = [!1, !1, !1, !1, !1]), g.search && g.search.dateFrom && g.search.dateTo ? (g.dates =
-                                        [moment(g.search.dateFrom, ["YYYY-MM-DD", "DD.MM.YYYY"]),
-                                            moment(g.search.dateTo, ["YYYY-MM-DD", "DD.MM.YYYY"])], g.daysCount = _.parseInt(e.daysCount(g.dates))) :
-                                        g.dates = [], i &&
-                                (f.food = null, f.rating = null, g.pagination && (g.pagination.page = 1)), !e.notInStates(["hotels.list", "hotels.map"])) {
-                            var j = h.page || 1;
-                            g.pagination = {page: parseInt(j), itemsPerPage: 10}
-                        }
-                        g.changed = !1, a.get(a.apiUrl + "/location/city/" + g.search.city).then(function (a) {
-                            g.city = a.data.city
-                        }), b[o] || (b[o] = g, m(g, b))
-                    }
-                }
-            }]),angular.module("hotelbookApp").service("staticResources",
-        ["$q", "$http", "initialData", "$state", "Utils", "$location", function (a, b, c, d, e, f) {
-            function g(a) {
-                a = a.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-                var b = new RegExp("[\\?&]" + a + "=([^&#]*)"), c = b.exec(location.search) || b.exec(location.hash);
-                return null === c ? "" : decodeURIComponent(c[1].replace(/\+/g, " "))
-            }
-
-            function h(c) {
-                var d = [];
-                d.push(b.get("/i18n/" + c + ".json")), d.push(b.get("/js/static/" + c + "/filter"));
-                var e = a.all(d);
-                return k.staticDataPromises[c] = e, e
-            }
-
-            function i(a) {
-                return k.staticDataPromises[a] ? k.staticDataPromises[a] : h(a)
-            }
-
-            function j() {
-                f.search().token && e.setItemsToLocalStorage({token: f.search().token});
-                var d = [], i = g("lang");
-                return i = "" !== i ? i.toLowerCase() : c.lang, d.push(h(i)), d.push(b.get(b.apiUrl + "/user/me")), a.all(d)
-            }
-
-            var k = this;
-            this.staticDataPromises = {}, this.initialDataLoaded = j(), this.loadStatic = h, this.get = i
-        }]),angular.module("hotelbookApp").service("Utils",
-        ["$state", "initialData", "ImageFactory", "$filter", "CDN_DOMAIN", "$rootScope", "$location", "$window", function (a, b, c, d, e, f, g, h) {
-            var i = {
-                toJson: angular.toJson, setFormDirty: function (a) {
-                    return _.each(a, function (b, c) {
-                        a.hasOwnProperty(c) && b && b.hasOwnProperty("$dirty") && (b.$dirty = !0)
-                    }), a.$setDirty(!0), a.submited = !0, a
-                }, daysCount: function (a) {
-                    if (a) {
-                        if (a.length > 1) {
-                            var b = a[1].diff(a[0]);
-                            return moment.duration(b).asDays().toFixed()
-                        }
-                        return "-"
-                    }
-                }, mToKm: function (a) {
-                    return (a / 1e3).toFixed(1)
-                }, scrollTo: function (a) {
-                    function b() {
-                        return window.pageYOffset ? window.pageYOffset :
-                                document.documentElement && document.documentElement.scrollTop ? document.documentElement.scrollTop :
-                                        document.body.scrollTop ? document.body.scrollTop : 0
-                    }
-
-                    function c(a) {
-                        var b = document.getElementById(a);
-                        if (!b) {
-                            return null;
-                        }
-                        for (var c = b.offsetTop, d = b; d.offsetParent && d.offsetParent !== document.body;) {
-                            d = d.offsetParent, c += d.offsetTop;
-                        }
-                        return c
-                    }
-
-                    var d, e = b(), f = c(a), g = f > e ? f - e : e - f;
-                    if (100 > g) {
-                        return void scrollTo(0, f);
-                    }
-                    var h = Math.round(g / 100);
-                    h >= 20 && (h = 20);
-                    var i = Math.round(g / 25), j = f > e ? e + i : e - i, k = 0;
-                    if (f > e) {
-                        for (d = e; f > d; d += i) {
-                            setTimeout("window.scrollTo(0, " + j + ")", k * h), j += i, j > f && (j = f), k++;
+                        } else if (t.ownerDocument && (o = t.ownerDocument.getElementById(a)) && I(t, o) && o.id === a) {
+                            return n.push(o), n
                         }
                     } else {
-                        for (d = e;
-                                d > f; d -= i) {
-                            setTimeout("window.scrollTo(0, " + j + ")", k * h), j -= i, f > j && (j = f), k++
+                        if (r[2]) {
+                            return J.apply(n, t.getElementsByTagName(e)), n;
+                        }
+                        if ((a = r[3]) && x.getElementsByClassName) {
+                            return J.apply(n, t.getElementsByClassName(a)), n
                         }
                     }
-                }, scrollToInPerfectScrollbar: function (a) {
-                    angular.element(a.currentTarget).closest("[perfect-scrollbar]").animate({scrollTop: "0"})
-                }, goToHotel: function (b, c, d) {
-                    d ? d.stopPropagation() : !1, a.go("hb.hotels.view.rooms", this.getHotelParams(b, c))
-                }, getHotelParams: function (a, b) {
-                    var c = this.getHotelListParams(b);
-                    return a.id && (c.hotelId = a.id), c
-                }, getHotelListParams: function (a) {
-                    var b = {searchId: a && a.search && a.search.hash, page: a && a.pagination && a.pagination.page || 1};
-                    return a && a.search.undefinedDates &&
-                    (b.search = angular.toJson(_.pick(a.search, ["city", "undefinedDates", "rooms"])), b.filters = angular.toJson(a.filters)), b
-                }, goToHotelOnMap: function (c, d) {
-                    b.stateData.hotel = c, c.showMarker = !0;
-                    var e = this.getHotelListParams(d);
-                    e.hotelId = c.id, a.go("hb.hotels.map.page", e)
-                }, smartDigits: function () {
-                    var a = function (a) {
-                        return a.split("").reverse().join("")
-                    }, b = function (b) {
-                        return a(a(b.toString()).replace(/([^.]{3})/g, "$1 "))
-                    };
-                    return function (a) {
-                        if (!angular.isNumber(a)) {
-                            return a;
+                }
+                if (x.qsa && (!j || !j.test(e))) {
+                    if (f = d = F, h = t, g = 1 !== s && e, 1 === s && "object" !== t.nodeName.toLowerCase()) {
+                        for (u = E(e), (d = t.getAttribute("id")) ? f = d.replace(bt, "\\$&") : t.setAttribute("id", f), f = "[id='" + f + "'] ", l = u.length;
+                                l--;) {
+                            u[l] = f + p(u[l]);
                         }
-                        if (a) {
-                            var c, d = Math.floor(a), e = a - d, f = 2;
-                            if (c = [b(Math.floor(d))], e && 1e3 > a) {
-                                for (var g = "", h = 1; f >= h; h++) {
-                                    g += Math.floor(10 * e), e = 10 * e - Math.floor(10 * e);
-                                }
-                                c.push(g)
+                        h = wt.test(e) && c(t.parentNode) || t, g = u.join(",")
+                    }
+                    if (g) {
+                        try {
+                            return J.apply(n, h.querySelectorAll(g)), n
+                        } catch (m) {
+                        } finally {
+                            d || t.removeAttribute("id")
+                        }
+                    }
+                }
+            }
+            return L(e.replace(lt, "$1"), t, n, i)
+        }
+
+        function n() {
+            function e(n, i) {
+                return t.push(n + " ") > T.cacheLength && delete e[t.shift()], e[n + " "] = i
+            }
+
+            var t = [];
+            return e
+        }
+
+        function i(e) {
+            return e[F] = !0, e
+        }
+
+        function r(e) {
+            var t = P.createElement("div");
+            try {
+                return !!e(t)
+            } catch (n) {
+                return !1
+            } finally {
+                t.parentNode && t.parentNode.removeChild(t), t = null
+            }
+        }
+
+        function o(e, t) {
+            for (var n = e.split("|"), i = e.length; i--;) {
+                T.attrHandle[n[i]] = t
+            }
+        }
+
+        function a(e, t) {
+            var n = t && e, i = n && 1 === e.nodeType && 1 === t.nodeType && (~t.sourceIndex || X) - (~e.sourceIndex || X);
+            if (i) {
+                return i;
+            }
+            if (n) {
+                for (; n = n.nextSibling;) {
+                    if (n === t) {
+                        return -1;
+                    }
+                }
+            }
+            return e ? 1 : -1
+        }
+
+        function s(e) {
+            return function (t) {
+                var n = t.nodeName.toLowerCase();
+                return "input" === n && t.type === e
+            }
+        }
+
+        function l(e) {
+            return function (t) {
+                var n = t.nodeName.toLowerCase();
+                return ("input" === n || "button" === n) && t.type === e
+            }
+        }
+
+        function u(e) {
+            return i(function (t) {
+                return t = +t, i(function (n, i) {
+                    for (var r, o = e([], n.length, t), a = o.length; a--;) {
+                        n[r = o[a]] && (n[r] = !(i[r] = n[r]))
+                    }
+                })
+            })
+        }
+
+        function c(e) {
+            return e && "undefined" != typeof e.getElementsByTagName && e
+        }
+
+        function d() {
+        }
+
+        function p(e) {
+            for (var t = 0, n = e.length, i = ""; n > t; t++) {
+                i += e[t].value;
+            }
+            return i
+        }
+
+        function f(e, t, n) {
+            var i = t.dir, r = n && "parentNode" === i, o = q++;
+            return t.first ? function (t, n, o) {
+                for (; t = t[i];) {
+                    if (1 === t.nodeType || r) {
+                        return e(t, n, o)
+                    }
+                }
+            } : function (t, n, a) {
+                var s, l, u = [B, o];
+                if (a) {
+                    for (; t = t[i];) {
+                        if ((1 === t.nodeType || r) && e(t, n, a)) {
+                            return !0
+                        }
+                    }
+                } else {
+                    for (; t = t[i];) {
+                        if (1 === t.nodeType || r) {
+                            if (l = t[F] || (t[F] = {}), (s = l[i]) && s[0] === B && s[1] === o) {
+                                return u[2] = s[2];
                             }
-                            return c.join(".")
+                            if (l[i] = u, u[2] = e(t, n, a)) {
+                                return !0
+                            }
                         }
-                        return "0"
                     }
-                }(), getFacilityClass: function (a) {
-                    switch (a) {
-                        case 1:
-                            return "i-condition";
-                        case 2:
-                            return "i-wifi";
-                        case 3:
-                            return "i-wifi-free";
-                        case 4:
-                            return "i-laundry";
-                        case 5:
-                            return "i-parking";
-                        case 6:
-                            return "i-pool";
-                        case 7:
-                            return "i-fitness";
-                        case 8:
-                            return "i-animals";
-                        case 9:
-                            return "i-restaurant";
-                        case 10:
-                            return "i-tv";
-                        case 11:
-                            return "i-no-smoking";
-                        case 12:
-                            return "i-smoking"
+                }
+            }
+        }
+
+        function h(e) {
+            return e.length > 1 ? function (t, n, i) {
+                for (var r = e.length; r--;) {
+                    if (!e[r](t, n, i)) {
+                        return !1;
                     }
-                }, getHour: function (a) {
-                    return a ? a.split(":")[0] : ""
-                }, getMinutes: function (a) {
-                    return a ? a.split(":")[1] : ""
-                }, guestsCount: function (a, b) {
-                    b = b || ["", ""];
-                    var c = 0, e = 0;
-                    return a ? (_.each(a, function (a) {
-                        c += a.adults, e += a.children
-                    }), d("decline")(c, f.i18n.decline.adult) + " " + (e ? d("decline")(e, f.i18n.decline.children) + " " : "") + b[0] +
-                    d("decline")(a.length, f.i18n.decline.room) + b[1]) : ""
-                }, getFacility: function (a) {
-                    return _.find(b.filteredFacilities, {value: a})
-                }, getCDNDomain: function () {
+                }
+                return !0
+            } : e[0]
+        }
+
+        function g(e, n, i) {
+            for (var r = 0, o = n.length; o > r; r++) {
+                t(e, n[r], i);
+            }
+            return i
+        }
+
+        function m(e, t, n, i, r) {
+            for (var o, a = [], s = 0, l = e.length, u = null != t; l > s; s++) {
+                (o = e[s]) && (!n || n(o, i, r)) && (a.push(o), u && t.push(s));
+            }
+            return a
+        }
+
+        function v(e, t, n, r, o, a) {
+            return r && !r[F] && (r = v(r)), o && !o[F] && (o = v(o, a)), i(function (i, a, s, l) {
+                var u, c, d, p = [], f = [], h = a.length, v = i || g(t || "*", s.nodeType ? [s] : s, []), y = !e || !i && t ? v : m(v, p, e, s, l), w = n ?
+                        o || (i ? e : h || r) ? [] : a : y;
+                if (n && n(y, w, s, l), r) {
+                    for (u = m(w, f), r(u, [], s, l), c = u.length; c--;) {
+                        (d = u[c]) && (w[f[c]] = !(y[f[c]] = d));
+                    }
+                }
+                if (i) {
+                    if (o || e) {
+                        if (o) {
+                            for (u = [], c = w.length; c--;) {
+                                (d = w[c]) && u.push(y[c] = d);
+                            }
+                            o(null, w = [], u, l)
+                        }
+                        for (c = w.length; c--;) {
+                            (d = w[c]) && (u = o ? et(i, d) : p[c]) > -1 && (i[u] = !(a[u] = d))
+                        }
+                    }
+                } else {
+                    w = m(w === a ? w.splice(h, w.length) : w), o ? o(null, a, w, l) : J.apply(a, w)
+                }
+            })
+        }
+
+        function y(e) {
+            for (var t, n, i, r = e.length, o = T.relative[e[0].type], a = o || T.relative[" "], s = o ? 1 : 0, l = f(function (e) {
+                return e === t
+            }, a, !0), u = f(function (e) {
+                return et(t, e) > -1
+            }, a, !0), c = [function (e, n, i) {
+                var r = !o && (i || n !== N) || ((t = n).nodeType ? l(e, n, i) : u(e, n, i));
+                return t = null, r
+            }]; r > s; s++) {
+                if (n = T.relative[e[s].type]) {
+                    c = [f(h(c), n)];
+                } else {
+                    if (n = T.filter[e[s].type].apply(null, e[s].matches), n[F]) {
+                        for (i = ++s; r > i && !T.relative[e[i].type]; i++) {
+                            ;
+                        }
+                        return v(s > 1 && h(c), s > 1 && p(e.slice(0, s - 1).concat({value: " " === e[s - 2].type ? "*" : ""})).replace(lt, "$1"), n,
+                                i > s && y(e.slice(s, i)), r > i && y(e = e.slice(i)), r > i && p(e))
+                    }
+                    c.push(n)
+                }
+            }
+            return h(c)
+        }
+
+        function w(e, n) {
+            var r = n.length > 0, o = e.length > 0, a = function (i, a, s, l, u) {
+                var c, d, p, f = 0, h = "0", g = i && [], v = [], y = N, w = i || o && T.find.TAG("*", u), b = B +=
+                        null == y ? 1 : Math.random() || .1, x = w.length;
+                for (u && (N = a !== P && a); h !== x && null != (c = w[h]); h++) {
+                    if (o && c) {
+                        for (d = 0; p = e[d++];) {
+                            if (p(c, a, s)) {
+                                l.push(c);
+                                break
+                            }
+                        }
+                        u && (B = b)
+                    }
+                    r && ((c = !p && c) && f--, i && g.push(c))
+                }
+                if (f += h, r && h !== f) {
+                    for (d = 0; p = n[d++];) {
+                        p(g, v, a, s);
+                    }
+                    if (i) {
+                        if (f > 0) {
+                            for (; h--;) {
+                                g[h] || v[h] || (v[h] = K.call(l));
+                            }
+                        }
+                        v = m(v)
+                    }
+                    J.apply(l, v), u && !i && v.length > 0 && f + n.length > 1 && t.uniqueSort(l)
+                }
+                return u && (B = b, N = y), g
+            };
+            return r ? i(a) : a
+        }
+
+        var b, x, T, S, C, E, k, L, N, A, M, D, P, H, _, j, W, O, I, F = "sizzle" +
+                1 * new Date, R = e.document, B = 0, q = 0, z = n(), $ = n(), V = n(), G = function (e, t) {
+            return e === t && (M = !0), 0
+        }, X = 1 << 31, Y = {}.hasOwnProperty, U = [], K = U.pop, Q = U.push, J = U.push, Z = U.slice, et = function (e, t) {
+            for (var n = 0, i = e.length; i > n; n++) {
+                if (e[n] === t) {
+                    return n;
+                }
+            }
+            return -1
+        }, tt = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped", nt = "[\\x20\\t\\r\\n\\f]", it = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+", rt = it.replace("w",
+                "w#"), ot = "\\[" + nt + "*(" + it + ")(?:" + nt + "*([*^$|!~]?=)" + nt + "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + rt +
+                "))|)" + nt + "*\\]", at = ":(" + it + ")(?:\\((('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|((?:\\\\.|[^\\\\()[\\]]|" + ot +
+                ")*)|.*)\\)|)", st = new RegExp(nt + "+", "g"), lt = new RegExp("^" + nt + "+|((?:^|[^\\\\])(?:\\\\.)*)" + nt + "+$",
+                "g"), ut = new RegExp("^" + nt + "*," + nt + "*"), ct = new RegExp("^" + nt + "*([>+~]|" + nt + ")" + nt + "*"), dt = new RegExp("=" + nt +
+                "*([^\\]'\"]*?)" + nt + "*\\]", "g"), pt = new RegExp(at), ft = new RegExp("^" + rt + "$"), ht = {
+            ID: new RegExp("^#(" + it + ")"),
+            CLASS: new RegExp("^\\.(" + it + ")"),
+            TAG: new RegExp("^(" + it.replace("w", "w*") + ")"),
+            ATTR: new RegExp("^" + ot),
+            PSEUDO: new RegExp("^" + at),
+            CHILD: new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" + nt + "*(even|odd|(([+-]|)(\\d*)n|)" + nt + "*(?:([+-]|)" + nt +
+                    "*(\\d+)|))" + nt + "*\\)|)", "i"),
+            bool: new RegExp("^(?:" + tt + ")$", "i"),
+            needsContext: new RegExp("^" + nt + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + nt + "*((?:-\\d)?\\d*)" + nt + "*\\)|)(?=[^-]|$)", "i")
+        }, gt = /^(?:input|select|textarea|button)$/i, mt = /^h\d$/i, vt = /^[^{]+\{\s*\[native \w/, yt = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/, wt = /[+~]/, bt = /'|\\/g, xt = new RegExp("\\\\([\\da-f]{1,6}" +
+                nt + "?|(" + nt + ")|.)", "ig"), Tt = function (e, t, n) {
+            var i = "0x" + t - 65536;
+            return i !== i || n ? t : 0 > i ? String.fromCharCode(i + 65536) : String.fromCharCode(i >> 10 | 55296, 1023 & i | 56320)
+        }, St = function () {
+            D()
+        };
+        try {
+            J.apply(U = Z.call(R.childNodes), R.childNodes), U[R.childNodes.length].nodeType
+        } catch (Ct) {
+            J = {
+                apply: U.length ? function (e, t) {
+                    Q.apply(e, Z.call(t))
+                } : function (e, t) {
+                    for (var n = e.length, i = 0; e[n++] = t[i++];) {
+                        ;
+                    }
+                    e.length = n - 1
+                }
+            }
+        }
+        x = t.support = {}, C = t.isXML = function (e) {
+            var t = e && (e.ownerDocument || e).documentElement;
+            return t ? "HTML" !== t.nodeName : !1
+        }, D = t.setDocument = function (e) {
+            var t, n, i = e ? e.ownerDocument || e : R;
+            return i !== P && 9 === i.nodeType && i.documentElement ? (P = i, H = i.documentElement, n = i.defaultView, n && n !== n.top &&
+            (n.addEventListener ? n.addEventListener("unload", St, !1) : n.attachEvent && n.attachEvent("onunload", St)), _ = !C(i), x.attributes =
+                    r(function (e) {
+                        return e.className = "i", !e.getAttribute("className")
+                    }), x.getElementsByTagName = r(function (e) {
+                return e.appendChild(i.createComment("")), !e.getElementsByTagName("*").length
+            }), x.getElementsByClassName = vt.test(i.getElementsByClassName), x.getById = r(function (e) {
+                return H.appendChild(e).id = F, !i.getElementsByName || !i.getElementsByName(F).length
+            }), x.getById ? (T.find.ID = function (e, t) {
+                if ("undefined" != typeof t.getElementById && _) {
+                    var n = t.getElementById(e);
+                    return n && n.parentNode ? [n] : []
+                }
+            }, T.filter.ID = function (e) {
+                var t = e.replace(xt, Tt);
+                return function (e) {
+                    return e.getAttribute("id") === t
+                }
+            }) : (delete T.find.ID, T.filter.ID = function (e) {
+                var t = e.replace(xt, Tt);
+                return function (e) {
+                    var n = "undefined" != typeof e.getAttributeNode && e.getAttributeNode("id");
+                    return n && n.value === t
+                }
+            }), T.find.TAG = x.getElementsByTagName ? function (e, t) {
+                return "undefined" != typeof t.getElementsByTagName ? t.getElementsByTagName(e) : x.qsa ? t.querySelectorAll(e) : void 0
+            } : function (e, t) {
+                var n, i = [], r = 0, o = t.getElementsByTagName(e);
+                if ("*" === e) {
+                    for (; n = o[r++];) {
+                        1 === n.nodeType && i.push(n);
+                    }
+                    return i
+                }
+                return o
+            }, T.find.CLASS = x.getElementsByClassName && function (e, t) {
+                        return _ ? t.getElementsByClassName(e) : void 0
+                    }, W = [], j = [], (x.qsa = vt.test(i.querySelectorAll)) && (r(function (e) {
+                H.appendChild(e).innerHTML = "<a id='" + F + "'></a><select id='" + F +
+                        "-\f]' msallowcapture=''><option selected=''></option></select>", e.querySelectorAll("[msallowcapture^='']").length &&
+                j.push("[*^$]=" + nt + "*(?:''|\"\")"), e.querySelectorAll("[selected]").length ||
+                j.push("\\[" + nt + "*(?:value|" + tt + ")"), e.querySelectorAll("[id~=" + F + "-]").length ||
+                j.push("~="), e.querySelectorAll(":checked").length || j.push(":checked"), e.querySelectorAll("a#" + F + "+*").length || j.push(".#.+[+~]")
+            }), r(function (e) {
+                var t = i.createElement("input");
+                t.setAttribute("type", "hidden"), e.appendChild(t).setAttribute("name", "D"), e.querySelectorAll("[name=d]").length &&
+                j.push("name" + nt + "*[*^$|!~]?="), e.querySelectorAll(":enabled").length ||
+                j.push(":enabled", ":disabled"), e.querySelectorAll("*,:x"), j.push(",.*:")
+            })), (x.matchesSelector = vt.test(O = H.matches || H.webkitMatchesSelector || H.mozMatchesSelector || H.oMatchesSelector || H.msMatchesSelector)) &&
+            r(function (e) {
+                x.disconnectedMatch = O.call(e, "div"), O.call(e, "[s!='']:x"), W.push("!=", at)
+            }), j = j.length && new RegExp(j.join("|")), W = W.length && new RegExp(W.join("|")), t = vt.test(H.compareDocumentPosition), I =
+                    t || vt.test(H.contains) ? function (e, t) {
+                        var n = 9 === e.nodeType ? e.documentElement : e, i = t && t.parentNode;
+                        return e === i ||
+                                !(!i || 1 !== i.nodeType || !(n.contains ? n.contains(i) : e.compareDocumentPosition && 16 & e.compareDocumentPosition(i)))
+                    } : function (e, t) {
+                        if (t) {
+                            for (; t = t.parentNode;) {
+                                if (t === e) {
+                                    return !0;
+                                }
+                            }
+                        }
+                        return !1
+                    }, G = t ? function (e, t) {
+                if (e === t) {
+                    return M = !0, 0;
+                }
+                var n = !e.compareDocumentPosition - !t.compareDocumentPosition;
+                return n ? n : (n = (e.ownerDocument || e) === (t.ownerDocument || t) ? e.compareDocumentPosition(t) : 1, 1 & n ||
+                !x.sortDetached && t.compareDocumentPosition(e) === n ?
+                        e === i || e.ownerDocument === R && I(R, e) ? -1 : t === i || t.ownerDocument === R && I(R, t) ? 1 : A ? et(A, e) - et(A, t) : 0 :
+                        4 & n ? -1 : 1)
+            } : function (e, t) {
+                if (e === t) {
+                    return M = !0, 0;
+                }
+                var n, r = 0, o = e.parentNode, s = t.parentNode, l = [e], u = [t];
+                if (!o || !s) {
+                    return e === i ? -1 : t === i ? 1 : o ? -1 : s ? 1 : A ? et(A, e) - et(A, t) : 0;
+                }
+                if (o === s) {
+                    return a(e, t);
+                }
+                for (n = e; n = n.parentNode;) {
+                    l.unshift(n);
+                }
+                for (n = t; n = n.parentNode;) {
+                    u.unshift(n);
+                }
+                for (; l[r] === u[r];) {
+                    r++;
+                }
+                return r ? a(l[r], u[r]) : l[r] === R ? -1 : u[r] === R ? 1 : 0
+            }, i) : P
+        }, t.matches = function (e, n) {
+            return t(e, null, null, n)
+        }, t.matchesSelector = function (e, n) {
+            if ((e.ownerDocument || e) !== P && D(e), n = n.replace(dt, "='$1']"), !(!x.matchesSelector || !_ || W && W.test(n) || j && j.test(n))) {
+                try {
+                    var i = O.call(e, n);
+                    if (i || x.disconnectedMatch || e.document && 11 !== e.document.nodeType) {
+                        return i
+                    }
+                } catch (r) {
+                }
+            }
+            return t(n, P, null, [e]).length > 0
+        }, t.contains = function (e, t) {
+            return (e.ownerDocument || e) !== P && D(e), I(e, t)
+        }, t.attr = function (e, t) {
+            (e.ownerDocument || e) !== P && D(e);
+            var n = T.attrHandle[t.toLowerCase()], i = n && Y.call(T.attrHandle, t.toLowerCase()) ? n(e, t, !_) : void 0;
+            return void 0 !== i ? i : x.attributes || !_ ? e.getAttribute(t) : (i = e.getAttributeNode(t)) && i.specified ? i.value : null
+        }, t.error = function (e) {
+            throw new Error("Syntax error, unrecognized expression: " + e)
+        }, t.uniqueSort = function (e) {
+            var t, n = [], i = 0, r = 0;
+            if (M = !x.detectDuplicates, A = !x.sortStable && e.slice(0), e.sort(G), M) {
+                for (; t = e[r++];) {
+                    t === e[r] && (i = n.push(r));
+                }
+                for (; i--;) {
+                    e.splice(n[i], 1)
+                }
+            }
+            return A = null, e
+        }, S = t.getText = function (e) {
+            var t, n = "", i = 0, r = e.nodeType;
+            if (r) {
+                if (1 === r || 9 === r || 11 === r) {
+                    if ("string" == typeof e.textContent) {
+                        return e.textContent;
+                    }
+                    for (e = e.firstChild; e; e = e.nextSibling) {
+                        n += S(e)
+                    }
+                } else if (3 === r || 4 === r) {
+                    return e.nodeValue
+                }
+            } else {
+                for (; t = e[i++];) {
+                    n += S(t);
+                }
+            }
+            return n
+        }, T = t.selectors = {
+            cacheLength: 50,
+            createPseudo: i,
+            match: ht,
+            attrHandle: {},
+            find: {},
+            relative: {">": {dir: "parentNode", first: !0}, " ": {dir: "parentNode"}, "+": {dir: "previousSibling", first: !0}, "~": {dir: "previousSibling"}},
+            preFilter: {
+                ATTR: function (e) {
+                    return e[1] = e[1].replace(xt, Tt), e[3] = (e[3] || e[4] || e[5] || "").replace(xt, Tt), "~=" === e[2] &&
+                    (e[3] = " " + e[3] + " "), e.slice(0, 4)
+                }, CHILD: function (e) {
+                    return e[1] = e[1].toLowerCase(), "nth" === e[1].slice(0, 3) ?
+                            (e[3] || t.error(e[0]), e[4] = +(e[4] ? e[5] + (e[6] || 1) : 2 * ("even" === e[3] || "odd" === e[3])), e[5] =
+                                    +(e[7] + e[8] || "odd" === e[3])) : e[3] && t.error(e[0]), e
+                }, PSEUDO: function (e) {
+                    var t, n = !e[6] && e[2];
+                    return ht.CHILD.test(e[0]) ? null : (e[3] ? e[2] = e[4] || e[5] || "" :
+                    n && pt.test(n) && (t = E(n, !0)) && (t = n.indexOf(")", n.length - t) - n.length) &&
+                    (e[0] = e[0].slice(0, t), e[2] = n.slice(0, t)), e.slice(0, 3))
+                }
+            },
+            filter: {
+                TAG: function (e) {
+                    var t = e.replace(xt, Tt).toLowerCase();
+                    return "*" === e ? function () {
+                        return !0
+                    } : function (e) {
+                        return e.nodeName && e.nodeName.toLowerCase() === t
+                    }
+                }, CLASS: function (e) {
+                    var t = z[e + " "];
+                    return t || (t = new RegExp("(^|" + nt + ")" + e + "(" + nt + "|$)")) && z(e, function (e) {
+                                return t.test("string" == typeof e.className && e.className ||
+                                        "undefined" != typeof e.getAttribute && e.getAttribute("class") || "")
+                            })
+                }, ATTR: function (e, n, i) {
+                    return function (r) {
+                        var o = t.attr(r, e);
+                        return null == o ? "!=" === n : n ? (o += "", "=" === n ? o === i : "!=" === n ? o !== i : "^=" === n ? i && 0 === o.indexOf(i) :
+                                "*=" === n ? i && o.indexOf(i) > -1 : "$=" === n ? i && o.slice(-i.length) === i :
+                                        "~=" === n ? (" " + o.replace(st, " ") + " ").indexOf(i) > -1 :
+                                                "|=" === n ? o === i || o.slice(0, i.length + 1) === i + "-" : !1) : !0
+                    }
+                }, CHILD: function (e, t, n, i, r) {
+                    var o = "nth" !== e.slice(0, 3), a = "last" !== e.slice(-4), s = "of-type" === t;
+                    return 1 === i && 0 === r ? function (e) {
+                        return !!e.parentNode
+                    } : function (t, n, l) {
+                        var u, c, d, p, f, h, g = o !== a ? "nextSibling" : "previousSibling", m = t.parentNode, v = s && t.nodeName.toLowerCase(), y = !l &&
+                                !s;
+                        if (m) {
+                            if (o) {
+                                for (; g;) {
+                                    for (d = t; d = d[g];) {
+                                        if (s ? d.nodeName.toLowerCase() === v : 1 === d.nodeType) {
+                                            return !1;
+                                        }
+                                    }
+                                    h = g = "only" === e && !h && "nextSibling"
+                                }
+                                return !0
+                            }
+                            if (h = [a ? m.firstChild : m.lastChild], a && y) {
+                                for (c = m[F] || (m[F] = {}), u = c[e] || [], f = u[0] === B && u[1], p = u[0] === B && u[2], d = f && m.childNodes[f];
+                                        d = ++f && d && d[g] || (p = f = 0) || h.pop();) {
+                                    if (1 === d.nodeType && ++p && d === t) {
+                                        c[e] = [B, f, p];
+                                        break
+                                    }
+                                }
+                            } else if (y && (u = (t[F] || (t[F] = {}))[e]) && u[0] === B) {
+                                p = u[1];
+                            } else {
+                                for (;
+                                        (d = ++f && d && d[g] || (p = f = 0) || h.pop()) &&
+                                        ((s ? d.nodeName.toLowerCase() !== v : 1 !== d.nodeType) || !++p ||
+                                        (y && ((d[F] || (d[F] = {}))[e] = [B, p]), d !== t));) {
+                                    ;
+                                }
+                            }
+                            return p -= r, p === i || p % i === 0 && p / i >= 0
+                        }
+                    }
+                }, PSEUDO: function (e, n) {
+                    var r, o = T.pseudos[e] || T.setFilters[e.toLowerCase()] || t.error("unsupported pseudo: " + e);
+                    return o[F] ? o(n) : o.length > 1 ? (r = [e, e, "", n], T.setFilters.hasOwnProperty(e.toLowerCase()) ? i(function (e, t) {
+                        for (var i, r = o(e, n), a = r.length; a--;) {
+                            i = et(e, r[a]), e[i] = !(t[i] = r[a])
+                        }
+                    }) : function (e) {
+                        return o(e, 0, r)
+                    }) : o
+                }
+            },
+            pseudos: {
+                not: i(function (e) {
+                    var t = [], n = [], r = k(e.replace(lt, "$1"));
+                    return r[F] ? i(function (e, t, n, i) {
+                        for (var o, a = r(e, null, i, []), s = e.length; s--;) {
+                            (o = a[s]) && (e[s] = !(t[s] = o))
+                        }
+                    }) : function (e, i, o) {
+                        return t[0] = e, r(t, null, o, n), t[0] = null, !n.pop()
+                    }
+                }), has: i(function (e) {
+                    return function (n) {
+                        return t(e, n).length > 0
+                    }
+                }), contains: i(function (e) {
+                    return e = e.replace(xt, Tt), function (t) {
+                        return (t.textContent || t.innerText || S(t)).indexOf(e) > -1
+                    }
+                }), lang: i(function (e) {
+                    return ft.test(e || "") || t.error("unsupported lang: " + e), e = e.replace(xt, Tt).toLowerCase(), function (t) {
+                        var n;
+                        do {
+                            if (n = _ ? t.lang : t.getAttribute("xml:lang") || t.getAttribute("lang")) {
+                                return n = n.toLowerCase(), n === e ||
+                                0 === n.indexOf(e + "-");
+                            }
+                        } while ((t = t.parentNode) && 1 === t.nodeType);
+                        return !1
+                    }
+                }), target: function (t) {
+                    var n = e.location && e.location.hash;
+                    return n && n.slice(1) === t.id
+                }, root: function (e) {
+                    return e === H
+                }, focus: function (e) {
+                    return e === P.activeElement && (!P.hasFocus || P.hasFocus()) && !!(e.type || e.href || ~e.tabIndex)
+                }, enabled: function (e) {
+                    return e.disabled === !1
+                }, disabled: function (e) {
+                    return e.disabled === !0
+                }, checked: function (e) {
+                    var t = e.nodeName.toLowerCase();
+                    return "input" === t && !!e.checked || "option" === t && !!e.selected
+                }, selected: function (e) {
+                    return e.parentNode && e.parentNode.selectedIndex, e.selected === !0
+                }, empty: function (e) {
+                    for (e = e.firstChild; e; e = e.nextSibling) {
+                        if (e.nodeType < 6) {
+                            return !1;
+                        }
+                    }
+                    return !0
+                }, parent: function (e) {
+                    return !T.pseudos.empty(e)
+                }, header: function (e) {
+                    return mt.test(e.nodeName)
+                }, input: function (e) {
+                    return gt.test(e.nodeName)
+                }, button: function (e) {
+                    var t = e.nodeName.toLowerCase();
+                    return "input" === t && "button" === e.type || "button" === t
+                }, text: function (e) {
+                    var t;
+                    return "input" === e.nodeName.toLowerCase() && "text" === e.type && (null == (t = e.getAttribute("type")) || "text" === t.toLowerCase())
+                }, first: u(function () {
+                    return [0]
+                }), last: u(function (e, t) {
+                    return [t - 1]
+                }), eq: u(function (e, t, n) {
+                    return [0 > n ? n + t : n]
+                }), even: u(function (e, t) {
+                    for (var n = 0; t > n; n += 2) {
+                        e.push(n);
+                    }
                     return e
-                }, event: function (c, d) {
-                    this.isProd() && !b.jsDevEnv &&
-                    (window.ga && window.ga("send", "event", a.$current.name, c, d), window.yaCounter27514497 ? window.yaCounter27514497.reachGoal(c) :
-                    window.yandex_metrika_callbacks && window.yandex_metrika_callbacks.push(function () {
-                        window.yaCounter27514497.reachGoal(c)
-                    }))
-                }, page: function (a) {
-                    this.isProd() && !b.jsDevEnv && (window.ga && ga("send", "pageview", a), window.yaCounter27514497 ? window.yaCounter27514497.hit(a) :
-                    window.yandex_metrika_callbacks && window.yandex_metrika_callbacks.push(function () {
-                        window.yaCounter27514497.hit(a)
-                    }))
-                }, isProd: function () {
-                    return "prod" === b.env
-                }, isDev: function () {
-                    return "dev" === b.env
-                }, getDayOfWeek: function (a) {
-                    return a ? moment.weekdaysMin()[a.day()] : void 0
-                }, getMonth: function (a) {
-                    return a ? moment.months()[a.month()] : void 0
-                }, notInStates: function (b) {
-                    var c = !0;
-                    return _.each(b, function (b) {
-                        -1 !== a.current.name.indexOf(b) && (c = !1)
-                    }), c
-                }, inStates: function (b) {
-                    var c = !1;
-                    return _.each(b, function (b) {
-                        -1 !== a.current.name.indexOf(b) && (c = !0)
-                    }), c
-                }, print: function (a) {
-                    var b = h.open("", "", "width=800,height=" + h.innerHeight);
-                    b.document.write(a), b.document.close(), b.focus(), b.print()
-                }, setItemsToLocalStorage: function (a) {
-                    _.each(a, function (a, b) {
-                        h.localStorage.setItem(b, a)
-                    })
-                }, getItemFromLocalStorage: function (a) {
-                    return h.localStorage.getItem(a)
-                }, deleteItemsFromLocalStorage: function (a) {
-                    _.each(a, function (a) {
-                        h.localStorage.removeItem(a)
-                    })
-                }, getPartnerId: function () {
-                    var a;
-                    return a = this.getItemFromLocalStorage("partnerId"), (3 == a || 9 == a) && (a = 0), a
+                }), odd: u(function (e, t) {
+                    for (var n = 1; t > n; n += 2) {
+                        e.push(n);
+                    }
+                    return e
+                }), lt: u(function (e, t, n) {
+                    for (var i = 0 > n ? n + t : n; --i >= 0;) {
+                        e.push(i);
+                    }
+                    return e
+                }), gt: u(function (e, t, n) {
+                    for (var i = 0 > n ? n + t : n; ++i < t;) {
+                        e.push(i);
+                    }
+                    return e
+                })
+            }
+        }, T.pseudos.nth = T.pseudos.eq;
+        for (b in{radio: !0, checkbox: !0, file: !0, password: !0, image: !0}) {
+            T.pseudos[b] = s(b);
+        }
+        for (b in{submit: !0, reset: !0}) {
+            T.pseudos[b] = l(b);
+        }
+        return d.prototype = T.filters = T.pseudos, T.setFilters = new d, E = t.tokenize = function (e, n) {
+            var i, r, o, a, s, l, u, c = $[e + " "];
+            if (c) {
+                return n ? 0 : c.slice(0);
+            }
+            for (s = e, l = [], u = T.preFilter; s;) {
+                (!i || (r = ut.exec(s))) && (r && (s = s.slice(r[0].length) || s), l.push(o = [])), i = !1, (r = ct.exec(s)) &&
+                (i = r.shift(), o.push({value: i, type: r[0].replace(lt, " ")}), s = s.slice(i.length));
+                for (a in T.filter) {
+                    !(r = ht[a].exec(s)) || u[a] && !(r = u[a](r)) ||
+                    (i = r.shift(), o.push({value: i, type: a, matches: r}), s = s.slice(i.length));
+                }
+                if (!i) {
+                    break
+                }
+            }
+            return n ? s.length : s ? t.error(e) : $(e, l).slice(0)
+        }, k = t.compile = function (e, t) {
+            var n, i = [], r = [], o = V[e + " "];
+            if (!o) {
+                for (t || (t = E(e)), n = t.length; n--;) {
+                    o = y(t[n]), o[F] ? i.push(o) : r.push(o);
+                }
+                o = V(e, w(r, i)), o.selector = e
+            }
+            return o
+        }, L = t.select = function (e, t, n, i) {
+            var r, o, a, s, l, u = "function" == typeof e && e, d = !i && E(e = u.selector || e);
+            if (n = n || [], 1 === d.length) {
+                if (o = d[0] = d[0].slice(0), o.length > 2 && "ID" === (a = o[0]).type && x.getById && 9 === t.nodeType && _ && T.relative[o[1].type]) {
+                    if (t = (T.find.ID(a.matches[0].replace(xt, Tt), t) || [])[0], !t) {
+                        return n;
+                    }
+                    u && (t = t.parentNode), e = e.slice(o.shift().value.length)
+                }
+                for (r = ht.needsContext.test(e) ? 0 : o.length; r-- && (a = o[r], !T.relative[s = a.type]);) {
+                    if ((l = T.find[s]) &&
+                            (i = l(a.matches[0].replace(xt, Tt), wt.test(o[0].type) && c(t.parentNode) || t))) {
+                        if (o.splice(r, 1), e = i.length && p(o), !e) {
+                            return J.apply(n, i), n;
+                        }
+                        break
+                    }
+                }
+            }
+            return (u || k(e, d))(i, t, !_, n, wt.test(e) && c(t.parentNode) || t), n
+        }, x.sortStable = F.split("").sort(G).join("") === F, x.detectDuplicates = !!M, D(), x.sortDetached = r(function (e) {
+            return 1 & e.compareDocumentPosition(P.createElement("div"))
+        }), r(function (e) {
+            return e.innerHTML = "<a href='#'></a>", "#" === e.firstChild.getAttribute("href")
+        }) || o("type|href|height|width", function (e, t, n) {
+            return n ? void 0 : e.getAttribute(t, "type" === t.toLowerCase() ? 1 : 2)
+        }), x.attributes && r(function (e) {
+            return e.innerHTML = "<input/>", e.firstChild.setAttribute("value", ""), "" === e.firstChild.getAttribute("value")
+        }) || o("value", function (e, t, n) {
+            return n || "input" !== e.nodeName.toLowerCase() ? void 0 : e.defaultValue
+        }), r(function (e) {
+            return null == e.getAttribute("disabled")
+        }) || o(tt, function (e, t, n) {
+            var i;
+            return n ? void 0 : e[t] === !0 ? t.toLowerCase() : (i = e.getAttributeNode(t)) && i.specified ? i.value : null
+        }), t
+    }(e);
+    rt.find = ut, rt.expr = ut.selectors, rt.expr[":"] = rt.expr.pseudos, rt.unique = ut.uniqueSort, rt.text = ut.getText, rt.isXMLDoc = ut.isXML, rt.contains =
+            ut.contains;
+    var ct = rt.expr.match.needsContext, dt = /^<(\w+)\s*\/?>(?:<\/\1>|)$/, pt = /^.[^:#\[\.,]*$/;
+    rt.filter = function (e, t, n) {
+        var i = t[0];
+        return n && (e = ":not(" + e + ")"), 1 === t.length && 1 === i.nodeType ? rt.find.matchesSelector(i, e) ? [i] : [] :
+                rt.find.matches(e, rt.grep(t, function (e) {
+                    return 1 === e.nodeType
+                }))
+    }, rt.fn.extend({
+        find: function (e) {
+            var t, n = [], i = this, r = i.length;
+            if ("string" != typeof e) {
+                return this.pushStack(rt(e).filter(function () {
+                    for (t = 0; r > t; t++) {
+                        if (rt.contains(i[t], this)) {
+                            return !0
+                        }
+                    }
+                }));
+            }
+            for (t = 0; r > t; t++) {
+                rt.find(e, i[t], n);
+            }
+            return n = this.pushStack(r > 1 ? rt.unique(n) : n), n.selector = this.selector ? this.selector + " " + e : e, n
+        }, filter: function (e) {
+            return this.pushStack(i(this, e || [], !1))
+        }, not: function (e) {
+            return this.pushStack(i(this, e || [], !0))
+        }, is: function (e) {
+            return !!i(this, "string" == typeof e && ct.test(e) ? rt(e) : e || [], !1).length
+        }
+    });
+    var ft, ht = e.document, gt = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/, mt = rt.fn.init = function (e, t) {
+        var n, i;
+        if (!e) {
+            return this;
+        }
+        if ("string" == typeof e) {
+            if (n = "<" === e.charAt(0) && ">" === e.charAt(e.length - 1) && e.length >= 3 ? [null, e, null] : gt.exec(e), !n || !n[1] && t) {
+                return !t ||
+                t.jquery ? (t || ft).find(e) : this.constructor(t).find(e);
+            }
+            if (n[1]) {
+                if (t = t instanceof rt ? t[0] : t, rt.merge(this, rt.parseHTML(n[1], t && t.nodeType ? t.ownerDocument || t : ht, !0)), dt.test(n[1]) &&
+                        rt.isPlainObject(t)) {
+                    for (n in t) {
+                        rt.isFunction(this[n]) ? this[n](t[n]) : this.attr(n, t[n]);
+                    }
+                }
+                return this
+            }
+            if (i = ht.getElementById(n[2]), i && i.parentNode) {
+                if (i.id !== n[2]) {
+                    return ft.find(e);
+                }
+                this.length = 1, this[0] = i
+            }
+            return this.context = ht, this.selector = e, this
+        }
+        return e.nodeType ? (this.context = this[0] = e, this.length = 1, this) : rt.isFunction(e) ? "undefined" != typeof ft.ready ? ft.ready(e) : e(rt) :
+                (void 0 !== e.selector && (this.selector = e.selector, this.context = e.context), rt.makeArray(e, this))
+    };
+    mt.prototype = rt.fn, ft = rt(ht);
+    var vt = /^(?:parents|prev(?:Until|All))/, yt = {children: !0, contents: !0, next: !0, prev: !0};
+    rt.extend({
+        dir: function (e, t, n) {
+            for (var i = [], r = e[t]; r && 9 !== r.nodeType && (void 0 === n || 1 !== r.nodeType || !rt(r).is(n));) {
+                1 === r.nodeType && i.push(r), r = r[t];
+            }
+            return i
+        }, sibling: function (e, t) {
+            for (var n = []; e; e = e.nextSibling) {
+                1 === e.nodeType && e !== t && n.push(e);
+            }
+            return n
+        }
+    }), rt.fn.extend({
+        has: function (e) {
+            var t, n = rt(e, this), i = n.length;
+            return this.filter(function () {
+                for (t = 0; i > t; t++) {
+                    if (rt.contains(this, n[t])) {
+                        return !0
+                    }
+                }
+            })
+        }, closest: function (e, t) {
+            for (var n, i = 0, r = this.length, o = [], a = ct.test(e) || "string" != typeof e ? rt(e, t || this.context) : 0; r > i; i++) {
+                for (n = this[i];
+                        n && n !== t; n = n.parentNode) {
+                    if (n.nodeType < 11 && (a ? a.index(n) > -1 : 1 === n.nodeType && rt.find.matchesSelector(n, e))) {
+                        o.push(n);
+                        break
+                    }
+                }
+            }
+            return this.pushStack(o.length > 1 ? rt.unique(o) : o)
+        }, index: function (e) {
+            return e ? "string" == typeof e ? rt.inArray(this[0], rt(e)) : rt.inArray(e.jquery ? e[0] : e, this) :
+                    this[0] && this[0].parentNode ? this.first().prevAll().length : -1
+        }, add: function (e, t) {
+            return this.pushStack(rt.unique(rt.merge(this.get(), rt(e, t))))
+        }, addBack: function (e) {
+            return this.add(null == e ? this.prevObject : this.prevObject.filter(e))
+        }
+    }), rt.each({
+        parent: function (e) {
+            var t = e.parentNode;
+            return t && 11 !== t.nodeType ? t : null
+        }, parents: function (e) {
+            return rt.dir(e, "parentNode")
+        }, parentsUntil: function (e, t, n) {
+            return rt.dir(e, "parentNode", n)
+        }, next: function (e) {
+            return r(e, "nextSibling")
+        }, prev: function (e) {
+            return r(e, "previousSibling")
+        }, nextAll: function (e) {
+            return rt.dir(e, "nextSibling")
+        }, prevAll: function (e) {
+            return rt.dir(e, "previousSibling")
+        }, nextUntil: function (e, t, n) {
+            return rt.dir(e, "nextSibling", n)
+        }, prevUntil: function (e, t, n) {
+            return rt.dir(e, "previousSibling", n)
+        }, siblings: function (e) {
+            return rt.sibling((e.parentNode || {}).firstChild, e)
+        }, children: function (e) {
+            return rt.sibling(e.firstChild)
+        }, contents: function (e) {
+            return rt.nodeName(e, "iframe") ? e.contentDocument || e.contentWindow.document : rt.merge([], e.childNodes)
+        }
+    }, function (e, t) {
+        rt.fn[e] = function (n, i) {
+            var r = rt.map(this, t, n);
+            return "Until" !== e.slice(-5) && (i = n), i && "string" == typeof i && (r = rt.filter(i, r)), this.length > 1 &&
+            (yt[e] || (r = rt.unique(r)), vt.test(e) && (r = r.reverse())), this.pushStack(r)
+        }
+    });
+    var wt = /\S+/g, bt = {};
+    rt.Callbacks = function (e) {
+        e = "string" == typeof e ? bt[e] || o(e) : rt.extend({}, e);
+        var t, n, i, r, a, s, l = [], u = !e.once && [], c = function (o) {
+            for (n = e.memory && o, i = !0, a = s || 0, s = 0, r = l.length, t = !0; l && r > a; a++) {
+                if (l[a].apply(o[0], o[1]) === !1 && e.stopOnFalse) {
+                    n = !1;
+                    break
+                }
+            }
+            t = !1, l && (u ? u.length && c(u.shift()) : n ? l = [] : d.disable())
+        }, d = {
+            add: function () {
+                if (l) {
+                    var i = l.length;
+                    !function o(t) {
+                        rt.each(t, function (t, n) {
+                            var i = rt.type(n);
+                            "function" === i ? e.unique && d.has(n) || l.push(n) : n && n.length && "string" !== i && o(n)
+                        })
+                    }(arguments), t ? r = l.length : n && (s = i, c(n))
+                }
+                return this
+            }, remove: function () {
+                return l && rt.each(arguments, function (e, n) {
+                    for (var i; (i = rt.inArray(n, l, i)) > -1;) {
+                        l.splice(i, 1), t && (r >= i && r--, a >= i && a--)
+                    }
+                }), this
+            }, has: function (e) {
+                return e ? rt.inArray(e, l) > -1 : !(!l || !l.length)
+            }, empty: function () {
+                return l = [], r = 0, this
+            }, disable: function () {
+                return l = u = n = void 0, this
+            }, disabled: function () {
+                return !l
+            }, lock: function () {
+                return u = void 0, n || d.disable(), this
+            }, locked: function () {
+                return !u
+            }, fireWith: function (e, n) {
+                return !l || i && !u || (n = n || [], n = [e, n.slice ? n.slice() : n], t ? u.push(n) : c(n)), this
+            }, fire: function () {
+                return d.fireWith(this, arguments), this
+            }, fired: function () {
+                return !!i
+            }
+        };
+        return d
+    }, rt.extend({
+        Deferred: function (e) {
+            var t = [["resolve", "done", rt.Callbacks("once memory"), "resolved"], ["reject", "fail", rt.Callbacks("once memory"), "rejected"],
+                ["notify", "progress", rt.Callbacks("memory")]], n = "pending", i = {
+                state: function () {
+                    return n
+                }, always: function () {
+                    return r.done(arguments).fail(arguments), this
+                }, then: function () {
+                    var e = arguments;
+                    return rt.Deferred(function (n) {
+                        rt.each(t, function (t, o) {
+                            var a = rt.isFunction(e[t]) && e[t];
+                            r[o[1]](function () {
+                                var e = a && a.apply(this, arguments);
+                                e && rt.isFunction(e.promise) ? e.promise().done(n.resolve).fail(n.reject).progress(n.notify) :
+                                        n[o[0] + "With"](this === i ? n.promise() : this, a ? [e] : arguments)
+                            })
+                        }), e = null
+                    }).promise()
+                }, promise: function (e) {
+                    return null != e ? rt.extend(e, i) : i
+                }
+            }, r = {};
+            return i.pipe = i.then, rt.each(t, function (e, o) {
+                var a = o[2], s = o[3];
+                i[o[1]] = a.add, s && a.add(function () {
+                    n = s
+                }, t[1 ^ e][2].disable, t[2][2].lock), r[o[0]] = function () {
+                    return r[o[0] + "With"](this === r ? i : this, arguments), this
+                }, r[o[0] + "With"] = a.fireWith
+            }), i.promise(r), e && e.call(r, r), r
+        }, when: function (e) {
+            var t, n, i, r = 0, o = U.call(arguments), a = o.length, s = 1 !== a || e && rt.isFunction(e.promise) ? a : 0, l = 1 === s ? e :
+                    rt.Deferred(), u = function (e, n, i) {
+                return function (r) {
+                    n[e] = this, i[e] = arguments.length > 1 ? U.call(arguments) : r, i === t ? l.notifyWith(n, i) : --s || l.resolveWith(n, i)
                 }
             };
-            return i.hImage700 = c("hotel", 700), i.hImage215 = c("hotel", 215), i.hImage135 = c("hotel", 135), i.hImage45 = c("hotel", 45), i.rImage150 =
-                    c("room", 150), i.rImage100 = c("room", 100), i.rImage45 = c("room", 45), i.rImage = c("room"), i.hImage = c("hotel"), i
-        }]),angular.module("hotelbookApp").run(["$templateCache", function (a) {
-    a.put("/white-labels/aeroflot/views/aeroflot-authorization.ea06339ad351497ce7d9.html",
-            '<div class="modal AuthModal" tabindex="-1" role="dialog" ng-controller="ModalAuthorizationCtrl">\n  <div class="modal-dialog modal-vertical-centered">\n    <div class="modal-content">\n      <div class="modal-body">\n        <ul class="nav nav-tabs">\n          <li class="AuthModal-navLogin active"><a href="javascript: void 0;">{{ $root.i18n.modal.enter }}</a></li>\n          <li class="AuthModal-navPin"><a href="javascript: void 0;"> </a></li>\n          <li class="AuthModal-navReg"><a href="javascript: void 0;"> </a></li>\n        </ul>\n        <div class="AuthModal-content">\n          <div class="AuthModal-login">\n            <form role="form" name="orderForm" form-validator="orderData" action="/order/auth" method="POST" after-success="login">\n              <div class="form-group InputBox i-cabinet-bron c-i40 is-require" ng-class="{\'InputBox-error\': orderForm.fieldHasError(\'orderCode\') && orderForm.submited}">\n                <input ng-model="orderData.orderCode" class="form-control" type="text" name="orderCode" placeholder="{{ $root.i18n.modal.orderNumber }}" required tooltip-manager data-placement="top-left"/>\n              </div>\n              <div class="form-group mb0 InputBox i-password c-i40 is-require" ng-class="{\'InputBox-error\': orderForm.fieldHasError(\'pin\') && orderForm.submited}">\n                <input ng-model="orderData.pin" type="text" name="pin" class="form-control authorization-input" placeholder="{{ $root.i18n.modal.pinCode }}" required tooltip-manager data-placement="top-left"/>\n                <div class="AuthModal-loginForget">\n                  <a href="javascript: void 0;" bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-container="body" data-placement="right" data-title="{{ $root.i18n.modal.ifYouMakeBooking }}">\n                    <i class="i-forgot"></i>\n                    <span>{{ $root.i18n.modal.whereICanFindThisInfo }}</span>\n                  </a>\n                </div>\n                <div class="Btn Btn--orange Btn--submit fr" type="button"><i class="i-login"></i>{{ $root.i18n.modal.enter }}</div>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/white-labels/aeroflot/views/aeroflot-footer.ac9ef8a98fb84050bf37.html",
-            '<div class="af-Footer">\n  <table width="100%" border="0" cellspacing="0" cellpadding="0">\n    <tbody><tr>\n      <td width="24%">\n        <h4>{{ $root.i18n.wlAeroflot.contacts }}</h4>\n        <div class="phones">\n          <span class="ph_office">{{ $root.i18n.wlAeroflot.moscow }}</span>&nbsp;<span class="comment">+7-495-223-55-55</span>\n          <br><span class="mar">{{ $root.i18n.wlAeroflot.russia }}</span>&nbsp;<span class="comment">8-800-444-55-55</span>\n          <br><span class="ph_office"></span>&nbsp;<span class="comment"><a href="http://www.aeroflot.com/cms/offices/free_numbers" target="_blank">{{ $root.i18n.wlAeroflot.freePhoneAroundTheWorld }}</a></span>\n          <br><span class="ph_office"></span>&nbsp;<span class="comment"><a href="https://www.aeroflot.ru/feedback?_preferredLanguage=ru" target="_blank">{{ $root.i18n.wlAeroflot.feedback }}</a></span>\n          <br><span class="ph_office">{{ $root.i18n.wlAeroflot.bookingCenter }}</span>\n          <br><span class="mar"></span><span class="comment">8-800-301-01-51</span>\n        </div>\n        <br>\n        <a id="cbx_footer" href="#" title="Подробности" class="cboxElement" ng-show="d.lang === \'ru\'"><img src="/white-labels/aeroflot/images/button_call.png" alt="Позвонить с сайта"></a>\n      </td>\n      <td width="24%">\n        <h4>{{ $root.i18n.wlAeroflot.aeroflotInNetworks }}</h4>\n        <p class="social_icons">\n          <a href="https://twitter.com/aeroflot" title="Twitter" target="_blank"><img src="/white-labels/aeroflot/images/tw.jpg" width="30" height="30" alt="Twitter"></a>&nbsp;<a href="http://www.facebook.com/aeroflot" title="Facebook" target="_blank"><img src="/white-labels/aeroflot/images/fb.jpg" width="30" height="30" alt="Facebook"></a>&nbsp;<a href="http://vk.com/aeroflot" title="Вконтакте" target="_blank"><img src="/white-labels/aeroflot/images/vk.jpg" width="30" height="30" alt="Вконтакте"></a>&nbsp;<a href="http://www.youtube.com/user/AeroflotRussia/videos" title="YouTube" target="_blank"><img src="/white-labels/aeroflot/images/yt.jpg" width="30" height="30" alt="YouTube"></a>&nbsp;<a href="http://www.instagram.com/aeroflot" title="Instagram" target="_blank"><img src="/white-labels/aeroflot/images/inst.jpg" width="30" height="30" alt="Instagram"></a>\n        </p>\n        <ul>\n          <li class="mob"><a href="//m.aeroflot.ru/cms/">{{ $root.i18n.wlAeroflot.mobileSite }}</a></li>\n          <li class="mob"><a href="http://www.aeroflot.com/cms/about">{{ $root.i18n.wlAeroflot.aboutCompany }}</a></li>\n        </ul>\n\n      </td>\n      <td width="24%">\n        <h4>{{ $root.i18n.wlAeroflot.forClients }}</h4>\n        <ul>\n          <li><a href="http://www.aeroflot.com/cms/online_registration">{{ $root.i18n.wlAeroflot.registration }}</a></li>\n          <li><a href="http://www.aeroflot.com/cms/time_table/online">{{ $root.i18n.wlAeroflot.onlineTable }}</a></li>\n          <li><a href="http://www.aeroflot.com/schedule/schedule?_preferredLanguage=ru">{{ $root.i18n.wlAeroflot.schadul }}</a></li>\n          <li><a href="http://www.aeroflot.com/cms/time_table/information">{{ $root.i18n.wlAeroflot.flightStatus }}</a></li>\n          <li><a href="http://www.aeroflot.com/cms/sitemap">{{ $root.i18n.wlAeroflot.siteMap }}</a></li>\n          <li><a title="Политика конфиденциальности" id="cbx_booking1" href="http://www.aeroflot.com/cms/booking/privacy_policy" class="cboxElement">{{ $root.i18n.wlAeroflot.confidentialPolitic }}</a></li>\n        </ul>\n      </td>\n      <td width="24%">\n        <h4>{{ $root.i18n.wlAeroflot.forPartners }}</h4>\n        <p id="corporate_entrance"><a href="http://www.aeroflot.com/cms/special_offers/corporate">{{ $root.i18n.wlAeroflot.corporationClients }}</a></p>\n        <p id="agents_entrance"><a href="http://www.aeroflot.com/cms/about/agents_information">{{ $root.i18n.wlAeroflot.agents }}</a></p>\n        <p id="cargo_trans"><a href="http://www.aeroflot.com/cms/cargo_transport">{{ $root.i18n.wlAeroflot.fraightTransportation }}</a></p>\n        <p id="afl_group"><a href="http://www.aeroflot.com/cms/about/subsidiaries">{{ $root.i18n.wlAeroflot.aeroflotGroup }}</a></p>\n        <p class="ph_rss"><a href="http://www.aeroflot.com/cms/about/rss_info">{{ $root.i18n.wlAeroflot.rss }}</a></p>\n      </td>\n    </tr>\n    </tbody></table>\n  <p class="cop">© {{ $root.i18n.wlAeroflot.aeroflot }} 2008-{{:: $root.d.currentYear}}</p>\n\n\n</div>\n'), a.put("/white-labels/aeroflot/views/aeroflot-header.html",
-            '<header class="Header" id="header">\n  <div class="af-Header">\n    <a class="logo" href="http://www.aeroflot.com/cms/" title="{{ $root.i18n.wlAeroflot.aeroflotCompany }}"><img width="286" height="80" src="/white-labels/aeroflot/images/logo_ru.gif" ng-src="/white-labels/aeroflot/images/logo_{{d.lang}}.gif" alt="Компания Аэрофлот"></a>\n    <a class="logo" href="http://skyteam.com/ru" title="{{ $root.i18n.wlAeroflot.skyteam }}"><img width="42" height="80" src="/white-labels/aeroflot/images/logo_skyteam.png" alt="Альянс SkyTeam"></a>\n\n    <div class="af-LanguageSelector pull-right">\n      <img title="{{ $root.i18n.wlAeroflot.changeLanguage }}" alt="RUS" src="/white-labels/aeroflot/images/top_lang_{{d.lang}}.png" width="47" height="37">\n\n      <div>\n        <a title="RUS" href="#" ng-click="d.lang = \'ru\'">rus</a>\n        <a title="ENG" href="#" ng-click="d.lang = \'en\'">eng</a>\n        <!--<a title="DEU" href="#" ng-ckick="d.lang = \'de\'">deu</a>-->\n        <!--<a title="FRA" href="#" ng-click="d.lang = \'fr\'">fra</a>-->\n        <!--<a title="ESP" href="#" ng-click="d.lang = \'es\'">esp</a>-->\n        <!--<a title="ITA" href="#" ng-click="d.lang = \'it\'">ita</a>-->\n        <!--<a title="??" href="#" ng-click="d.lang = \'zh\'">??</a>-->\n        <!--<a title="???" href="#" ng-click="d.lang = \'ja\'">???</a>-->\n        <!--<a title="???" href="#" ng-click="d.lang = \'ko\'">???</a>-->\n      </div>\n    </div>\n\n    <a title="Поиск" href="http://www.aeroflot.com/cms/search" class="pull-right"><img src="/white-labels/aeroflot/images/top_find.png" alt="{{ $root.i18n.wlAeroflot.search }}"></a>\n    <a title="Карта сайта" href="http://www.aeroflot.com/cms/sitemap" class="pull-right"><img src="/white-labels/aeroflot/images/top_map.png" alt="{{ $root.i18n.wlAeroflot.siteMap }}"></a>\n    <a title="Домашняя страница" href="http://www.aeroflot.com/cms" class="pull-right"><img src="/white-labels/aeroflot/images/top_home.png" alt="{{ $root.i18n.wlAeroflot.homePage }}"></a>\n    <a title="Вход в личный кабинет" href="http://www.aeroflot.com/personal" class="pull-right"><img src="/white-labels/aeroflot/images/login_ru.png" ng-src="/white-labels/aeroflot/images/login_{{d.lang}}.png"\n                                                                                                     alt="{{ $root.i18n.wlAeroflot.enterToCabinet }}"></a>\n    <a title="Контакты" href="http://www.aeroflot.com/cms/about/contact" class="pull-right"><img src="/white-labels/aeroflot/images/cont_ru.png" ng-src="/white-labels/aeroflot/images/cont_{{d.lang}}.png" alt="{{ $root.i18n.wlAeroflot.contacts }}"></a>\n    <a title="Новости" href="http://www.aeroflot.com/cms/news" class="pull-right"><img src="/white-labels/aeroflot/images/news_ru.png" ng-src="/white-labels/aeroflot/images/news_{{d.lang}}.png" alt="{{ $root.i18n.wlAeroflot.news }}"></a>\n    <a title="Обратная связь" href="https://www.aeroflot.ru/feedback?_preferredLanguage=ru" class="pull-right"><img src="/white-labels/aeroflot/images/feedback_ru.png" ng-src="/white-labels/aeroflot/images/feedback_{{d.lang}}.png" alt="{{ $root.i18n.wlAeroflot.feedback }}"></a>\n    <div class="af-CallCenter"><i class="i-phone"></i> <span>{{ $root.i18n.wlAeroflot.hotelBookingCenter }}</span> <span class="af-CallCenter-number">8-800-301-01-51</span></div>\n  </div>\n\n  <div data-margin-left="139" class="af-Navmenu">\n    <ul class="menu">\n      <li class="collapsed first" style="visibility: visible;"><a href="http://www.aeroflot.com/cms/booking" class=""><i\n        style="background:url(/white-labels/aeroflot/images/973.png)"></i><strong>{{ $root.i18n.wlAeroflot.buyTicket }}</strong></a></li>\n      <li class="expanded"><a href="http://www.aeroflot.com/cms/online_services"><i style="background:url(/white-labels/aeroflot/images/17163.png)"></i><strong>{{ $root.i18n.wlAeroflot.onlineServices }}</strong></a>\n      </li>\n      <li class="expanded"><a href="http://www.aeroflot.com/cms/special_offers"><i style="background:url(/white-labels/aeroflot/images/989.png)"></i><strong>{{ $root.i18n.wlAeroflot.specialOffers }}</strong></a>\n      </li>\n      <li class="expanded"><a href="http://www.aeroflot.com/cms/information_services" class=""><i style="background:url(/white-labels/aeroflot/images/992.png)"></i><strong>{{ $root.i18n.wlAeroflot.info }}</strong></a></li>\n      <li class="expanded"><a href="http://www.aeroflot.com/cms/afl_bonus"><i style="background:url(/white-labels/aeroflot/images/1048.png)"></i><strong>{{ $root.i18n.wlAeroflot.aeroflotBonus }}</strong></a></li>\n      <!--<li class="expanded last"><a href="http://hotels.aeroflot.com"><i style="background:url(/white-labels/aeroflot/images/67138.png)"></i><strong>Бронирование отелей</strong></a></li>-->\n\n    </ul>\n\n  </div>\n</header>\n')
-}]),function a(b, c, d) {
-    function e(g, h) {
-        if (!c[g]) {
-            if (!b[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
+            if (a > 1) {
+                for (t = new Array(a), n = new Array(a), i = new Array(a); a > r; r++) {
+                    o[r] && rt.isFunction(o[r].promise) ?
+                            o[r].promise().done(u(r, i, o)).fail(l.reject).progress(u(r, n, t)) : --s;
                 }
-                if (f) {
-                    return f(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
             }
-            var k = c[g] = {exports: {}};
-            b[g][0].call(k.exports, function (a) {
-                var c = b[g][1][a];
-                return e(c ? c : a)
-            }, k, k.exports, a, b, c, d)
+            return s || l.resolveWith(i, o), l.promise()
         }
-        return c[g].exports
+    });
+    var xt;
+    rt.fn.ready = function (e) {
+        return rt.ready.promise().done(e), this
+    }, rt.extend({
+        isReady: !1, readyWait: 1, holdReady: function (e) {
+            e ? rt.readyWait++ : rt.ready(!0)
+        }, ready: function (e) {
+            if (e === !0 ? !--rt.readyWait : !rt.isReady) {
+                if (!ht.body) {
+                    return setTimeout(rt.ready);
+                }
+                rt.isReady = !0, e !== !0 && --rt.readyWait > 0 ||
+                (xt.resolveWith(ht, [rt]), rt.fn.triggerHandler && (rt(ht).triggerHandler("ready"), rt(ht).off("ready")))
+            }
+        }
+    }), rt.ready.promise = function (t) {
+        if (!xt) {
+            if (xt = rt.Deferred(), "complete" === ht.readyState) {
+                setTimeout(rt.ready);
+            } else if (ht.addEventListener) {
+                ht.addEventListener("DOMContentLoaded",
+                        s, !1), e.addEventListener("load", s, !1);
+            } else {
+                ht.attachEvent("onreadystatechange", s), e.attachEvent("onload", s);
+                var n = !1;
+                try {
+                    n = null == e.frameElement && ht.documentElement
+                } catch (i) {
+                }
+                n && n.doScroll && !function r() {
+                    if (!rt.isReady) {
+                        try {
+                            n.doScroll("left")
+                        } catch (e) {
+                            return setTimeout(r, 50)
+                        }
+                        a(), rt.ready()
+                    }
+                }()
+            }
+        }
+        return xt.promise(t)
+    };
+    var Tt, St = "undefined";
+    for (Tt in rt(nt)) {
+        break;
     }
-
-    for (var f = "function" == typeof require && require, g = 0; g < d.length; g++) {
-        e(d[g]);
-    }
-    return e
-}({
-    1: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./tooltip").tooltipMixing, f = a("./loader"), g = a("./helpers").Currency, h = React.createClass({
-            displayName: "BookingConditions",
-            mixins: [e],
-            getInitialState: function () {
-                return {loadTriggered: !1, loaded: !1}
-            },
-            getInitialProps: function () {
-                return {text: "", title: ""}
-            },
-            loadConditions: function () {
-                var a = this.props.room, b = this;
-                return this.state.loadTriggered ? void 0 :
-                        (this.setState({loadTriggered: !0}), c.$http.get(c.api.search.chargeConditions(c.$stateParams.searchId),
-                                {params: {providerId: a.providerId, hash: a.hash, currency: c.initialData.currency}}).then(function (c) {
-                                    console.log(c), b.isMounted() && (angular.extend(a, c.data), b.getTitle(a), b.setState({loaded: !0}))
-                                }))
-            },
-            getTitle: function (a) {
-                var b = c.$rootScope;
-                if (this.props.text = b.i18n.directives.cancelationConditions, a.freeCancellation) {
-                    this.props.text =
-                            b.i18n.directives.freeCancelation, this.props.title = b.i18n.directives.freeCancelationUntill + " " +
-                            c.$filter("dateTime")(a.freeCancellationTo);
-                } else if (a.withoutCancellation) {
-                    this.props.title =
-                            this.props.text = b.i18n.directives.withoutCancelation;
-                } else if (a.fineCancellation) {
-                    if (a.fineCancellationPrice =
-                                    c.Utils.smartDigits(a.fineCancellationPrice), this.props.text = b.i18n.directives.freeCancelation, a.fineCancellationTo) {
-                        var d = c.$filter("dateTime")(a.fineCancellationTo);
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancellationBefore, " ", d, " ",
-                                React.createElement("b", null, b.i18n.directives.free), ".", React.createElement("br", null), b.i18n.directives.reactStartFrom,
-                                " ",
-                                d, " ", b.i18n.directives.reactWillHold,
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, " ", a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)), " ", b.i18n.directives.reactForOrderCancellation)
+    nt.ownLast = "0" !== Tt, nt.inlineBlockNeedsLayout = !1, rt(function () {
+        var e, t, n, i;
+        n = ht.getElementsByTagName("body")[0], n && n.style && (t = ht.createElement("div"), i = ht.createElement("div"), i.style.cssText =
+                "position:absolute;border:0;width:0;height:0;top:0;left:-9999px", n.appendChild(i).appendChild(t), typeof t.style.zoom !== St &&
+        (t.style.cssText = "display:inline;margin:0;border:0;padding:1px;width:1px;zoom:1", nt.inlineBlockNeedsLayout = e = 3 === t.offsetWidth, e &&
+        (n.style.zoom = 1)), n.removeChild(i))
+    }), function () {
+        var e = ht.createElement("div");
+        if (null == nt.deleteExpando) {
+            nt.deleteExpando = !0;
+            try {
+                delete e.test
+            } catch (t) {
+                nt.deleteExpando = !1
+            }
+        }
+        e = null
+    }(), rt.acceptData = function (e) {
+        var t = rt.noData[(e.nodeName + " ").toLowerCase()], n = +e.nodeType || 1;
+        return 1 !== n && 9 !== n ? !1 : !t || t !== !0 && e.getAttribute("classid") === t
+    };
+    var Ct = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/, Et = /([A-Z])/g;
+    rt.extend({
+        cache: {}, noData: {"applet ": !0, "embed ": !0, "object ": "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"}, hasData: function (e) {
+            return e = e.nodeType ? rt.cache[e[rt.expando]] : e[rt.expando], !!e && !u(e)
+        }, data: function (e, t, n) {
+            return c(e, t, n)
+        }, removeData: function (e, t) {
+            return d(e, t)
+        }, _data: function (e, t, n) {
+            return c(e, t, n, !0)
+        }, _removeData: function (e, t) {
+            return d(e, t, !0)
+        }
+    }), rt.fn.extend({
+        data: function (e, t) {
+            var n, i, r, o = this[0], a = o && o.attributes;
+            if (void 0 === e) {
+                if (this.length && (r = rt.data(o), 1 === o.nodeType && !rt._data(o, "parsedAttrs"))) {
+                    for (n = a.length; n--;) {
+                        a[n] && (i = a[n].name, 0 === i.indexOf("data-") && (i = rt.camelCase(i.slice(5)), l(o, i, r[i])));
+                    }
+                    rt._data(o, "parsedAttrs", !0)
+                }
+                return r
+            }
+            return "object" == typeof e ? this.each(function () {
+                rt.data(this, e)
+            }) : arguments.length > 1 ? this.each(function () {
+                rt.data(this, e, t)
+            }) : o ? l(o, e, rt.data(o, e)) : void 0
+        }, removeData: function (e) {
+            return this.each(function () {
+                rt.removeData(this, e)
+            })
+        }
+    }), rt.extend({
+        queue: function (e, t, n) {
+            var i;
+            return e ? (t = (t || "fx") + "queue", i = rt._data(e, t), n && (!i || rt.isArray(n) ? i = rt._data(e, t, rt.makeArray(n)) : i.push(n)), i || []) :
+                    void 0
+        }, dequeue: function (e, t) {
+            t = t || "fx";
+            var n = rt.queue(e, t), i = n.length, r = n.shift(), o = rt._queueHooks(e, t), a = function () {
+                rt.dequeue(e, t)
+            };
+            "inprogress" === r && (r = n.shift(), i--), r && ("fx" === t && n.unshift("inprogress"), delete o.stop, r.call(e, a, o)), !i && o && o.empty.fire()
+        }, _queueHooks: function (e, t) {
+            var n = t + "queueHooks";
+            return rt._data(e, n) || rt._data(e, n, {
+                        empty: rt.Callbacks("once memory").add(function () {
+                            rt._removeData(e, t + "queue"), rt._removeData(e, n)
+                        })
+                    })
+        }
+    }), rt.fn.extend({
+        queue: function (e, t) {
+            var n = 2;
+            return "string" != typeof e && (t = e, e = "fx", n--), arguments.length < n ? rt.queue(this[0], e) : void 0 === t ? this : this.each(function () {
+                var n = rt.queue(this, e, t);
+                rt._queueHooks(this, e), "fx" === e && "inprogress" !== n[0] && rt.dequeue(this, e)
+            })
+        }, dequeue: function (e) {
+            return this.each(function () {
+                rt.dequeue(this, e)
+            })
+        }, clearQueue: function (e) {
+            return this.queue(e || "fx", [])
+        }, promise: function (e, t) {
+            var n, i = 1, r = rt.Deferred(), o = this, a = this.length, s = function () {
+                --i || r.resolveWith(o, [o])
+            };
+            for ("string" != typeof e && (t = e, e = void 0), e = e || "fx"; a--;) {
+                n = rt._data(o[a], e + "queueHooks"), n && n.empty && (i++, n.empty.add(s));
+            }
+            return s(), r.promise(t)
+        }
+    });
+    var kt = /[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source, Lt = ["Top", "Right", "Bottom", "Left"], Nt = function (e, t) {
+        return e = t || e, "none" === rt.css(e, "display") || !rt.contains(e.ownerDocument, e)
+    }, At = rt.access = function (e, t, n, i, r, o, a) {
+        var s = 0, l = e.length, u = null == n;
+        if ("object" === rt.type(n)) {
+            r = !0;
+            for (s in n) {
+                rt.access(e, t, s, n[s], !0, o, a)
+            }
+        } else if (void 0 !== i && (r = !0, rt.isFunction(i) || (a = !0), u && (a ? (t.call(e, i), t = null) : (u = t, t = function (e, t, n) {
+                    return u.call(rt(e), n)
+                })), t)) {
+            for (; l > s; s++) {
+                t(e[s], n, a ? i : i.call(e[s], s, t(e[s], n)));
+            }
+        }
+        return r ? e : u ? t.call(e) : l ? t(e[0], n) : o
+    }, Mt = /^(?:checkbox|radio)$/i;
+    !function () {
+        var e = ht.createElement("input"), t = ht.createElement("div"), n = ht.createDocumentFragment();
+        if (t.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>", nt.leadingWhitespace = 3 === t.firstChild.nodeType, nt.tbody =
+                        !t.getElementsByTagName("tbody").length, nt.htmlSerialize = !!t.getElementsByTagName("link").length, nt.html5Clone =
+                        "<:nav></:nav>" !== ht.createElement("nav").cloneNode(!0).outerHTML, e.type = "checkbox", e.checked =
+                        !0, n.appendChild(e), nt.appendChecked = e.checked, t.innerHTML = "<textarea>x</textarea>", nt.noCloneChecked =
+                        !!t.cloneNode(!0).lastChild.defaultValue, n.appendChild(t), t.innerHTML =
+                        "<input type='radio' checked='checked' name='t'/>", nt.checkClone = t.cloneNode(!0).cloneNode(!0).lastChild.checked, nt.noCloneEvent =
+                        !0, t.attachEvent && (t.attachEvent("onclick", function () {
+                    nt.noCloneEvent = !1
+                }), t.cloneNode(!0).click()), null == nt.deleteExpando) {
+            nt.deleteExpando = !0;
+            try {
+                delete t.test
+            } catch (i) {
+                nt.deleteExpando = !1
+            }
+        }
+    }(), function () {
+        var t, n, i = ht.createElement("div");
+        for (t in{submit: !0, change: !0, focusin: !0}) {
+            n = "on" + t, (nt[t + "Bubbles"] = n in e) ||
+            (i.setAttribute(n, "t"), nt[t + "Bubbles"] = i.attributes[n].expando === !1);
+        }
+        i = null
+    }();
+    var Dt = /^(?:input|select|textarea)$/i, Pt = /^key/, Ht = /^(?:mouse|pointer|contextmenu)|click/, _t = /^(?:focusinfocus|focusoutblur)$/, jt = /^([^.]*)(?:\.(.+)|)$/;
+    rt.event = {
+        global: {},
+        add: function (e, t, n, i, r) {
+            var o, a, s, l, u, c, d, p, f, h, g, m = rt._data(e);
+            if (m) {
+                for (n.handler && (l = n, n = l.handler, r = l.selector), n.guid || (n.guid = rt.guid++), (a = m.events) || (a = m.events = {}), (c =
+                        m.handle) || (c = m.handle = function (e) {
+                    return typeof rt === St || e && rt.event.triggered === e.type ? void 0 : rt.event.dispatch.apply(c.elem, arguments)
+                }, c.elem = e), t = (t || "").match(wt) || [""], s = t.length; s--;) {
+                    o = jt.exec(t[s]) || [], f = g = o[1], h =
+                            (o[2] || "").split(".").sort(), f &&
+                    (u = rt.event.special[f] || {}, f = (r ? u.delegateType : u.bindType) || f, u = rt.event.special[f] || {}, d = rt.extend({
+                        type: f,
+                        origType: g,
+                        data: i,
+                        handler: n,
+                        guid: n.guid,
+                        selector: r,
+                        needsContext: r && rt.expr.match.needsContext.test(r),
+                        namespace: h.join(".")
+                    }, l), (p = a[f]) || (p = a[f] = [], p.delegateCount = 0, u.setup && u.setup.call(e, i, h, c) !== !1 ||
+                    (e.addEventListener ? e.addEventListener(f, c, !1) : e.attachEvent && e.attachEvent("on" + f, c))), u.add &&
+                    (u.add.call(e, d), d.handler.guid || (d.handler.guid = n.guid)), r ? p.splice(p.delegateCount++, 0, d) : p.push(d), rt.event.global[f] =
+                            !0);
+                }
+                e = null
+            }
+        },
+        remove: function (e, t, n, i, r) {
+            var o, a, s, l, u, c, d, p, f, h, g, m = rt.hasData(e) && rt._data(e);
+            if (m && (c = m.events)) {
+                for (t = (t || "").match(wt) || [""], u = t.length; u--;) {
+                    if (s = jt.exec(t[u]) || [], f = g = s[1], h = (s[2] || "").split(".").sort(), f) {
+                        for (d = rt.event.special[f] || {}, f = (i ? d.delegateType : d.bindType) || f, p = c[f] || [], s =
+                                s[2] && new RegExp("(^|\\.)" + h.join("\\.(?:.*\\.|)") + "(\\.|$)"), l = o = p.length; o--;) {
+                            a = p[o], !r && g !== a.origType ||
+                            n && n.guid !== a.guid || s && !s.test(a.namespace) || i && i !== a.selector && ("**" !== i || !a.selector) ||
+                            (p.splice(o, 1), a.selector && p.delegateCount--, d.remove && d.remove.call(e, a));
+                        }
+                        l && !p.length && (d.teardown && d.teardown.call(e, h, m.handle) !== !1 || rt.removeEvent(e, f, m.handle), delete c[f])
                     } else {
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancelation, " ",
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)))
-                    }
-                }
-            },
-            getTooltipContent: function () {
-                var a;
-                return this.state.loaded || this.props.title ||
-                (a = React.createElement(f, {extraClasses: "Tooltip-loader", loaderType: "bubbles"})), React.createElement("div", null, a, this.props.title)
-            },
-            render: function () {
-                var a = this.props.room;
-                c = d.getInjectables();
-                {
-                    var b = "BookingConditions--iconMr5 BookingConditions i-cancelation";
-                    c.$rootScope
-                }
-                return this.getTitle(a), (a.freeCancellationTo || a.freeCancelation) && (b += " is-green"), React.createElement("div",
-                        {className: b, onMouseEnter: this.loadConditions}, this.props.text)
-            }
-        });
-        b.exports = h
-    }, {"./di-manager": 2, "./helpers": 3, "./loader": 4, "./tooltip": 5}], 2: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 3: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
-            }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
-        };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 2}], 4: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}], 5: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
-                    }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
-                }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
-            }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [1]),function b(a, c, d) {
-    function e(g, h) {
-        if (!c[g]) {
-            if (!a[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
-                }
-                if (f) {
-                    return f(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = c[g] = {exports: {}};
-            a[g][0].call(k.exports, function (b) {
-                var c = a[g][1][b];
-                return e(c ? c : b)
-            }, k, k.exports, b, a, c, d)
-        }
-        return c[g].exports
-    }
-
-    for (var f = "function" == typeof require && require, g = 0; g < d.length; g++) {
-        e(d[g]);
-    }
-    return e
-}({
-    1: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}]
-}, {}, [1]),function c(a, b, d) {
-    function e(g, h) {
-        if (!b[g]) {
-            if (!a[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
-                }
-                if (f) {
-                    return f(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[g] = {exports: {}};
-            a[g][0].call(k.exports, function (b) {
-                var c = a[g][1][b];
-                return e(c ? c : b)
-            }, k, k.exports, c, a, b, d)
-        }
-        return b[g].exports
-    }
-
-    for (var f = "function" == typeof require && require, g = 0; g < d.length; g++) {
-        e(d[g]);
-    }
-    return e
-}({
-    1: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 2: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
-            }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
-        };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 1}]
-}, {}, [2]),function d(a, b, c) {
-    function e(g, h) {
-        if (!b[g]) {
-            if (!a[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
-                }
-                if (f) {
-                    return f(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[g] = {exports: {}};
-            a[g][0].call(k.exports, function (b) {
-                var c = a[g][1][b];
-                return e(c ? c : b)
-            }, k, k.exports, d, a, b, c)
-        }
-        return b[g].exports
-    }
-
-    for (var f = "function" == typeof require && require, g = 0; g < c.length; g++) {
-        e(c[g]);
-    }
-    return e
-}({
-    1: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 2: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./loader"), f = React.createClass({
-            displayName: "HotelGallery", getInitialState: function () {
-                return {showPhoto: !1, photoId: null}
-            }, showPhoto: function (a, b) {
-                this.setState({showPhoto: !0, photoId: a, target: b.target})
-            }, hidePhoto: function () {
-                this.setState({showPhoto: !1, photoId: null, target: null})
-            }, render: function () {
-                c = d.getInjectables();
-                for (var a, b = this.props.hotel, e = [], f = 0; f < b.images.length && 17 > f; f++) {
-                    var h = {backgroundImage: "url(" + c.$rootScope.u.hImage45(b.images[f], b.id) + ")"};
-                    e.push(React.createElement("div",
-                            {onMouseOver: this.showPhoto.bind(this, b.images[f]), onMouseOut: this.hidePhoto, className: "Hotel-smallPhoto", style: h}))
-                }
-                return this.state.showPhoto ? (a = React.createElement(g, {imageId: this.state.photoId, hotelId: b.id, target: this.state.target}), this.popup =
-                        React.render(a, document.getElementById("HoverImagePopupCOntainer"))) :
-                        React.unmountComponentAtNode(document.getElementById("HoverImagePopupCOntainer")), React.createElement("div",
-                        {className: "Hotel-photoGallery clearfix"}, React.createElement("div", {className: "Hotel-photoGalleryCont"},
-                                React.createElement("div", {className: "NoPhoto NoPhoto--small"},
-                                        React.createElement("i", {className: "NoPhoto-icon i-no-photo"})), e))
-            }
-        }), g = React.createClass({
-            displayName: "HotelImagePopup", calculatePosition: function () {
-                var a, b, d = $(this.props.target), e = $(this.getDOMNode()), f = 10, g = "vertical";
-                d.offset().top - e.height() - f > c.$window.scrollY ?
-                        (a = d.offset().top - e.height() - f - d.height(), d.offset().left + e.width() < c.$window.innerWidth ?
-                                (b = d.offset().left, g += " top-left") : (b = d.offset().left + d.width() - e.width(), g += " top-right")) :
-                        (a = d.offset().top, d.offset().left + e.width() < c.$window.innerWidth ? (b = d.offset().left, g += " bottom-left") :
-                                (b = d.offset().left + d.width() - e.width(), g += " bottom-right")), (0 !== a || 0 !== b) &&
-                (e.css("top", a + "px"), e.css("left", b + "px"), e.removeClass("top-left top-right bottom-left bottom-right not-visible"), e.addClass(g))
-            }, componentDidMount: function () {
-                this.calculatePosition()
-            }, render: function () {
-                var a = {backgroundImage: "url(" + c.$rootScope.u.hImage(this.props.imageId, this.props.hotelId) + ")"};
-                return this.isMounted() && this.calculatePosition(), React.createElement("div", {className: "tooltip in HoverGallery not-visible"},
-                        React.createElement("div", {className: "tooltip-arrow"}),
-                        React.createElement("div", {className: "tooltip-inner"}, React.createElement(e, {loaderType: "circle", extraClasses: "Tooltip-loader"}),
-                                React.createElement("div", {className: "HoverGallery-image", style: a})))
-            }
-        });
-        b.exports = f
-    }, {"./di-manager": 1, "./loader": 3}], 3: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}]
-}, {}, [2]),function e(a, b, c) {
-    function d(g, h) {
-        if (!b[g]) {
-            if (!a[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
-                }
-                if (f) {
-                    return f(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[g] = {exports: {}};
-            a[g][0].call(k.exports, function (b) {
-                var c = a[g][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, e, a, b, c)
-        }
-        return b[g].exports
-    }
-
-    for (var f = "function" == typeof require && require, g = 0; g < c.length; g++) {
-        d(c[g]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 2: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "HotelLike", toggleLike: function () {
-                var a = this;
-                c.Favorites.like(this.props.hotel, c.$scope.searchForm.search.city).then(function (b) {
-                    c.$scope.$emit("hotelLike.liked", b), a.forceUpdate()
-                })
-            }, render: function () {
-                c = d.getInjectables();
-                var a = "Hotel-like ";
-                this.props.hotel.liked ? a += "is-liked" : !1;
-                var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve"><g opacity="0.5"><path class="Hotel-likeOutline" d="M15,28l-0.7-0.5C12.9,26.5,0.5,17.8,0,11c-0.2-2.8,0.5-5.2,2.1-6.8C3.4,2.8,5.3,2,7.4,2c4.7,0,7.3,4.1,7.6,4.6l0,0C15.3,6.1,17.9,2,22.6,2c2.1,0,3.9,0.8,5.3,2.2c1.5,1.7,2.3,4,2.1,6.8c-0.5,6.7-12.9,15.5-14.3,16.5L15,28z M7.4,4.3C6,4.3,4.7,4.9,3.8,5.8c-1.1,1.2-1.6,3-1.4,5.1c0.3,4.4,8,11,12.6,14.3c4.6-3.3,12.3-9.9,12.6-14.3c0.2-2.2-0.3-3.9-1.4-5.1c-0.9-1-2.2-1.5-3.6-1.5c-3.4,0-5.4,3.1-5.6,3.4L15,11l-2-3.3C12.8,7.4,10.8,4.3,7.4,4.3z"/></g><g opacity="0.5"><g><path class="Hotel-likeFill" d="M2.4,10.9C2.2,8.8,2.7,7,3.8,5.8C4.7,4.9,6,4.3,7.4,4.3c3.4,0,5.4,3.1,5.6,3.4l2,3.3l2-3.3c0.2-0.3,2.2-3.4,5.6-3.4c1.4,0,2.7,0.5,3.6,1.5c1.1,1.2,1.6,2.9,1.4,5.1c-0.3,4.4-8,11-12.6,14.3C10.4,21.9,2.7,15.3,2.4,10.9z"/></g><g></g></g></svg>';
-                return React.createElement("div",
-                        {className: a, onClick: this.toggleLike, "ng-class": "{'is-liked': hotel.liked}", dangerouslySetInnerHTML: {__html: b}})
-            }
-        });
-        b.exports = e
-    }, {"./di-manager": 1}]
-}, {}, [2]),function f(a, b, c) {
-    function d(g, h) {
-        if (!b[g]) {
-            if (!a[g]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(g, !0);
-                }
-                if (e) {
-                    return e(g, !0);
-                }
-                var j = new Error("Cannot find module '" + g + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[g] = {exports: {}};
-            a[g][0].call(k.exports, function (b) {
-                var c = a[g][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, f, a, b, c)
-        }
-        return b[g].exports
-    }
-
-    for (var e = "function" == typeof require && require, g = 0; g < c.length; g++) {
-        d(c[g]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 2: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "TAScore", render: function () {
-                var a = {width: this.props.value + "%"};
-                return React.createElement("div", {className: "TAScore clearfix"}, React.createElement("div", {className: "TAScore-label"}, this.props.label),
-                        React.createElement("div", {className: "TAScore-ratingWrapper"}, React.createElement("div", {className: "TAScore-score", style: a})))
-            }
-        }), f = React.createClass({
-            displayName: "HotelTABlock", render: function () {
-                c = d.getInjectables();
-                for (var a = this.props.hotel, b = [], f = c.$rootScope, g = 0; g < a.ta.subratings.length; g++) {
-                    b.push(React.createElement(e,
-                            {label: f.i18n.common[a.ta.subratings[g].name], value: 100 * a.ta.subratings[g].value / 5}));
-                }
-                return React.createElement("div", {className: "Hotel-ratingsBlock clearfix"},
-                        React.createElement("div", {className: "Hotel-ratingsText mb5"}, f.i18n.hotels.tripRating), b)
-            }
-        }), g = React.createClass({
-            displayName: "HotelTARating", render: function () {
-                if (!this.props.rating) {
-                    return React.createElement("div", null);
-                }
-                1 == this.props.rating.length && (this.props.rating += ".0");
-                var a = "Trip i-common-ta-rating-" + this.props.rating.replace(".", "-");
-                return React.createElement("div", {className: a})
-            }
-        });
-        b.exports.HotelTABlock = f, b.exports.HotelTARating = g
-    }, {"./di-manager": 1}]
-}, {}, [2]),function g(a, b, c) {
-    function d(f, h) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var i = "function" == typeof require && require;
-                if (!h && i) {
-                    return i(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var j = new Error("Cannot find module '" + f + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[f] = {exports: {}};
-            a[f][0].call(k.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, g, a, b, c)
-        }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./tooltip").tooltipMixing, f = a("./loader"), g = a("./helpers").Currency, h = React.createClass({
-            displayName: "BookingConditions",
-            mixins: [e],
-            getInitialState: function () {
-                return {loadTriggered: !1, loaded: !1}
-            },
-            getInitialProps: function () {
-                return {text: "", title: ""}
-            },
-            loadConditions: function () {
-                var a = this.props.room, b = this;
-                return this.state.loadTriggered ? void 0 :
-                        (this.setState({loadTriggered: !0}), c.$http.get(c.api.search.chargeConditions(c.$stateParams.searchId),
-                                {params: {providerId: a.providerId, hash: a.hash, currency: c.initialData.currency}}).then(function (c) {
-                                    console.log(c), b.isMounted() && (angular.extend(a, c.data), b.getTitle(a), b.setState({loaded: !0}))
-                                }))
-            },
-            getTitle: function (a) {
-                var b = c.$rootScope;
-                if (this.props.text = b.i18n.directives.cancelationConditions, a.freeCancellation) {
-                    this.props.text =
-                            b.i18n.directives.freeCancelation, this.props.title = b.i18n.directives.freeCancelationUntill + " " +
-                            c.$filter("dateTime")(a.freeCancellationTo);
-                } else if (a.withoutCancellation) {
-                    this.props.title =
-                            this.props.text = b.i18n.directives.withoutCancelation;
-                } else if (a.fineCancellation) {
-                    if (a.fineCancellationPrice =
-                                    c.Utils.smartDigits(a.fineCancellationPrice), this.props.text = b.i18n.directives.freeCancelation, a.fineCancellationTo) {
-                        var d = c.$filter("dateTime")(a.fineCancellationTo);
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancellationBefore, " ", d, " ",
-                                React.createElement("b", null, b.i18n.directives.free), ".", React.createElement("br", null), b.i18n.directives.reactStartFrom,
-                                " ",
-                                d, " ", b.i18n.directives.reactWillHold,
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, " ", a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)), " ", b.i18n.directives.reactForOrderCancellation)
-                    } else {
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancelation, " ",
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)))
-                    }
-                }
-            },
-            getTooltipContent: function () {
-                var a;
-                return this.state.loaded || this.props.title ||
-                (a = React.createElement(f, {extraClasses: "Tooltip-loader", loaderType: "bubbles"})), React.createElement("div", null, a, this.props.title)
-            },
-            render: function () {
-                var a = this.props.room;
-                c = d.getInjectables();
-                {
-                    var b = "BookingConditions--iconMr5 BookingConditions i-cancelation";
-                    c.$rootScope
-                }
-                return this.getTitle(a), (a.freeCancellationTo || a.freeCancelation) && (b += " is-green"), React.createElement("div",
-                        {className: b, onMouseEnter: this.loadConditions}, this.props.text)
-            }
-        });
-        b.exports = h
-    }, {"./di-manager": 2, "./helpers": 3, "./loader": 8, "./tooltip": 11}],
-    2: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}],
-    3: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
-            }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
-        };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 2}],
-    4: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./loader"), f = React.createClass({
-            displayName: "HotelGallery", getInitialState: function () {
-                return {showPhoto: !1, photoId: null}
-            }, showPhoto: function (a, b) {
-                this.setState({showPhoto: !0, photoId: a, target: b.target})
-            }, hidePhoto: function () {
-                this.setState({showPhoto: !1, photoId: null, target: null})
-            }, render: function () {
-                c = d.getInjectables();
-                for (var a, b = this.props.hotel, e = [], f = 0; f < b.images.length && 17 > f; f++) {
-                    var h = {backgroundImage: "url(" + c.$rootScope.u.hImage45(b.images[f], b.id) + ")"};
-                    e.push(React.createElement("div",
-                            {onMouseOver: this.showPhoto.bind(this, b.images[f]), onMouseOut: this.hidePhoto, className: "Hotel-smallPhoto", style: h}))
-                }
-                return this.state.showPhoto ? (a = React.createElement(g, {imageId: this.state.photoId, hotelId: b.id, target: this.state.target}), this.popup =
-                        React.render(a, document.getElementById("HoverImagePopupCOntainer"))) :
-                        React.unmountComponentAtNode(document.getElementById("HoverImagePopupCOntainer")), React.createElement("div",
-                        {className: "Hotel-photoGallery clearfix"}, React.createElement("div", {className: "Hotel-photoGalleryCont"},
-                                React.createElement("div", {className: "NoPhoto NoPhoto--small"},
-                                        React.createElement("i", {className: "NoPhoto-icon i-no-photo"})), e))
-            }
-        }), g = React.createClass({
-            displayName: "HotelImagePopup", calculatePosition: function () {
-                var a, b, d = $(this.props.target), e = $(this.getDOMNode()), f = 10, g = "vertical";
-                d.offset().top - e.height() - f > c.$window.scrollY ?
-                        (a = d.offset().top - e.height() - f - d.height(), d.offset().left + e.width() < c.$window.innerWidth ?
-                                (b = d.offset().left, g += " top-left") : (b = d.offset().left + d.width() - e.width(), g += " top-right")) :
-                        (a = d.offset().top, d.offset().left + e.width() < c.$window.innerWidth ? (b = d.offset().left, g += " bottom-left") :
-                                (b = d.offset().left + d.width() - e.width(), g += " bottom-right")), (0 !== a || 0 !== b) &&
-                (e.css("top", a + "px"), e.css("left", b + "px"), e.removeClass("top-left top-right bottom-left bottom-right not-visible"), e.addClass(g))
-            }, componentDidMount: function () {
-                this.calculatePosition()
-            }, render: function () {
-                var a = {backgroundImage: "url(" + c.$rootScope.u.hImage(this.props.imageId, this.props.hotelId) + ")"};
-                return this.isMounted() && this.calculatePosition(), React.createElement("div", {className: "tooltip in HoverGallery not-visible"},
-                        React.createElement("div", {className: "tooltip-arrow"}),
-                        React.createElement("div", {className: "tooltip-inner"}, React.createElement(e, {loaderType: "circle", extraClasses: "Tooltip-loader"}),
-                                React.createElement("div", {className: "HoverGallery-image", style: a})))
-            }
-        });
-        b.exports = f
-    }, {"./di-manager": 2, "./loader": 8}],
-    5: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "HotelLike", toggleLike: function () {
-                var a = this;
-                c.Favorites.like(this.props.hotel, c.$scope.searchForm.search.city).then(function (b) {
-                    c.$scope.$emit("hotelLike.liked", b), a.forceUpdate()
-                })
-            }, render: function () {
-                c = d.getInjectables();
-                var a = "Hotel-like ";
-                this.props.hotel.liked ? a += "is-liked" : !1;
-                var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve"><g opacity="0.5"><path class="Hotel-likeOutline" d="M15,28l-0.7-0.5C12.9,26.5,0.5,17.8,0,11c-0.2-2.8,0.5-5.2,2.1-6.8C3.4,2.8,5.3,2,7.4,2c4.7,0,7.3,4.1,7.6,4.6l0,0C15.3,6.1,17.9,2,22.6,2c2.1,0,3.9,0.8,5.3,2.2c1.5,1.7,2.3,4,2.1,6.8c-0.5,6.7-12.9,15.5-14.3,16.5L15,28z M7.4,4.3C6,4.3,4.7,4.9,3.8,5.8c-1.1,1.2-1.6,3-1.4,5.1c0.3,4.4,8,11,12.6,14.3c4.6-3.3,12.3-9.9,12.6-14.3c0.2-2.2-0.3-3.9-1.4-5.1c-0.9-1-2.2-1.5-3.6-1.5c-3.4,0-5.4,3.1-5.6,3.4L15,11l-2-3.3C12.8,7.4,10.8,4.3,7.4,4.3z"/></g><g opacity="0.5"><g><path class="Hotel-likeFill" d="M2.4,10.9C2.2,8.8,2.7,7,3.8,5.8C4.7,4.9,6,4.3,7.4,4.3c3.4,0,5.4,3.1,5.6,3.4l2,3.3l2-3.3c0.2-0.3,2.2-3.4,5.6-3.4c1.4,0,2.7,0.5,3.6,1.5c1.1,1.2,1.6,2.9,1.4,5.1c-0.3,4.4-8,11-12.6,14.3C10.4,21.9,2.7,15.3,2.4,10.9z"/></g><g></g></g></svg>';
-                return React.createElement("div",
-                        {className: a, onClick: this.toggleLike, "ng-class": "{'is-liked': hotel.liked}", dangerouslySetInnerHTML: {__html: b}})
-            }
-        });
-        b.exports = e
-    }, {"./di-manager": 2}],
-    6: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "TAScore", render: function () {
-                var a = {width: this.props.value + "%"};
-                return React.createElement("div", {className: "TAScore clearfix"}, React.createElement("div", {className: "TAScore-label"}, this.props.label),
-                        React.createElement("div", {className: "TAScore-ratingWrapper"}, React.createElement("div", {className: "TAScore-score", style: a})))
-            }
-        }), f = React.createClass({
-            displayName: "HotelTABlock", render: function () {
-                c = d.getInjectables();
-                for (var a = this.props.hotel, b = [], f = c.$rootScope, g = 0; g < a.ta.subratings.length; g++) {
-                    b.push(React.createElement(e,
-                            {label: f.i18n.common[a.ta.subratings[g].name], value: 100 * a.ta.subratings[g].value / 5}));
-                }
-                return React.createElement("div", {className: "Hotel-ratingsBlock clearfix"},
-                        React.createElement("div", {className: "Hotel-ratingsText mb5"}, f.i18n.hotels.tripRating), b)
-            }
-        }), g = React.createClass({
-            displayName: "HotelTARating", render: function () {
-                if (!this.props.rating) {
-                    return React.createElement("div", null);
-                }
-                1 == this.props.rating.length && (this.props.rating += ".0");
-                var a = "Trip i-common-ta-rating-" + this.props.rating.replace(".", "-");
-                return React.createElement("div", {className: a})
-            }
-        });
-        b.exports.HotelTABlock = f, b.exports.HotelTARating = g
-    }, {"./di-manager": 2}],
-    7: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./stars"), f = a("./hotel-gallery"), g = a("./hotel-ta").HotelTABlock, h = a("./hotel-ta").HotelTARating, i = a("./hotel-like"), j = a("./tooltip").BSTooltip, k = a("./room"), l = a("./helpers").getHotelLink, m = React.createClass({
-            displayName: "Hotel",
-            goToHotel: function () {
-                c.$rootScope.u.event("hotel_title_click");
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            },
-            toggleRooms: function () {
-                this.setState({showAllRooms: !this.state.showAllRooms})
-            },
-            togglePhotos: function () {
-                this.setState({showAllPhotos: !this.state.showAllPhotos})
-            },
-            getInitialState: function () {
-                return {showAllRooms: !1, showAllPhotos: !1}
-            },
-            render: function () {
-                c = d.getInjectables();
-                var a = this.props.hotel, b = c.$rootScope, j = (c.$state, c.$filter), m = {backgroundImage: "url(" + b.u.hImage215(a.images[0], a.id) + ")"};
-                if (a.rooms && a.rooms.length) {
-                    var p = [], q = "-expensive.price" === c.$scope.searchForm.filters.sort ? "-price" : "price", r = a.rooms;
-                    r = c.filterEngine.filter(r, c.$scope.searchForm.filters, "room", c.$scope.searchForm), a.filteredRooms = j("orderBy")(r, q);
-                    var s = this.state.showAllRooms ? 100 : 1 === a.rooms[0].rooms.length ? 2 : 1;
-                    if (a.rooms) {
-                        for (var t = 0; s > t && t < a.filteredRooms.length; t++) {
-                            p.push(React.createElement(k,
-                                    {key: a.filteredRooms[t].hash, item: a.filteredRooms[t], hotel: a, index: t}))
+                        for (f in c) {
+                            rt.event.remove(e, f + t[u], n, i, !0);
                         }
                     }
                 }
-                var u = null;
-                a.rooms || (u = React.createElement("div", null, React.createElement("div", {loading: "!states.roomsLoaded && searchForm.search.hash"}),
-                        React.createElement("div", {className: "Hotel-selectDate", "ng-show": "states.roomsLoaded && !hotel.filteredRooms.length"},
-                                React.createElement("i", {className: "i-select-date"}), " ", b.i18n.hotels.selectDates)));
-                var v = this.state.showAllPhotos ? "Hotel is-allPhoto" : "Hotel", w = l(this.props.hotel, c);
-                return React.createElement("div", {className: v, id: a.id}, React.createElement("div", {className: "clearfix Hotel-mainContent"},
-                                React.createElement("div", {className: "Hotel-leftBox", "fixed-box-cont": !0},
-                                        React.createElement("div", {"fixed-box": "hotel.allRooms"},
-                                                React.createElement("div", {className: "Hotel-photoBox clearfix"}, React.createElement(i, {hotel: a}),
-                                                        React.createElement("div", {className: "NoPhoto"},
-                                                                React.createElement("i", {className: "NoPhoto-icon i-no-photo"}),
-                                                                React.createElement("div", {className: "NoPhoto-label"}, b.i18n.hotels.noImages)),
-                                                        React.createElement("div", {className: "Hotel-photo", style: m}),
-                                                        React.createElement("div", {className: "Hotel-galleryIcon", onClick: this.togglePhotos},
-                                                                React.createElement("div", {className: "i-gallery"}),
-                                                                React.createElement("span", null, b.i18n.hotels.seeAllPhoto))),
-                                                this.state.showAllRooms && a.ta ? React.createElement(g, {hotel: a}) : !1)),
-                                React.createElement("div", {className: "Hotel-mainBox"},
-                                        React.createElement("div", {className: "Hotel-infoBox clearfix", "ng-class": "{'is-more':more}"},
-                                                React.createElement("a", {className: "Hotel-name", href: w}, a.name),
-                                                React.createElement(e, {category: a.categoryId}),
-                                                React.createElement(o, {hotel: a}), a.ta ?
-                                                        React.createElement("div", {className: "Hotel-tripBox", "ng-show": "hotel.ta"},
-                                                                React.createElement("a", {
-                                                                    "hotel-rating": "hotel.ta.rating",
-                                                                    "ui-sref": "hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))"
-                                                                }, React.createElement(h, {rating: a.ta.rating})),
-                                                                React.createElement("div", {className: "Hotel-tripBoxCount"},
-                                                                        j("decline")(a.ta.num_reviews, b.i18n.decline.recall), " ")) : !1),
-                                        React.createElement("div", {className: "Hotel-roomBox"}, u, p),
-                                        React.createElement("div", {className: "Hotel-bottomBox"}, React.createElement(n, {hotel: a}),
-                                                React.createElement("div", {className: "Hotel-showMoreRooms", "ng-class": "{'is-open': more}"}, a.rooms ?
-                                                        a.rooms.length > 2 ? this.state.showAllRooms ? React.createElement("span", {
-                                                            className: "Href no-animate is-open",
-                                                            "ng-show": "hotel.rooms.length>2 && hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.hideBookingDetails) : React.createElement("span", {
-                                                            className: "Href no-animate",
-                                                            "ng-show": "hotel.rooms.length>2 && !hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.showBookingDetails) :
-                                                                React.createElement("span", {"ng-show": "hotel.rooms.length < 3"},
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.left, !0), "  ",
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.room), " !") : !1),
-                                                React.createElement("div", {className: "Hotel-bookBtn"},
-                                                        React.createElement("a", {className: "Btn Btn--orange", onClick: this.goToHotel},
-                                                                b.i18n.hotels.book))))),
-                        React.createElement("div", {className: "Hotel-photoGalleryBox clearfix"},
-                                this.state.showAllPhotos ? React.createElement(f, {hotel: a}) : !1))
+                rt.isEmptyObject(c) && (delete m.handle, rt._removeData(e, "events"))
             }
-        }), n = React.createClass({
-            displayName: "Facilities", render: function () {
-                function a(a, b) {
-                    return a.facilities && -1 !== a.facilities.indexOf(b)
-                }
-
-                var b = c.$rootScope, d = [], e = [{
-                    value: 2,
-                    content: React.createElement("div", {className: "i-wifi", "data-title": b.i18n.common.facilities[2]},
-                            React.createElement("span", null, "FREE WI-FI"))
-                }, {value: 1, content: React.createElement("div", {className: "i-condition", "data-title": b.i18n.common.facilities[1]})},
-                    {value: 5, content: React.createElement("div", {className: "i-parking", "data-title": b.i18n.common.facilities[5]})},
-                    {value: 6, content: React.createElement("div", {className: "i-pool", "data-title": b.i18n.common.facilities[6]})},
-                    {value: 10, content: React.createElement("div", {className: "i-tv", "data-title": b.i18n.common.facilities[10]})}];
-                return _.each(e, function (b) {
-                    a(this.props.hotel, b.value) && d.push(React.createElement(j, {key: b.value}, b.content))
-                }.bind(this)), React.createElement("div", {className: "Hotel-facilities"}, d)
-            }
-        }), o = React.createClass({
-            displayName: "HotelAddress", goToHotelOnMap: function () {
-                c.Utils.event("hotel_on_map_from_list"), c.Utils.goToHotelOnMap(this.props.hotel, c.$scope.searchForm)
-            }, render: function () {
-                var a = c.$rootScope, b = c.$filter, d = [];
-                return this.props.hotel.center &&
-                d.push(React.createElement("a", {className: "Hotel-distance", onClick: this.goToHotelOnMap}, React.createElement("i", {className: "i-pointer"}),
-                        React.createElement("span", null, b("distance")(this.props.hotel.center), " ", a.i18n.hotels.kmFromCenter))), React.createElement("div",
-                        {className: "Hotel-addressBox clearfix"}, d, React.createElement("div", {className: "Hotel-address"}, this.props.hotel.address))
-            }
-        });
-        b.exports = m
-    }, {"./di-manager": 2, "./helpers": 3, "./hotel-gallery": 4, "./hotel-like": 5, "./hotel-ta": 6, "./room": 9, "./stars": 10, "./tooltip": 11}],
-    8: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}],
-    9: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./booking-conditions"), f = a("./tooltip").tooltipMixing, g = a("./helpers").Currency, h = React.createClass({
-            displayName: "RoomSize",
-            mixins: [f],
-            render: function () {
-                if (this.props.roomTypeId) {
-                    var a = "i-room-size" + c.$rootScope.d.roomTypes[this.props.roomTypeId].pax, b = [];
-                    if (b.push(React.createElement("i", {className: a})), 0 !== c.$scope.searchForm.formData.rooms[0].children) {
-                        var d = "i-room-size" + c.$scope.searchForm.formData.rooms[0].children + " is-childer";
-                        b.push(React.createElement("i", {className: d}))
+        },
+        trigger: function (t, n, i, r) {
+            var o, a, s, l, u, c, d, p = [i || ht], f = tt.call(t, "type") ? t.type : t, h = tt.call(t, "namespace") ? t.namespace.split(".") : [];
+            if (s = c = i = i || ht, 3 !== i.nodeType && 8 !== i.nodeType && !_t.test(f + rt.event.triggered) &&
+                    (f.indexOf(".") >= 0 && (h = f.split("."), f = h.shift(), h.sort()), a = f.indexOf(":") < 0 && "on" + f, t =
+                            t[rt.expando] ? t : new rt.Event(f, "object" == typeof t && t), t.isTrigger = r ? 2 : 3, t.namespace = h.join("."), t.namespace_re =
+                            t.namespace ? new RegExp("(^|\\.)" + h.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, t.result = void 0, t.target || (t.target = i), n =
+                            null == n ? [t] : rt.makeArray(n, [t]), u = rt.event.special[f] || {}, r || !u.trigger || u.trigger.apply(i, n) !== !1)) {
+                if (!r && !u.noBubble && !rt.isWindow(i)) {
+                    for (l = u.delegateType || f, _t.test(l + f) || (s = s.parentNode); s; s = s.parentNode) {
+                        p.push(s), c = s;
                     }
-                    return React.createElement("div",
-                            {"data-title": c.$rootScope.i18n.common.roomSizes[c.initialData.roomTypes[this.props.roomTypeId].pax - 1]}, b)
+                    c === (i.ownerDocument || ht) && p.push(c.defaultView || c.parentWindow || e)
                 }
-                return !1
-            }
-        }), i = React.createClass({
-            displayName: "SubRoom", render: function () {
-                var a = this.props.subRoom;
-                return React.createElement("div", {className: "Hotel-roomNameBox"}, React.createElement("div", {className: "Hotel-roomName"}, a.roomName),
-                        React.createElement("div", {className: "Hotel-roomGuests"},
-                                null !== a.rooTypeId ? React.createElement(h, {roomTypeId: a.roomTypeId}) : !1))
-            }
-        }), j = React.createClass({
-            displayName: "PriceBox", mixins: [f], getTooltipContent: function () {
-                var a, b = this.props.item, d = "i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return b.tax && (a = React.createElement("p", {"class": "mt5"}, " ", c.$rootScope.i18n.dictionary.priceHasTax, " ", b.tax,
-                        React.createElement("span", {className: d}))), React.createElement("div", null, c.$rootScope.i18n.hotels.priceFor, " ",
-                        c.$filter("decline")(1, c.$rootScope.i18n.decline.hight), " ",
-                        c.$rootScope.u.smartDigits(b.price / c.$rootScope.u.daysCount(c.$scope.searchForm.dates)), React.createElement("span", {className: d}),
-                        a)
-            }, render: function () {
-                var a = this.props.item, b = c.$rootScope, d = c.$filter, e = [];
-                return e.push(a.isCheapest ? React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.bestPriceFor, "  ",
-                        d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night)) :
-                        React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.priceFor, "   ",
-                                d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night), " ")), a.rooms.length > 1 &&
-                e.push(React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.forGroupInHotel)), React.createElement("div",
-                        {className: "Hotel-priceBox", "data-animation": "popup-slide-down Tooltip Tooltip--info notr"},
-                        React.createElement("span", {className: "Hotel-price"}, " ", b.u.smartDigits(a.price), " ", React.createElement(g, null)), e)
-            }
-        }), k = React.createClass({
-            displayName: "Room", goToRoom: function () {
-                c.initialData.stateData.room = this.props.item, c.Utils.event("room_click", this.props.item.hash);
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            }, render: function () {
-                c = d.getInjectables();
-                var a = this.props.item, b = this.props.hotel;
-                if (!a) {
-                    return null;
+                for (d = 0; (s = p[d++]) && !t.isPropagationStopped();) {
+                    t.type = d > 1 ? l : u.bindType || f, o =
+                            (rt._data(s, "events") || {})[t.type] && rt._data(s, "handle"), o && o.apply(s, n), o = a && s[a], o && o.apply &&
+                    rt.acceptData(s) &&
+                    (t.result = o.apply(s, n), t.result === !1 && t.preventDefault());
                 }
-                for (var f = c.$rootScope, g = (c.$filter, []), k = 0; k < a.rooms.length; k++) {
-                    g.push(React.createElement(i, {subRoom: a.rooms[k]}));
-                }
-                var l = "Hotel-room clearfix no-animate ";
-                switch (a.rooms.length) {
-                    case 2:
-                        l += "is-two-rooms ";
-                        break;
-                    case 3:
-                        l += "is-tree-rooms "
-                }
-                return 1 === b.filteredRooms.length && (l += "is-single "), 0 === this.props.index && (l += "is-cheapest"), React.createElement("div",
-                        {className: l, onClick: this.goToRoom}, React.createElement("div", {className: "Hotel-roomTexts"}, g),
-                        React.createElement("div", {className: "Hotel-roomInfo"},
-                                React.createElement("div", {className: "Hotel-roomBreakfast"}, React.createElement("i", {className: "i-breackfast2 mr5"}),
-                                        f.d.meals[a.mealId]), React.createElement(e, {room: a})),
-                        React.createElement("div", {className: "Hotel-roomGuests"}, React.createElement(h, {roomTypeId: a.rooms[0].roomTypeId})),
-                        React.createElement(j, {item: a}))
-            }
-        });
-        b.exports = k
-    }, {"./booking-conditions": 1, "./di-manager": 2, "./helpers": 3, "./tooltip": 11}],
-    10: [function (a, b) {
-        var c = React.createClass({
-            displayName: "Stars", isStarActive: function (a, b) {
-                var c = !1;
-                switch (a) {
-                    case 0:
-                        c = -1 !== [1, 2, 3, 4, 5].indexOf(b);
-                        break;
-                    case 1:
-                        c = -1 !== [1, 2, 3, 4].indexOf(b);
-                        break;
-                    case 2:
-                        c = -1 !== [1, 2, 3].indexOf(b);
-                        break;
-                    case 3:
-                        c = -1 !== [1, 3].indexOf(b);
-                        break;
-                    case 4:
-                        c = -1 !== [1].indexOf(b)
-                }
-                return c
-            }, render: function () {
-                var a = 0, b = [];
-                for (a = 0; 5 > a; a++) {
-                    b.push(this.isStarActive(a, this.props.category) ?
-                            React.createElement("div", {className: "Stars-star i-star", key: a + "star"}) :
-                            React.createElement("div", {className: "Stars-star i-star-holder", key: a + "hold"}));
-                }
-                return React.createElement("div", {className: "Stars"}, b)
-            }
-        });
-        b.exports = c
-    }, {}],
-    11: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
+                if (t.type = f, !r && !t.isDefaultPrevented() && (!u._default || u._default.apply(p.pop(), n) === !1) && rt.acceptData(i) && a && i[f] &&
+                        !rt.isWindow(i)) {
+                    c = i[a], c && (i[a] = null), rt.event.triggered = f;
+                    try {
+                        i[f]()
+                    } catch (g) {
                     }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
+                    rt.event.triggered = void 0, c && (i[a] = c)
                 }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
+                return t.result
             }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [7]),function h(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var i = "function" == typeof require && require;
-                if (!g && i) {
-                    return i(f, !0);
+        },
+        dispatch: function (e) {
+            e = rt.event.fix(e);
+            var t, n, i, r, o, a = [], s = U.call(arguments), l = (rt._data(this, "events") || {})[e.type] || [], u = rt.event.special[e.type] || {};
+            if (s[0] = e, e.delegateTarget = this, !u.preDispatch || u.preDispatch.call(this, e) !== !1) {
+                for (a = rt.event.handlers.call(this, e, l), t = 0; (r = a[t++]) && !e.isPropagationStopped();) {
+                    for (e.currentTarget = r.elem, o = 0;
+                            (i = r.handlers[o++]) && !e.isImmediatePropagationStopped();) {
+                        (!e.namespace_re || e.namespace_re.test(i.namespace)) &&
+                        (e.handleObj = i, e.data = i.data, n = ((rt.event.special[i.origType] || {}).handle || i.handler).apply(r.elem, s), void 0 !== n &&
+                        (e.result = n) === !1 && (e.preventDefault(), e.stopPropagation()));
+                    }
                 }
-                if (e) {
-                    return e(f, !0);
-                }
-                var j = new Error("Cannot find module '" + f + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
+                return u.postDispatch && u.postDispatch.call(this, e), e.result
             }
-            var k = b[f] = {exports: {}};
-            a[f][0].call(k.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, h, a, b, c)
+        },
+        handlers: function (e, t) {
+            var n, i, r, o, a = [], s = t.delegateCount, l = e.target;
+            if (s && l.nodeType && (!e.button || "click" !== e.type)) {
+                for (; l != this; l = l.parentNode || this) {
+                    if (1 === l.nodeType &&
+                            (l.disabled !== !0 || "click" !== e.type)) {
+                        for (r = [], o = 0; s > o; o++) {
+                            i = t[o], n = i.selector + " ", void 0 === r[n] &&
+                            (r[n] = i.needsContext ? rt(n, this).index(l) >= 0 : rt.find(n, this, null, [l]).length), r[n] && r.push(i);
+                        }
+                        r.length && a.push({elem: l, handlers: r})
+                    }
+                }
+            }
+            return s < t.length && a.push({elem: this, handlers: t.slice(s)}), a
+        },
+        fix: function (e) {
+            if (e[rt.expando]) {
+                return e;
+            }
+            var t, n, i, r = e.type, o = e, a = this.fixHooks[r];
+            for (a || (this.fixHooks[r] = a = Ht.test(r) ? this.mouseHooks : Pt.test(r) ? this.keyHooks : {}), i =
+                    a.props ? this.props.concat(a.props) : this.props, e = new rt.Event(o), t = i.length; t--;) {
+                n = i[t], e[n] = o[n];
+            }
+            return e.target || (e.target = o.srcElement || ht), 3 === e.target.nodeType && (e.target = e.target.parentNode), e.metaKey = !!e.metaKey, a.filter ?
+                    a.filter(e, o) : e
+        },
+        props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
+        fixHooks: {},
+        keyHooks: {
+            props: "char charCode key keyCode".split(" "), filter: function (e, t) {
+                return null == e.which && (e.which = null != t.charCode ? t.charCode : t.keyCode), e
+            }
+        },
+        mouseHooks: {
+            props: "button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
+            filter: function (e, t) {
+                var n, i, r, o = t.button, a = t.fromElement;
+                return null == e.pageX && null != t.clientX && (i = e.target.ownerDocument || ht, r = i.documentElement, n = i.body, e.pageX =
+                        t.clientX + (r && r.scrollLeft || n && n.scrollLeft || 0) - (r && r.clientLeft || n && n.clientLeft || 0), e.pageY =
+                        t.clientY + (r && r.scrollTop || n && n.scrollTop || 0) - (r && r.clientTop || n && n.clientTop || 0)), !e.relatedTarget && a &&
+                (e.relatedTarget = a === e.target ? t.toElement : a), e.which || void 0 === o || (e.which = 1 & o ? 1 : 2 & o ? 3 : 4 & o ? 2 : 0), e
+            }
+        },
+        special: {
+            load: {noBubble: !0}, focus: {
+                trigger: function () {
+                    if (this !== h() && this.focus) {
+                        try {
+                            return this.focus(), !1
+                        } catch (e) {
+                        }
+                    }
+                }, delegateType: "focusin"
+            }, blur: {
+                trigger: function () {
+                    return this === h() && this.blur ? (this.blur(), !1) : void 0
+                }, delegateType: "focusout"
+            }, click: {
+                trigger: function () {
+                    return rt.nodeName(this, "input") && "checkbox" === this.type && this.click ? (this.click(), !1) : void 0
+                }, _default: function (e) {
+                    return rt.nodeName(e.target, "a")
+                }
+            }, beforeunload: {
+                postDispatch: function (e) {
+                    void 0 !== e.result && e.originalEvent && (e.originalEvent.returnValue = e.result)
+                }
+            }
+        },
+        simulate: function (e, t, n, i) {
+            var r = rt.extend(new rt.Event, n, {type: e, isSimulated: !0, originalEvent: {}});
+            i ? rt.event.trigger(r, null, t) : rt.event.dispatch.call(t, r), r.isDefaultPrevented() && n.preventDefault()
         }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./tooltip").tooltipMixing, f = a("./loader"), g = a("./helpers").Currency, h = React.createClass({
-            displayName: "BookingConditions",
-            mixins: [e],
-            getInitialState: function () {
-                return {loadTriggered: !1, loaded: !1}
-            },
-            getInitialProps: function () {
-                return {text: "", title: ""}
-            },
-            loadConditions: function () {
-                var a = this.props.room, b = this;
-                return this.state.loadTriggered ? void 0 :
-                        (this.setState({loadTriggered: !0}), c.$http.get(c.api.search.chargeConditions(c.$stateParams.searchId),
-                                {params: {providerId: a.providerId, hash: a.hash, currency: c.initialData.currency}}).then(function (c) {
-                                    console.log(c), b.isMounted() && (angular.extend(a, c.data), b.getTitle(a), b.setState({loaded: !0}))
-                                }))
-            },
-            getTitle: function (a) {
-                var b = c.$rootScope;
-                if (this.props.text = b.i18n.directives.cancelationConditions, a.freeCancellation) {
-                    this.props.text =
-                            b.i18n.directives.freeCancelation, this.props.title = b.i18n.directives.freeCancelationUntill + " " +
-                            c.$filter("dateTime")(a.freeCancellationTo);
-                } else if (a.withoutCancellation) {
-                    this.props.title =
-                            this.props.text = b.i18n.directives.withoutCancelation;
-                } else if (a.fineCancellation) {
-                    if (a.fineCancellationPrice =
-                                    c.Utils.smartDigits(a.fineCancellationPrice), this.props.text = b.i18n.directives.freeCancelation, a.fineCancellationTo) {
-                        var d = c.$filter("dateTime")(a.fineCancellationTo);
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancellationBefore, " ", d, " ",
-                                React.createElement("b", null, b.i18n.directives.free), ".", React.createElement("br", null), b.i18n.directives.reactStartFrom,
-                                " ",
-                                d, " ", b.i18n.directives.reactWillHold,
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, " ", a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)), " ", b.i18n.directives.reactForOrderCancellation)
-                    } else {
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancelation, " ",
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)))
-                    }
-                }
-            },
-            getTooltipContent: function () {
-                var a;
-                return this.state.loaded || this.props.title ||
-                (a = React.createElement(f, {extraClasses: "Tooltip-loader", loaderType: "bubbles"})), React.createElement("div", null, a, this.props.title)
-            },
-            render: function () {
-                var a = this.props.room;
-                c = d.getInjectables();
-                {
-                    var b = "BookingConditions--iconMr5 BookingConditions i-cancelation";
-                    c.$rootScope
-                }
-                return this.getTitle(a), (a.freeCancellationTo || a.freeCancelation) && (b += " is-green"), React.createElement("div",
-                        {className: b, onMouseEnter: this.loadConditions}, this.props.text)
-            }
-        });
-        b.exports = h
-    }, {"./di-manager": 2, "./helpers": 3, "./loader": 9, "./tooltip": 12}],
-    2: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
+    }, rt.removeEvent = ht.removeEventListener ? function (e, t, n) {
+        e.removeEventListener && e.removeEventListener(t, n, !1)
+    } : function (e, t, n) {
+        var i = "on" + t;
+        e.detachEvent && (typeof e[i] === St && (e[i] = null), e.detachEvent(i, n))
+    }, rt.Event = function (e, t) {
+        return this instanceof rt.Event ? (e && e.type ? (this.originalEvent = e, this.type = e.type, this.isDefaultPrevented =
+                e.defaultPrevented || void 0 === e.defaultPrevented && e.returnValue === !1 ? p : f) : this.type = e, t && rt.extend(this, t), this.timeStamp =
+                e && e.timeStamp || rt.now(), void(this[rt.expando] = !0)) : new rt.Event(e, t)
+    }, rt.Event.prototype = {
+        isDefaultPrevented: f, isPropagationStopped: f, isImmediatePropagationStopped: f, preventDefault: function () {
+            var e = this.originalEvent;
+            this.isDefaultPrevented = p, e && (e.preventDefault ? e.preventDefault() : e.returnValue = !1)
+        }, stopPropagation: function () {
+            var e = this.originalEvent;
+            this.isPropagationStopped = p, e && (e.stopPropagation && e.stopPropagation(), e.cancelBubble = !0)
+        }, stopImmediatePropagation: function () {
+            var e = this.originalEvent;
+            this.isImmediatePropagationStopped = p, e && e.stopImmediatePropagation && e.stopImmediatePropagation(), this.stopPropagation()
         }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}],
-    3: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
+    }, rt.each({mouseenter: "mouseover", mouseleave: "mouseout", pointerenter: "pointerover", pointerleave: "pointerout"}, function (e, t) {
+        rt.event.special[e] = {
+            delegateType: t, bindType: t, handle: function (e) {
+                var n, i = this, r = e.relatedTarget, o = e.handleObj;
+                return (!r || r !== i && !rt.contains(i, r)) && (e.type = o.origType, n = o.handler.apply(this, arguments), e.type = t), n
             }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
+        }
+    }), nt.submitBubbles || (rt.event.special.submit = {
+        setup: function () {
+            return rt.nodeName(this, "form") ? !1 : void rt.event.add(this, "click._submit keypress._submit", function (e) {
+                var t = e.target, n = rt.nodeName(t, "input") || rt.nodeName(t, "button") ? t.form : void 0;
+                n && !rt._data(n, "submitBubbles") && (rt.event.add(n, "submit._submit", function (e) {
+                    e._submit_bubble = !0
+                }), rt._data(n, "submitBubbles", !0))
+            })
+        }, postDispatch: function (e) {
+            e._submit_bubble && (delete e._submit_bubble, this.parentNode && !e.isTrigger && rt.event.simulate("submit", this.parentNode, e, !0))
+        }, teardown: function () {
+            return rt.nodeName(this, "form") ? !1 : void rt.event.remove(this, "._submit")
+        }
+    }), nt.changeBubbles || (rt.event.special.change = {
+        setup: function () {
+            return Dt.test(this.nodeName) ? (("checkbox" === this.type || "radio" === this.type) && (rt.event.add(this, "propertychange._change", function (e) {
+                "checked" === e.originalEvent.propertyName && (this._just_changed = !0)
+            }), rt.event.add(this, "click._change", function (e) {
+                this._just_changed && !e.isTrigger && (this._just_changed = !1), rt.event.simulate("change", this, e, !0)
+            })), !1) : void rt.event.add(this, "beforeactivate._change", function (e) {
+                var t = e.target;
+                Dt.test(t.nodeName) && !rt._data(t, "changeBubbles") && (rt.event.add(t, "change._change", function (e) {
+                    !this.parentNode || e.isSimulated || e.isTrigger || rt.event.simulate("change", this.parentNode, e, !0)
+                }), rt._data(t, "changeBubbles", !0))
+            })
+        }, handle: function (e) {
+            var t = e.target;
+            return this !== t || e.isSimulated || e.isTrigger || "radio" !== t.type && "checkbox" !== t.type ? e.handleObj.handler.apply(this, arguments) :
+                    void 0
+        }, teardown: function () {
+            return rt.event.remove(this, "._change"), !Dt.test(this.nodeName)
+        }
+    }), nt.focusinBubbles || rt.each({focus: "focusin", blur: "focusout"}, function (e, t) {
+        var n = function (e) {
+            rt.event.simulate(t, e.target, rt.event.fix(e), !0)
         };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 2}],
-    4: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./loader"), f = React.createClass({
-            displayName: "HotelGallery", getInitialState: function () {
-                return {showPhoto: !1, photoId: null}
-            }, showPhoto: function (a, b) {
-                this.setState({showPhoto: !0, photoId: a, target: b.target})
-            }, hidePhoto: function () {
-                this.setState({showPhoto: !1, photoId: null, target: null})
-            }, render: function () {
-                c = d.getInjectables();
-                for (var a, b = this.props.hotel, e = [], f = 0; f < b.images.length && 17 > f; f++) {
-                    var h = {backgroundImage: "url(" + c.$rootScope.u.hImage45(b.images[f], b.id) + ")"};
-                    e.push(React.createElement("div",
-                            {onMouseOver: this.showPhoto.bind(this, b.images[f]), onMouseOut: this.hidePhoto, className: "Hotel-smallPhoto", style: h}))
+        rt.event.special[t] = {
+            setup: function () {
+                var i = this.ownerDocument || this, r = rt._data(i, t);
+                r || i.addEventListener(e, n, !0), rt._data(i, t, (r || 0) + 1)
+            }, teardown: function () {
+                var i = this.ownerDocument || this, r = rt._data(i, t) - 1;
+                r ? rt._data(i, t, r) : (i.removeEventListener(e, n, !0), rt._removeData(i, t))
+            }
+        }
+    }), rt.fn.extend({
+        on: function (e, t, n, i, r) {
+            var o, a;
+            if ("object" == typeof e) {
+                "string" != typeof t && (n = n || t, t = void 0);
+                for (o in e) {
+                    this.on(o, t, n, e[o], r);
                 }
-                return this.state.showPhoto ? (a = React.createElement(g, {imageId: this.state.photoId, hotelId: b.id, target: this.state.target}), this.popup =
-                        React.render(a, document.getElementById("HoverImagePopupCOntainer"))) :
-                        React.unmountComponentAtNode(document.getElementById("HoverImagePopupCOntainer")), React.createElement("div",
-                        {className: "Hotel-photoGallery clearfix"}, React.createElement("div", {className: "Hotel-photoGalleryCont"},
-                                React.createElement("div", {className: "NoPhoto NoPhoto--small"},
-                                        React.createElement("i", {className: "NoPhoto-icon i-no-photo"})), e))
+                return this
             }
-        }), g = React.createClass({
-            displayName: "HotelImagePopup", calculatePosition: function () {
-                var a, b, d = $(this.props.target), e = $(this.getDOMNode()), f = 10, g = "vertical";
-                d.offset().top - e.height() - f > c.$window.scrollY ?
-                        (a = d.offset().top - e.height() - f - d.height(), d.offset().left + e.width() < c.$window.innerWidth ?
-                                (b = d.offset().left, g += " top-left") : (b = d.offset().left + d.width() - e.width(), g += " top-right")) :
-                        (a = d.offset().top, d.offset().left + e.width() < c.$window.innerWidth ? (b = d.offset().left, g += " bottom-left") :
-                                (b = d.offset().left + d.width() - e.width(), g += " bottom-right")), (0 !== a || 0 !== b) &&
-                (e.css("top", a + "px"), e.css("left", b + "px"), e.removeClass("top-left top-right bottom-left bottom-right not-visible"), e.addClass(g))
-            }, componentDidMount: function () {
-                this.calculatePosition()
-            }, render: function () {
-                var a = {backgroundImage: "url(" + c.$rootScope.u.hImage(this.props.imageId, this.props.hotelId) + ")"};
-                return this.isMounted() && this.calculatePosition(), React.createElement("div", {className: "tooltip in HoverGallery not-visible"},
-                        React.createElement("div", {className: "tooltip-arrow"}),
-                        React.createElement("div", {className: "tooltip-inner"}, React.createElement(e, {loaderType: "circle", extraClasses: "Tooltip-loader"}),
-                                React.createElement("div", {className: "HoverGallery-image", style: a})))
+            if (null == n && null == i ? (i = t, n = t = void 0) : null == i && ("string" == typeof t ? (i = n, n = void 0) : (i = n, n = t, t = void 0)), i ===
+                    !1) {
+                i = f;
+            } else if (!i) {
+                return this;
             }
-        });
-        b.exports = f
-    }, {"./di-manager": 2, "./loader": 9}],
-    5: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "HotelLike", toggleLike: function () {
-                var a = this;
-                c.Favorites.like(this.props.hotel, c.$scope.searchForm.search.city).then(function (b) {
-                    c.$scope.$emit("hotelLike.liked", b), a.forceUpdate()
+            return 1 === r && (a = i, i = function (e) {
+                return rt().off(e), a.apply(this, arguments)
+            }, i.guid = a.guid || (a.guid = rt.guid++)), this.each(function () {
+                rt.event.add(this, e, i, n, t)
+            })
+        }, one: function (e, t, n, i) {
+            return this.on(e, t, n, i, 1)
+        }, off: function (e, t, n) {
+            var i, r;
+            if (e && e.preventDefault && e.handleObj) {
+                return i = e.handleObj, rt(e.delegateTarget).off(i.namespace ? i.origType + "." + i.namespace : i.origType,
+                        i.selector, i.handler), this;
+            }
+            if ("object" == typeof e) {
+                for (r in e) {
+                    this.off(r, t, e[r]);
+                }
+                return this
+            }
+            return (t === !1 || "function" == typeof t) && (n = t, t = void 0), n === !1 && (n = f), this.each(function () {
+                rt.event.remove(this, e, n, t)
+            })
+        }, trigger: function (e, t) {
+            return this.each(function () {
+                rt.event.trigger(e, t, this)
+            })
+        }, triggerHandler: function (e, t) {
+            var n = this[0];
+            return n ? rt.event.trigger(e, t, n, !0) : void 0
+        }
+    });
+    var Wt = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video", Ot = / jQuery\d+="(?:null|\d+)"/g, It = new RegExp("<(?:" +
+            Wt + ")[\\s/>]",
+            "i"), Ft = /^\s+/, Rt = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi, Bt = /<([\w:]+)/, qt = /<tbody/i, zt = /<|&#?\w+;/, $t = /<(?:script|style|link)/i, Vt = /checked\s*(?:[^=]|=\s*.checked.)/i, Gt = /^$|\/(?:java|ecma)script/i, Xt = /^true\/(.*)/, Yt = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g, Ut = {
+        option: [1, "<select multiple='multiple'>", "</select>"],
+        legend: [1, "<fieldset>", "</fieldset>"],
+        area: [1, "<map>", "</map>"],
+        param: [1, "<object>", "</object>"],
+        thead: [1, "<table>", "</table>"],
+        tr: [2, "<table><tbody>", "</tbody></table>"],
+        col: [2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"],
+        td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+        _default: nt.htmlSerialize ? [0, "", ""] : [1, "X<div>", "</div>"]
+    }, Kt = g(ht), Qt = Kt.appendChild(ht.createElement("div"));
+    Ut.optgroup = Ut.option, Ut.tbody = Ut.tfoot = Ut.colgroup = Ut.caption = Ut.thead, Ut.th = Ut.td, rt.extend({
+        clone: function (e, t, n) {
+            var i, r, o, a, s, l = rt.contains(e.ownerDocument, e);
+            if (nt.html5Clone || rt.isXMLDoc(e) || !It.test("<" + e.nodeName + ">") ? o = e.cloneNode(!0) :
+                            (Qt.innerHTML = e.outerHTML, Qt.removeChild(o = Qt.firstChild)), !(nt.noCloneEvent && nt.noCloneChecked ||
+                    1 !== e.nodeType && 11 !== e.nodeType || rt.isXMLDoc(e))) {
+                for (i = m(o), s = m(e), a = 0; null != (r = s[a]); ++a) {
+                    i[a] && S(r, i[a]);
+                }
+            }
+            if (t) {
+                if (n) {
+                    for (s = s || m(e), i = i || m(o), a = 0; null != (r = s[a]); a++) {
+                        T(r, i[a]);
+                    }
+                } else {
+                    T(e, o);
+                }
+            }
+            return i = m(o, "script"), i.length > 0 && x(i, !l && m(e, "script")), i = s = r = null, o
+        }, buildFragment: function (e, t, n, i) {
+            for (var r, o, a, s, l, u, c, d = e.length, p = g(t), f = [], h = 0; d > h; h++) {
+                if (o = e[h], o || 0 === o) {
+                    if ("object" === rt.type(o)) {
+                        rt.merge(f,
+                                o.nodeType ? [o] : o);
+                    } else if (zt.test(o)) {
+                        for (s = s || p.appendChild(t.createElement("div")), l = (Bt.exec(o) || ["", ""])[1].toLowerCase(), c =
+                                Ut[l] || Ut._default, s.innerHTML =
+                                c[1] + o.replace(Rt, "<$1></$2>") + c[2], r = c[0]; r--;) {
+                            s = s.lastChild;
+                        }
+                        if (!nt.leadingWhitespace && Ft.test(o) && f.push(t.createTextNode(Ft.exec(o)[0])), !nt.tbody) {
+                            for (o =
+                                    "table" !== l || qt.test(o) ? "<table>" !== c[1] || qt.test(o) ? 0 : s : s.firstChild, r = o && o.childNodes.length;
+                                    r--;) {
+                                rt.nodeName(u = o.childNodes[r], "tbody") && !u.childNodes.length && o.removeChild(u);
+                            }
+                        }
+                        for (rt.merge(f, s.childNodes), s.textContent = ""; s.firstChild;) {
+                            s.removeChild(s.firstChild);
+                        }
+                        s = p.lastChild
+                    } else {
+                        f.push(t.createTextNode(o));
+                    }
+                }
+            }
+            for (s && p.removeChild(s), nt.appendChecked || rt.grep(m(f, "input"), v), h = 0; o = f[h++];) {
+                if ((!i || -1 === rt.inArray(o, i)) &&
+                        (a = rt.contains(o.ownerDocument, o), s = m(p.appendChild(o), "script"), a && x(s), n)) {
+                    for (r = 0; o = s[r++];) {
+                        Gt.test(o.type || "") &&
+                        n.push(o);
+                    }
+                }
+            }
+            return s = null, p
+        }, cleanData: function (e, t) {
+            for (var n, i, r, o, a = 0, s = rt.expando, l = rt.cache, u = nt.deleteExpando, c = rt.event.special; null != (n = e[a]); a++) {
+                if ((t ||
+                        rt.acceptData(n)) && (r = n[s], o = r && l[r])) {
+                    if (o.events) {
+                        for (i in o.events) {
+                            c[i] ? rt.event.remove(n, i) : rt.removeEvent(n, i, o.handle);
+                        }
+                    }
+                    l[r] && (delete l[r], u ? delete n[s] : typeof n.removeAttribute !== St ? n.removeAttribute(s) : n[s] = null, Y.push(r))
+                }
+            }
+        }
+    }), rt.fn.extend({
+        text: function (e) {
+            return At(this, function (e) {
+                return void 0 === e ? rt.text(this) : this.empty().append((this[0] && this[0].ownerDocument || ht).createTextNode(e))
+            }, null, e, arguments.length)
+        }, append: function () {
+            return this.domManip(arguments, function (e) {
+                if (1 === this.nodeType || 11 === this.nodeType || 9 === this.nodeType) {
+                    var t = y(this, e);
+                    t.appendChild(e)
+                }
+            })
+        }, prepend: function () {
+            return this.domManip(arguments, function (e) {
+                if (1 === this.nodeType || 11 === this.nodeType || 9 === this.nodeType) {
+                    var t = y(this, e);
+                    t.insertBefore(e, t.firstChild)
+                }
+            })
+        }, before: function () {
+            return this.domManip(arguments, function (e) {
+                this.parentNode && this.parentNode.insertBefore(e, this)
+            })
+        }, after: function () {
+            return this.domManip(arguments, function (e) {
+                this.parentNode && this.parentNode.insertBefore(e, this.nextSibling)
+            })
+        }, remove: function (e, t) {
+            for (var n, i = e ? rt.filter(e, this) : this, r = 0; null != (n = i[r]); r++) {
+                t || 1 !== n.nodeType || rt.cleanData(m(n)), n.parentNode &&
+                (t && rt.contains(n.ownerDocument, n) && x(m(n, "script")), n.parentNode.removeChild(n));
+            }
+            return this
+        }, empty: function () {
+            for (var e, t = 0; null != (e = this[t]); t++) {
+                for (1 === e.nodeType && rt.cleanData(m(e, !1)); e.firstChild;) {
+                    e.removeChild(e.firstChild);
+                }
+                e.options && rt.nodeName(e, "select") && (e.options.length = 0)
+            }
+            return this
+        }, clone: function (e, t) {
+            return e = null == e ? !1 : e, t = null == t ? e : t, this.map(function () {
+                return rt.clone(this, e, t)
+            })
+        }, html: function (e) {
+            return At(this, function (e) {
+                var t = this[0] || {}, n = 0, i = this.length;
+                if (void 0 === e) {
+                    return 1 === t.nodeType ? t.innerHTML.replace(Ot, "") : void 0;
+                }
+                if (!("string" != typeof e || $t.test(e) || !nt.htmlSerialize && It.test(e) || !nt.leadingWhitespace && Ft.test(e) ||
+                        Ut[(Bt.exec(e) || ["", ""])[1].toLowerCase()])) {
+                    e = e.replace(Rt, "<$1></$2>");
+                    try {
+                        for (; i > n; n++) {
+                            t = this[n] || {}, 1 === t.nodeType && (rt.cleanData(m(t, !1)), t.innerHTML = e);
+                        }
+                        t = 0
+                    } catch (r) {
+                    }
+                }
+                t && this.empty().append(e)
+            }, null, e, arguments.length)
+        }, replaceWith: function () {
+            var e = arguments[0];
+            return this.domManip(arguments, function (t) {
+                e = this.parentNode, rt.cleanData(m(this)), e && e.replaceChild(t, this)
+            }), e && (e.length || e.nodeType) ? this : this.remove()
+        }, detach: function (e) {
+            return this.remove(e, !0)
+        }, domManip: function (e, t) {
+            e = K.apply([], e);
+            var n, i, r, o, a, s, l = 0, u = this.length, c = this, d = u - 1, p = e[0], f = rt.isFunction(p);
+            if (f || u > 1 && "string" == typeof p && !nt.checkClone && Vt.test(p)) {
+                return this.each(function (n) {
+                    var i = c.eq(n);
+                    f && (e[0] = p.call(this, n, i.html())), i.domManip(e, t)
+                });
+            }
+            if (u && (s = rt.buildFragment(e, this[0].ownerDocument, !1, this), n = s.firstChild, 1 === s.childNodes.length && (s = n), n)) {
+                for (o = rt.map(m(s, "script"), w), r = o.length; u > l; l++) {
+                    i = s, l !== d &&
+                    (i = rt.clone(i, !0, !0), r && rt.merge(o, m(i, "script"))), t.call(this[l], i, l);
+                }
+                if (r) {
+                    for (a = o[o.length - 1].ownerDocument, rt.map(o, b), l = 0; r > l; l++) {
+                        i = o[l], Gt.test(i.type || "") && !rt._data(i, "globalEval") &&
+                        rt.contains(a, i) &&
+                        (i.src ? rt._evalUrl && rt._evalUrl(i.src) : rt.globalEval((i.text || i.textContent || i.innerHTML || "").replace(Yt, "")));
+                    }
+                }
+                s = n = null
+            }
+            return this
+        }
+    }), rt.each({appendTo: "append", prependTo: "prepend", insertBefore: "before", insertAfter: "after", replaceAll: "replaceWith"}, function (e, t) {
+        rt.fn[e] = function (e) {
+            for (var n, i = 0, r = [], o = rt(e), a = o.length - 1; a >= i; i++) {
+                n = i === a ? this : this.clone(!0), rt(o[i])[t](n), Q.apply(r, n.get());
+            }
+            return this.pushStack(r)
+        }
+    });
+    var Jt, Zt = {};
+    !function () {
+        var e;
+        nt.shrinkWrapBlocks = function () {
+            if (null != e) {
+                return e;
+            }
+            e = !1;
+            var t, n, i;
+            return n = ht.getElementsByTagName("body")[0], n && n.style ? (t = ht.createElement("div"), i = ht.createElement("div"), i.style.cssText =
+                    "position:absolute;border:0;width:0;height:0;top:0;left:-9999px", n.appendChild(i).appendChild(t), typeof t.style.zoom !== St &&
+            (t.style.cssText =
+                    "-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;display:block;margin:0;border:0;padding:1px;width:1px;zoom:1", t.appendChild(ht.createElement("div")).style.width =
+                    "5px", e = 3 !== t.offsetWidth), n.removeChild(i), e) : void 0
+        }
+    }();
+    var en, tn, nn = /^margin/, rn = new RegExp("^(" + kt + ")(?!px)[a-z%]+$", "i"), on = /^(top|right|bottom|left)$/;
+    e.getComputedStyle ? (en = function (t) {
+        return t.ownerDocument.defaultView.opener ? t.ownerDocument.defaultView.getComputedStyle(t, null) : e.getComputedStyle(t, null)
+    }, tn = function (e, t, n) {
+        var i, r, o, a, s = e.style;
+        return n = n || en(e), a = n ? n.getPropertyValue(t) || n[t] : void 0, n &&
+        ("" !== a || rt.contains(e.ownerDocument, e) || (a = rt.style(e, t)), rn.test(a) && nn.test(t) &&
+        (i = s.width, r = s.minWidth, o = s.maxWidth, s.minWidth = s.maxWidth = s.width = a, a = n.width, s.width = i, s.minWidth = r, s.maxWidth =
+                o)), void 0 === a ? a : a + ""
+    }) : ht.documentElement.currentStyle && (en = function (e) {
+        return e.currentStyle
+    }, tn = function (e, t, n) {
+        var i, r, o, a, s = e.style;
+        return n = n || en(e), a = n ? n[t] : void 0, null == a && s && s[t] && (a = s[t]), rn.test(a) && !on.test(t) &&
+        (i = s.left, r = e.runtimeStyle, o = r && r.left, o && (r.left = e.currentStyle.left), s.left = "fontSize" === t ? "1em" : a, a =
+                s.pixelLeft + "px", s.left = i, o && (r.left = o)), void 0 === a ? a : a + "" || "auto"
+    }), !function () {
+        function t() {
+            var t, n, i, r;
+            n = ht.getElementsByTagName("body")[0], n && n.style && (t = ht.createElement("div"), i = ht.createElement("div"), i.style.cssText =
+                    "position:absolute;border:0;width:0;height:0;top:0;left:-9999px", n.appendChild(i).appendChild(t), t.style.cssText =
+                    "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;display:block;margin-top:1%;top:1%;border:1px;padding:1px;width:4px;position:absolute", o =
+                    a = !1, l = !0, e.getComputedStyle &&
+            (o = "1%" !== (e.getComputedStyle(t, null) || {}).top, a = "4px" === (e.getComputedStyle(t, null) || {width: "4px"}).width, r =
+                    t.appendChild(ht.createElement("div")), r.style.cssText = t.style.cssText =
+                    "-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;display:block;margin:0;border:0;padding:0", r.style.marginRight =
+                    r.style.width = "0", t.style.width = "1px", l =
+                    !parseFloat((e.getComputedStyle(r, null) || {}).marginRight), t.removeChild(r)), t.innerHTML =
+                    "<table><tr><td></td><td>t</td></tr></table>", r = t.getElementsByTagName("td"), r[0].style.cssText =
+                    "margin:0;border:0;padding:0;display:none", s = 0 === r[0].offsetHeight, s &&
+            (r[0].style.display = "", r[1].style.display = "none", s = 0 === r[0].offsetHeight), n.removeChild(i))
+        }
+
+        var n, i, r, o, a, s, l;
+        n = ht.createElement("div"), n.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>", r =
+                n.getElementsByTagName("a")[0], (i = r && r.style) &&
+        (i.cssText = "float:left;opacity:.5", nt.opacity = "0.5" === i.opacity, nt.cssFloat = !!i.cssFloat, n.style.backgroundClip =
+                "content-box", n.cloneNode(!0).style.backgroundClip = "", nt.clearCloneStyle = "content-box" === n.style.backgroundClip, nt.boxSizing =
+                "" === i.boxSizing || "" === i.MozBoxSizing || "" === i.WebkitBoxSizing, rt.extend(nt, {
+            reliableHiddenOffsets: function () {
+                return null == s && t(), s
+            }, boxSizingReliable: function () {
+                return null == a && t(), a
+            }, pixelPosition: function () {
+                return null == o && t(), o
+            }, reliableMarginRight: function () {
+                return null == l && t(), l
+            }
+        }))
+    }(), rt.swap = function (e, t, n, i) {
+        var r, o, a = {};
+        for (o in t) {
+            a[o] = e.style[o], e.style[o] = t[o];
+        }
+        r = n.apply(e, i || []);
+        for (o in t) {
+            e.style[o] = a[o];
+        }
+        return r
+    };
+    var an = /alpha\([^)]*\)/i, sn = /opacity\s*=\s*([^)]*)/, ln = /^(none|table(?!-c[ea]).+)/, un = new RegExp("^(" + kt + ")(.*)$",
+            "i"), cn = new RegExp("^([+-])=(" + kt + ")", "i"), dn = {position: "absolute", visibility: "hidden", display: "block"}, pn = {
+        letterSpacing: "0",
+        fontWeight: "400"
+    }, fn = ["Webkit", "O", "Moz", "ms"];
+    rt.extend({
+        cssHooks: {
+            opacity: {
+                get: function (e, t) {
+                    if (t) {
+                        var n = tn(e, "opacity");
+                        return "" === n ? "1" : n
+                    }
+                }
+            }
+        },
+        cssNumber: {
+            columnCount: !0,
+            fillOpacity: !0,
+            flexGrow: !0,
+            flexShrink: !0,
+            fontWeight: !0,
+            lineHeight: !0,
+            opacity: !0,
+            order: !0,
+            orphans: !0,
+            widows: !0,
+            zIndex: !0,
+            zoom: !0
+        },
+        cssProps: {"float": nt.cssFloat ? "cssFloat" : "styleFloat"},
+        style: function (e, t, n, i) {
+            if (e && 3 !== e.nodeType && 8 !== e.nodeType && e.style) {
+                var r, o, a, s = rt.camelCase(t), l = e.style;
+                if (t = rt.cssProps[s] || (rt.cssProps[s] = L(l, s)), a = rt.cssHooks[t] || rt.cssHooks[s], void 0 === n) {
+                    return a && "get"in a &&
+                    void 0 !== (r = a.get(e, !1, i)) ? r : l[t];
+                }
+                if (o = typeof n, "string" === o && (r = cn.exec(n)) && (n = (r[1] + 1) * r[2] + parseFloat(rt.css(e, t)), o = "number"), null != n &&
+                        n === n && ("number" !== o || rt.cssNumber[s] || (n += "px"), nt.clearCloneStyle || "" !== n || 0 !== t.indexOf("background") ||
+                        (l[t] = "inherit"), !(a && "set"in a && void 0 === (n = a.set(e, n, i))))) {
+                    try {
+                        l[t] = n
+                    } catch (u) {
+                    }
+                }
+            }
+        },
+        css: function (e, t, n, i) {
+            var r, o, a, s = rt.camelCase(t);
+            return t = rt.cssProps[s] || (rt.cssProps[s] = L(e.style, s)), a = rt.cssHooks[t] || rt.cssHooks[s], a && "get"in a &&
+            (o = a.get(e, !0, n)), void 0 === o && (o = tn(e, t, i)), "normal" === o && t in pn && (o = pn[t]), "" === n || n ?
+                    (r = parseFloat(o), n === !0 || rt.isNumeric(r) ? r || 0 : o) : o
+        }
+    }), rt.each(["height", "width"], function (e, t) {
+        rt.cssHooks[t] = {
+            get: function (e, n, i) {
+                return n ? ln.test(rt.css(e, "display")) && 0 === e.offsetWidth ? rt.swap(e, dn, function () {
+                    return D(e, t, i)
+                }) : D(e, t, i) : void 0
+            }, set: function (e, n, i) {
+                var r = i && en(e);
+                return A(e, n, i ? M(e, t, i, nt.boxSizing && "border-box" === rt.css(e, "boxSizing", !1, r), r) : 0)
+            }
+        }
+    }), nt.opacity || (rt.cssHooks.opacity = {
+        get: function (e, t) {
+            return sn.test((t && e.currentStyle ? e.currentStyle.filter : e.style.filter) || "") ? .01 * parseFloat(RegExp.$1) + "" : t ? "1" : ""
+        }, set: function (e, t) {
+            var n = e.style, i = e.currentStyle, r = rt.isNumeric(t) ? "alpha(opacity=" + 100 * t + ")" : "", o = i && i.filter || n.filter || "";
+            n.zoom = 1, (t >= 1 || "" === t) && "" === rt.trim(o.replace(an, "")) && n.removeAttribute &&
+            (n.removeAttribute("filter"), "" === t || i && !i.filter) || (n.filter = an.test(o) ? o.replace(an, r) : o + " " + r)
+        }
+    }), rt.cssHooks.marginRight = k(nt.reliableMarginRight, function (e, t) {
+        return t ? rt.swap(e, {display: "inline-block"}, tn, [e, "marginRight"]) : void 0
+    }), rt.each({margin: "", padding: "", border: "Width"}, function (e, t) {
+        rt.cssHooks[e + t] = {
+            expand: function (n) {
+                for (var i = 0, r = {}, o = "string" == typeof n ? n.split(" ") : [n]; 4 > i; i++) {
+                    r[e + Lt[i] + t] = o[i] || o[i - 2] || o[0];
+                }
+                return r
+            }
+        }, nn.test(e) || (rt.cssHooks[e + t].set = A)
+    }), rt.fn.extend({
+        css: function (e, t) {
+            return At(this, function (e, t, n) {
+                var i, r, o = {}, a = 0;
+                if (rt.isArray(t)) {
+                    for (i = en(e), r = t.length; r > a; a++) {
+                        o[t[a]] = rt.css(e, t[a], !1, i);
+                    }
+                    return o
+                }
+                return void 0 !== n ? rt.style(e, t, n) : rt.css(e, t)
+            }, e, t, arguments.length > 1)
+        }, show: function () {
+            return N(this, !0)
+        }, hide: function () {
+            return N(this)
+        }, toggle: function (e) {
+            return "boolean" == typeof e ? e ? this.show() : this.hide() : this.each(function () {
+                Nt(this) ? rt(this).show() : rt(this).hide()
+            })
+        }
+    }), rt.Tween = P, P.prototype = {
+        constructor: P, init: function (e, t, n, i, r, o) {
+            this.elem = e, this.prop = n, this.easing = r || "swing", this.options = t, this.start = this.now = this.cur(), this.end = i, this.unit =
+                    o || (rt.cssNumber[n] ? "" : "px")
+        }, cur: function () {
+            var e = P.propHooks[this.prop];
+            return e && e.get ? e.get(this) : P.propHooks._default.get(this)
+        }, run: function (e) {
+            var t, n = P.propHooks[this.prop];
+            return this.pos = t = this.options.duration ? rt.easing[this.easing](e, this.options.duration * e, 0, 1, this.options.duration) : e, this.now =
+                    (this.end - this.start) * t + this.start, this.options.step && this.options.step.call(this.elem, this.now, this), n && n.set ? n.set(this) :
+                    P.propHooks._default.set(this), this
+        }
+    }, P.prototype.init.prototype = P.prototype, P.propHooks = {
+        _default: {
+            get: function (e) {
+                var t;
+                return null == e.elem[e.prop] || e.elem.style && null != e.elem.style[e.prop] ? (t = rt.css(e.elem, e.prop, ""), t && "auto" !== t ? t : 0) :
+                        e.elem[e.prop]
+            }, set: function (e) {
+                rt.fx.step[e.prop] ? rt.fx.step[e.prop](e) :
+                        e.elem.style && (null != e.elem.style[rt.cssProps[e.prop]] || rt.cssHooks[e.prop]) ? rt.style(e.elem, e.prop, e.now + e.unit) :
+                                e.elem[e.prop] = e.now
+            }
+        }
+    }, P.propHooks.scrollTop = P.propHooks.scrollLeft = {
+        set: function (e) {
+            e.elem.nodeType && e.elem.parentNode && (e.elem[e.prop] = e.now)
+        }
+    }, rt.easing = {
+        linear: function (e) {
+            return e
+        }, swing: function (e) {
+            return .5 - Math.cos(e * Math.PI) / 2
+        }
+    }, rt.fx = P.prototype.init, rt.fx.step = {};
+    var hn, gn, mn = /^(?:toggle|show|hide)$/, vn = new RegExp("^(?:([+-])=|)(" + kt + ")([a-z%]*)$", "i"), yn = /queueHooks$/, wn = [W], bn = {
+        "*": [function (e, t) {
+            var n = this.createTween(e, t), i = n.cur(), r = vn.exec(t), o = r && r[3] || (rt.cssNumber[e] ? "" : "px"), a = (rt.cssNumber[e] ||
+                    "px" !== o && +i) && vn.exec(rt.css(n.elem, e)), s = 1, l = 20;
+            if (a && a[3] !== o) {
+                o = o || a[3], r = r || [], a = +i || 1;
+                do {
+                    s = s || ".5", a /= s, rt.style(n.elem, e, a + o);
+                } while (s !== (s = n.cur() / i) && 1 !== s && --l)
+            }
+            return r && (a = n.start = +a || +i || 0, n.unit = o, n.end = r[1] ? a + (r[1] + 1) * r[2] : +r[2]), n
+        }]
+    };
+    rt.Animation = rt.extend(I, {
+        tweener: function (e, t) {
+            rt.isFunction(e) ? (t = e, e = ["*"]) : e = e.split(" ");
+            for (var n, i = 0, r = e.length; r > i; i++) {
+                n = e[i], bn[n] = bn[n] || [], bn[n].unshift(t)
+            }
+        }, prefilter: function (e, t) {
+            t ? wn.unshift(e) : wn.push(e)
+        }
+    }), rt.speed = function (e, t, n) {
+        var i = e && "object" == typeof e ? rt.extend({}, e) :
+        {complete: n || !n && t || rt.isFunction(e) && e, duration: e, easing: n && t || t && !rt.isFunction(t) && t};
+        return i.duration = rt.fx.off ? 0 :
+                "number" == typeof i.duration ? i.duration : i.duration in rt.fx.speeds ? rt.fx.speeds[i.duration] : rt.fx.speeds._default, (null == i.queue ||
+        i.queue === !0) && (i.queue = "fx"), i.old = i.complete, i.complete = function () {
+            rt.isFunction(i.old) && i.old.call(this), i.queue && rt.dequeue(this, i.queue)
+        }, i
+    }, rt.fn.extend({
+        fadeTo: function (e, t, n, i) {
+            return this.filter(Nt).css("opacity", 0).show().end().animate({opacity: t}, e, n, i)
+        }, animate: function (e, t, n, i) {
+            var r = rt.isEmptyObject(e), o = rt.speed(t, n, i), a = function () {
+                var t = I(this, rt.extend({}, e), o);
+                (r || rt._data(this, "finish")) && t.stop(!0)
+            };
+            return a.finish = a, r || o.queue === !1 ? this.each(a) : this.queue(o.queue, a)
+        }, stop: function (e, t, n) {
+            var i = function (e) {
+                var t = e.stop;
+                delete e.stop, t(n)
+            };
+            return "string" != typeof e && (n = t, t = e, e = void 0), t && e !== !1 && this.queue(e || "fx", []), this.each(function () {
+                var t = !0, r = null != e && e + "queueHooks", o = rt.timers, a = rt._data(this);
+                if (r) {
+                    a[r] && a[r].stop && i(a[r]);
+                } else {
+                    for (r in a) {
+                        a[r] && a[r].stop && yn.test(r) && i(a[r]);
+                    }
+                }
+                for (r = o.length; r--;) {
+                    o[r].elem !== this || null != e && o[r].queue !== e || (o[r].anim.stop(n), t = !1, o.splice(r, 1));
+                }
+                (t || !n) && rt.dequeue(this, e)
+            })
+        }, finish: function (e) {
+            return e !== !1 && (e = e || "fx"), this.each(function () {
+                var t, n = rt._data(this), i = n[e + "queue"], r = n[e + "queueHooks"], o = rt.timers, a = i ? i.length : 0;
+                for (n.finish = !0, rt.queue(this, e, []), r && r.stop && r.stop.call(this, !0), t = o.length; t--;) {
+                    o[t].elem === this && o[t].queue === e &&
+                    (o[t].anim.stop(!0), o.splice(t, 1));
+                }
+                for (t = 0; a > t; t++) {
+                    i[t] && i[t].finish && i[t].finish.call(this);
+                }
+                delete n.finish
+            })
+        }
+    }), rt.each(["toggle", "show", "hide"], function (e, t) {
+        var n = rt.fn[t];
+        rt.fn[t] = function (e, i, r) {
+            return null == e || "boolean" == typeof e ? n.apply(this, arguments) : this.animate(_(t, !0), e, i, r)
+        }
+    }), rt.each({
+        slideDown: _("show"),
+        slideUp: _("hide"),
+        slideToggle: _("toggle"),
+        fadeIn: {opacity: "show"},
+        fadeOut: {opacity: "hide"},
+        fadeToggle: {opacity: "toggle"}
+    }, function (e, t) {
+        rt.fn[e] = function (e, n, i) {
+            return this.animate(t, e, n, i)
+        }
+    }), rt.timers = [], rt.fx.tick = function () {
+        var e, t = rt.timers, n = 0;
+        for (hn = rt.now(); n < t.length; n++) {
+            e = t[n], e() || t[n] !== e || t.splice(n--, 1);
+        }
+        t.length || rt.fx.stop(), hn = void 0
+    }, rt.fx.timer = function (e) {
+        rt.timers.push(e), e() ? rt.fx.start() : rt.timers.pop()
+    }, rt.fx.interval = 13, rt.fx.start = function () {
+        gn || (gn = setInterval(rt.fx.tick, rt.fx.interval))
+    }, rt.fx.stop = function () {
+        clearInterval(gn), gn = null
+    }, rt.fx.speeds = {slow: 600, fast: 200, _default: 400}, rt.fn.delay = function (e, t) {
+        return e = rt.fx ? rt.fx.speeds[e] || e : e, t = t || "fx", this.queue(t, function (t, n) {
+            var i = setTimeout(t, e);
+            n.stop = function () {
+                clearTimeout(i)
+            }
+        })
+    }, function () {
+        var e, t, n, i, r;
+        t = ht.createElement("div"), t.setAttribute("className", "t"), t.innerHTML = "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>", i =
+                t.getElementsByTagName("a")[0], n = ht.createElement("select"), r = n.appendChild(ht.createElement("option")), e =
+                t.getElementsByTagName("input")[0], i.style.cssText = "top:1px", nt.getSetAttribute = "t" !== t.className, nt.style =
+                /top/.test(i.getAttribute("style")), nt.hrefNormalized = "/a" === i.getAttribute("href"), nt.checkOn = !!e.value, nt.optSelected =
+                r.selected, nt.enctype = !!ht.createElement("form").enctype, n.disabled = !0, nt.optDisabled = !r.disabled, e =
+                ht.createElement("input"), e.setAttribute("value", ""), nt.input = "" === e.getAttribute("value"), e.value = "t", e.setAttribute("type",
+                "radio"), nt.radioValue = "t" === e.value
+    }();
+    var xn = /\r/g;
+    rt.fn.extend({
+        val: function (e) {
+            var t, n, i, r = this[0];
+            return arguments.length ? (i = rt.isFunction(e), this.each(function (n) {
+                var r;
+                1 === this.nodeType && (r = i ? e.call(this, n, rt(this).val()) : e, null == r ? r = "" :
+                        "number" == typeof r ? r += "" : rt.isArray(r) && (r = rt.map(r, function (e) {
+                            return null == e ? "" : e + ""
+                        })), t = rt.valHooks[this.type] || rt.valHooks[this.nodeName.toLowerCase()], t && "set"in t && void 0 !== t.set(this, r, "value") ||
+                (this.value = r))
+            })) : r ? (t = rt.valHooks[r.type] || rt.valHooks[r.nodeName.toLowerCase()], t && "get"in t && void 0 !== (n = t.get(r, "value")) ? n :
+                    (n = r.value, "string" == typeof n ? n.replace(xn, "") : null == n ? "" : n)) : void 0
+        }
+    }), rt.extend({
+        valHooks: {
+            option: {
+                get: function (e) {
+                    var t = rt.find.attr(e, "value");
+                    return null != t ? t : rt.trim(rt.text(e))
+                }
+            }, select: {
+                get: function (e) {
+                    for (var t, n, i = e.options, r = e.selectedIndex, o = "select-one" === e.type || 0 > r, a = o ? null : [], s = o ? r + 1 :
+                            i.length, l = 0 > r ? s : o ? r : 0; s > l; l++) {
+                        if (n = i[l], !(!n.selected && l !== r ||
+                                (nt.optDisabled ? n.disabled : null !== n.getAttribute("disabled")) ||
+                                n.parentNode.disabled && rt.nodeName(n.parentNode, "optgroup"))) {
+                            if (t = rt(n).val(), o) {
+                                return t;
+                            }
+                            a.push(t)
+                        }
+                    }
+                    return a
+                }, set: function (e, t) {
+                    for (var n, i, r = e.options, o = rt.makeArray(t), a = r.length; a--;) {
+                        if (i = r[a], rt.inArray(rt.valHooks.option.get(i), o) >= 0) {
+                            try {
+                                i.selected = n = !0
+                            } catch (s) {
+                                i.scrollHeight
+                            }
+                        } else {
+                            i.selected = !1;
+                        }
+                    }
+                    return n || (e.selectedIndex = -1), r
+                }
+            }
+        }
+    }), rt.each(["radio", "checkbox"], function () {
+        rt.valHooks[this] = {
+            set: function (e, t) {
+                return rt.isArray(t) ? e.checked = rt.inArray(rt(e).val(), t) >= 0 : void 0
+            }
+        }, nt.checkOn || (rt.valHooks[this].get = function (e) {
+            return null === e.getAttribute("value") ? "on" : e.value
+        })
+    });
+    var Tn, Sn, Cn = rt.expr.attrHandle, En = /^(?:checked|selected)$/i, kn = nt.getSetAttribute, Ln = nt.input;
+    rt.fn.extend({
+        attr: function (e, t) {
+            return At(this, rt.attr, e, t, arguments.length > 1)
+        }, removeAttr: function (e) {
+            return this.each(function () {
+                rt.removeAttr(this, e)
+            })
+        }
+    }), rt.extend({
+        attr: function (e, t, n) {
+            var i, r, o = e.nodeType;
+            return e && 3 !== o && 8 !== o && 2 !== o ? typeof e.getAttribute === St ? rt.prop(e, t, n) :
+                    (1 === o && rt.isXMLDoc(e) || (t = t.toLowerCase(), i = rt.attrHooks[t] || (rt.expr.match.bool.test(t) ? Sn : Tn)), void 0 === n ?
+                            i && "get"in i && null !== (r = i.get(e, t)) ? r : (r = rt.find.attr(e, t), null == r ? void 0 : r) :
+                            null !== n ? i && "set"in i && void 0 !== (r = i.set(e, n, t)) ? r : (e.setAttribute(t, n + ""), n) : void rt.removeAttr(e, t)) :
+                    void 0
+        }, removeAttr: function (e, t) {
+            var n, i, r = 0, o = t && t.match(wt);
+            if (o && 1 === e.nodeType) {
+                for (; n = o[r++];) {
+                    i = rt.propFix[n] || n, rt.expr.match.bool.test(n) ?
+                            Ln && kn || !En.test(n) ? e[i] = !1 : e[rt.camelCase("default-" + n)] = e[i] = !1 : rt.attr(e, n, ""), e.removeAttribute(kn ? n : i)
+                }
+            }
+        }, attrHooks: {
+            type: {
+                set: function (e, t) {
+                    if (!nt.radioValue && "radio" === t && rt.nodeName(e, "input")) {
+                        var n = e.value;
+                        return e.setAttribute("type", t), n && (e.value = n), t
+                    }
+                }
+            }
+        }
+    }), Sn = {
+        set: function (e, t, n) {
+            return t === !1 ? rt.removeAttr(e, n) :
+                    Ln && kn || !En.test(n) ? e.setAttribute(!kn && rt.propFix[n] || n, n) : e[rt.camelCase("default-" + n)] = e[n] = !0, n
+        }
+    }, rt.each(rt.expr.match.bool.source.match(/\w+/g), function (e, t) {
+        var n = Cn[t] || rt.find.attr;
+        Cn[t] = Ln && kn || !En.test(t) ? function (e, t, i) {
+            var r, o;
+            return i || (o = Cn[t], Cn[t] = r, r = null != n(e, t, i) ? t.toLowerCase() : null, Cn[t] = o), r
+        } : function (e, t, n) {
+            return n ? void 0 : e[rt.camelCase("default-" + t)] ? t.toLowerCase() : null
+        }
+    }), Ln && kn || (rt.attrHooks.value = {
+        set: function (e, t, n) {
+            return rt.nodeName(e, "input") ? void(e.defaultValue = t) : Tn && Tn.set(e, t, n)
+        }
+    }), kn || (Tn = {
+        set: function (e, t, n) {
+            var i = e.getAttributeNode(n);
+            return i || e.setAttributeNode(i = e.ownerDocument.createAttribute(n)), i.value = t += "", "value" === n || t === e.getAttribute(n) ? t : void 0
+        }
+    }, Cn.id = Cn.name = Cn.coords = function (e, t, n) {
+        var i;
+        return n ? void 0 : (i = e.getAttributeNode(t)) && "" !== i.value ? i.value : null
+    }, rt.valHooks.button = {
+        get: function (e, t) {
+            var n = e.getAttributeNode(t);
+            return n && n.specified ? n.value : void 0
+        }, set: Tn.set
+    }, rt.attrHooks.contenteditable = {
+        set: function (e, t, n) {
+            Tn.set(e, "" === t ? !1 : t, n)
+        }
+    }, rt.each(["width", "height"], function (e, t) {
+        rt.attrHooks[t] = {
+            set: function (e, n) {
+                return "" === n ? (e.setAttribute(t, "auto"), n) : void 0
+            }
+        }
+    })), nt.style || (rt.attrHooks.style = {
+        get: function (e) {
+            return e.style.cssText || void 0
+        }, set: function (e, t) {
+            return e.style.cssText = t + ""
+        }
+    });
+    var Nn = /^(?:input|select|textarea|button|object)$/i, An = /^(?:a|area)$/i;
+    rt.fn.extend({
+        prop: function (e, t) {
+            return At(this, rt.prop, e, t, arguments.length > 1)
+        }, removeProp: function (e) {
+            return e = rt.propFix[e] || e, this.each(function () {
+                try {
+                    this[e] = void 0, delete this[e]
+                } catch (t) {
+                }
+            })
+        }
+    }), rt.extend({
+        propFix: {"for": "htmlFor", "class": "className"}, prop: function (e, t, n) {
+            var i, r, o, a = e.nodeType;
+            return e && 3 !== a && 8 !== a && 2 !== a ? (o = 1 !== a || !rt.isXMLDoc(e), o && (t = rt.propFix[t] || t, r = rt.propHooks[t]), void 0 !== n ?
+                    r && "set"in r && void 0 !== (i = r.set(e, n, t)) ? i : e[t] = n : r && "get"in r && null !== (i = r.get(e, t)) ? i : e[t]) : void 0
+        }, propHooks: {
+            tabIndex: {
+                get: function (e) {
+                    var t = rt.find.attr(e, "tabindex");
+                    return t ? parseInt(t, 10) : Nn.test(e.nodeName) || An.test(e.nodeName) && e.href ? 0 : -1
+                }
+            }
+        }
+    }), nt.hrefNormalized || rt.each(["href", "src"], function (e, t) {
+        rt.propHooks[t] = {
+            get: function (e) {
+                return e.getAttribute(t, 4)
+            }
+        }
+    }), nt.optSelected || (rt.propHooks.selected = {
+        get: function (e) {
+            var t = e.parentNode;
+            return t && (t.selectedIndex, t.parentNode && t.parentNode.selectedIndex), null
+        }
+    }), rt.each(["tabIndex", "readOnly", "maxLength", "cellSpacing", "cellPadding", "rowSpan", "colSpan", "useMap", "frameBorder", "contentEditable"],
+            function () {
+                rt.propFix[this.toLowerCase()] = this
+            }), nt.enctype || (rt.propFix.enctype = "encoding");
+    var Mn = /[\t\r\n\f]/g;
+    rt.fn.extend({
+        addClass: function (e) {
+            var t, n, i, r, o, a, s = 0, l = this.length, u = "string" == typeof e && e;
+            if (rt.isFunction(e)) {
+                return this.each(function (t) {
+                    rt(this).addClass(e.call(this, t, this.className))
+                });
+            }
+            if (u) {
+                for (t = (e || "").match(wt) || []; l > s; s++) {
+                    if (n = this[s], i =
+                                    1 === n.nodeType && (n.className ? (" " + n.className + " ").replace(Mn, " ") : " ")) {
+                        for (o = 0; r = t[o++];) {
+                            i.indexOf(" " + r + " ") < 0 && (i += r + " ");
+                        }
+                        a = rt.trim(i), n.className !== a && (n.className = a)
+                    }
+                }
+            }
+            return this
+        }, removeClass: function (e) {
+            var t, n, i, r, o, a, s = 0, l = this.length, u = 0 === arguments.length || "string" == typeof e && e;
+            if (rt.isFunction(e)) {
+                return this.each(function (t) {
+                    rt(this).removeClass(e.call(this, t, this.className))
+                });
+            }
+            if (u) {
+                for (t = (e || "").match(wt) || []; l > s; s++) {
+                    if (n = this[s], i =
+                                    1 === n.nodeType && (n.className ? (" " + n.className + " ").replace(Mn, " ") : "")) {
+                        for (o = 0; r = t[o++];) {
+                            for (; i.indexOf(" " + r + " ") >= 0;) {
+                                i = i.replace(" " + r + " ", " ");
+                            }
+                        }
+                        a = e ? rt.trim(i) : "", n.className !== a && (n.className = a)
+                    }
+                }
+            }
+            return this
+        }, toggleClass: function (e, t) {
+            var n = typeof e;
+            return "boolean" == typeof t && "string" === n ? t ? this.addClass(e) : this.removeClass(e) : this.each(rt.isFunction(e) ? function (n) {
+                rt(this).toggleClass(e.call(this, n, this.className, t), t)
+            } : function () {
+                if ("string" === n) {
+                    for (var t, i = 0, r = rt(this), o = e.match(wt) || []; t = o[i++];) {
+                        r.hasClass(t) ? r.removeClass(t) :
+                                r.addClass(t);
+                    }
+                } else {
+                    (n === St || "boolean" === n) && (this.className && rt._data(this, "__className__", this.className), this.className =
+                            this.className || e === !1 ? "" : rt._data(this, "__className__") || "")
+                }
+            })
+        }, hasClass: function (e) {
+            for (var t = " " + e + " ", n = 0, i = this.length; i > n; n++) {
+                if (1 === this[n].nodeType &&
+                        (" " + this[n].className + " ").replace(Mn, " ").indexOf(t) >= 0) {
+                    return !0;
+                }
+            }
+            return !1
+        }
+    }), rt.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "),
+            function (e, t) {
+                rt.fn[t] = function (e, n) {
+                    return arguments.length > 0 ? this.on(t, null, e, n) : this.trigger(t)
+                }
+            }), rt.fn.extend({
+        hover: function (e, t) {
+            return this.mouseenter(e).mouseleave(t || e)
+        }, bind: function (e, t, n) {
+            return this.on(e, null, t, n)
+        }, unbind: function (e, t) {
+            return this.off(e, null, t)
+        }, delegate: function (e, t, n, i) {
+            return this.on(t, e, n, i)
+        }, undelegate: function (e, t, n) {
+            return 1 === arguments.length ? this.off(e, "**") : this.off(t, e || "**", n)
+        }
+    });
+    var Dn = rt.now(), Pn = /\?/, Hn = /(,)|(\[|{)|(}|])|"(?:[^"\\\r\n]|\\["\\\/bfnrt]|\\u[\da-fA-F]{4})*"\s*:?|true|false|null|-?(?!0\d)\d+(?:\.\d+|)(?:[eE][+-]?\d+|)/g;
+    rt.parseJSON = function (t) {
+        if (e.JSON && e.JSON.parse) {
+            return e.JSON.parse(t + "");
+        }
+        var n, i = null, r = rt.trim(t + "");
+        return r && !rt.trim(r.replace(Hn, function (e, t, r, o) {
+            return n && t && (i = 0), 0 === i ? e : (n = r || t, i += !o - !r, "")
+        })) ? Function("return " + r)() : rt.error("Invalid JSON: " + t)
+    }, rt.parseXML = function (t) {
+        var n, i;
+        if (!t || "string" != typeof t) {
+            return null;
+        }
+        try {
+            e.DOMParser ? (i = new DOMParser, n = i.parseFromString(t, "text/xml")) :
+                    (n = new ActiveXObject("Microsoft.XMLDOM"), n.async = "false", n.loadXML(t))
+        } catch (r) {
+            n = void 0
+        }
+        return n && n.documentElement && !n.getElementsByTagName("parsererror").length || rt.error("Invalid XML: " + t), n
+    };
+    var _n, jn, Wn = /#.*$/, On = /([?&])_=[^&]*/, In = /^(.*?):[ \t]*([^\r\n]*)\r?$/gm, Fn = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/, Rn = /^(?:GET|HEAD)$/, Bn = /^\/\//, qn = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/, zn = {}, $n = {}, Vn = "*/".concat("*");
+    try {
+        jn = location.href
+    } catch (Gn) {
+        jn = ht.createElement("a"), jn.href = "", jn = jn.href
+    }
+    _n = qn.exec(jn.toLowerCase()) || [], rt.extend({
+        active: 0,
+        lastModified: {},
+        etag: {},
+        ajaxSettings: {
+            url: jn,
+            type: "GET",
+            isLocal: Fn.test(_n[1]),
+            global: !0,
+            processData: !0,
+            async: !0,
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            accepts: {"*": Vn, text: "text/plain", html: "text/html", xml: "application/xml, text/xml", json: "application/json, text/javascript"},
+            contents: {xml: /xml/, html: /html/, json: /json/},
+            responseFields: {xml: "responseXML", text: "responseText", json: "responseJSON"},
+            converters: {"* text": String, "text html": !0, "text json": rt.parseJSON, "text xml": rt.parseXML},
+            flatOptions: {url: !0, context: !0}
+        },
+        ajaxSetup: function (e, t) {
+            return t ? B(B(e, rt.ajaxSettings), t) : B(rt.ajaxSettings, e)
+        },
+        ajaxPrefilter: F(zn),
+        ajaxTransport: F($n),
+        ajax: function (e, t) {
+            function n(e, t, n, i) {
+                var r, c, v, y, b, T = t;
+                2 !== w && (w = 2, s && clearTimeout(s), u = void 0, a = i || "", x.readyState = e > 0 ? 4 : 0, r = e >= 200 && 300 > e || 304 === e, n &&
+                (y = q(d, x, n)), y = z(d, y, x, r), r ? (d.ifModified &&
+                (b = x.getResponseHeader("Last-Modified"), b && (rt.lastModified[o] = b), b = x.getResponseHeader("etag"), b && (rt.etag[o] = b)), 204 === e ||
+                "HEAD" === d.type ? T = "nocontent" : 304 === e ? T = "notmodified" : (T = y.state, c = y.data, v = y.error, r = !v)) :
+                        (v = T, (e || !T) && (T = "error", 0 > e && (e = 0))), x.status = e, x.statusText = (t || T) + "", r ? h.resolveWith(p, [c, T, x]) :
+                        h.rejectWith(p, [x, T, v]), x.statusCode(m), m = void 0, l &&
+                f.trigger(r ? "ajaxSuccess" : "ajaxError", [x, d, r ? c : v]), g.fireWith(p, [x, T]), l &&
+                (f.trigger("ajaxComplete", [x, d]), --rt.active || rt.event.trigger("ajaxStop")))
+            }
+
+            "object" == typeof e && (t = e, e = void 0), t = t || {};
+            var i, r, o, a, s, l, u, c, d = rt.ajaxSetup({}, t), p = d.context || d, f = d.context && (p.nodeType || p.jquery) ? rt(p) :
+                    rt.event, h = rt.Deferred(), g = rt.Callbacks("once memory"), m = d.statusCode || {}, v = {}, y = {}, w = 0, b = "canceled", x = {
+                readyState: 0, getResponseHeader: function (e) {
+                    var t;
+                    if (2 === w) {
+                        if (!c) {
+                            for (c = {}; t = In.exec(a);) {
+                                c[t[1].toLowerCase()] = t[2];
+                            }
+                        }
+                        t = c[e.toLowerCase()]
+                    }
+                    return null == t ? null : t
+                }, getAllResponseHeaders: function () {
+                    return 2 === w ? a : null
+                }, setRequestHeader: function (e, t) {
+                    var n = e.toLowerCase();
+                    return w || (e = y[n] = y[n] || e, v[e] = t), this
+                }, overrideMimeType: function (e) {
+                    return w || (d.mimeType = e), this
+                }, statusCode: function (e) {
+                    var t;
+                    if (e) {
+                        if (2 > w) {
+                            for (t in e) {
+                                m[t] = [m[t], e[t]];
+                            }
+                        } else {
+                            x.always(e[x.status]);
+                        }
+                    }
+                    return this
+                }, abort: function (e) {
+                    var t = e || b;
+                    return u && u.abort(t), n(0, t), this
+                }
+            };
+            if (h.promise(x).complete = g.add, x.success = x.done, x.error = x.fail, d.url =
+                            ((e || d.url || jn) + "").replace(Wn, "").replace(Bn, _n[1] + "//"), d.type =
+                            t.method || t.type || d.method || d.type, d.dataTypes = rt.trim(d.dataType || "*").toLowerCase().match(wt) || [""], null ==
+                    d.crossDomain && (i = qn.exec(d.url.toLowerCase()), d.crossDomain = !(!i || i[1] === _n[1] && i[2] === _n[2] &&
+                    (i[3] || ("http:" === i[1] ? "80" : "443")) === (_n[3] || ("http:" === _n[1] ? "80" : "443")))), d.data && d.processData &&
+                    "string" != typeof d.data && (d.data = rt.param(d.data, d.traditional)), R(zn, d, t, x), 2 === w) {
+                return x;
+            }
+            l = rt.event && d.global, l && 0 === rt.active++ && rt.event.trigger("ajaxStart"), d.type = d.type.toUpperCase(), d.hasContent =
+                    !Rn.test(d.type), o = d.url, d.hasContent || (d.data && (o = d.url += (Pn.test(o) ? "&" : "?") + d.data, delete d.data), d.cache === !1 &&
+            (d.url = On.test(o) ? o.replace(On, "$1_=" + Dn++) : o + (Pn.test(o) ? "&" : "?") + "_=" + Dn++)), d.ifModified &&
+            (rt.lastModified[o] && x.setRequestHeader("If-Modified-Since", rt.lastModified[o]), rt.etag[o] &&
+            x.setRequestHeader("If-None-Match", rt.etag[o])), (d.data && d.hasContent && d.contentType !== !1 || t.contentType) &&
+            x.setRequestHeader("Content-Type", d.contentType), x.setRequestHeader("Accept",
+                    d.dataTypes[0] && d.accepts[d.dataTypes[0]] ? d.accepts[d.dataTypes[0]] + ("*" !== d.dataTypes[0] ? ", " + Vn + "; q=0.01" : "") :
+                            d.accepts["*"]);
+            for (r in d.headers) {
+                x.setRequestHeader(r, d.headers[r]);
+            }
+            if (d.beforeSend && (d.beforeSend.call(p, x, d) === !1 || 2 === w)) {
+                return x.abort();
+            }
+            b = "abort";
+            for (r in{success: 1, error: 1, complete: 1}) {
+                x[r](d[r]);
+            }
+            if (u = R($n, d, t, x)) {
+                x.readyState = 1, l && f.trigger("ajaxSend", [x, d]), d.async && d.timeout > 0 && (s = setTimeout(function () {
+                    x.abort("timeout")
+                }, d.timeout));
+                try {
+                    w = 1, u.send(v, n)
+                } catch (T) {
+                    if (!(2 > w)) {
+                        throw T;
+                    }
+                    n(-1, T)
+                }
+            } else {
+                n(-1, "No Transport");
+            }
+            return x
+        },
+        getJSON: function (e, t, n) {
+            return rt.get(e, t, n, "json")
+        },
+        getScript: function (e, t) {
+            return rt.get(e, void 0, t, "script")
+        }
+    }), rt.each(["get", "post"], function (e, t) {
+        rt[t] = function (e, n, i, r) {
+            return rt.isFunction(n) && (r = r || i, i = n, n = void 0), rt.ajax({url: e, type: t, dataType: r, data: n, success: i})
+        }
+    }), rt._evalUrl = function (e) {
+        return rt.ajax({url: e, type: "GET", dataType: "script", async: !1, global: !1, "throws": !0})
+    }, rt.fn.extend({
+        wrapAll: function (e) {
+            if (rt.isFunction(e)) {
+                return this.each(function (t) {
+                    rt(this).wrapAll(e.call(this, t))
+                });
+            }
+            if (this[0]) {
+                var t = rt(e, this[0].ownerDocument).eq(0).clone(!0);
+                this[0].parentNode && t.insertBefore(this[0]), t.map(function () {
+                    for (var e = this; e.firstChild && 1 === e.firstChild.nodeType;) {
+                        e = e.firstChild;
+                    }
+                    return e
+                }).append(this)
+            }
+            return this
+        }, wrapInner: function (e) {
+            return this.each(rt.isFunction(e) ? function (t) {
+                rt(this).wrapInner(e.call(this, t))
+            } : function () {
+                var t = rt(this), n = t.contents();
+                n.length ? n.wrapAll(e) : t.append(e)
+            })
+        }, wrap: function (e) {
+            var t = rt.isFunction(e);
+            return this.each(function (n) {
+                rt(this).wrapAll(t ? e.call(this, n) : e)
+            })
+        }, unwrap: function () {
+            return this.parent().each(function () {
+                rt.nodeName(this, "body") || rt(this).replaceWith(this.childNodes)
+            }).end()
+        }
+    }), rt.expr.filters.hidden = function (e) {
+        return e.offsetWidth <= 0 && e.offsetHeight <= 0 || !nt.reliableHiddenOffsets() && "none" === (e.style && e.style.display || rt.css(e, "display"))
+    }, rt.expr.filters.visible = function (e) {
+        return !rt.expr.filters.hidden(e)
+    };
+    var Xn = /%20/g, Yn = /\[\]$/, Un = /\r?\n/g, Kn = /^(?:submit|button|image|reset|file)$/i, Qn = /^(?:input|select|textarea|keygen)/i;
+    rt.param = function (e, t) {
+        var n, i = [], r = function (e, t) {
+            t = rt.isFunction(t) ? t() : null == t ? "" : t, i[i.length] = encodeURIComponent(e) + "=" + encodeURIComponent(t)
+        };
+        if (void 0 === t && (t = rt.ajaxSettings && rt.ajaxSettings.traditional), rt.isArray(e) || e.jquery && !rt.isPlainObject(e)) {
+            rt.each(e, function () {
+                r(this.name, this.value)
+            });
+        } else {
+            for (n in e) {
+                $(n, e[n], t, r);
+            }
+        }
+        return i.join("&").replace(Xn, "+")
+    }, rt.fn.extend({
+        serialize: function () {
+            return rt.param(this.serializeArray())
+        }, serializeArray: function () {
+            return this.map(function () {
+                var e = rt.prop(this, "elements");
+                return e ? rt.makeArray(e) : this
+            }).filter(function () {
+                var e = this.type;
+                return this.name && !rt(this).is(":disabled") && Qn.test(this.nodeName) && !Kn.test(e) && (this.checked || !Mt.test(e))
+            }).map(function (e, t) {
+                var n = rt(this).val();
+                return null == n ? null : rt.isArray(n) ? rt.map(n, function (e) {
+                    return {name: t.name, value: e.replace(Un, "\r\n")}
+                }) : {name: t.name, value: n.replace(Un, "\r\n")}
+            }).get()
+        }
+    }), rt.ajaxSettings.xhr = void 0 !== e.ActiveXObject ? function () {
+        return !this.isLocal && /^(get|post|head|put|delete|options)$/i.test(this.type) && V() || G()
+    } : V;
+    var Jn = 0, Zn = {}, ei = rt.ajaxSettings.xhr();
+    e.attachEvent && e.attachEvent("onunload", function () {
+        for (var e in Zn) {
+            Zn[e](void 0, !0)
+        }
+    }), nt.cors = !!ei && "withCredentials"in ei, ei = nt.ajax = !!ei, ei && rt.ajaxTransport(function (e) {
+        if (!e.crossDomain || nt.cors) {
+            var t;
+            return {
+                send: function (n, i) {
+                    var r, o = e.xhr(), a = ++Jn;
+                    if (o.open(e.type, e.url, e.async, e.username, e.password), e.xhrFields) {
+                        for (r in e.xhrFields) {
+                            o[r] = e.xhrFields[r];
+                        }
+                    }
+                    e.mimeType && o.overrideMimeType && o.overrideMimeType(e.mimeType), e.crossDomain || n["X-Requested-With"] ||
+                    (n["X-Requested-With"] = "XMLHttpRequest");
+                    for (r in n) {
+                        void 0 !== n[r] && o.setRequestHeader(r, n[r] + "");
+                    }
+                    o.send(e.hasContent && e.data || null), t = function (n, r) {
+                        var s, l, u;
+                        if (t && (r || 4 === o.readyState)) {
+                            if (delete Zn[a], t = void 0, o.onreadystatechange = rt.noop, r) {
+                                4 !== o.readyState &&
+                                o.abort();
+                            } else {
+                                u = {}, s = o.status, "string" == typeof o.responseText && (u.text = o.responseText);
+                                try {
+                                    l = o.statusText
+                                } catch (c) {
+                                    l = ""
+                                }
+                                s || !e.isLocal || e.crossDomain ? 1223 === s && (s = 204) : s = u.text ? 200 : 404
+                            }
+                        }
+                        u && i(s, l, u, o.getAllResponseHeaders())
+                    }, e.async ? 4 === o.readyState ? setTimeout(t) : o.onreadystatechange = Zn[a] = t : t()
+                }, abort: function () {
+                    t && t(void 0, !0)
+                }
+            }
+        }
+    }), rt.ajaxSetup({
+        accepts: {script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},
+        contents: {script: /(?:java|ecma)script/},
+        converters: {
+            "text script": function (e) {
+                return rt.globalEval(e), e
+            }
+        }
+    }), rt.ajaxPrefilter("script", function (e) {
+        void 0 === e.cache && (e.cache = !1), e.crossDomain && (e.type = "GET", e.global = !1)
+    }), rt.ajaxTransport("script", function (e) {
+        if (e.crossDomain) {
+            var t, n = ht.head || rt("head")[0] || ht.documentElement;
+            return {
+                send: function (i, r) {
+                    t = ht.createElement("script"), t.async = !0, e.scriptCharset && (t.charset = e.scriptCharset), t.src = e.url, t.onload =
+                            t.onreadystatechange = function (e, n) {
+                                (n || !t.readyState || /loaded|complete/.test(t.readyState)) &&
+                                (t.onload = t.onreadystatechange = null, t.parentNode && t.parentNode.removeChild(t), t = null, n || r(200, "success"))
+                            }, n.insertBefore(t, n.firstChild)
+                }, abort: function () {
+                    t && t.onload(void 0, !0)
+                }
+            }
+        }
+    });
+    var ti = [], ni = /(=)\?(?=&|$)|\?\?/;
+    rt.ajaxSetup({
+        jsonp: "callback", jsonpCallback: function () {
+            var e = ti.pop() || rt.expando + "_" + Dn++;
+            return this[e] = !0, e
+        }
+    }), rt.ajaxPrefilter("json jsonp", function (t, n, i) {
+        var r, o, a, s = t.jsonp !== !1 && (ni.test(t.url) ? "url" :
+                "string" == typeof t.data && !(t.contentType || "").indexOf("application/x-www-form-urlencoded") && ni.test(t.data) && "data");
+        return s || "jsonp" === t.dataTypes[0] ?
+                (r = t.jsonpCallback = rt.isFunction(t.jsonpCallback) ? t.jsonpCallback() : t.jsonpCallback, s ? t[s] = t[s].replace(ni, "$1" + r) :
+                t.jsonp !== !1 && (t.url += (Pn.test(t.url) ? "&" : "?") + t.jsonp + "=" + r), t.converters["script json"] = function () {
+                    return a || rt.error(r + " was not called"), a[0]
+                }, t.dataTypes[0] = "json", o = e[r], e[r] = function () {
+                    a = arguments
+                }, i.always(function () {
+                    e[r] = o, t[r] && (t.jsonpCallback = n.jsonpCallback, ti.push(r)), a && rt.isFunction(o) && o(a[0]), a = o = void 0
+                }), "script") : void 0
+    }), rt.parseHTML = function (e, t, n) {
+        if (!e || "string" != typeof e) {
+            return null;
+        }
+        "boolean" == typeof t && (n = t, t = !1), t = t || ht;
+        var i = dt.exec(e), r = !n && [];
+        return i ? [t.createElement(i[1])] : (i = rt.buildFragment([e], t, r), r && r.length && rt(r).remove(), rt.merge([], i.childNodes))
+    };
+    var ii = rt.fn.load;
+    rt.fn.load = function (e, t, n) {
+        if ("string" != typeof e && ii) {
+            return ii.apply(this, arguments);
+        }
+        var i, r, o, a = this, s = e.indexOf(" ");
+        return s >= 0 && (i = rt.trim(e.slice(s, e.length)), e = e.slice(0, s)), rt.isFunction(t) ? (n = t, t = void 0) :
+        t && "object" == typeof t && (o = "POST"), a.length > 0 && rt.ajax({url: e, type: o, dataType: "html", data: t}).done(function (e) {
+            r = arguments, a.html(i ? rt("<div>").append(rt.parseHTML(e)).find(i) : e)
+        }).complete(n && function (e, t) {
+                    a.each(n, r || [e.responseText, t, e])
+                }), this
+    }, rt.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function (e, t) {
+        rt.fn[t] = function (e) {
+            return this.on(t, e)
+        }
+    }), rt.expr.filters.animated = function (e) {
+        return rt.grep(rt.timers, function (t) {
+            return e === t.elem
+        }).length
+    };
+    var ri = e.document.documentElement;
+    rt.offset = {
+        setOffset: function (e, t, n) {
+            var i, r, o, a, s, l, u, c = rt.css(e, "position"), d = rt(e), p = {};
+            "static" === c && (e.style.position = "relative"), s = d.offset(), o = rt.css(e, "top"), l = rt.css(e, "left"), u =
+                    ("absolute" === c || "fixed" === c) && rt.inArray("auto", [o, l]) > -1, u ? (i = d.position(), a = i.top, r = i.left) :
+                    (a = parseFloat(o) || 0, r = parseFloat(l) || 0), rt.isFunction(t) && (t = t.call(e, n, s)), null != t.top &&
+            (p.top = t.top - s.top + a), null != t.left && (p.left = t.left - s.left + r), "using"in t ? t.using.call(e, p) : d.css(p)
+        }
+    }, rt.fn.extend({
+        offset: function (e) {
+            if (arguments.length) {
+                return void 0 === e ? this : this.each(function (t) {
+                    rt.offset.setOffset(this, e, t)
+                });
+            }
+            var t, n, i = {top: 0, left: 0}, r = this[0], o = r && r.ownerDocument;
+            return o ? (t = o.documentElement, rt.contains(t, r) ? (typeof r.getBoundingClientRect !== St && (i = r.getBoundingClientRect()), n = X(o), {
+                top: i.top + (n.pageYOffset || t.scrollTop) - (t.clientTop || 0), left: i.left + (n.pageXOffset || t.scrollLeft) - (t.clientLeft || 0)
+            }) : i) : void 0
+        }, position: function () {
+            if (this[0]) {
+                var e, t, n = {top: 0, left: 0}, i = this[0];
+                return "fixed" === rt.css(i, "position") ? t = i.getBoundingClientRect() :
+                        (e = this.offsetParent(), t = this.offset(), rt.nodeName(e[0], "html") || (n = e.offset()), n.top +=
+                                rt.css(e[0], "borderTopWidth", !0), n.left += rt.css(e[0], "borderLeftWidth", !0)), {
+                    top: t.top - n.top - rt.css(i, "marginTop", !0), left: t.left - n.left - rt.css(i, "marginLeft", !0)
+                }
+            }
+        }, offsetParent: function () {
+            return this.map(function () {
+                for (var e = this.offsetParent || ri; e && !rt.nodeName(e, "html") && "static" === rt.css(e, "position");) {
+                    e = e.offsetParent;
+                }
+                return e || ri
+            })
+        }
+    }), rt.each({scrollLeft: "pageXOffset", scrollTop: "pageYOffset"}, function (e, t) {
+        var n = /Y/.test(t);
+        rt.fn[e] = function (i) {
+            return At(this, function (e, i, r) {
+                var o = X(e);
+                return void 0 === r ? o ? t in o ? o[t] : o.document.documentElement[i] : e[i] :
+                        void(o ? o.scrollTo(n ? rt(o).scrollLeft() : r, n ? r : rt(o).scrollTop()) : e[i] = r)
+            }, e, i, arguments.length, null)
+        }
+    }), rt.each(["top", "left"], function (e, t) {
+        rt.cssHooks[t] = k(nt.pixelPosition, function (e, n) {
+            return n ? (n = tn(e, t), rn.test(n) ? rt(e).position()[t] + "px" : n) : void 0
+        })
+    }), rt.each({Height: "height", Width: "width"}, function (e, t) {
+        rt.each({padding: "inner" + e, content: t, "": "outer" + e}, function (n, i) {
+            rt.fn[i] = function (i, r) {
+                var o = arguments.length && (n || "boolean" != typeof i), a = n || (i === !0 || r === !0 ? "margin" : "border");
+                return At(this, function (t, n, i) {
+                    var r;
+                    return rt.isWindow(t) ? t.document.documentElement["client" + e] : 9 === t.nodeType ?
+                            (r = t.documentElement, Math.max(t.body["scroll" + e], r["scroll" + e], t.body["offset" + e], r["offset" + e], r["client" + e])) :
+                            void 0 === i ? rt.css(t, n, a) : rt.style(t, n, i, a)
+                }, t, o ? i : void 0, o, null)
+            }
+        })
+    }), rt.fn.size = function () {
+        return this.length
+    }, rt.fn.andSelf = rt.fn.addBack, "function" == typeof define && define.amd && define("jquery", [], function () {
+        return rt
+    });
+    var oi = e.jQuery, ai = e.$;
+    return rt.noConflict = function (t) {
+        return e.$ === rt && (e.$ = ai), t && e.jQuery === rt && (e.jQuery = oi), rt
+    }, typeof t === St && (e.jQuery = e.$ = rt), rt
+});
+var Swiper = function (e, t) {
+    "use strict";
+    function n(e, t) {
+        return document.querySelectorAll ? (t || document).querySelectorAll(e) : jQuery(e, t)
+    }
+
+    function i(e) {
+        return "[object Array]" === Object.prototype.toString.apply(e) ? !0 : !1
+    }
+
+    function r() {
+        var e = P - j;
+        return t.freeMode && (e = P - j), t.slidesPerView > A.slides.length && !t.centeredSlides && (e = 0), 0 > e && (e = 0), e
+    }
+
+    function o() {
+        function e(e) {
+            var n, i, r = function () {
+                "undefined" != typeof A && null !== A && (void 0 !== A.imagesLoaded && A.imagesLoaded++, A.imagesLoaded === A.imagesToLoad.length &&
+                (A.reInit(), t.onImagesReady && A.fireCallback(t.onImagesReady, A)))
+            };
+            e.complete ? r() : (i = e.currentSrc || e.getAttribute("src"), i ? (n = new Image, n.onload = r, n.onerror = r, n.src = i) : r())
+        }
+
+        var i = A.h.addEventListener, r = "wrapper" === t.eventTarget ? A.wrapper : A.container;
+        if (A.browser.ie10 || A.browser.ie11 ?
+                        (i(r, A.touchEvents.touchStart, g), i(document, A.touchEvents.touchMove, m), i(document, A.touchEvents.touchEnd, v)) :
+                        (A.support.touch && (i(r, "touchstart", g), i(r, "touchmove", m), i(r, "touchend", v)), t.simulateTouch &&
+                        (i(r, "mousedown", g), i(document, "mousemove", m), i(document, "mouseup", v))), t.autoResize &&
+                i(window, "resize", A.resizeFix), a(), A._wheelEvent = !1, t.mousewheelControl) {
+            if (void 0 !== document.onmousewheel && (A._wheelEvent = "mousewheel"), !A._wheelEvent) {
+                try {
+                    new WheelEvent("wheel"), A._wheelEvent = "wheel"
+                } catch (o) {
+                }
+            }
+            A._wheelEvent || (A._wheelEvent = "DOMMouseScroll"), A._wheelEvent && i(A.container, A._wheelEvent, u)
+        }
+        if (t.keyboardControl && i(document, "keydown", l), t.updateOnImagesReady) {
+            A.imagesToLoad = n("img", A.container);
+            for (var s = 0; s < A.imagesToLoad.length; s++) {
+                e(A.imagesToLoad[s])
+            }
+        }
+    }
+
+    function a() {
+        var e, i = A.h.addEventListener;
+        if (t.preventLinks) {
+            var r = n("a", A.container);
+            for (e = 0; e < r.length; e++) {
+                i(r[e], "click", f)
+            }
+        }
+        if (t.releaseFormElements) {
+            var o = n("input, textarea, select", A.container);
+            for (e = 0; e < o.length; e++) {
+                i(o[e], A.touchEvents.touchStart, h, !0), A.support.touch && t.simulateTouch && i(o[e], "mousedown", h, !0)
+            }
+        }
+        if (t.onSlideClick) {
+            for (e = 0; e < A.slides.length; e++) {
+                i(A.slides[e], "click", c);
+            }
+        }
+        if (t.onSlideTouch) {
+            for (e = 0; e < A.slides.length; e++) {
+                i(A.slides[e], A.touchEvents.touchStart, d)
+            }
+        }
+    }
+
+    function s() {
+        var e, i = A.h.removeEventListener;
+        if (t.onSlideClick) {
+            for (e = 0; e < A.slides.length; e++) {
+                i(A.slides[e], "click", c);
+            }
+        }
+        if (t.onSlideTouch) {
+            for (e = 0; e < A.slides.length; e++) {
+                i(A.slides[e], A.touchEvents.touchStart, d);
+            }
+        }
+        if (t.releaseFormElements) {
+            var r = n("input, textarea, select", A.container);
+            for (e = 0; e < r.length; e++) {
+                i(r[e], A.touchEvents.touchStart, h, !0), A.support.touch && t.simulateTouch && i(r[e], "mousedown", h, !0)
+            }
+        }
+        if (t.preventLinks) {
+            var o = n("a", A.container);
+            for (e = 0; e < o.length; e++) {
+                i(o[e], "click", f)
+            }
+        }
+    }
+
+    function l(e) {
+        var t = e.keyCode || e.charCode;
+        if (!(e.shiftKey || e.altKey || e.ctrlKey || e.metaKey)) {
+            if (37 === t || 39 === t || 38 === t || 40 === t) {
+                for (var n = !1, i = A.h.getOffset(A.container), r = A.h.windowScroll().left, o = A.h.windowScroll().top, a = A.h.windowWidth(), s = A.h.windowHeight(), l = [[i.left,
+                    i.top], [i.left + A.width, i.top], [i.left, i.top + A.height], [i.left + A.width, i.top + A.height]], u = 0; u < l.length; u++) {
+                    var c = l[u];
+                    c[0] >= r && c[0] <= r + a && c[1] >= o && c[1] <= o + s && (n = !0)
+                }
+                if (!n) {
+                    return
+                }
+            }
+            F ? ((37 === t || 39 === t) && (e.preventDefault ? e.preventDefault() : e.returnValue = !1), 39 === t && A.swipeNext(), 37 === t && A.swipePrev()) :
+                    ((38 === t || 40 === t) && (e.preventDefault ? e.preventDefault() : e.returnValue = !1), 40 === t && A.swipeNext(), 38 === t &&
+                    A.swipePrev())
+        }
+    }
+
+    function u(e) {
+        var n = A._wheelEvent, i = 0;
+        if (e.detail) {
+            i = -e.detail;
+        } else if ("mousewheel" === n) {
+            if (t.mousewheelControlForceToAxis) {
+                if (F) {
+                    if (!(Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY))) {
+                        return;
+                    }
+                    i = e.wheelDeltaX
+                } else {
+                    if (!(Math.abs(e.wheelDeltaY) > Math.abs(e.wheelDeltaX))) {
+                        return;
+                    }
+                    i = e.wheelDeltaY
+                }
+            } else {
+                i = e.wheelDelta;
+            }
+        } else if ("DOMMouseScroll" === n) {
+            i = -e.detail;
+        } else if ("wheel" === n) {
+            if (t.mousewheelControlForceToAxis) {
+                if (F) {
+                    if (!(Math.abs(e.deltaX) > Math.abs(e.deltaY))) {
+                        return;
+                    }
+                    i = -e.deltaX
+                } else {
+                    if (!(Math.abs(e.deltaY) > Math.abs(e.deltaX))) {
+                        return;
+                    }
+                    i = -e.deltaY
+                }
+            } else {
+                i = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? -e.deltaX : -e.deltaY;
+            }
+        }
+        if (t.freeMode) {
+            var o = A.getWrapperTranslate() + i;
+            if (o > 0 && (o = 0), o < -r() && (o = -r()), A.setWrapperTransition(0), A.setWrapperTranslate(o), A.updateActiveSlide(o), 0 === o ||
+                    o === -r()) {
+                return
+            }
+        } else {
+            (new Date).getTime() - X > 60 && (0 > i ? A.swipeNext() : A.swipePrev()), X = (new Date).getTime();
+        }
+        return t.autoplay && A.stopAutoplay(!0), e.preventDefault ? e.preventDefault() : e.returnValue = !1, !1
+    }
+
+    function c(e) {
+        A.allowSlideClick && (p(e), A.fireCallback(t.onSlideClick, A, e))
+    }
+
+    function d(e) {
+        p(e), A.fireCallback(t.onSlideTouch, A, e)
+    }
+
+    function p(e) {
+        if (e.currentTarget) {
+            A.clickedSlide = e.currentTarget;
+        } else {
+            var n = e.srcElement;
+            do {
+                if (n.className.indexOf(t.slideClass) > -1) {
+                    break;
+                }
+                n = n.parentNode
+            } while (n);
+            A.clickedSlide = n
+        }
+        A.clickedSlideIndex = A.slides.indexOf(A.clickedSlide), A.clickedSlideLoopIndex = A.clickedSlideIndex - (A.loopedSlides || 0)
+    }
+
+    function f(e) {
+        return A.allowLinks ? void 0 :
+                (e.preventDefault ? e.preventDefault() : e.returnValue = !1, t.preventLinksPropagation && "stopPropagation"in e && e.stopPropagation(), !1)
+    }
+
+    function h(e) {
+        return e.stopPropagation ? e.stopPropagation() : e.returnValue = !1, !1
+    }
+
+    function g(e) {
+        if (t.preventLinks && (A.allowLinks = !0), A.isTouched || t.onlyExternal) {
+            return !1;
+        }
+        var n = e.target || e.srcElement;
+        document.activeElement && document.activeElement !== document.body && document.activeElement !== n && document.activeElement.blur();
+        var i = "input select textarea".split(" ");
+        if (t.noSwiping && n && w(n)) {
+            return !1;
+        }
+        if (Z = !1, A.isTouched = !0, J = "touchstart" === e.type, !J && "which"in e && 3 === e.which) {
+            return A.isTouched = !1, !1;
+        }
+        if (!J || 1 === e.targetTouches.length) {
+            A.callPlugins("onTouchStartBegin"), !J && !A.isAndroid && i.indexOf(n.tagName.toLowerCase()) < 0 &&
+            (e.preventDefault ? e.preventDefault() : e.returnValue = !1);
+            var r = J ? e.targetTouches[0].pageX : e.pageX || e.clientX, o = J ? e.targetTouches[0].pageY : e.pageY || e.clientY;
+            A.touches.startX = A.touches.currentX = r, A.touches.startY = A.touches.currentY = o, A.touches.start =
+                    A.touches.current = F ? r : o, A.setWrapperTransition(0), A.positions.start =
+                    A.positions.current = A.getWrapperTranslate(), A.setWrapperTranslate(A.positions.start), A.times.start = (new Date).getTime(), _ =
+                    void 0, t.moveStartThreshold > 0 && (U = !1), t.onTouchStart && A.fireCallback(t.onTouchStart, A, e), A.callPlugins("onTouchStartEnd")
+        }
+    }
+
+    function m(e) {
+        if (A.isTouched && !t.onlyExternal && (!J || "mousemove" !== e.type)) {
+            var n = J ? e.targetTouches[0].pageX : e.pageX || e.clientX, i = J ? e.targetTouches[0].pageY : e.pageY || e.clientY;
+            if ("undefined" == typeof _ && F && (_ = !!(_ || Math.abs(i - A.touches.startY) > Math.abs(n - A.touches.startX))), "undefined" != typeof _ || F ||
+                    (_ = !!(_ || Math.abs(i - A.touches.startY) < Math.abs(n - A.touches.startX))), _) {
+                return void(A.isTouched = !1);
+            }
+            if (F) {
+                if (!t.swipeToNext && n < A.touches.startX || !t.swipeToPrev && n > A.touches.startX) {
+                    return
+                }
+            } else if (!t.swipeToNext && i < A.touches.startY || !t.swipeToPrev && i > A.touches.startY) {
+                return;
+            }
+            if (e.assignedToSwiper) {
+                return void(A.isTouched = !1);
+            }
+            if (e.assignedToSwiper = !0, t.preventLinks && (A.allowLinks = !1), t.onSlideClick && (A.allowSlideClick = !1), t.autoplay &&
+                    A.stopAutoplay(!0), !J || 1 === e.touches.length) {
+                if (A.isMoved || (A.callPlugins("onTouchMoveStart"), t.loop && (A.fixLoop(), A.positions.start = A.getWrapperTranslate()), t.onTouchMoveStart &&
+                        A.fireCallback(t.onTouchMoveStart, A)), A.isMoved = !0, e.preventDefault ? e.preventDefault() : e.returnValue = !1, A.touches.current =
+                                F ? n : i, A.positions.current = (A.touches.current - A.touches.start) * t.touchRatio + A.positions.start, A.positions.current >
+                        0 && t.onResistanceBefore && A.fireCallback(t.onResistanceBefore, A, A.positions.current), A.positions.current < -r() &&
+                        t.onResistanceAfter && A.fireCallback(t.onResistanceAfter, A, Math.abs(A.positions.current + r())), t.resistance &&
+                        "100%" !== t.resistance) {
+                    var o;
+                    if (A.positions.current > 0 &&
+                            (o = 1 - A.positions.current / j / 2, A.positions.current = .5 > o ? j / 2 : A.positions.current * o), A.positions.current < -r()) {
+                        var a = (A.touches.current - A.touches.start) * t.touchRatio + (r() + A.positions.start);
+                        o = (j + a) / j;
+                        var s = A.positions.current - a * (1 - o) / 2, l = -r() - j / 2;
+                        A.positions.current = l > s || 0 >= o ? l : s
+                    }
+                }
+                if (t.resistance && "100%" === t.resistance &&
+                        (A.positions.current > 0 && (!t.freeMode || t.freeModeFluid) && (A.positions.current = 0), A.positions.current < -r() &&
+                        (!t.freeMode || t.freeModeFluid) && (A.positions.current = -r())), !t.followFinger) {
+                    return;
+                }
+                if (t.moveStartThreshold) {
+                    if (Math.abs(A.touches.current - A.touches.start) > t.moveStartThreshold || U) {
+                        if (!U) {
+                            return U = !0, void(A.touches.start = A.touches.current);
+                        }
+                        A.setWrapperTranslate(A.positions.current)
+                    } else {
+                        A.positions.current = A.positions.start;
+                    }
+                } else {
+                    A.setWrapperTranslate(A.positions.current);
+                }
+                return (t.freeMode || t.watchActiveIndex) && A.updateActiveSlide(A.positions.current), t.grabCursor &&
+                (A.container.style.cursor = "move", A.container.style.cursor = "grabbing", A.container.style.cursor = "-moz-grabbin", A.container.style.cursor =
+                        "-webkit-grabbing"), K || (K = A.touches.current), Q || (Q = (new Date).getTime()), A.velocity =
+                        (A.touches.current - K) / ((new Date).getTime() - Q) / 2, Math.abs(A.touches.current - K) < 2 && (A.velocity = 0), K =
+                        A.touches.current, Q = (new Date).getTime(), A.callPlugins("onTouchMoveEnd"), t.onTouchMove && A.fireCallback(t.onTouchMove, A, e), !1
+            }
+        }
+    }
+
+    function v(e) {
+        if (_ && A.swipeReset(), !t.onlyExternal && A.isTouched) {
+            A.isTouched = !1, t.grabCursor &&
+            (A.container.style.cursor = "move", A.container.style.cursor = "grab", A.container.style.cursor = "-moz-grab", A.container.style.cursor =
+                    "-webkit-grab"), A.positions.current || 0 === A.positions.current || (A.positions.current = A.positions.start), t.followFinger &&
+            A.setWrapperTranslate(A.positions.current), A.times.end = (new Date).getTime(), A.touches.diff =
+                    A.touches.current - A.touches.start, A.touches.abs = Math.abs(A.touches.diff), A.positions.diff =
+                    A.positions.current - A.positions.start, A.positions.abs = Math.abs(A.positions.diff);
+            var n = A.positions.diff, i = A.positions.abs, o = A.times.end - A.times.start;
+            5 > i && 300 > o && A.allowLinks === !1 && (t.freeMode || 0 === i || A.swipeReset(), t.preventLinks && (A.allowLinks = !0), t.onSlideClick &&
+            (A.allowSlideClick = !0)), setTimeout(function () {
+                "undefined" != typeof A && null !== A && (t.preventLinks && (A.allowLinks = !0), t.onSlideClick && (A.allowSlideClick = !0))
+            }, 100);
+            var a = r();
+            if (!A.isMoved && t.freeMode) {
+                return A.isMoved = !1, t.onTouchEnd && A.fireCallback(t.onTouchEnd, A, e), void A.callPlugins("onTouchEnd");
+            }
+            if (!A.isMoved || A.positions.current > 0 || A.positions.current < -a) {
+                return A.swipeReset(), t.onTouchEnd &&
+                A.fireCallback(t.onTouchEnd, A, e), void A.callPlugins("onTouchEnd");
+            }
+            if (A.isMoved = !1, t.freeMode) {
+                if (t.freeModeFluid) {
+                    var s, l = 1e3 * t.momentumRatio, u = A.velocity * l, c = A.positions.current + u, d = !1, p = 20 * Math.abs(A.velocity) *
+                            t.momentumBounceRatio;
+                    -a > c && (t.momentumBounce && A.support.transitions ? (-p > c + a && (c = -a - p), s = -a, d = !0, Z = !0) : c = -a), c > 0 &&
+                    (t.momentumBounce && A.support.transitions ? (c > p && (c = p), s = 0, d = !0, Z = !0) : c = 0), 0 !== A.velocity &&
+                    (l = Math.abs((c - A.positions.current) / A.velocity)), A.setWrapperTranslate(c), A.setWrapperTransition(l), t.momentumBounce && d &&
+                    A.wrapperTransitionEnd(function () {
+                        Z && (t.onMomentumBounce &&
+                        A.fireCallback(t.onMomentumBounce, A), A.callPlugins("onMomentumBounce"), A.setWrapperTranslate(s), A.setWrapperTransition(300))
+                    }), A.updateActiveSlide(c)
+                }
+                return (!t.freeModeFluid || o >= 300) && A.updateActiveSlide(A.positions.current), t.onTouchEnd &&
+                A.fireCallback(t.onTouchEnd, A, e), void A.callPlugins("onTouchEnd")
+            }
+            H = 0 > n ? "toNext" : "toPrev", "toNext" === H && 300 >= o && (30 > i || !t.shortSwipes ? A.swipeReset() : A.swipeNext(!0, !0)), "toPrev" === H &&
+            300 >= o && (30 > i || !t.shortSwipes ? A.swipeReset() : A.swipePrev(!0, !0));
+            var f = 0;
+            if ("auto" === t.slidesPerView) {
+                for (var h, g = Math.abs(A.getWrapperTranslate()), m = 0, v = 0; v < A.slides.length; v++) {
+                    if (h =
+                                    F ? A.slides[v].getWidth(!0, t.roundLengths) : A.slides[v].getHeight(!0, t.roundLengths), m += h, m > g) {
+                        f = h;
+                        break
+                    }
+                }
+                f > j && (f = j)
+            } else {
+                f = D * t.slidesPerView;
+            }
+            "toNext" === H && o > 300 && (i >= f * t.longSwipesRatio ? A.swipeNext(!0, !0) : A.swipeReset()), "toPrev" === H && o > 300 &&
+            (i >= f * t.longSwipesRatio ? A.swipePrev(!0, !0) : A.swipeReset()), t.onTouchEnd && A.fireCallback(t.onTouchEnd, A, e), A.callPlugins("onTouchEnd")
+        }
+    }
+
+    function y(e, t) {
+        return e && e.getAttribute("class") && e.getAttribute("class").indexOf(t) > -1
+    }
+
+    function w(e) {
+        var n = !1;
+        do {
+            y(e, t.noSwipingClass) && (n = !0), e = e.parentElement;
+        } while (!n && e.parentElement && !y(e, t.wrapperClass));
+        return !n && y(e, t.wrapperClass) && y(e, t.noSwipingClass) && (n = !0), n
+    }
+
+    function b(e, t) {
+        var n, i = document.createElement("div");
+        return i.innerHTML = t, n = i.firstChild, n.className += " " + e, n.outerHTML
+    }
+
+    function x(e, n, i) {
+        function r() {
+            var o = +new Date, d = o - a;
+            s += l * d / (1e3 / 60), c = "toNext" === u ? s > e : e > s, c ?
+                    (A.setWrapperTranslate(Math.ceil(s)), A._DOMAnimating = !0, window.setTimeout(function () {
+                        r()
+                    }, 1e3 / 60)) : (t.onSlideChangeEnd && ("to" === n ? i.runCallbacks === !0 && A.fireCallback(t.onSlideChangeEnd, A, u) :
+                    A.fireCallback(t.onSlideChangeEnd, A, u)), A.setWrapperTranslate(e), A._DOMAnimating = !1)
+        }
+
+        var o = "to" === n && i.speed >= 0 ? i.speed : t.speed, a = +new Date;
+        if (A.support.transitions || !t.DOMAnimation) {
+            A.setWrapperTranslate(e), A.setWrapperTransition(o);
+        } else {
+            var s = A.getWrapperTranslate(), l = Math.ceil((e - s) / o * (1e3 / 60)), u = s > e ? "toNext" : "toPrev", c = "toNext" === u ? s > e : e > s;
+            if (A._DOMAnimating) {
+                return;
+            }
+            r()
+        }
+        A.updateActiveSlide(e), t.onSlideNext && "next" === n && i.runCallbacks === !0 && A.fireCallback(t.onSlideNext, A, e), t.onSlidePrev && "prev" === n &&
+        i.runCallbacks === !0 && A.fireCallback(t.onSlidePrev, A, e), t.onSlideReset && "reset" === n && i.runCallbacks === !0 &&
+        A.fireCallback(t.onSlideReset, A, e), "next" !== n && "prev" !== n && "to" !== n || i.runCallbacks !== !0 || T(n)
+    }
+
+    function T(e) {
+        if (A.callPlugins("onSlideChangeStart"), t.onSlideChangeStart) {
+            if (t.queueStartCallbacks && A.support.transitions) {
+                if (A._queueStartCallbacks) {
+                    return;
+                }
+                A._queueStartCallbacks = !0, A.fireCallback(t.onSlideChangeStart, A, e), A.wrapperTransitionEnd(function () {
+                    A._queueStartCallbacks = !1
                 })
-            }, render: function () {
-                c = d.getInjectables();
-                var a = "Hotel-like ";
-                this.props.hotel.liked ? a += "is-liked" : !1;
-                var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve"><g opacity="0.5"><path class="Hotel-likeOutline" d="M15,28l-0.7-0.5C12.9,26.5,0.5,17.8,0,11c-0.2-2.8,0.5-5.2,2.1-6.8C3.4,2.8,5.3,2,7.4,2c4.7,0,7.3,4.1,7.6,4.6l0,0C15.3,6.1,17.9,2,22.6,2c2.1,0,3.9,0.8,5.3,2.2c1.5,1.7,2.3,4,2.1,6.8c-0.5,6.7-12.9,15.5-14.3,16.5L15,28z M7.4,4.3C6,4.3,4.7,4.9,3.8,5.8c-1.1,1.2-1.6,3-1.4,5.1c0.3,4.4,8,11,12.6,14.3c4.6-3.3,12.3-9.9,12.6-14.3c0.2-2.2-0.3-3.9-1.4-5.1c-0.9-1-2.2-1.5-3.6-1.5c-3.4,0-5.4,3.1-5.6,3.4L15,11l-2-3.3C12.8,7.4,10.8,4.3,7.4,4.3z"/></g><g opacity="0.5"><g><path class="Hotel-likeFill" d="M2.4,10.9C2.2,8.8,2.7,7,3.8,5.8C4.7,4.9,6,4.3,7.4,4.3c3.4,0,5.4,3.1,5.6,3.4l2,3.3l2-3.3c0.2-0.3,2.2-3.4,5.6-3.4c1.4,0,2.7,0.5,3.6,1.5c1.1,1.2,1.6,2.9,1.4,5.1c-0.3,4.4-8,11-12.6,14.3C10.4,21.9,2.7,15.3,2.4,10.9z"/></g><g></g></g></svg>';
-                return React.createElement("div",
-                        {className: a, onClick: this.toggleLike, "ng-class": "{'is-liked': hotel.liked}", dangerouslySetInnerHTML: {__html: b}})
+            } else {
+                A.fireCallback(t.onSlideChangeStart, A, e);
             }
-        });
-        b.exports = e
-    }, {"./di-manager": 2}],
-    6: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "TAScore", render: function () {
-                var a = {width: this.props.value + "%"};
-                return React.createElement("div", {className: "TAScore clearfix"}, React.createElement("div", {className: "TAScore-label"}, this.props.label),
-                        React.createElement("div", {className: "TAScore-ratingWrapper"}, React.createElement("div", {className: "TAScore-score", style: a})))
-            }
-        }), f = React.createClass({
-            displayName: "HotelTABlock", render: function () {
-                c = d.getInjectables();
-                for (var a = this.props.hotel, b = [], f = c.$rootScope, g = 0; g < a.ta.subratings.length; g++) {
-                    b.push(React.createElement(e,
-                            {label: f.i18n.common[a.ta.subratings[g].name], value: 100 * a.ta.subratings[g].value / 5}));
+        }
+        if (t.onSlideChangeEnd) {
+            if (A.support.transitions) {
+                if (t.queueEndCallbacks) {
+                    if (A._queueEndCallbacks) {
+                        return;
+                    }
+                    A._queueEndCallbacks = !0, A.wrapperTransitionEnd(function (n) {
+                        A.fireCallback(t.onSlideChangeEnd, n, e)
+                    })
+                } else {
+                    A.wrapperTransitionEnd(function (n) {
+                        A.fireCallback(t.onSlideChangeEnd, n, e)
+                    });
                 }
-                return React.createElement("div", {className: "Hotel-ratingsBlock clearfix"},
-                        React.createElement("div", {className: "Hotel-ratingsText mb5"}, f.i18n.hotels.tripRating), b)
+            } else {
+                t.DOMAnimation || setTimeout(function () {
+                    A.fireCallback(t.onSlideChangeEnd, A, e)
+                }, 10)
             }
-        }), g = React.createClass({
-            displayName: "HotelTARating", render: function () {
-                if (!this.props.rating) {
-                    return React.createElement("div", null);
+        }
+    }
+
+    function S() {
+        var e = A.paginationButtons;
+        if (e) {
+            for (var t = 0; t < e.length; t++) {
+                A.h.removeEventListener(e[t], "click", E)
+            }
+        }
+    }
+
+    function C() {
+        var e = A.paginationButtons;
+        if (e) {
+            for (var t = 0; t < e.length; t++) {
+                A.h.addEventListener(e[t], "click", E)
+            }
+        }
+    }
+
+    function E(e) {
+        for (var n, i = e.target || e.srcElement, r = A.paginationButtons, o = 0; o < r.length; o++) {
+            i === r[o] && (n = o);
+        }
+        t.autoplay && A.stopAutoplay(!0), A.swipeTo(n)
+    }
+
+    function k() {
+        et = setTimeout(function () {
+            t.loop ? (A.fixLoop(), A.swipeNext(!0, !0)) :
+            A.swipeNext(!0, !0) || (t.autoplayStopOnLast ? (clearTimeout(et), et = void 0) : A.swipeTo(0)), A.wrapperTransitionEnd(function () {
+                "undefined" != typeof et && k()
+            })
+        }, t.autoplay)
+    }
+
+    function L() {
+        A.calcSlides(), t.loader.slides.length > 0 && 0 === A.slides.length && A.loadSlides(), t.loop && A.createLoop(), A.init(), o(), t.pagination &&
+        A.createPagination(!0), t.loop || t.initialSlide > 0 ? A.swipeTo(t.initialSlide, 0, !1) : A.updateActiveSlide(0), t.autoplay &&
+        A.startAutoplay(), A.centerIndex = A.activeIndex, t.onSwiperCreated && A.fireCallback(t.onSwiperCreated, A), A.callPlugins("onSwiperCreated")
+    }
+
+    if (!document.body.outerHTML && document.body.__defineGetter__ && HTMLElement) {
+        var N = HTMLElement.prototype;
+        N.__defineGetter__ && N.__defineGetter__("outerHTML", function () {
+            return (new XMLSerializer).serializeToString(this)
+        })
+    }
+    if (window.getComputedStyle || (window.getComputedStyle = function (e) {
+                return this.el = e, this.getPropertyValue = function (t) {
+                    var n = /(\-([a-z]){1})/g;
+                    return "float" === t && (t = "styleFloat"), n.test(t) && (t = t.replace(n, function () {
+                        return arguments[2].toUpperCase()
+                    })), e.currentStyle[t] ? e.currentStyle[t] : null
+                }, this
+            }), Array.prototype.indexOf || (Array.prototype.indexOf = function (e, t) {
+                for (var n = t || 0, i = this.length; i > n; n++) {
+                    if (this[n] === e) {
+                        return n;
+                    }
                 }
-                1 == this.props.rating.length && (this.props.rating += ".0");
-                var a = "Trip i-common-ta-rating-" + this.props.rating.replace(".", "-");
-                return React.createElement("div", {className: a})
+                return -1
+            }), (document.querySelectorAll || window.jQuery) && "undefined" != typeof e && (e.nodeType || 0 !== n(e).length)) {
+        var A = this;
+        A.touches = {start: 0, startX: 0, startY: 0, current: 0, currentX: 0, currentY: 0, diff: 0, abs: 0}, A.positions =
+        {start: 0, abs: 0, diff: 0, current: 0}, A.times = {start: 0, end: 0}, A.id = (new Date).getTime(), A.container =
+                e.nodeType ? e : n(e)[0], A.isTouched = !1, A.isMoved = !1, A.activeIndex = 0, A.centerIndex = 0, A.activeLoaderIndex = 0, A.activeLoopIndex =
+                0, A.previousIndex = null, A.velocity = 0, A.snapGrid = [], A.slidesGrid = [], A.imagesToLoad = [], A.imagesLoaded = 0, A.wrapperLeft =
+                0, A.wrapperRight = 0, A.wrapperTop = 0, A.wrapperBottom = 0, A.isAndroid = navigator.userAgent.toLowerCase().indexOf("android") >= 0;
+        var M, D, P, H, _, j, W = {
+            eventTarget: "wrapper",
+            mode: "horizontal",
+            touchRatio: 1,
+            speed: 300,
+            freeMode: !1,
+            freeModeFluid: !1,
+            momentumRatio: 1,
+            momentumBounce: !0,
+            momentumBounceRatio: 1,
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+            slidesPerViewFit: !0,
+            simulateTouch: !0,
+            followFinger: !0,
+            shortSwipes: !0,
+            longSwipesRatio: .5,
+            moveStartThreshold: !1,
+            onlyExternal: !1,
+            createPagination: !0,
+            pagination: !1,
+            paginationElement: "span",
+            paginationClickable: !1,
+            paginationAsRange: !0,
+            resistance: !0,
+            scrollContainer: !1,
+            preventLinks: !0,
+            preventLinksPropagation: !1,
+            noSwiping: !1,
+            noSwipingClass: "swiper-no-swiping",
+            initialSlide: 0,
+            keyboardControl: !1,
+            mousewheelControl: !1,
+            mousewheelControlForceToAxis: !1,
+            useCSS3Transforms: !0,
+            autoplay: !1,
+            autoplayDisableOnInteraction: !0,
+            autoplayStopOnLast: !1,
+            loop: !1,
+            loopAdditionalSlides: 0,
+            roundLengths: !1,
+            calculateHeight: !1,
+            cssWidthAndHeight: !1,
+            updateOnImagesReady: !0,
+            releaseFormElements: !0,
+            watchActiveIndex: !1,
+            visibilityFullFit: !1,
+            offsetPxBefore: 0,
+            offsetPxAfter: 0,
+            offsetSlidesBefore: 0,
+            offsetSlidesAfter: 0,
+            centeredSlides: !1,
+            queueStartCallbacks: !1,
+            queueEndCallbacks: !1,
+            autoResize: !0,
+            resizeReInit: !1,
+            DOMAnimation: !0,
+            loader: {slides: [], slidesHTMLType: "inner", surroundGroups: 1, logic: "reload", loadAllSlides: !1},
+            swipeToPrev: !0,
+            swipeToNext: !0,
+            slideElement: "div",
+            slideClass: "swiper-slide",
+            slideActiveClass: "swiper-slide-active",
+            slideVisibleClass: "swiper-slide-visible",
+            slideDuplicateClass: "swiper-slide-duplicate",
+            wrapperClass: "swiper-wrapper",
+            paginationElementClass: "swiper-pagination-switch",
+            paginationActiveClass: "swiper-active-switch",
+            paginationVisibleClass: "swiper-visible-switch"
+        };
+        t = t || {};
+        for (var O in W) {
+            if (O in t && "object" == typeof t[O]) {
+                for (var I in W[O]) {
+                    I in t[O] || (t[O][I] = W[O][I]);
+                }
+            } else {
+                O in t || (t[O] = W[O]);
             }
-        });
-        b.exports.HotelTABlock = f, b.exports.HotelTARating = g
-    }, {"./di-manager": 2}],
-    7: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./stars"), f = a("./hotel-gallery"), g = a("./hotel-ta").HotelTABlock, h = a("./hotel-ta").HotelTARating, i = a("./hotel-like"), j = a("./tooltip").BSTooltip, k = a("./room"), l = a("./helpers").getHotelLink, m = React.createClass({
-            displayName: "Hotel",
-            goToHotel: function () {
-                c.$rootScope.u.event("hotel_title_click");
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            },
-            toggleRooms: function () {
-                this.setState({showAllRooms: !this.state.showAllRooms})
-            },
-            togglePhotos: function () {
-                this.setState({showAllPhotos: !this.state.showAllPhotos})
-            },
-            getInitialState: function () {
-                return {showAllRooms: !1, showAllPhotos: !1}
-            },
-            render: function () {
-                c = d.getInjectables();
-                var a = this.props.hotel, b = c.$rootScope, j = (c.$state, c.$filter), m = {backgroundImage: "url(" + b.u.hImage215(a.images[0], a.id) + ")"};
-                if (a.rooms && a.rooms.length) {
-                    var p = [], q = "-expensive.price" === c.$scope.searchForm.filters.sort ? "-price" : "price", r = a.rooms;
-                    r = c.filterEngine.filter(r, c.$scope.searchForm.filters, "room", c.$scope.searchForm), a.filteredRooms = j("orderBy")(r, q);
-                    var s = this.state.showAllRooms ? 100 : 1 === a.rooms[0].rooms.length ? 2 : 1;
-                    if (a.rooms) {
-                        for (var t = 0; s > t && t < a.filteredRooms.length; t++) {
-                            p.push(React.createElement(k,
-                                    {key: a.filteredRooms[t].hash, item: a.filteredRooms[t], hotel: a, index: t}))
+        }
+        A.params = t, t.scrollContainer && (t.freeMode = !0, t.freeModeFluid = !0), t.loop && (t.resistance = "100%");
+        var F = "horizontal" === t.mode, R = ["mousedown", "mousemove", "mouseup"];
+        A.browser.ie10 && (R = ["MSPointerDown", "MSPointerMove", "MSPointerUp"]), A.browser.ie11 &&
+        (R = ["pointerdown", "pointermove", "pointerup"]), A.touchEvents = {
+            touchStart: A.support.touch || !t.simulateTouch ? "touchstart" : R[0],
+            touchMove: A.support.touch || !t.simulateTouch ? "touchmove" : R[1],
+            touchEnd: A.support.touch || !t.simulateTouch ? "touchend" : R[2]
+        };
+        for (var B = A.container.childNodes.length - 1; B >= 0;
+                B--) {
+            if (A.container.childNodes[B].className) {
+                for (var q = A.container.childNodes[B].className.split(/\s+/), z = 0; z < q.length; z++) {
+                    q[z] ===
+                    t.wrapperClass && (M = A.container.childNodes[B]);
+                }
+            }
+        }
+        A.wrapper = M, A._extendSwiperSlide = function (e) {
+            return e.append = function () {
+                return t.loop ? e.insertAfter(A.slides.length - A.loopedSlides) : (A.wrapper.appendChild(e), A.reInit()), e
+            }, e.prepend = function () {
+                return t.loop ? (A.wrapper.insertBefore(e, A.slides[A.loopedSlides]), A.removeLoopedSlides(), A.calcSlides(), A.createLoop()) :
+                        A.wrapper.insertBefore(e, A.wrapper.firstChild), A.reInit(), e
+            }, e.insertAfter = function (n) {
+                if ("undefined" == typeof n) {
+                    return !1;
+                }
+                var i;
+                return t.loop ? (i = A.slides[n + 1 + A.loopedSlides], i ? A.wrapper.insertBefore(e, i) :
+                        A.wrapper.appendChild(e), A.removeLoopedSlides(), A.calcSlides(), A.createLoop()) :
+                        (i = A.slides[n + 1], A.wrapper.insertBefore(e, i)), A.reInit(), e
+            }, e.clone = function () {
+                return A._extendSwiperSlide(e.cloneNode(!0))
+            }, e.remove = function () {
+                A.wrapper.removeChild(e), A.reInit()
+            }, e.html = function (t) {
+                return "undefined" == typeof t ? e.innerHTML : (e.innerHTML = t, e)
+            }, e.index = function () {
+                for (var t, n = A.slides.length - 1; n >= 0; n--) {
+                    e === A.slides[n] && (t = n);
+                }
+                return t
+            }, e.isActive = function () {
+                return e.index() === A.activeIndex ? !0 : !1
+            }, e.swiperSlideDataStorage || (e.swiperSlideDataStorage = {}), e.getData = function (t) {
+                return e.swiperSlideDataStorage[t]
+            }, e.setData = function (t, n) {
+                return e.swiperSlideDataStorage[t] = n, e
+            }, e.data = function (t, n) {
+                return "undefined" == typeof n ? e.getAttribute("data-" + t) : (e.setAttribute("data-" + t, n), e)
+            }, e.getWidth = function (t, n) {
+                return A.h.getWidth(e, t, n)
+            }, e.getHeight = function (t, n) {
+                return A.h.getHeight(e, t, n)
+            }, e.getOffset = function () {
+                return A.h.getOffset(e)
+            }, e
+        }, A.calcSlides = function (e) {
+            var n = A.slides ? A.slides.length : !1;
+            A.slides = [], A.displaySlides = [];
+            for (var i = 0; i < A.wrapper.childNodes.length;
+                    i++) {
+                if (A.wrapper.childNodes[i].className) {
+                    for (var r = A.wrapper.childNodes[i].className, o = r.split(/\s+/), l = 0; l < o.length;
+                            l++) {
+                        o[l] === t.slideClass && A.slides.push(A.wrapper.childNodes[i]);
+                    }
+                }
+            }
+            for (i = A.slides.length - 1; i >= 0; i--) {
+                A._extendSwiperSlide(A.slides[i]);
+            }
+            n !== !1 && (n !== A.slides.length || e) &&
+            (s(), a(), A.updateActiveSlide(), A.params.pagination && A.createPagination(), A.callPlugins("numberOfSlidesChanged"))
+        }, A.createSlide = function (e, n, i) {
+            n = n || A.params.slideClass, i = i || t.slideElement;
+            var r = document.createElement(i);
+            return r.innerHTML = e || "", r.className = n, A._extendSwiperSlide(r)
+        }, A.appendSlide = function (e, t, n) {
+            return e ? e.nodeType ? A._extendSwiperSlide(e).append() : A.createSlide(e, t, n).append() : void 0
+        }, A.prependSlide = function (e, t, n) {
+            return e ? e.nodeType ? A._extendSwiperSlide(e).prepend() : A.createSlide(e, t, n).prepend() : void 0
+        }, A.insertSlideAfter = function (e, t, n, i) {
+            return "undefined" == typeof e ? !1 : t.nodeType ? A._extendSwiperSlide(t).insertAfter(e) : A.createSlide(t, n, i).insertAfter(e)
+        }, A.removeSlide = function (e) {
+            if (A.slides[e]) {
+                if (t.loop) {
+                    if (!A.slides[e + A.loopedSlides]) {
+                        return !1;
+                    }
+                    A.slides[e + A.loopedSlides].remove(), A.removeLoopedSlides(), A.calcSlides(), A.createLoop()
+                } else {
+                    A.slides[e].remove();
+                }
+                return !0
+            }
+            return !1
+        }, A.removeLastSlide = function () {
+            return A.slides.length > 0 ?
+                    (t.loop ? (A.slides[A.slides.length - 1 - A.loopedSlides].remove(), A.removeLoopedSlides(), A.calcSlides(), A.createLoop()) :
+                            A.slides[A.slides.length - 1].remove(), !0) : !1
+        }, A.removeAllSlides = function () {
+            for (var e = A.slides.length, t = A.slides.length - 1; t >= 0; t--) {
+                A.slides[t].remove(), t === e - 1 && A.setWrapperTranslate(0)
+            }
+        }, A.getSlide = function (e) {
+            return A.slides[e]
+        }, A.getLastSlide = function () {
+            return A.slides[A.slides.length - 1]
+        }, A.getFirstSlide = function () {
+            return A.slides[0]
+        }, A.activeSlide = function () {
+            return A.slides[A.activeIndex]
+        }, A.fireCallback = function () {
+            var e = arguments[0];
+            if ("[object Array]" === Object.prototype.toString.call(e)) {
+                for (var n = 0; n < e.length; n++) {
+                    "function" == typeof e[n] &&
+                    e[n](arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+                }
+            } else {
+                "[object String]" === Object.prototype.toString.call(e) ?
+                t["on" + e] && A.fireCallback(t["on" + e], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]) :
+                        e(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+            }
+        }, A.addCallback = function (e, t) {
+            var n, r = this;
+            return r.params["on" + e] ? i(this.params["on" + e]) ? this.params["on" + e].push(t) : "function" == typeof this.params["on" + e] ?
+                    (n = this.params["on" + e], this.params["on" + e] = [], this.params["on" + e].push(n), this.params["on" + e].push(t)) : void 0 :
+                    (this.params["on" + e] = [], this.params["on" + e].push(t))
+        }, A.removeCallbacks = function (e) {
+            A.params["on" + e] && (A.params["on" + e] = null)
+        };
+        var $ = [];
+        for (var V in A.plugins) {
+            if (t[V]) {
+                var G = A.plugins[V](A, t[V]);
+                G && $.push(G)
+            }
+        }
+        A.callPlugins = function (e, t) {
+            t || (t = {});
+            for (var n = 0; n < $.length; n++) {
+                e in $[n] && $[n][e](t)
+            }
+        }, !A.browser.ie10 && !A.browser.ie11 || t.onlyExternal || A.wrapper.classList.add("swiper-wp8-" + (F ? "horizontal" : "vertical")), t.freeMode &&
+        (A.container.className += " swiper-free-mode"), A.initialized = !1, A.init = function (e, n) {
+            var i = A.h.getWidth(A.container, !1, t.roundLengths), r = A.h.getHeight(A.container, !1, t.roundLengths);
+            if (i !== A.width || r !== A.height || e) {
+                A.width = i, A.height = r;
+                var o, a, s, l, u, c, d;
+                j = F ? i : r;
+                var p = A.wrapper;
+                if (e && A.calcSlides(n), "auto" === t.slidesPerView) {
+                    var f = 0, h = 0;
+                    t.slidesOffset > 0 &&
+                    (p.style.paddingLeft = "", p.style.paddingRight = "", p.style.paddingTop = "", p.style.paddingBottom = ""), p.style.width =
+                            "", p.style.height = "", t.offsetPxBefore > 0 &&
+                    (F ? A.wrapperLeft = t.offsetPxBefore : A.wrapperTop = t.offsetPxBefore), t.offsetPxAfter > 0 &&
+                    (F ? A.wrapperRight = t.offsetPxAfter : A.wrapperBottom = t.offsetPxAfter), t.centeredSlides && (F ?
+                            (A.wrapperLeft = (j - this.slides[0].getWidth(!0, t.roundLengths)) / 2, A.wrapperRight =
+                                    (j - A.slides[A.slides.length - 1].getWidth(!0, t.roundLengths)) / 2) :
+                            (A.wrapperTop = (j - A.slides[0].getHeight(!0, t.roundLengths)) / 2, A.wrapperBottom =
+                                    (j - A.slides[A.slides.length - 1].getHeight(!0, t.roundLengths)) / 2)), F ?
+                            (A.wrapperLeft >= 0 && (p.style.paddingLeft = A.wrapperLeft + "px"), A.wrapperRight >= 0 &&
+                            (p.style.paddingRight = A.wrapperRight + "px")) :
+                            (A.wrapperTop >= 0 && (p.style.paddingTop = A.wrapperTop + "px"), A.wrapperBottom >= 0 &&
+                            (p.style.paddingBottom = A.wrapperBottom + "px")), c = 0;
+                    var g = 0;
+                    for (A.snapGrid = [], A.slidesGrid = [], s = 0, d = 0; d < A.slides.length; d++) {
+                        o = A.slides[d].getWidth(!0, t.roundLengths), a = A.slides[d].getHeight(!0, t.roundLengths), t.calculateHeight && (s = Math.max(s, a));
+                        var m = F ? o : a;
+                        if (t.centeredSlides) {
+                            var v = d === A.slides.length - 1 ? 0 : A.slides[d + 1].getWidth(!0, t.roundLengths), y = d === A.slides.length - 1 ? 0 :
+                                    A.slides[d + 1].getHeight(!0, t.roundLengths), w = F ? v : y;
+                            if (m > j) {
+                                if (t.slidesPerViewFit) {
+                                    A.snapGrid.push(c + A.wrapperLeft), A.snapGrid.push(c + m - j + A.wrapperLeft);
+                                } else {
+                                    for (var b = 0;
+                                            b <= Math.floor(m / (j + A.wrapperLeft)); b++) {
+                                        A.snapGrid.push(0 === b ? c + A.wrapperLeft : c + A.wrapperLeft + j * b);
+                                    }
+                                }
+                                A.slidesGrid.push(c + A.wrapperLeft)
+                            } else {
+                                A.snapGrid.push(g), A.slidesGrid.push(g);
+                            }
+                            g += m / 2 + w / 2
+                        } else {
+                            if (m > j) {
+                                if (t.slidesPerViewFit) {
+                                    A.snapGrid.push(c), A.snapGrid.push(c + m - j);
+                                } else if (0 !== j) {
+                                    for (var x = 0;
+                                            x <= Math.floor(m / j); x++) {
+                                        A.snapGrid.push(c + j * x);
+                                    }
+                                } else {
+                                    A.snapGrid.push(c);
+                                }
+                            } else {
+                                A.snapGrid.push(c);
+                            }
+                            A.slidesGrid.push(c)
+                        }
+                        c += m, f += o, h += a
+                    }
+                    t.calculateHeight && (A.height = s), F ? (P = f + A.wrapperRight + A.wrapperLeft, t.cssWidthAndHeight && "height" !== t.cssWidthAndHeight ||
+                    (p.style.width = f + "px"), t.cssWidthAndHeight && "width" !== t.cssWidthAndHeight || (p.style.height = A.height + "px")) :
+                            (t.cssWidthAndHeight && "height" !== t.cssWidthAndHeight || (p.style.width = A.width + "px"), t.cssWidthAndHeight &&
+                            "width" !== t.cssWidthAndHeight || (p.style.height = h + "px"), P = h + A.wrapperTop + A.wrapperBottom)
+                } else if (t.scrollContainer) {
+                    p.style.width = "", p.style.height = "", l = A.slides[0].getWidth(!0, t.roundLengths), u =
+                            A.slides[0].getHeight(!0, t.roundLengths), P = F ? l : u, p.style.width = l + "px", p.style.height = u + "px", D = F ? l : u;
+                } else {
+                    if (t.calculateHeight) {
+                        for (s = 0, u = 0, F || (A.container.style.height = ""), p.style.height = "", d = 0; d < A.slides.length; d++) {
+                            A.slides[d].style.height =
+                                    "", s = Math.max(A.slides[d].getHeight(!0), s), F || (u += A.slides[d].getHeight(!0));
+                        }
+                        a = s, A.height = a, F ? u = a : (j = a, A.container.style.height = j + "px")
+                    } else {
+                        a = F ? A.height : A.height / t.slidesPerView, t.roundLengths && (a = Math.ceil(a)), u = F ? A.height : A.slides.length * a;
+                    }
+                    for (o = F ? A.width / t.slidesPerView : A.width, t.roundLengths && (o = Math.ceil(o)), l = F ? A.slides.length * o : A.width, D =
+                            F ? o : a, t.offsetSlidesBefore > 0 &&
+                    (F ? A.wrapperLeft = D * t.offsetSlidesBefore : A.wrapperTop = D * t.offsetSlidesBefore), t.offsetSlidesAfter > 0 &&
+                    (F ? A.wrapperRight = D * t.offsetSlidesAfter : A.wrapperBottom = D * t.offsetSlidesAfter), t.offsetPxBefore > 0 &&
+                    (F ? A.wrapperLeft = t.offsetPxBefore : A.wrapperTop = t.offsetPxBefore), t.offsetPxAfter > 0 &&
+                    (F ? A.wrapperRight = t.offsetPxAfter : A.wrapperBottom = t.offsetPxAfter), t.centeredSlides &&
+                    (F ? (A.wrapperLeft = (j - D) / 2, A.wrapperRight = (j - D) / 2) : (A.wrapperTop = (j - D) / 2, A.wrapperBottom = (j - D) / 2)), F ?
+                            (A.wrapperLeft > 0 && (p.style.paddingLeft = A.wrapperLeft + "px"), A.wrapperRight > 0 &&
+                            (p.style.paddingRight = A.wrapperRight + "px")) :
+                            (A.wrapperTop > 0 && (p.style.paddingTop = A.wrapperTop + "px"), A.wrapperBottom > 0 &&
+                            (p.style.paddingBottom = A.wrapperBottom + "px")), P =
+                            F ? l + A.wrapperRight + A.wrapperLeft : u + A.wrapperTop + A.wrapperBottom, parseFloat(l) > 0 &&
+                    (!t.cssWidthAndHeight || "height" === t.cssWidthAndHeight) && (p.style.width = l + "px"), parseFloat(u) > 0 &&
+                    (!t.cssWidthAndHeight || "width" === t.cssWidthAndHeight) && (p.style.height = u + "px"), c = 0, A.snapGrid = [], A.slidesGrid = [], d = 0;
+                            d < A.slides.length; d++) {
+                        A.snapGrid.push(c), A.slidesGrid.push(c), c += D, parseFloat(o) > 0 &&
+                        (!t.cssWidthAndHeight || "height" === t.cssWidthAndHeight) && (A.slides[d].style.width = o + "px"), parseFloat(a) > 0 &&
+                        (!t.cssWidthAndHeight || "width" === t.cssWidthAndHeight) && (A.slides[d].style.height = a + "px")
+                    }
+                }
+                A.initialized ? (A.callPlugins("onInit"), t.onInit && A.fireCallback(t.onInit, A)) :
+                        (A.callPlugins("onFirstInit"), t.onFirstInit && A.fireCallback(t.onFirstInit, A)), A.initialized = !0
+            }
+        }, A.reInit = function (e) {
+            A.init(!0, e)
+        }, A.resizeFix = function (e) {
+            A.callPlugins("beforeResizeFix"), A.init(t.resizeReInit || e), t.freeMode ?
+            A.getWrapperTranslate() < -r() && (A.setWrapperTransition(0), A.setWrapperTranslate(-r())) :
+                    (A.swipeTo(t.loop ? A.activeLoopIndex : A.activeIndex, 0, !1), t.autoplay &&
+                    (A.support.transitions && "undefined" != typeof et ? "undefined" != typeof et && (clearTimeout(et), et = void 0, A.startAutoplay()) :
+                    "undefined" != typeof tt && (clearInterval(tt), tt = void 0, A.startAutoplay()))), A.callPlugins("afterResizeFix")
+        }, A.destroy = function (e) {
+            var n = A.h.removeEventListener, i = "wrapper" === t.eventTarget ? A.wrapper : A.container;
+            if (A.browser.ie10 || A.browser.ie11 ?
+                            (n(i, A.touchEvents.touchStart, g), n(document, A.touchEvents.touchMove, m), n(document, A.touchEvents.touchEnd, v)) :
+                            (A.support.touch && (n(i, "touchstart", g), n(i, "touchmove", m), n(i, "touchend", v)), t.simulateTouch &&
+                            (n(i, "mousedown", g), n(document, "mousemove", m), n(document, "mouseup", v))), t.autoResize &&
+                    n(window, "resize", A.resizeFix), s(), t.paginationClickable && S(), t.mousewheelControl && A._wheelEvent &&
+                    n(A.container, A._wheelEvent, u), t.keyboardControl && n(document, "keydown", l), t.autoplay && A.stopAutoplay(), e) {
+                A.wrapper.removeAttribute("style");
+                for (var r = 0; r < A.slides.length; r++) {
+                    A.slides[r].removeAttribute("style")
+                }
+            }
+            A.callPlugins("onDestroy"), window.jQuery && window.jQuery(A.container).data("swiper") &&
+            window.jQuery(A.container).removeData("swiper"), window.Zepto && window.Zepto(A.container).data("swiper") &&
+            window.Zepto(A.container).removeData("swiper"), A = null
+        }, A.disableKeyboardControl = function () {
+            t.keyboardControl = !1, A.h.removeEventListener(document, "keydown", l)
+        }, A.enableKeyboardControl = function () {
+            t.keyboardControl = !0, A.h.addEventListener(document, "keydown", l)
+        };
+        var X = (new Date).getTime();
+        if (A.disableMousewheelControl = function () {
+                    return A._wheelEvent ? (t.mousewheelControl = !1, A.h.removeEventListener(A.container, A._wheelEvent, u), !0) : !1
+                }, A.enableMousewheelControl = function () {
+                    return A._wheelEvent ? (t.mousewheelControl = !0, A.h.addEventListener(A.container, A._wheelEvent, u), !0) : !1
+                }, t.grabCursor) {
+            var Y = A.container.style;
+            Y.cursor = "move", Y.cursor = "grab", Y.cursor = "-moz-grab", Y.cursor = "-webkit-grab"
+        }
+        A.allowSlideClick = !0, A.allowLinks = !0;
+        var U, K, Q, J = !1, Z = !0;
+        A.swipeNext = function (e, n) {
+            "undefined" == typeof e && (e = !0), !n && t.loop && A.fixLoop(), !n && t.autoplay && A.stopAutoplay(!0), A.callPlugins("onSwipeNext");
+            var i = A.getWrapperTranslate().toFixed(2), o = i;
+            if ("auto" === t.slidesPerView) {
+                for (var a = 0; a < A.snapGrid.length; a++) {
+                    if (-i >= A.snapGrid[a].toFixed(2) && -i < A.snapGrid[a + 1].toFixed(2)) {
+                        o = -A.snapGrid[a + 1];
+                        break
+                    }
+                }
+            } else {
+                var s = D * t.slidesPerGroup;
+                o = -(Math.floor(Math.abs(i) / Math.floor(s)) * s + s)
+            }
+            return o < -r() && (o = -r()), o === i ? !1 : (x(o, "next", {runCallbacks: e}), !0)
+        }, A.swipePrev = function (e, n) {
+            "undefined" == typeof e && (e = !0), !n && t.loop && A.fixLoop(), !n && t.autoplay && A.stopAutoplay(!0), A.callPlugins("onSwipePrev");
+            var i, r = Math.ceil(A.getWrapperTranslate());
+            if ("auto" === t.slidesPerView) {
+                i = 0;
+                for (var o = 1; o < A.snapGrid.length; o++) {
+                    if (-r === A.snapGrid[o]) {
+                        i = -A.snapGrid[o - 1];
+                        break
+                    }
+                    if (-r > A.snapGrid[o] && -r < A.snapGrid[o + 1]) {
+                        i = -A.snapGrid[o];
+                        break
+                    }
+                }
+            } else {
+                var a = D * t.slidesPerGroup;
+                i = -(Math.ceil(-r / a) - 1) * a
+            }
+            return i > 0 && (i = 0), i === r ? !1 : (x(i, "prev", {runCallbacks: e}), !0)
+        }, A.swipeReset = function (e) {
+            "undefined" == typeof e && (e = !0), A.callPlugins("onSwipeReset");
+            var n, i = A.getWrapperTranslate(), o = D * t.slidesPerGroup;
+            if (-r(), "auto" === t.slidesPerView) {
+                n = 0;
+                for (var a = 0; a < A.snapGrid.length; a++) {
+                    if (-i === A.snapGrid[a]) {
+                        return;
+                    }
+                    if (-i >= A.snapGrid[a] && -i < A.snapGrid[a + 1]) {
+                        n = A.positions.diff > 0 ? -A.snapGrid[a + 1] : -A.snapGrid[a];
+                        break
+                    }
+                }
+                -i >= A.snapGrid[A.snapGrid.length - 1] && (n = -A.snapGrid[A.snapGrid.length - 1]), i <= -r() && (n = -r())
+            } else {
+                n = 0 > i ? Math.round(i / o) * o : 0, i <= -r() && (n = -r());
+            }
+            return t.scrollContainer && (n = 0 > i ? i : 0), n < -r() && (n = -r()), t.scrollContainer && j > D && (n = 0), n === i ? !1 :
+                    (x(n, "reset", {runCallbacks: e}), !0)
+        }, A.swipeTo = function (e, n, i) {
+            e = parseInt(e, 10), A.callPlugins("onSwipeTo", {index: e, speed: n}), t.loop && (e += A.loopedSlides);
+            var o = A.getWrapperTranslate();
+            if (!(e > A.slides.length - 1 || 0 > e)) {
+                var a;
+                return a = "auto" === t.slidesPerView ? -A.slidesGrid[e] : -e * D, a < -r() && (a = -r()), a === o ? !1 :
+                        ("undefined" == typeof i && (i = !0), x(a, "to", {index: e, speed: n, runCallbacks: i}), !0)
+            }
+        }, A._queueStartCallbacks = !1, A._queueEndCallbacks = !1, A.updateActiveSlide = function (e) {
+            if (A.initialized && 0 !== A.slides.length) {
+                A.previousIndex = A.activeIndex, "undefined" == typeof e && (e = A.getWrapperTranslate()), e > 0 && (e = 0);
+                var n;
+                if ("auto" === t.slidesPerView) {
+                    if (A.activeIndex = A.slidesGrid.indexOf(-e), A.activeIndex < 0) {
+                        for (n = 0; n < A.slidesGrid.length - 1 && !(-e > A.slidesGrid[n] && -e < A.slidesGrid[n + 1]); n++) {
+                            ;
+                        }
+                        var i = Math.abs(A.slidesGrid[n] + e), r = Math.abs(A.slidesGrid[n + 1] + e);
+                        A.activeIndex = r >= i ? n : n + 1
+                    }
+                } else {
+                    A.activeIndex = Math[t.visibilityFullFit ? "ceil" : "round"](-e / D);
+                }
+                if (A.activeIndex === A.slides.length && (A.activeIndex = A.slides.length - 1), A.activeIndex < 0 &&
+                        (A.activeIndex = 0), A.slides[A.activeIndex]) {
+                    if (A.calcVisibleSlides(e), A.support.classList) {
+                        var o;
+                        for (n = 0; n < A.slides.length; n++) {
+                            o = A.slides[n], o.classList.remove(t.slideActiveClass), A.visibleSlides.indexOf(o) >= 0 ?
+                                    o.classList.add(t.slideVisibleClass) : o.classList.remove(t.slideVisibleClass);
+                        }
+                        A.slides[A.activeIndex].classList.add(t.slideActiveClass)
+                    } else {
+                        var a = new RegExp("\\s*" + t.slideActiveClass), s = new RegExp("\\s*" + t.slideVisibleClass);
+                        for (n = 0; n < A.slides.length; n++) {
+                            A.slides[n].className =
+                                    A.slides[n].className.replace(a, "").replace(s, ""), A.visibleSlides.indexOf(A.slides[n]) >= 0 &&
+                            (A.slides[n].className += " " + t.slideVisibleClass);
+                        }
+                        A.slides[A.activeIndex].className += " " + t.slideActiveClass
+                    }
+                    if (t.loop) {
+                        var l = A.loopedSlides;
+                        A.activeLoopIndex = A.activeIndex - l, A.activeLoopIndex >= A.slides.length - 2 * l &&
+                        (A.activeLoopIndex = A.slides.length - 2 * l - A.activeLoopIndex), A.activeLoopIndex < 0 &&
+                        (A.activeLoopIndex = A.slides.length - 2 * l + A.activeLoopIndex), A.activeLoopIndex < 0 && (A.activeLoopIndex = 0)
+                    } else {
+                        A.activeLoopIndex = A.activeIndex;
+                    }
+                    t.pagination && A.updatePagination(e)
+                }
+            }
+        }, A.createPagination = function (e) {
+            if (t.paginationClickable && A.paginationButtons && S(), A.paginationContainer =
+                            t.pagination.nodeType ? t.pagination : n(t.pagination)[0], t.createPagination) {
+                var i = "", r = A.slides.length, o = r;
+                t.loop && (o -= 2 * A.loopedSlides);
+                for (var a = 0; o > a; a++) {
+                    i += "<" + t.paginationElement + ' class="' + t.paginationElementClass + '"></' + t.paginationElement + ">";
+                }
+                A.paginationContainer.innerHTML = i
+            }
+            A.paginationButtons = n("." + t.paginationElementClass, A.paginationContainer), e ||
+            A.updatePagination(), A.callPlugins("onCreatePagination"), t.paginationClickable && C()
+        }, A.updatePagination = function (e) {
+            if (t.pagination && !(A.slides.length < 1)) {
+                var i = n("." + t.paginationActiveClass, A.paginationContainer);
+                if (i) {
+                    var r = A.paginationButtons;
+                    if (0 !== r.length) {
+                        for (var o = 0; o < r.length; o++) {
+                            r[o].className = t.paginationElementClass;
+                        }
+                        var a = t.loop ? A.loopedSlides : 0;
+                        if (t.paginationAsRange) {
+                            A.visibleSlides || A.calcVisibleSlides(e);
+                            var s, l = [];
+                            for (s = 0; s < A.visibleSlides.length; s++) {
+                                var u = A.slides.indexOf(A.visibleSlides[s]) - a;
+                                t.loop && 0 > u && (u = A.slides.length - 2 * A.loopedSlides + u), t.loop && u >= A.slides.length - 2 * A.loopedSlides &&
+                                (u = A.slides.length - 2 * A.loopedSlides - u, u = Math.abs(u)), l.push(u)
+                            }
+                            for (s = 0; s < l.length; s++) {
+                                r[l[s]] && (r[l[s]].className += " " + t.paginationVisibleClass);
+                            }
+                            t.loop ? void 0 !== r[A.activeLoopIndex] && (r[A.activeLoopIndex].className += " " + t.paginationActiveClass) :
+                            r[A.activeIndex] && (r[A.activeIndex].className += " " + t.paginationActiveClass)
+                        } else {
+                            t.loop ?
+                            r[A.activeLoopIndex] && (r[A.activeLoopIndex].className += " " + t.paginationActiveClass + " " + t.paginationVisibleClass) :
+                            r[A.activeIndex] && (r[A.activeIndex].className += " " + t.paginationActiveClass + " " + t.paginationVisibleClass)
                         }
                     }
                 }
-                var u = null;
-                a.rooms || (u = React.createElement("div", null, React.createElement("div", {loading: "!states.roomsLoaded && searchForm.search.hash"}),
-                        React.createElement("div", {className: "Hotel-selectDate", "ng-show": "states.roomsLoaded && !hotel.filteredRooms.length"},
-                                React.createElement("i", {className: "i-select-date"}), " ", b.i18n.hotels.selectDates)));
-                var v = this.state.showAllPhotos ? "Hotel is-allPhoto" : "Hotel", w = l(this.props.hotel, c);
-                return React.createElement("div", {className: v, id: a.id}, React.createElement("div", {className: "clearfix Hotel-mainContent"},
-                                React.createElement("div", {className: "Hotel-leftBox", "fixed-box-cont": !0},
-                                        React.createElement("div", {"fixed-box": "hotel.allRooms"},
-                                                React.createElement("div", {className: "Hotel-photoBox clearfix"}, React.createElement(i, {hotel: a}),
-                                                        React.createElement("div", {className: "NoPhoto"},
-                                                                React.createElement("i", {className: "NoPhoto-icon i-no-photo"}),
-                                                                React.createElement("div", {className: "NoPhoto-label"}, b.i18n.hotels.noImages)),
-                                                        React.createElement("div", {className: "Hotel-photo", style: m}),
-                                                        React.createElement("div", {className: "Hotel-galleryIcon", onClick: this.togglePhotos},
-                                                                React.createElement("div", {className: "i-gallery"}),
-                                                                React.createElement("span", null, b.i18n.hotels.seeAllPhoto))),
-                                                this.state.showAllRooms && a.ta ? React.createElement(g, {hotel: a}) : !1)),
-                                React.createElement("div", {className: "Hotel-mainBox"},
-                                        React.createElement("div", {className: "Hotel-infoBox clearfix", "ng-class": "{'is-more':more}"},
-                                                React.createElement("a", {className: "Hotel-name", href: w}, a.name),
-                                                React.createElement(e, {category: a.categoryId}),
-                                                React.createElement(o, {hotel: a}), a.ta ?
-                                                        React.createElement("div", {className: "Hotel-tripBox", "ng-show": "hotel.ta"},
-                                                                React.createElement("a", {
-                                                                    "hotel-rating": "hotel.ta.rating",
-                                                                    "ui-sref": "hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))"
-                                                                }, React.createElement(h, {rating: a.ta.rating})),
-                                                                React.createElement("div", {className: "Hotel-tripBoxCount"},
-                                                                        j("decline")(a.ta.num_reviews, b.i18n.decline.recall), " ")) : !1),
-                                        React.createElement("div", {className: "Hotel-roomBox"}, u, p),
-                                        React.createElement("div", {className: "Hotel-bottomBox"}, React.createElement(n, {hotel: a}),
-                                                React.createElement("div", {className: "Hotel-showMoreRooms", "ng-class": "{'is-open': more}"}, a.rooms ?
-                                                        a.rooms.length > 2 ? this.state.showAllRooms ? React.createElement("span", {
-                                                            className: "Href no-animate is-open",
-                                                            "ng-show": "hotel.rooms.length>2 && hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.hideBookingDetails) : React.createElement("span", {
-                                                            className: "Href no-animate",
-                                                            "ng-show": "hotel.rooms.length>2 && !hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.showBookingDetails) :
-                                                                React.createElement("span", {"ng-show": "hotel.rooms.length < 3"},
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.left, !0), "  ",
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.room), " !") : !1),
-                                                React.createElement("div", {className: "Hotel-bookBtn"},
-                                                        React.createElement("a", {className: "Btn Btn--orange", onClick: this.goToHotel},
-                                                                b.i18n.hotels.book))))),
-                        React.createElement("div", {className: "Hotel-photoGalleryBox clearfix"},
-                                this.state.showAllPhotos ? React.createElement(f, {hotel: a}) : !1))
             }
-        }), n = React.createClass({
-            displayName: "Facilities", render: function () {
-                function a(a, b) {
-                    return a.facilities && -1 !== a.facilities.indexOf(b)
-                }
-
-                var b = c.$rootScope, d = [], e = [{
-                    value: 2,
-                    content: React.createElement("div", {className: "i-wifi", "data-title": b.i18n.common.facilities[2]},
-                            React.createElement("span", null, "FREE WI-FI"))
-                }, {value: 1, content: React.createElement("div", {className: "i-condition", "data-title": b.i18n.common.facilities[1]})},
-                    {value: 5, content: React.createElement("div", {className: "i-parking", "data-title": b.i18n.common.facilities[5]})},
-                    {value: 6, content: React.createElement("div", {className: "i-pool", "data-title": b.i18n.common.facilities[6]})},
-                    {value: 10, content: React.createElement("div", {className: "i-tv", "data-title": b.i18n.common.facilities[10]})}];
-                return _.each(e, function (b) {
-                    a(this.props.hotel, b.value) && d.push(React.createElement(j, {key: b.value}, b.content))
-                }.bind(this)), React.createElement("div", {className: "Hotel-facilities"}, d)
+        }, A.calcVisibleSlides = function (e) {
+            var n = [], i = 0, r = 0, o = 0;
+            F && A.wrapperLeft > 0 && (e += A.wrapperLeft), !F && A.wrapperTop > 0 && (e += A.wrapperTop);
+            for (var a = 0; a < A.slides.length; a++) {
+                i += r, r =
+                        "auto" === t.slidesPerView ? F ? A.h.getWidth(A.slides[a], !0, t.roundLengths) : A.h.getHeight(A.slides[a], !0, t.roundLengths) : D, o =
+                        i + r;
+                var s = !1;
+                t.visibilityFullFit ? (i >= -e && -e + j >= o && (s = !0), -e >= i && o >= -e + j && (s = !0)) :
+                        (o > -e && -e + j >= o && (s = !0), i >= -e && -e + j > i && (s = !0), -e > i && o > -e + j && (s = !0)), s && n.push(A.slides[a])
             }
-        }), o = React.createClass({
-            displayName: "HotelAddress", goToHotelOnMap: function () {
-                c.Utils.event("hotel_on_map_from_list"), c.Utils.goToHotelOnMap(this.props.hotel, c.$scope.searchForm)
-            }, render: function () {
-                var a = c.$rootScope, b = c.$filter, d = [];
-                return this.props.hotel.center &&
-                d.push(React.createElement("a", {className: "Hotel-distance", onClick: this.goToHotelOnMap}, React.createElement("i", {className: "i-pointer"}),
-                        React.createElement("span", null, b("distance")(this.props.hotel.center), " ", a.i18n.hotels.kmFromCenter))), React.createElement("div",
-                        {className: "Hotel-addressBox clearfix"}, d, React.createElement("div", {className: "Hotel-address"}, this.props.hotel.address))
-            }
-        });
-        b.exports = m
-    }, {"./di-manager": 2, "./helpers": 3, "./hotel-gallery": 4, "./hotel-like": 5, "./hotel-ta": 6, "./room": 10, "./stars": 11, "./tooltip": 12}],
-    8: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./hotel"), f = React.createClass({
-            displayName: "HotelsList", render: function () {
-                c = d.getInjectables(), c.$scope = this.props.$scope;
-                for (var a = this.props.offset || 0, b = this.props.hotelsPerPage, f = [], g = a; g < this.props.hotels.length && a + b > g;
-                        g++) {
-                    f.push(React.createElement(e, {key: this.props.hotels[g].id, hotel: this.props.hotels[g]}));
-                }
-                return React.createElement("div", null, f)
-            }
-        });
-        b.exports = f
-    }, {"./di-manager": 2, "./hotel": 7}],
-    9: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}],
-    10: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./booking-conditions"), f = a("./tooltip").tooltipMixing, g = a("./helpers").Currency, h = React.createClass({
-            displayName: "RoomSize",
-            mixins: [f],
-            render: function () {
-                if (this.props.roomTypeId) {
-                    var a = "i-room-size" + c.$rootScope.d.roomTypes[this.props.roomTypeId].pax, b = [];
-                    if (b.push(React.createElement("i", {className: a})), 0 !== c.$scope.searchForm.formData.rooms[0].children) {
-                        var d = "i-room-size" + c.$scope.searchForm.formData.rooms[0].children + " is-childer";
-                        b.push(React.createElement("i", {className: d}))
-                    }
-                    return React.createElement("div",
-                            {"data-title": c.$rootScope.i18n.common.roomSizes[c.initialData.roomTypes[this.props.roomTypeId].pax - 1]}, b)
-                }
-                return !1
-            }
-        }), i = React.createClass({
-            displayName: "SubRoom", render: function () {
-                var a = this.props.subRoom;
-                return React.createElement("div", {className: "Hotel-roomNameBox"}, React.createElement("div", {className: "Hotel-roomName"}, a.roomName),
-                        React.createElement("div", {className: "Hotel-roomGuests"},
-                                null !== a.rooTypeId ? React.createElement(h, {roomTypeId: a.roomTypeId}) : !1))
-            }
-        }), j = React.createClass({
-            displayName: "PriceBox", mixins: [f], getTooltipContent: function () {
-                var a, b = this.props.item, d = "i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return b.tax && (a = React.createElement("p", {"class": "mt5"}, " ", c.$rootScope.i18n.dictionary.priceHasTax, " ", b.tax,
-                        React.createElement("span", {className: d}))), React.createElement("div", null, c.$rootScope.i18n.hotels.priceFor, " ",
-                        c.$filter("decline")(1, c.$rootScope.i18n.decline.hight), " ",
-                        c.$rootScope.u.smartDigits(b.price / c.$rootScope.u.daysCount(c.$scope.searchForm.dates)), React.createElement("span", {className: d}),
-                        a)
-            }, render: function () {
-                var a = this.props.item, b = c.$rootScope, d = c.$filter, e = [];
-                return e.push(a.isCheapest ? React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.bestPriceFor, "  ",
-                        d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night)) :
-                        React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.priceFor, "   ",
-                                d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night), " ")), a.rooms.length > 1 &&
-                e.push(React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.forGroupInHotel)), React.createElement("div",
-                        {className: "Hotel-priceBox", "data-animation": "popup-slide-down Tooltip Tooltip--info notr"},
-                        React.createElement("span", {className: "Hotel-price"}, " ", b.u.smartDigits(a.price), " ", React.createElement(g, null)), e)
-            }
-        }), k = React.createClass({
-            displayName: "Room", goToRoom: function () {
-                c.initialData.stateData.room = this.props.item, c.Utils.event("room_click", this.props.item.hash);
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            }, render: function () {
-                c = d.getInjectables();
-                var a = this.props.item, b = this.props.hotel;
-                if (!a) {
-                    return null;
-                }
-                for (var f = c.$rootScope, g = (c.$filter, []), k = 0; k < a.rooms.length; k++) {
-                    g.push(React.createElement(i, {subRoom: a.rooms[k]}));
-                }
-                var l = "Hotel-room clearfix no-animate ";
-                switch (a.rooms.length) {
-                    case 2:
-                        l += "is-two-rooms ";
-                        break;
-                    case 3:
-                        l += "is-tree-rooms "
-                }
-                return 1 === b.filteredRooms.length && (l += "is-single "), 0 === this.props.index && (l += "is-cheapest"), React.createElement("div",
-                        {className: l, onClick: this.goToRoom}, React.createElement("div", {className: "Hotel-roomTexts"}, g),
-                        React.createElement("div", {className: "Hotel-roomInfo"},
-                                React.createElement("div", {className: "Hotel-roomBreakfast"}, React.createElement("i", {className: "i-breackfast2 mr5"}),
-                                        f.d.meals[a.mealId]), React.createElement(e, {room: a})),
-                        React.createElement("div", {className: "Hotel-roomGuests"}, React.createElement(h, {roomTypeId: a.rooms[0].roomTypeId})),
-                        React.createElement(j, {item: a}))
-            }
-        });
-        b.exports = k
-    }, {"./booking-conditions": 1, "./di-manager": 2, "./helpers": 3, "./tooltip": 12}],
-    11: [function (a, b) {
-        var c = React.createClass({
-            displayName: "Stars", isStarActive: function (a, b) {
-                var c = !1;
-                switch (a) {
-                    case 0:
-                        c = -1 !== [1, 2, 3, 4, 5].indexOf(b);
-                        break;
-                    case 1:
-                        c = -1 !== [1, 2, 3, 4].indexOf(b);
-                        break;
-                    case 2:
-                        c = -1 !== [1, 2, 3].indexOf(b);
-                        break;
-                    case 3:
-                        c = -1 !== [1, 3].indexOf(b);
-                        break;
-                    case 4:
-                        c = -1 !== [1].indexOf(b)
-                }
-                return c
-            }, render: function () {
-                var a = 0, b = [];
-                for (a = 0; 5 > a; a++) {
-                    b.push(this.isStarActive(a, this.props.category) ?
-                            React.createElement("div", {className: "Stars-star i-star", key: a + "star"}) :
-                            React.createElement("div", {className: "Stars-star i-star-holder", key: a + "hold"}));
-                }
-                return React.createElement("div", {className: "Stars"}, b)
-            }
-        });
-        b.exports = c
-    }, {}],
-    12: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
-                    }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
-                }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
-            }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [8]),function i(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var h = "function" == typeof require && require;
-                if (!g && h) {
-                    return h(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var j = new Error("Cannot find module '" + f + "'");
-                throw j.code = "MODULE_NOT_FOUND", j
-            }
-            var k = b[f] = {exports: {}};
-            a[f][0].call(k.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, i, a, b, c)
-        }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}]
-}, {}, [1]),function j(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var h = "function" == typeof require && require;
-                if (!g && h) {
-                    return h(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var i = new Error("Cannot find module '" + f + "'");
-                throw i.code = "MODULE_NOT_FOUND", i
-            }
-            var k = b[f] = {exports: {}};
-            a[f][0].call(k.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, k, k.exports, j, a, b, c)
-        }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./tooltip").tooltipMixing, f = a("./loader"), g = a("./helpers").Currency, h = React.createClass({
-            displayName: "BookingConditions",
-            mixins: [e],
-            getInitialState: function () {
-                return {loadTriggered: !1, loaded: !1}
-            },
-            getInitialProps: function () {
-                return {text: "", title: ""}
-            },
-            loadConditions: function () {
-                var a = this.props.room, b = this;
-                return this.state.loadTriggered ? void 0 :
-                        (this.setState({loadTriggered: !0}), c.$http.get(c.api.search.chargeConditions(c.$stateParams.searchId),
-                                {params: {providerId: a.providerId, hash: a.hash, currency: c.initialData.currency}}).then(function (c) {
-                                    console.log(c), b.isMounted() && (angular.extend(a, c.data), b.getTitle(a), b.setState({loaded: !0}))
-                                }))
-            },
-            getTitle: function (a) {
-                var b = c.$rootScope;
-                if (this.props.text = b.i18n.directives.cancelationConditions, a.freeCancellation) {
-                    this.props.text =
-                            b.i18n.directives.freeCancelation, this.props.title = b.i18n.directives.freeCancelationUntill + " " +
-                            c.$filter("dateTime")(a.freeCancellationTo);
-                } else if (a.withoutCancellation) {
-                    this.props.title =
-                            this.props.text = b.i18n.directives.withoutCancelation;
-                } else if (a.fineCancellation) {
-                    if (a.fineCancellationPrice =
-                                    c.Utils.smartDigits(a.fineCancellationPrice), this.props.text = b.i18n.directives.freeCancelation, a.fineCancellationTo) {
-                        var d = c.$filter("dateTime")(a.fineCancellationTo);
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancellationBefore, " ", d, " ",
-                                React.createElement("b", null, b.i18n.directives.free), ".", React.createElement("br", null), b.i18n.directives.reactStartFrom,
-                                " ",
-                                d, " ", b.i18n.directives.reactWillHold,
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, " ", a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)), " ", b.i18n.directives.reactForOrderCancellation)
-                    } else {
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancelation, " ",
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)))
-                    }
-                }
-            },
-            getTooltipContent: function () {
-                var a;
-                return this.state.loaded || this.props.title ||
-                (a = React.createElement(f, {extraClasses: "Tooltip-loader", loaderType: "bubbles"})), React.createElement("div", null, a, this.props.title)
-            },
-            render: function () {
-                var a = this.props.room;
-                c = d.getInjectables();
-                {
-                    var b = "BookingConditions--iconMr5 BookingConditions i-cancelation";
-                    c.$rootScope
-                }
-                return this.getTitle(a), (a.freeCancellationTo || a.freeCancelation) && (b += " is-green"), React.createElement("div",
-                        {className: b, onMouseEnter: this.loadConditions}, this.props.text)
-            }
-        });
-        b.exports = h
-    }, {"./di-manager": 2, "./helpers": 3, "./loader": 9, "./tooltip": 13}],
-    2: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
-            }
-            return e
-        }
-
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}],
-    3: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
-            }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
+            0 === n.length && (n = [A.slides[A.activeIndex]]), A.visibleSlides = n
         };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 2}],
-    4: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./loader"), f = React.createClass({
-            displayName: "HotelGallery", getInitialState: function () {
-                return {showPhoto: !1, photoId: null}
-            }, showPhoto: function (a, b) {
-                this.setState({showPhoto: !0, photoId: a, target: b.target})
-            }, hidePhoto: function () {
-                this.setState({showPhoto: !1, photoId: null, target: null})
-            }, render: function () {
-                c = d.getInjectables();
-                for (var a, b = this.props.hotel, e = [], f = 0; f < b.images.length && 17 > f; f++) {
-                    var h = {backgroundImage: "url(" + c.$rootScope.u.hImage45(b.images[f], b.id) + ")"};
-                    e.push(React.createElement("div",
-                            {onMouseOver: this.showPhoto.bind(this, b.images[f]), onMouseOut: this.hidePhoto, className: "Hotel-smallPhoto", style: h}))
+        var et, tt;
+        A.startAutoplay = function () {
+            if (A.support.transitions) {
+                if ("undefined" != typeof et) {
+                    return !1;
                 }
-                return this.state.showPhoto ? (a = React.createElement(g, {imageId: this.state.photoId, hotelId: b.id, target: this.state.target}), this.popup =
-                        React.render(a, document.getElementById("HoverImagePopupCOntainer"))) :
-                        React.unmountComponentAtNode(document.getElementById("HoverImagePopupCOntainer")), React.createElement("div",
-                        {className: "Hotel-photoGallery clearfix"}, React.createElement("div", {className: "Hotel-photoGalleryCont"},
-                                React.createElement("div", {className: "NoPhoto NoPhoto--small"},
-                                        React.createElement("i", {className: "NoPhoto-icon i-no-photo"})), e))
-            }
-        }), g = React.createClass({
-            displayName: "HotelImagePopup", calculatePosition: function () {
-                var a, b, d = $(this.props.target), e = $(this.getDOMNode()), f = 10, g = "vertical";
-                d.offset().top - e.height() - f > c.$window.scrollY ?
-                        (a = d.offset().top - e.height() - f - d.height(), d.offset().left + e.width() < c.$window.innerWidth ?
-                                (b = d.offset().left, g += " top-left") : (b = d.offset().left + d.width() - e.width(), g += " top-right")) :
-                        (a = d.offset().top, d.offset().left + e.width() < c.$window.innerWidth ? (b = d.offset().left, g += " bottom-left") :
-                                (b = d.offset().left + d.width() - e.width(), g += " bottom-right")), (0 !== a || 0 !== b) &&
-                (e.css("top", a + "px"), e.css("left", b + "px"), e.removeClass("top-left top-right bottom-left bottom-right not-visible"), e.addClass(g))
-            }, componentDidMount: function () {
-                this.calculatePosition()
-            }, render: function () {
-                var a = {backgroundImage: "url(" + c.$rootScope.u.hImage(this.props.imageId, this.props.hotelId) + ")"};
-                return this.isMounted() && this.calculatePosition(), React.createElement("div", {className: "tooltip in HoverGallery not-visible"},
-                        React.createElement("div", {className: "tooltip-arrow"}),
-                        React.createElement("div", {className: "tooltip-inner"}, React.createElement(e, {loaderType: "circle", extraClasses: "Tooltip-loader"}),
-                                React.createElement("div", {className: "HoverGallery-image", style: a})))
-            }
-        });
-        b.exports = f
-    }, {"./di-manager": 2, "./loader": 9}],
-    5: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "HotelLike", toggleLike: function () {
-                var a = this;
-                c.Favorites.like(this.props.hotel, c.$scope.searchForm.search.city).then(function (b) {
-                    c.$scope.$emit("hotelLike.liked", b), a.forceUpdate()
-                })
-            }, render: function () {
-                c = d.getInjectables();
-                var a = "Hotel-like ";
-                this.props.hotel.liked ? a += "is-liked" : !1;
-                var b = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve"><g opacity="0.5"><path class="Hotel-likeOutline" d="M15,28l-0.7-0.5C12.9,26.5,0.5,17.8,0,11c-0.2-2.8,0.5-5.2,2.1-6.8C3.4,2.8,5.3,2,7.4,2c4.7,0,7.3,4.1,7.6,4.6l0,0C15.3,6.1,17.9,2,22.6,2c2.1,0,3.9,0.8,5.3,2.2c1.5,1.7,2.3,4,2.1,6.8c-0.5,6.7-12.9,15.5-14.3,16.5L15,28z M7.4,4.3C6,4.3,4.7,4.9,3.8,5.8c-1.1,1.2-1.6,3-1.4,5.1c0.3,4.4,8,11,12.6,14.3c4.6-3.3,12.3-9.9,12.6-14.3c0.2-2.2-0.3-3.9-1.4-5.1c-0.9-1-2.2-1.5-3.6-1.5c-3.4,0-5.4,3.1-5.6,3.4L15,11l-2-3.3C12.8,7.4,10.8,4.3,7.4,4.3z"/></g><g opacity="0.5"><g><path class="Hotel-likeFill" d="M2.4,10.9C2.2,8.8,2.7,7,3.8,5.8C4.7,4.9,6,4.3,7.4,4.3c3.4,0,5.4,3.1,5.6,3.4l2,3.3l2-3.3c0.2-0.3,2.2-3.4,5.6-3.4c1.4,0,2.7,0.5,3.6,1.5c1.1,1.2,1.6,2.9,1.4,5.1c-0.3,4.4-8,11-12.6,14.3C10.4,21.9,2.7,15.3,2.4,10.9z"/></g><g></g></g></svg>';
-                return React.createElement("div",
-                        {className: a, onClick: this.toggleLike, "ng-class": "{'is-liked': hotel.liked}", dangerouslySetInnerHTML: {__html: b}})
-            }
-        });
-        b.exports = e
-    }, {"./di-manager": 2}],
-    6: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "TAScore", render: function () {
-                var a = {width: this.props.value + "%"};
-                return React.createElement("div", {className: "TAScore clearfix"}, React.createElement("div", {className: "TAScore-label"}, this.props.label),
-                        React.createElement("div", {className: "TAScore-ratingWrapper"}, React.createElement("div", {className: "TAScore-score", style: a})))
-            }
-        }), f = React.createClass({
-            displayName: "HotelTABlock", render: function () {
-                c = d.getInjectables();
-                for (var a = this.props.hotel, b = [], f = c.$rootScope, g = 0; g < a.ta.subratings.length; g++) {
-                    b.push(React.createElement(e,
-                            {label: f.i18n.common[a.ta.subratings[g].name], value: 100 * a.ta.subratings[g].value / 5}));
+                if (!t.autoplay) {
+                    return;
                 }
-                return React.createElement("div", {className: "Hotel-ratingsBlock clearfix"},
-                        React.createElement("div", {className: "Hotel-ratingsText mb5"}, f.i18n.hotels.tripRating), b)
-            }
-        }), g = React.createClass({
-            displayName: "HotelTARating", render: function () {
-                if (!this.props.rating) {
-                    return React.createElement("div", null);
+                A.callPlugins("onAutoplayStart"), t.onAutoplayStart && A.fireCallback(t.onAutoplayStart, A), k()
+            } else {
+                if ("undefined" != typeof tt) {
+                    return !1;
                 }
-                1 == this.props.rating.length && (this.props.rating += ".0");
-                var a = "Trip i-common-ta-rating-" + this.props.rating.replace(".", "-");
-                return React.createElement("div", {className: a})
+                if (!t.autoplay) {
+                    return;
+                }
+                A.callPlugins("onAutoplayStart"), t.onAutoplayStart && A.fireCallback(t.onAutoplayStart, A), tt = setInterval(function () {
+                    t.loop ? (A.fixLoop(), A.swipeNext(!0, !0)) :
+                    A.swipeNext(!0, !0) || (t.autoplayStopOnLast ? (clearInterval(tt), tt = void 0) : A.swipeTo(0))
+                }, t.autoplay)
             }
-        });
-        b.exports.HotelTABlock = f, b.exports.HotelTARating = g
-    }, {"./di-manager": 2}],
-    7: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./stars"), f = a("./hotel-gallery"), g = a("./hotel-ta").HotelTABlock, h = a("./hotel-ta").HotelTARating, i = a("./hotel-like"), j = a("./tooltip").BSTooltip, k = a("./room"), l = a("./helpers").getHotelLink, m = React.createClass({
-            displayName: "Hotel",
-            goToHotel: function () {
-                c.$rootScope.u.event("hotel_title_click");
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            },
-            toggleRooms: function () {
-                this.setState({showAllRooms: !this.state.showAllRooms})
-            },
-            togglePhotos: function () {
-                this.setState({showAllPhotos: !this.state.showAllPhotos})
-            },
-            getInitialState: function () {
-                return {showAllRooms: !1, showAllPhotos: !1}
-            },
-            render: function () {
-                c = d.getInjectables();
-                var a = this.props.hotel, b = c.$rootScope, j = (c.$state, c.$filter), m = {backgroundImage: "url(" + b.u.hImage215(a.images[0], a.id) + ")"};
-                if (a.rooms && a.rooms.length) {
-                    var p = [], q = "-expensive.price" === c.$scope.searchForm.filters.sort ? "-price" : "price", r = a.rooms;
-                    r = c.filterEngine.filter(r, c.$scope.searchForm.filters, "room", c.$scope.searchForm), a.filteredRooms = j("orderBy")(r, q);
-                    var s = this.state.showAllRooms ? 100 : 1 === a.rooms[0].rooms.length ? 2 : 1;
-                    if (a.rooms) {
-                        for (var t = 0; s > t && t < a.filteredRooms.length; t++) {
-                            p.push(React.createElement(k,
-                                    {key: a.filteredRooms[t].hash, item: a.filteredRooms[t], hotel: a, index: t}))
-                        }
+        }, A.stopAutoplay = function (e) {
+            if (A.support.transitions) {
+                if (!et) {
+                    return;
+                }
+                et && clearTimeout(et), et = void 0, e && !t.autoplayDisableOnInteraction && A.wrapperTransitionEnd(function () {
+                    k()
+                }), A.callPlugins("onAutoplayStop"), t.onAutoplayStop && A.fireCallback(t.onAutoplayStop, A)
+            } else {
+                tt && clearInterval(tt), tt = void 0, A.callPlugins("onAutoplayStop"), t.onAutoplayStop && A.fireCallback(t.onAutoplayStop, A)
+            }
+        }, A.loopCreated = !1, A.removeLoopedSlides = function () {
+            if (A.loopCreated) {
+                for (var e = 0; e < A.slides.length; e++) {
+                    A.slides[e].getData("looped") === !0 && A.wrapper.removeChild(A.slides[e])
+                }
+            }
+        }, A.createLoop = function () {
+            if (0 !== A.slides.length) {
+                A.loopedSlides = "auto" === t.slidesPerView ? t.loopedSlides || 1 : t.slidesPerView + t.loopAdditionalSlides, A.loopedSlides >
+                A.slides.length && (A.loopedSlides = A.slides.length);
+                var e, n = "", i = "", r = "", o = A.slides.length, a = Math.floor(A.loopedSlides / o), s = A.loopedSlides % o;
+                for (e = 0; a * o > e; e++) {
+                    var l = e;
+                    if (e >= o) {
+                        var u = Math.floor(e / o);
+                        l = e - o * u
                     }
+                    r += A.slides[l].outerHTML
                 }
-                var u = null;
-                a.rooms || (u = React.createElement("div", null, React.createElement("div", {loading: "!states.roomsLoaded && searchForm.search.hash"}),
-                        React.createElement("div", {className: "Hotel-selectDate", "ng-show": "states.roomsLoaded && !hotel.filteredRooms.length"},
-                                React.createElement("i", {className: "i-select-date"}), " ", b.i18n.hotels.selectDates)));
-                var v = this.state.showAllPhotos ? "Hotel is-allPhoto" : "Hotel", w = l(this.props.hotel, c);
-                return React.createElement("div", {className: v, id: a.id}, React.createElement("div", {className: "clearfix Hotel-mainContent"},
-                                React.createElement("div", {className: "Hotel-leftBox", "fixed-box-cont": !0},
-                                        React.createElement("div", {"fixed-box": "hotel.allRooms"},
-                                                React.createElement("div", {className: "Hotel-photoBox clearfix"}, React.createElement(i, {hotel: a}),
-                                                        React.createElement("div", {className: "NoPhoto"},
-                                                                React.createElement("i", {className: "NoPhoto-icon i-no-photo"}),
-                                                                React.createElement("div", {className: "NoPhoto-label"}, b.i18n.hotels.noImages)),
-                                                        React.createElement("div", {className: "Hotel-photo", style: m}),
-                                                        React.createElement("div", {className: "Hotel-galleryIcon", onClick: this.togglePhotos},
-                                                                React.createElement("div", {className: "i-gallery"}),
-                                                                React.createElement("span", null, b.i18n.hotels.seeAllPhoto))),
-                                                this.state.showAllRooms && a.ta ? React.createElement(g, {hotel: a}) : !1)),
-                                React.createElement("div", {className: "Hotel-mainBox"},
-                                        React.createElement("div", {className: "Hotel-infoBox clearfix", "ng-class": "{'is-more':more}"},
-                                                React.createElement("a", {className: "Hotel-name", href: w}, a.name),
-                                                React.createElement(e, {category: a.categoryId}),
-                                                React.createElement(o, {hotel: a}), a.ta ?
-                                                        React.createElement("div", {className: "Hotel-tripBox", "ng-show": "hotel.ta"},
-                                                                React.createElement("a", {
-                                                                    "hotel-rating": "hotel.ta.rating",
-                                                                    "ui-sref": "hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))"
-                                                                }, React.createElement(h, {rating: a.ta.rating})),
-                                                                React.createElement("div", {className: "Hotel-tripBoxCount"},
-                                                                        j("decline")(a.ta.num_reviews, b.i18n.decline.recall), " ")) : !1),
-                                        React.createElement("div", {className: "Hotel-roomBox"}, u, p),
-                                        React.createElement("div", {className: "Hotel-bottomBox"}, React.createElement(n, {hotel: a}),
-                                                React.createElement("div", {className: "Hotel-showMoreRooms", "ng-class": "{'is-open': more}"}, a.rooms ?
-                                                        a.rooms.length > 2 ? this.state.showAllRooms ? React.createElement("span", {
-                                                            className: "Href no-animate is-open",
-                                                            "ng-show": "hotel.rooms.length>2 && hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.hideBookingDetails) : React.createElement("span", {
-                                                            className: "Href no-animate",
-                                                            "ng-show": "hotel.rooms.length>2 && !hotel.allRooms",
-                                                            onClick: this.toggleRooms
-                                                        }, b.i18n.hotels.showBookingDetails) :
-                                                                React.createElement("span", {"ng-show": "hotel.rooms.length < 3"},
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.left, !0), "  ",
-                                                                        j("decline")(a.rooms.length, b.i18n.decline.room), " !") : !1),
-                                                React.createElement("div", {className: "Hotel-bookBtn"},
-                                                        React.createElement("a", {className: "Btn Btn--orange", onClick: this.goToHotel},
-                                                                b.i18n.hotels.book))))),
-                        React.createElement("div", {className: "Hotel-photoGalleryBox clearfix"},
-                                this.state.showAllPhotos ? React.createElement(f, {hotel: a}) : !1))
+                for (e = 0; s > e; e++) {
+                    i += b(t.slideDuplicateClass, A.slides[e].outerHTML);
+                }
+                for (e = o - s; o > e; e++) {
+                    n += b(t.slideDuplicateClass, A.slides[e].outerHTML);
+                }
+                var c = n + r + M.innerHTML + r + i;
+                for (M.innerHTML = c, A.loopCreated = !0, A.calcSlides(), e = 0; e < A.slides.length; e++) {
+                    (e < A.loopedSlides ||
+                    e >= A.slides.length - A.loopedSlides) && A.slides[e].setData("looped", !0);
+                }
+                A.callPlugins("onCreateLoop")
             }
-        }), n = React.createClass({
-            displayName: "Facilities", render: function () {
-                function a(a, b) {
-                    return a.facilities && -1 !== a.facilities.indexOf(b)
-                }
-
-                var b = c.$rootScope, d = [], e = [{
-                    value: 2,
-                    content: React.createElement("div", {className: "i-wifi", "data-title": b.i18n.common.facilities[2]},
-                            React.createElement("span", null, "FREE WI-FI"))
-                }, {value: 1, content: React.createElement("div", {className: "i-condition", "data-title": b.i18n.common.facilities[1]})},
-                    {value: 5, content: React.createElement("div", {className: "i-parking", "data-title": b.i18n.common.facilities[5]})},
-                    {value: 6, content: React.createElement("div", {className: "i-pool", "data-title": b.i18n.common.facilities[6]})},
-                    {value: 10, content: React.createElement("div", {className: "i-tv", "data-title": b.i18n.common.facilities[10]})}];
-                return _.each(e, function (b) {
-                    a(this.props.hotel, b.value) && d.push(React.createElement(j, {key: b.value}, b.content))
-                }.bind(this)), React.createElement("div", {className: "Hotel-facilities"}, d)
+        }, A.fixLoop = function () {
+            var e;
+            A.activeIndex < A.loopedSlides ? (e = A.slides.length - 3 * A.loopedSlides + A.activeIndex, A.swipeTo(e, 0, !1)) :
+            ("auto" === t.slidesPerView && A.activeIndex >= 2 * A.loopedSlides || A.activeIndex > A.slides.length - 2 * t.slidesPerView) &&
+            (e = -A.slides.length + A.activeIndex + A.loopedSlides, A.swipeTo(e, 0, !1))
+        }, A.loadSlides = function () {
+            var e = "";
+            A.activeLoaderIndex = 0;
+            for (var n = t.loader.slides, i = t.loader.loadAllSlides ? n.length : t.slidesPerView * (1 + t.loader.surroundGroups), r = 0; i > r; r++) {
+                e +=
+                        "outer" === t.loader.slidesHTMLType ? n[r] :
+                        "<" + t.slideElement + ' class="' + t.slideClass + '" data-swiperindex="' + r + '">' + n[r] + "</" + t.slideElement + ">";
             }
-        }), o = React.createClass({
-            displayName: "HotelAddress", goToHotelOnMap: function () {
-                c.Utils.event("hotel_on_map_from_list"), c.Utils.goToHotelOnMap(this.props.hotel, c.$scope.searchForm)
-            }, render: function () {
-                var a = c.$rootScope, b = c.$filter, d = [];
-                return this.props.hotel.center &&
-                d.push(React.createElement("a", {className: "Hotel-distance", onClick: this.goToHotelOnMap}, React.createElement("i", {className: "i-pointer"}),
-                        React.createElement("span", null, b("distance")(this.props.hotel.center), " ", a.i18n.hotels.kmFromCenter))), React.createElement("div",
-                        {className: "Hotel-addressBox clearfix"}, d, React.createElement("div", {className: "Hotel-address"}, this.props.hotel.address))
-            }
-        });
-        b.exports = m
-    }, {"./di-manager": 2, "./helpers": 3, "./hotel-gallery": 4, "./hotel-like": 5, "./hotel-ta": 6, "./room": 11, "./stars": 12, "./tooltip": 13}],
-    8: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./hotel"), f = React.createClass({
-            displayName: "HotelsList", render: function () {
-                c = d.getInjectables(), c.$scope = this.props.$scope;
-                for (var a = this.props.offset || 0, b = this.props.hotelsPerPage, f = [], g = a; g < this.props.hotels.length && a + b > g;
-                        g++) {
-                    f.push(React.createElement(e, {key: this.props.hotels[g].id, hotel: this.props.hotels[g]}));
+            A.wrapper.innerHTML = e, A.calcSlides(!0), t.loader.loadAllSlides || A.wrapperTransitionEnd(A.reloadSlides, !0)
+        }, A.reloadSlides = function () {
+            var e = t.loader.slides, n = parseInt(A.activeSlide().data("swiperindex"), 10);
+            if (!(0 > n || n > e.length - 1)) {
+                A.activeLoaderIndex = n;
+                var i = Math.max(0, n - t.slidesPerView * t.loader.surroundGroups), r = Math.min(n + t.slidesPerView * (1 + t.loader.surroundGroups) - 1,
+                        e.length - 1);
+                if (n > 0) {
+                    var o = -D * (n - i);
+                    A.setWrapperTranslate(o), A.setWrapperTransition(0)
                 }
-                return React.createElement("div", null, f)
-            }
-        });
-        b.exports = f
-    }, {"./di-manager": 2, "./hotel": 7}],
-    9: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}],
-    10: [function (a) {
-        window.HotelsList = a("./hotels-list")
-    }, {"./hotels-list": 8}],
-    11: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./booking-conditions"), f = a("./tooltip").tooltipMixing, g = a("./helpers").Currency, h = React.createClass({
-            displayName: "RoomSize",
-            mixins: [f],
-            render: function () {
-                if (this.props.roomTypeId) {
-                    var a = "i-room-size" + c.$rootScope.d.roomTypes[this.props.roomTypeId].pax, b = [];
-                    if (b.push(React.createElement("i", {className: a})), 0 !== c.$scope.searchForm.formData.rooms[0].children) {
-                        var d = "i-room-size" + c.$scope.searchForm.formData.rooms[0].children + " is-childer";
-                        b.push(React.createElement("i", {className: d}))
-                    }
-                    return React.createElement("div",
-                            {"data-title": c.$rootScope.i18n.common.roomSizes[c.initialData.roomTypes[this.props.roomTypeId].pax - 1]}, b)
-                }
-                return !1
-            }
-        }), i = React.createClass({
-            displayName: "SubRoom", render: function () {
-                var a = this.props.subRoom;
-                return React.createElement("div", {className: "Hotel-roomNameBox"}, React.createElement("div", {className: "Hotel-roomName"}, a.roomName),
-                        React.createElement("div", {className: "Hotel-roomGuests"},
-                                null !== a.rooTypeId ? React.createElement(h, {roomTypeId: a.roomTypeId}) : !1))
-            }
-        }), j = React.createClass({
-            displayName: "PriceBox", mixins: [f], getTooltipContent: function () {
-                var a, b = this.props.item, d = "i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return b.tax && (a = React.createElement("p", {"class": "mt5"}, " ", c.$rootScope.i18n.dictionary.priceHasTax, " ", b.tax,
-                        React.createElement("span", {className: d}))), React.createElement("div", null, c.$rootScope.i18n.hotels.priceFor, " ",
-                        c.$filter("decline")(1, c.$rootScope.i18n.decline.hight), " ",
-                        c.$rootScope.u.smartDigits(b.price / c.$rootScope.u.daysCount(c.$scope.searchForm.dates)), React.createElement("span", {className: d}),
-                        a)
-            }, render: function () {
-                var a = this.props.item, b = c.$rootScope, d = c.$filter, e = [];
-                return e.push(a.isCheapest ? React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.bestPriceFor, "  ",
-                        d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night)) :
-                        React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.priceFor, "   ",
-                                d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night), " ")), a.rooms.length > 1 &&
-                e.push(React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.forGroupInHotel)), React.createElement("div",
-                        {className: "Hotel-priceBox", "data-animation": "popup-slide-down Tooltip Tooltip--info notr"},
-                        React.createElement("span", {className: "Hotel-price"}, " ", b.u.smartDigits(a.price), " ", React.createElement(g, null)), e)
-            }
-        }), k = React.createClass({
-            displayName: "Room", goToRoom: function () {
-                c.initialData.stateData.room = this.props.item, c.Utils.event("room_click", this.props.item.hash);
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            }, render: function () {
-                c = d.getInjectables();
-                var a = this.props.item, b = this.props.hotel;
-                if (!a) {
-                    return null;
-                }
-                for (var f = c.$rootScope, g = (c.$filter, []), k = 0; k < a.rooms.length; k++) {
-                    g.push(React.createElement(i, {subRoom: a.rooms[k]}));
-                }
-                var l = "Hotel-room clearfix no-animate ";
-                switch (a.rooms.length) {
-                    case 2:
-                        l += "is-two-rooms ";
-                        break;
-                    case 3:
-                        l += "is-tree-rooms "
-                }
-                return 1 === b.filteredRooms.length && (l += "is-single "), 0 === this.props.index && (l += "is-cheapest"), React.createElement("div",
-                        {className: l, onClick: this.goToRoom}, React.createElement("div", {className: "Hotel-roomTexts"}, g),
-                        React.createElement("div", {className: "Hotel-roomInfo"},
-                                React.createElement("div", {className: "Hotel-roomBreakfast"}, React.createElement("i", {className: "i-breackfast2 mr5"}),
-                                        f.d.meals[a.mealId]), React.createElement(e, {room: a})),
-                        React.createElement("div", {className: "Hotel-roomGuests"}, React.createElement(h, {roomTypeId: a.rooms[0].roomTypeId})),
-                        React.createElement(j, {item: a}))
-            }
-        });
-        b.exports = k
-    }, {"./booking-conditions": 1, "./di-manager": 2, "./helpers": 3, "./tooltip": 13}],
-    12: [function (a, b) {
-        var c = React.createClass({
-            displayName: "Stars", isStarActive: function (a, b) {
-                var c = !1;
-                switch (a) {
-                    case 0:
-                        c = -1 !== [1, 2, 3, 4, 5].indexOf(b);
-                        break;
-                    case 1:
-                        c = -1 !== [1, 2, 3, 4].indexOf(b);
-                        break;
-                    case 2:
-                        c = -1 !== [1, 2, 3].indexOf(b);
-                        break;
-                    case 3:
-                        c = -1 !== [1, 3].indexOf(b);
-                        break;
-                    case 4:
-                        c = -1 !== [1].indexOf(b)
-                }
-                return c
-            }, render: function () {
-                var a = 0, b = [];
-                for (a = 0; 5 > a; a++) {
-                    b.push(this.isStarActive(a, this.props.category) ?
-                            React.createElement("div", {className: "Stars-star i-star", key: a + "star"}) :
-                            React.createElement("div", {className: "Stars-star i-star-holder", key: a + "hold"}));
-                }
-                return React.createElement("div", {className: "Stars"}, b)
-            }
-        });
-        b.exports = c
-    }, {}],
-    13: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
-                    }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
-                }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
-            }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [10]),function k(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var h = "function" == typeof require && require;
-                if (!g && h) {
-                    return h(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var i = new Error("Cannot find module '" + f + "'");
-                throw i.code = "MODULE_NOT_FOUND", i
-            }
-            var j = b[f] = {exports: {}};
-            a[f][0].call(j.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, j, j.exports, k, a, b, c)
-        }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./tooltip").tooltipMixing, f = a("./loader"), g = a("./helpers").Currency, h = React.createClass({
-            displayName: "BookingConditions",
-            mixins: [e],
-            getInitialState: function () {
-                return {loadTriggered: !1, loaded: !1}
-            },
-            getInitialProps: function () {
-                return {text: "", title: ""}
-            },
-            loadConditions: function () {
-                var a = this.props.room, b = this;
-                return this.state.loadTriggered ? void 0 :
-                        (this.setState({loadTriggered: !0}), c.$http.get(c.api.search.chargeConditions(c.$stateParams.searchId),
-                                {params: {providerId: a.providerId, hash: a.hash, currency: c.initialData.currency}}).then(function (c) {
-                                    console.log(c), b.isMounted() && (angular.extend(a, c.data), b.getTitle(a), b.setState({loaded: !0}))
-                                }))
-            },
-            getTitle: function (a) {
-                var b = c.$rootScope;
-                if (this.props.text = b.i18n.directives.cancelationConditions, a.freeCancellation) {
-                    this.props.text =
-                            b.i18n.directives.freeCancelation, this.props.title = b.i18n.directives.freeCancelationUntill + " " +
-                            c.$filter("dateTime")(a.freeCancellationTo);
-                } else if (a.withoutCancellation) {
-                    this.props.title =
-                            this.props.text = b.i18n.directives.withoutCancelation;
-                } else if (a.fineCancellation) {
-                    if (a.fineCancellationPrice =
-                                    c.Utils.smartDigits(a.fineCancellationPrice), this.props.text = b.i18n.directives.freeCancelation, a.fineCancellationTo) {
-                        var d = c.$filter("dateTime")(a.fineCancellationTo);
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancellationBefore, " ", d, " ",
-                                React.createElement("b", null, b.i18n.directives.free), ".", React.createElement("br", null), b.i18n.directives.reactStartFrom,
-                                " ",
-                                d, " ", b.i18n.directives.reactWillHold,
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, " ", a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)), " ", b.i18n.directives.reactForOrderCancellation)
-                    } else {
-                        this.props.title = React.createElement("div", null, b.i18n.directives.reactOrderCancelation, " ",
-                                React.createElement("span", {className: "wsp text-bold currency-price"}, a.fineCancellationPrice, " ",
-                                        React.createElement(g, null)))
-                    }
-                }
-            },
-            getTooltipContent: function () {
                 var a;
-                return this.state.loaded || this.props.title ||
-                (a = React.createElement(f, {extraClasses: "Tooltip-loader", loaderType: "bubbles"})), React.createElement("div", null, a, this.props.title)
-            },
-            render: function () {
-                var a = this.props.room;
-                c = d.getInjectables();
-                {
-                    var b = "BookingConditions--iconMr5 BookingConditions i-cancelation";
-                    c.$rootScope
+                if ("reload" === t.loader.logic) {
+                    A.wrapper.innerHTML = "";
+                    var s = "";
+                    for (a = i; r >= a; a++) {
+                        s += "outer" === t.loader.slidesHTMLType ? e[a] :
+                        "<" + t.slideElement + ' class="' + t.slideClass + '" data-swiperindex="' + a + '">' + e[a] + "</" + t.slideElement + ">";
+                    }
+                    A.wrapper.innerHTML = s
+                } else {
+                    var l = 1e3, u = 0;
+                    for (a = 0; a < A.slides.length; a++) {
+                        var c = A.slides[a].data("swiperindex");
+                        i > c || c > r ? A.wrapper.removeChild(A.slides[a]) : (l = Math.min(c, l), u = Math.max(c, u))
+                    }
+                    for (a = i; r >= a; a++) {
+                        var d;
+                        l > a && (d = document.createElement(t.slideElement), d.className = t.slideClass, d.setAttribute("data-swiperindex", a), d.innerHTML =
+                                e[a], A.wrapper.insertBefore(d, A.wrapper.firstChild)), a > u &&
+                        (d = document.createElement(t.slideElement), d.className = t.slideClass, d.setAttribute("data-swiperindex", a), d.innerHTML =
+                                e[a], A.wrapper.appendChild(d))
+                    }
                 }
-                return this.getTitle(a), (a.freeCancellationTo || a.freeCancelation) && (b += " is-green"), React.createElement("div",
-                        {className: b, onMouseEnter: this.loadConditions}, this.props.text)
+                A.reInit(!0)
             }
-        });
-        b.exports = h
-    }, {"./di-manager": 2, "./helpers": 3, "./loader": 4, "./tooltip": 6}], 2: [function (a, b) {
-        function c() {
-            if (_.isEmpty(e)) {
-                var a = angular.element("body").injector();
-                _.each(d, function (b) {
-                    e[b] = a.get(b)
-                })
+        }, L()
+    }
+};
+Swiper.prototype = {
+    plugins: {}, wrapperTransitionEnd: function (e, t) {
+        "use strict";
+        function n(s) {
+            if (s.target === o && (e(r), r.params.queueEndCallbacks && (r._queueEndCallbacks = !1), !t)) {
+                for (i = 0; i < a.length; i++) {
+                    r.h.removeEventListener(o,
+                            a[i], n)
+                }
             }
-            return e
         }
 
-        var d = ["$filter", "$state", "$rootScope", "SearchForm", "Favorites", "BookingConditions", "Utils", "$stateParams", "initialData", "$http", "api",
-            "$window", "filterEngine"], e = {};
-        b.exports.getInjectables = c
-    }, {}], 3: [function (a, b) {
-        var c, d = a("./di-manager"), e = React.createClass({
-            displayName: "Currency", render: function () {
-                c = d.getInjectables();
-                var a = "Currency is-bold i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return React.createElement("span", {className: a})
+        var i, r = this, o = r.wrapper, a = ["webkitTransitionEnd", "transitionend", "oTransitionEnd", "MSTransitionEnd", "msTransitionEnd"];
+        if (e) {
+            for (i = 0; i < a.length; i++) {
+                r.h.addEventListener(o, a[i], n)
             }
-        }), f = function (a, b) {
-            var c, d = b.$rootScope.u.getHotelParams(a, b.$scope.searchForm);
-            return c = b.$scope.searchForm.search.undefinedDates ?
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/?search=" + d.search + "&filters=" + d.filters :
-            location.origin + "/hotels/search/hotel/" + d.hotelId + "/rooms/" + d.searchId
-        };
-        b.exports.Currency = e, b.exports.getHotelLink = f
-    }, {"./di-manager": 2}], 4: [function (a, b) {
-        var c = {};
-        c.bubbles =
-                '<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="60px" height="20px" viewBox="0 0 60 20" enable-background="new 0 0 60 20" xml:space="preserve"><circle  id="circle1" fill="#ffffff" cx="10" cy="10" r="0"><animate attributeName="r"begin="0"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98 ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="30" cy="10" r="0"><animate attributeName="r"begin="0.2s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> <circle fill="#ffffff" cx="50" cy="10" r="0"><animate attributeName="r"begin=".4s"dur="2s"         values="0; 8; 0; 0"keyTimes="0; 0.25; 0.5; 1"keySplines=" .22 .63 .48 .98  ; .61 .06 .88 .47 ; .51 0 .48 .98 ; .51 0 .48 .98 "repeatCount="indefinite"/></circle> </svg>', c.circle =
-                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="#75b9e6"><path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"/><path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(59.25 16 16)"><animateTransform attributeName="transform" type="rotate" from="0 16 16" to="360 16 16" dur="0.8s" repeatCount="indefinite"/></path></svg>';
-        var d = React.createClass({
-            displayName: "Loader", render: function () {
-                var a = "Loading p10 clearfix ";
-                return this.props.extraClasses && (a += this.props.extraClasses), React.createElement("div", {className: a},
-                        React.createElement("div", {className: "Loading-content"}, React.createElement("div", {className: "Loading-box"},
-                                React.createElement("div", {className: "Loading-svg", dangerouslySetInnerHTML: {__html: c[this.props.loaderType]}}))))
-            }
-        });
-        b.exports = d
-    }, {}], 5: [function (a, b) {
-        var c, d = a("./di-manager"), e = a("./booking-conditions"), f = a("./tooltip").tooltipMixing, g = a("./helpers").Currency, h = React.createClass({
-            displayName: "RoomSize",
-            mixins: [f],
-            render: function () {
-                if (this.props.roomTypeId) {
-                    var a = "i-room-size" + c.$rootScope.d.roomTypes[this.props.roomTypeId].pax, b = [];
-                    if (b.push(React.createElement("i", {className: a})), 0 !== c.$scope.searchForm.formData.rooms[0].children) {
-                        var d = "i-room-size" + c.$scope.searchForm.formData.rooms[0].children + " is-childer";
-                        b.push(React.createElement("i", {className: d}))
-                    }
-                    return React.createElement("div",
-                            {"data-title": c.$rootScope.i18n.common.roomSizes[c.initialData.roomTypes[this.props.roomTypeId].pax - 1]}, b)
-                }
-                return !1
-            }
-        }), i = React.createClass({
-            displayName: "SubRoom", render: function () {
-                var a = this.props.subRoom;
-                return React.createElement("div", {className: "Hotel-roomNameBox"}, React.createElement("div", {className: "Hotel-roomName"}, a.roomName),
-                        React.createElement("div", {className: "Hotel-roomGuests"},
-                                null !== a.rooTypeId ? React.createElement(h, {roomTypeId: a.roomTypeId}) : !1))
-            }
-        }), j = React.createClass({
-            displayName: "PriceBox", mixins: [f], getTooltipContent: function () {
-                var a, b = this.props.item, d = "i-currency-" + c.$rootScope.d.currency.toLowerCase();
-                return b.tax && (a = React.createElement("p", {"class": "mt5"}, " ", c.$rootScope.i18n.dictionary.priceHasTax, " ", b.tax,
-                        React.createElement("span", {className: d}))), React.createElement("div", null, c.$rootScope.i18n.hotels.priceFor, " ",
-                        c.$filter("decline")(1, c.$rootScope.i18n.decline.hight), " ",
-                        c.$rootScope.u.smartDigits(b.price / c.$rootScope.u.daysCount(c.$scope.searchForm.dates)), React.createElement("span", {className: d}),
-                        a)
-            }, render: function () {
-                var a = this.props.item, b = c.$rootScope, d = c.$filter, e = [];
-                return e.push(a.isCheapest ? React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.bestPriceFor, "  ",
-                        d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night)) :
-                        React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.priceFor, "   ",
-                                d("decline")(b.u.daysCount(c.$scope.searchForm.dates), b.i18n.decline.night), " ")), a.rooms.length > 1 &&
-                e.push(React.createElement("div", {className: "Hotel-priceDays"}, " ", b.i18n.hotels.forGroupInHotel)), React.createElement("div",
-                        {className: "Hotel-priceBox", "data-animation": "popup-slide-down Tooltip Tooltip--info notr"},
-                        React.createElement("span", {className: "Hotel-price"}, " ", b.u.smartDigits(a.price), " ", React.createElement(g, null)), e)
-            }
-        }), k = React.createClass({
-            displayName: "Room", goToRoom: function () {
-                c.initialData.stateData.room = this.props.item, c.Utils.event("room_click", this.props.item.hash);
-                var a = c.$rootScope.u.getHotelParams(this.props.hotel, c.$scope.searchForm);
-                c.$state.go("hb.hotels.view.rooms", a)
-            }, render: function () {
-                c = d.getInjectables();
-                var a = this.props.item, b = this.props.hotel;
-                if (!a) {
-                    return null;
-                }
-                for (var f = c.$rootScope, g = (c.$filter, []), k = 0; k < a.rooms.length; k++) {
-                    g.push(React.createElement(i, {subRoom: a.rooms[k]}));
-                }
-                var l = "Hotel-room clearfix no-animate ";
-                switch (a.rooms.length) {
-                    case 2:
-                        l += "is-two-rooms ";
-                        break;
-                    case 3:
-                        l += "is-tree-rooms "
-                }
-                return 1 === b.filteredRooms.length && (l += "is-single "), 0 === this.props.index && (l += "is-cheapest"), React.createElement("div",
-                        {className: l, onClick: this.goToRoom}, React.createElement("div", {className: "Hotel-roomTexts"}, g),
-                        React.createElement("div", {className: "Hotel-roomInfo"},
-                                React.createElement("div", {className: "Hotel-roomBreakfast"}, React.createElement("i", {className: "i-breackfast2 mr5"}),
-                                        f.d.meals[a.mealId]), React.createElement(e, {room: a})),
-                        React.createElement("div", {className: "Hotel-roomGuests"}, React.createElement(h, {roomTypeId: a.rooms[0].roomTypeId})),
-                        React.createElement(j, {item: a}))
-            }
-        });
-        b.exports = k
-    }, {"./booking-conditions": 1, "./di-manager": 2, "./helpers": 3, "./tooltip": 6}], 6: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
-                    }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
-                }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
-            }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [5]),function l(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var h = "function" == typeof require && require;
-                if (!g && h) {
-                    return h(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var i = new Error("Cannot find module '" + f + "'");
-                throw i.code = "MODULE_NOT_FOUND", i
-            }
-            var j = b[f] = {exports: {}};
-            a[f][0].call(j.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, j, j.exports, l, a, b, c)
         }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c = React.createClass({
-            displayName: "Stars", isStarActive: function (a, b) {
-                var c = !1;
-                switch (a) {
-                    case 0:
-                        c = -1 !== [1, 2, 3, 4, 5].indexOf(b);
-                        break;
-                    case 1:
-                        c = -1 !== [1, 2, 3, 4].indexOf(b);
-                        break;
-                    case 2:
-                        c = -1 !== [1, 2, 3].indexOf(b);
-                        break;
-                    case 3:
-                        c = -1 !== [1, 3].indexOf(b);
-                        break;
-                    case 4:
-                        c = -1 !== [1].indexOf(b)
-                }
-                return c
-            }, render: function () {
-                var a = 0, b = [];
-                for (a = 0; 5 > a; a++) {
-                    b.push(this.isStarActive(a, this.props.category) ?
-                            React.createElement("div", {className: "Stars-star i-star", key: a + "star"}) :
-                            React.createElement("div", {className: "Stars-star i-star-holder", key: a + "hold"}));
-                }
-                return React.createElement("div", {className: "Stars"}, b)
+    }, getWrapperTranslate: function (e) {
+        "use strict";
+        var t, n, i, r, o = this.wrapper;
+        return "undefined" == typeof e && (e = "horizontal" === this.params.mode ? "x" : "y"), this.support.transforms && this.params.useCSS3Transforms ?
+                (i = window.getComputedStyle(o, null), window.WebKitCSSMatrix ? r = new WebKitCSSMatrix("none" === i.webkitTransform ? "" : i.webkitTransform) :
+                        (r = i.MozTransform || i.OTransform || i.MsTransform || i.msTransform || i.transform ||
+                                i.getPropertyValue("transform").replace("translate(", "matrix(1, 0, 0, 1,"), t = r.toString().split(",")), "x" === e &&
+                (n = window.WebKitCSSMatrix ? r.m41 : parseFloat(16 === t.length ? t[12] : t[4])), "y" === e &&
+                (n = window.WebKitCSSMatrix ? r.m42 : parseFloat(16 === t.length ? t[13] : t[5]))) :
+                ("x" === e && (n = parseFloat(o.style.left, 10) || 0), "y" === e && (n = parseFloat(o.style.top, 10) || 0)), n || 0
+    }, setWrapperTranslate: function (e, t, n) {
+        "use strict";
+        var i, r = this.wrapper.style, o = {x: 0, y: 0, z: 0};
+        3 === arguments.length ? (o.x = e, o.y = t, o.z = n) :
+                ("undefined" == typeof t && (t = "horizontal" === this.params.mode ? "x" : "y"), o[t] = e), this.support.transforms &&
+        this.params.useCSS3Transforms ? (i = this.support.transforms3d ? "translate3d(" + o.x + "px, " + o.y + "px, " + o.z + "px)" :
+        "translate(" + o.x + "px, " + o.y + "px)", r.webkitTransform = r.MsTransform = r.msTransform = r.MozTransform = r.OTransform = r.transform = i) :
+                (r.left = o.x + "px", r.top = o.y + "px"), this.callPlugins("onSetWrapperTransform", o), this.params.onSetWrapperTransform &&
+        this.fireCallback(this.params.onSetWrapperTransform, this, o)
+    }, setWrapperTransition: function (e) {
+        "use strict";
+        var t = this.wrapper.style;
+        t.webkitTransitionDuration = t.MsTransitionDuration = t.msTransitionDuration =
+                t.MozTransitionDuration = t.OTransitionDuration = t.transitionDuration = e / 1e3 + "s", this.callPlugins("onSetWrapperTransition",
+                {duration: e}), this.params.onSetWrapperTransition && this.fireCallback(this.params.onSetWrapperTransition, this, e)
+    }, h: {
+        getWidth: function (e, t, n) {
+            "use strict";
+            var i = window.getComputedStyle(e, null).getPropertyValue("width"), r = parseFloat(i);
+            return (isNaN(r) || i.indexOf("%") > 0 || 0 > r) && (r =
+                    e.offsetWidth - parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-left")) -
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-right"))), t && (r +=
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-left")) +
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-right"))), n ? Math.ceil(r) : r
+        }, getHeight: function (e, t, n) {
+            "use strict";
+            if (t) {
+                return e.offsetHeight;
             }
-        });
-        b.exports = c
-    }, {}]
-}, {}, [1]),angular.module("hotelbookApp").run(["$templateCache", function (a) {
-    a.put("/views/cabinet-layout.c310cbbd2bdcf1476713.html",
-            '<div class="CabinetPage h100" auto-height header=".Header">\n  <div class="CabinetPage-container">\n    <div class="CabinetPage-menu">\n      <div class="CabinetPage-avatarBox">\n        <div class="CabinetPage-avatar">\n          <i class="i-cabinet-profile"></i>\n        </div>\n        <div class="CabinetPage-userName mt15" ng-show="d.user.name || d.user.surname">{{d.user.name + \' \' + d.user.surname}}</div>\n        <div class="CabinetPage-setUserName mt15" ng-hide="d.user.name || d.user.surname || true" ui-sref="hb.cabinet.settings">\n          <span>{{ $root.i18n.cabinet.setupName }}</span>\n        </div>\n      </div>\n      <a href="javascript: void 0;" ui-sref="hb.landing" class="CabinetPage-menuSearchBox">\n        <i class="i-search"></i>{{ $root.i18n.cabinet.newSearch }}\n      </a>\n      <ul class="CabinetPage-menuBox">\n        <li ui-sref="hb.cabinet.booking" ui-sref-active="is-active">\n          <div class="i-cabinet-bron"></div>\n          <div class="CabinetPage-menuBoxText">{{ $root.i18n.cabinet.myBookings }}</div>\n        </li>\n        <li ui-sref="hb.cabinet.feed" ui-sref-active="is-active">\n          <div class="i-cabinet-activity"></div>\n          <div class="CabinetPage-menuBoxText">{{ $root.i18n.cabinet.myActivity }}</div>\n        </li>\n        <!-- <li ui-sref="hb.cabinet.settings" ui-sref-active="is-active">\n          <div class="i-cabinet-profile"></div>\n          <div class="CabinetPage-menuBoxText">{{ $root.i18n.cabinet.myProfile }}</div>\n        </li> -->\n      </ul>\n      <div class="CabinetPage-menuFooter">\n        <div><span class="i-telefon"></span>{{ $root.i18n.cabinet.customerSupport }}</div>\n        <div class="CabinetPage-phoneNumber">8 (800) 100-4155</div>\n        <div class="Footer-socialBox">\n          <div class="Footer-social">\n            <div class="i-vk"></div>\n          </div>\n          <div class="Footer-social">\n            <div class="i-od"></div>\n          </div>\n          <div class="Footer-social">\n            <div class="i-fb"></div>\n          </div>\n          <div class="Footer-social">\n            <div class="i-tw"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div ui-view class="CabinetPage-content"></div>\n\n  </div>\n</div>\n'), a.put("/views/cabinet/booking.fa572d1fc134ba04b456.html",
-            '<div loading="!orders"></div>\n<div ng-show="orders" class="CabinetBooking" auto-height footer=".Header" perfect-scrollbar include-padding="true">\n  <div class="CabinetBooking-content" id="CabinetBooking-content">\n    <div class="CabinetBooking-title mb30">{{ $root.i18n.cabinet.myBooking }}</div>\n\n    <div class="CabinetPage-noHotel" ng-show="orders && !orders.length">\n      <div class="i-air"></div>\n      <div class="CabinetPage-noHotelText">{{ $root.i18n.cabinet.rightNowYouDontMakeAnyBooking }}</div>\n      <div class="Btn Btn--orange mt35" ui-sref="hb.landing">{{ $root.i18n.cabinet.bookHotel }}</div>\n    </div>\n\n    <div class="Hotel"\n      dir-paginate="order in orders | itemsPerPage:paginationParams.itemsPerPage"\n      current-page="paginationParams.page"\n      ng-class="{\'is-allRooms\': showMore}">\n      <!-- <div class="Hotel-warmBox clearfix" ng-init="showWarm=true" ng-show="order.statusId==2 && showWarm">\n        <div class="Hotel-warmBoxIcon fl"><i class="i-warm"></i></div>\n        <div class="fl pl10">{{ $root.i18n.cabinet.bookingWarning }}</div>\n        <div class="fr Hotel-warmBoxClose"><i class="i-close" ng-click="showWarm=!showWarm"></i></div>\n      </div> -->\n      <div class="Hotel-warmBox clearfix" ng-show="order.statusId==3 && order.showMoneyBackWarn">\n        <div class="Hotel-warmBoxIcon fl"><i class="i-warm"></i></div>\n        <div class="fl pl10">Внимание: Заказ отеменен. Возврат денег может занять до 30 дней </div>\n        <div class="fr Hotel-warmBoxClose"><i class="i-close" ng-click="order.showMoneyBackWarn=!order.showMoneyBackWarn"></i></div>\n      </div>\n      <div class="clearfix">\n        <div class="Hotel-photoBox">\n          <div class="Hotel-photo"\n               ng-style="{\'background-image\': \'url(\' + u.hImage215(order.hotel.images[0], order.hotel.id) + \')\'}"></div>\n        </div>\n        <div class="Hotel-mainBox">\n          <div class="Hotel-booking clearfix">\n            <div class="fl s13">\n              {{ $root.i18n.cabinet.bookingNumber | template:{code: order.code, date: (order.createdAt | dateTime)} }}\n            </div>\n            <div class="fr Hotel-bookingStatus" ng-class="{\'is-success\': order.statusId==3, \'is-error\': order.statusId==4}">\n              <div class="Hotel-bookingStatusText">{{ $root.i18n.cabinet.status }} {{$root.i18n.common.paymentStatus[order.statusId].toUpperCase() }}</div>\n              <div class="Hotel-bookingStatusIcon">\n                <i ng-show="order.statusId==2" class="i-order2"></i>\n                <i ng-show="order.statusId==3" class="i-order3"></i>\n                <i ng-show="order.statusId==4" class="i-order4"></i>\n              </div>\n            </div>\n            <div class="fr Hotel-bookingPrint" ng-show="order.statusId==3" ng-click="print(order.code)">\n              <span>{{ $root.i18n.cabinet.print }}</span>\n              <div class="Hotel-bookingPrintIcon">\n                <i class="i-print"></i>\n              </div>\n            </div>\n          </div>\n          <div class="Hotel-infoBox clearfix" ng-class="{\'is-more\':more}">\n            <div class="Hotel-name" ng-click="goToHotel(order.hotel)">{{ ::order.hotel.name }}</div>\n            <div stars ng-model="order.hotel.categoryId"></div>\n            <div class="Hotel-addressBox clearfix">\n              <div class="Hotel-distance" ng-show="order.hotel.center">\n                <i class="i-pointer"></i>\n                <span>{{ order.hotel.center | distance }} {{ $root.i18n.cabinet.kmFromCenter }}</span>\n              </div>\n              <div class="Hotel-address">{{::order.hotel.address}}</div>\n            </div>\n            <div class="Hotel-tripBox" ng-show="order.hotel.ta">\n              <div hotel-rating="order.hotel.ta.rating"></div>\n              <div class="Hotel-tripBoxCount">{{order.hotel.ta.percentRecommended | decline:$root.i18n.decline.feedback}}\n              </div>\n            </div>\n          </div>\n          <div class="Hotel-roomBox">\n            <div class="Hotel-room clearfix" ng-repeat="item in order.items">\n              <div class="Hotel-roomTexts">\n                <div class="Hotel-roomNameBox">\n                  <div class="Hotel-roomName" ng-repeat="room in item.rooms">\n                    {{room.roomName}}\n                  </div>\n                  <div class="Hotel-data">\n                    <div class="i-calendar"></div>\n                    <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkin }}</div>\n                    <div>\n                      <span>{{::order.arrivalDate | dateTime }}</span>\n                      <span ng-show="u.getHour(order.hotel.checkInTime)!=00 && u.getHour(order.hotel.checkOutTime)!=00">в {{u.getHour(order.hotel.checkInTime)}}<sup>{{u.getMinutes(order.hotel.checkInTime)}}</sup></span>\n                    </div>\n                  </div>\n                  <div class="Hotel-data">\n                    <div class="i-calendar"></div>\n                    <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkOut }}</div>\n                    <div>\n                      <span>{{::order.departureDate | dateTime }}</span>\n                      <span ng-show="u.getHour(order.hotel.checkOutTime)!=00 && u.getHour(order.hotel.checkInTime)!=00">в {{u.getHour(order.hotel.checkOutTime)}}<sup>{{u.getMinutes(order.hotel.checkOutTime)}}</sup></span>\n                    </div>\n                  </div>\n                  <div class="Hotel-roomGuests">\n                    <div room-size ng-model="subRoom.roomTypeId" data-class="Tooltip--infoDark"></div>\n                  </div>\n                </div>\n              </div>\n              <div class="Hotel-roomInfo">\n                <div class="Hotel-roomBreakfast">{{::d.meals[item.mealId]}}</div>\n                <div class="Hotel-cancellationInfo" booking-conditions-tooltip="item.chargeConditions">\n                  {{ $root.i18n.cabinet.cancelationRules }}\n                  <i class="i-extra-info"></i>\n                </div>\n              </div>\n              <div class="Hotel-roomGuests">\n                <div room-size ng-model="item.rooms[0].roomTypeId"></div>\n              </div>\n              <div class="Hotel-priceBox">\n                <span class="Hotel-price">{{ parseFloat(item.price) | smartDigits}} <span currency ng-model="order.currency" data-bold="true"></span></span>\n\n                <div class="Hotel-priceDays">{{ $root.i18n.cabinet.priceFor }} {{ daysCount(order.arrivalDate, order.departureDate) | decline:$root.i18n.decline.day}}</div>\n              </div>\n            </div>\n          </div>\n          <div class="Hotel-orderMore clearfix" ng-if="showMore">\n            <div class="HotelOrder-infoTitle">{{ $root.i18n.cabinet.infoAboutBuyer }}</div>\n            <div class="HotelOrder-infoContext mt5 clearfix">\n              <div class="i-email"></div>\n              <div><b>{{::order.email}}</b></div>\n            </div>\n            <div class="HotelOrder-infoContext mt5 clearfix">\n              <div class="i-phone"></div>\n              <div><b>{{::order.phone}}</b></div>\n            </div>\n            <div ng-repeat="item in order.items">\n              <div ng-repeat="room in item.rooms">\n                <div class="HotelOrder-infoTitle mt20">{{ $root.i18n.cabinet.infoAboutGuests }} {{room.roomName}}:</div>\n                <div class="clearfix mt10">\n                  <div class="HotelOrder-infoContext clearfix" ng-repeat="person in room.paxes">\n                    <div class="HotelBox-infoContextType mr20">{{person.isChild ? \'Ребенок\' : \'Взрослый\'}}:</div>\n                    <div class="i-person-info"></div>\n                    <div class="HotelOrder-infoContextSex"><b>{{person.title==\'mr\' ? \'Г-н\' : \'Г-жа\'}}</b></div>\n                    <div><b>{{person.name}} {{person.surname}}</b></div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class="clearfix" ng-show="item.comment">\n              <div ng-init="desire=false" class="Href mt20" ng-click="desire=!desire" ng-class="{\'is-open\': desire}">\n                Пожелания\n              </div>\n            </div>\n            <div class="clearfix" ng-show="desire">\n              <!--<div class="HotelOrder-infoContext clearfix mt10">\n                <div class="mr20">Примерное время заезда:</div>\n                <div class="i-clock"></div>\n                <div><b>12<sup>00</sup></b></div>\n              </div>-->\n              <div class="HotelOrder-infoContext mt10">{{ $root.i18n.cabinet.comment }}</div>\n              <div class="HotelOrder-infoContext mt5"><b>{{item.comment}}</b></div>\n            </div>\n          </div>\n          <div class="Hotel-bottomBox">\n            <div class="Hotel-facilities">\n              <div class="i-wifi" ng-show="isFacilities(order.hotel, 2)" bs-tooltip\n                   data-title="{{i18n.common.facilities[2]}}" data-animation="popup-slide-down Tooltip Tooltip--info">\n                <span>FREE WI-FI</span>\n              </div>\n              <!--internet-->\n              <div class="i-condition" ng-show="isFacilities(order.hotel, 1)" bs-tooltip\n                   data-title="{{i18n.common.facilities[1]}}"\n                   data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n              <!--air conditioning-->\n              <div class="i-parking" ng-show="isFacilities(order.hotel, 5)" bs-tooltip\n                   data-title="{{i18n.common.facilities[5]}}"\n                   data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n              <!--parking-->\n              <div class="i-pool" ng-show="isFacilities(order.hotel, 6)" bs-tooltip\n                   data-title="{{i18n.common.facilities[6]}}"\n                   data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n              <!--pool-->\n              <div class="i-tv" ng-show="isFacilities(order.hotel, 10)" bs-tooltip\n                   data-title="{{i18n.common.facilities[10]}}"\n                   data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n              <!--tv-->\n              <!--<div class="Hotel-facility" ng-repeat="facility in hotel.mainFacilities" ng-class="u.getFacilityClass(facility)" bs-tooltip data-title="{{i18n.common.facilities[facility]}}" data-animation="popup-slide-down Tooltip Tooltip--info">-->\n              <!--<span ng-show="getFacilityText(facility)" ng-bind="getFacilityText(facility)"></span>-->\n              <!--</div>-->\n            </div>\n            <div class="Hotel-showMoreRooms">\n              <span class="Href no-animate" ng-show="!showMore"\n                    ng-click="showMore=!showMore">{{ $root.i18n.cabinet.showDescription }}</span>\n              <span class="Href no-animate" ng-class="{\'is-open\': showMore}" ng-show="showMore"\n                    ng-click="showMore=!showMore">{{ $root.i18n.cabinet.hideDescription }}</span>\n            </div>\n            <div class="Hotel-bookBtn">\n              <div loading="order.canceling"></div>\n              <div ng-show="!order.canceling && !order.error && !order.cancelFail">\n                <div class="Btn Btn--blue no-animate Btn--mini mr5" ng-show="order.statusId==2 && !order.canceled" ng-click="removeOrder(order)">{{ $root.i18n.cabinet.cancel }}</div>\n                <div class="Btn Btn--blue no-animate" ng-show="order.statusId==3 && !order.canceled" ng-click="removeOrder(order)">{{ $root.i18n.cabinet.cancelOrder }}</div>\n                <div class="Btn Btn--orange no-animate" ng-show="order.statusId!=3 && order.statusId!=2" ng-click="goToHotel(order.hotel)">{{ $root.i18n.cabinet.bookAgain }}</div>\n                <div class="Btn Btn--orange no-animate Btn--mini" ng-show="order.statusId==2 && !order.canceled" ng-click="makeOrder(order)">{{ $root.i18n.cabinet.pay }}</div>\n              </div>\n              <div ng-show="order.cancelFail" class="Hotel-canceled no-animate">\n                {{ $root.i18n.cabinet.cancelFail }}\n              </div>\n              <div ng-show="order.canceled" class="Hotel-canceled no-animate"\n                   bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-title="{{ $root.i18n.cabinet.weWillSendEmailWithCancelationDetails }} {{order.email}}.">\n                {{ $root.i18n.cabinet.orderCanceled }}\n              </div>\n              <div ng-show="order.error" class="Hotel-canceled no-animate"\n                   bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-title="{{ $root.i18n.cabinet.callToSupport }}">\n                {{ $root.i18n.cabinet.cantCancelOrder }}\n              </div>\n            </div>\n          </div>\n          <div class="Hotel-ratingsBlock">\n\n            <div class="Hotel-ratingsText" ng-show="order.hotel.ta">{{ $root.i18n.cabinet.tripAdvisorEstimation }}</div>\n            <div progressbar ng-init="val = 100*rating.val/5" ng-model="val" data-label="{{rating.name}}"\n                 ng-repeat="rating in order.hotel.ta.subrating"></div>\n          </div>\n        </div>\n      </div>\n\n    </div>\n\n    <div class="mt25 mb20" ng-show="orders.length">\n      <dir-pagination-controls class="HotelsList-paginator" template-url="/views/directives/pagination-controls.7f7a88db8de672c51000.html"></dir-pagination-controls>\n    </div>\n\n  </div>\n\n</div>\n'), a.put("/views/cabinet/feed.7b0fba575f4893406eb5.html",
-            '<div class="CabinetFeed">\n  <ul class="CabinetFeed-filters clearfix"  ng-init="state=\'booking\'">\n    <li class="CabinetFeed-filtersTitle">\n      {{ $root.i18n.cabinet.activityMap }}\n      <div class="CabinetFeed-filtersTitleUgol"></div>\n    </li>\n    <li ng-click="changeState(\'booking\')" ng-class="{\'is-active\' : state==\'booking\'}">\n      <div class="CountBox">\n        <div class="CountBox-label">\n          <i class="i-cabinet-bron"></i>\n        </div>\n        <div class="CountBox-number">{{orders.length}}</div>\n      </div>\n      {{ $root.i18n.cabinet.booking }}\n    </li>\n    <li ng-click="changeState(\'favorites\')" ng-class="{\'is-active\' : state==\'favorites\'}">\n      <div class="CountBox">\n        <div class="CountBox-label">\n          <i class="i-cabinet-favorites"></i>\n        </div>\n        <div class="CountBox-number">{{favorites.length}}</div>\n      </div>\n      {{ $root.i18n.cabinet.favorites }}\n    </li>\n    <!--<li ng-click="changeState(\'history\')" ng-class="{\'is-active\' : state==\'history\'}">\n      <div class="CountBox">\n        <div class="CountBox-label">\n          <i class="i-cabinet-recently"></i>\n        </div>\n        <div class="CountBox-number">{{feed[2].length}}</div>\n      </div>\n      История поиска\n    </li>-->\n  </ul>\n  <div class="CabinetFeed-content">\n    <div class="CabinetFeed-map" map ng-model="city"></div>\n    <div class="CabinetFeed-rightBox" >\n      <div auto-height class="CabinetFeed-hotelList" perfect-scrollbar header=".Header" footer=".CabinetFeed-filters">\n\n        <div ng-if="state==\'booking\'" >\n          <div class="CabinetPage-noHotel mt50" ng-if="orders && !orders.length">\n            <div class="i-air"></div>\n            <div class="CabinetPage-noHotelText">{{ $root.i18n.cabinet.noBookingHint }}</div>\n            <div class="Btn Btn--orange mt35" ui-sref="hb.landing">{{ $root.i18n.cabinet.searchHotels }}</div>\n          </div>\n          <div\n          class="Hotel clearfix toggle"\n          dir-paginate="order in orders | itemsPerPage:paginationParams.itemsPerPage"\n          current-page="paginationParams.page"\n          ng-class="{\'is-allPhoto\': order.hotel.allPhoto}"\n          ng-mouseenter="order.hotel.marker.show()"\n          ng-mouseleave="order.hotel.marker.hide()">\n            <div class="Hotel-photoBox">\n              <div class="Hotel-like" ng-class="{\'is-liked\': hotel.liked}" hotel-like="order.hotel" data-city-id="order.hotel.cityId"></div>\n              <div class="Hotel-photo" ng-style="{\'background-image\': \'url(\' + u.hImage215(order.hotel.images[0], order.hotel.id) + \')\'}"></div>\n              <div class="Hotel-galleryIcon" ng-click="order.hotel.allPhoto = !order.hotel.allPhoto">\n                <div class="i-gallery"></div>\n                <span>{{ $root.i18n.cabinet.seeAllPhoto }}</span>\n              </div>\n            </div>\n            <div class="Hotel-rightBox">\n              <div class="Hotel-infoBox">\n                <div class="Hotel-name" ng-click="goToHotel(order.hotel)">{{ order.hotel.name }}</div>\n                <div class="Hotel-category">\n                  <div stars ng-model="order.hotel.categoryId"></div>\n                </div>\n                <div class="Hotel-tripBox pt5">\n                  <div hotel-rating="order.hotel.ta.rating"></div>\n                </div>\n                <div class="Hotel-address">{{ order.hotel.address}}</div>\n              </div>\n              <div class="Hotel-data is-first pt15 s13">\n                <div class="i-calendar"></div>\n                <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkin }}</div>\n                <div><span>{{::order.arrivalDate | dateTime:true:\'D MMM YYYY\' }}<span ng-show="u.getHour(order.hotel.checkOutTime)!=00 && u.getHour(order.hotel.checkInTime)!=00"> {{ $root.i18n.cabinet.in }} {{u.getHour(order.hotel.checkInTime)}}<sup>{{u.getMinutes(order.hotel.checkInTime)}}</sup></span></span></div>\n              </div>\n              <div class="Hotel-data pb15 s13">\n                <div class="i-calendar"></div>\n                <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkOut }}</div>\n                <div><span>{{::order.departureDate | dateTime:true:\'D MMM YYYY\' }}<span ng-show="u.getHour(order.hotel.checkOutTime)!=00 && u.getHour(order.hotel.checkInTime)!=00"> {{ $root.i18n.cabinet.in }} {{u.getHour(order.hotel.checkOutTime)}}<sup>{{u.getMinutes(order.hotel.checkOutTime)}}</sup></span></span></div>\n              </div>\n              <div class="Hotel-bookBtn">\n                <div loading="order.canceling"></div>\n                <div ng-show="!order.canceling && !order.error">\n                  <div class="Btn Btn--blue Btn--bro Btn--mini" ng-show="order.statusId==2 && !order.canceled" ng-click="removeOrder(order)">{{ $root.i18n.cabinet.cancel }}</div>\n                  <div class="Btn Btn--blue Btn--bro" ng-show="order.statusId==3 && !order.canceled" ng-click="removeOrder(order)">{{ $root.i18n.cabinet.cancelOrder }}</div>\n                  <div class="Btn Btn--orange Btn--bro" ng-show="order.statusId!=3 && order.statusId!=2" ng-click="goToHotel(order.hotel)">{{ $root.i18n.cabinet.bookAgain }}</div>\n                  <div class="Btn Btn--orange Btn--bro Btn--mini" ng-show="order.statusId==2 && !order.canceled" ng-click="makeOrder(order)">{{ $root.i18n.cabinet.pay }}</div>\n                </div>\n                <div ng-show="order.canceled" class="Hotel-canceled no-animate"\n                   bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-title="{{ $root.i18n.cabinet.weWillSendEmailWithCancelationDetails }} {{order.email}}.">\n                {{ $root.i18n.cabinet.orderCanceled }}\n                </div>\n                <div ng-show="order.error" class="Hotel-canceled no-animate"\n                     bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-title="{{ $root.i18n.cabinet.callToSupport }}">\n                  {{ $root.i18n.cabinet.cantCancelOrder }}\n                </div>\n              </div>\n            </div>\n            <div class="Hotel-photoGallery clearfix" ng-if="order.hotel.allPhoto" hover-gallery data-target-id="order.hotel.id" position="horizontal">\n              <div class="Hotel-smallPhoto" ng-style="{\'background-image\': \'url(\' + u.hImage45(image, order.hotel.id) + \')\'}" ng-repeat="image in order.hotel.images" hover-gallery-image="image" ></div>\n            </div>\n          </div>\n          <div class="Paginator mt10 mr5">\n            <dir-pagination-controls template-url="/views/directives/pagination-controls.7f7a88db8de672c51000.html"></dir-pagination-controls>\n          </div>\n        </div>\n\n        <div class="CabinetPage-favorite" ng-if="state==\'favorites\'" >\n          <div class="CabinetPage-noFavorite mt50" ng-show="favorites && !favorites.length">\n            <div class="CabinetPage-noFavoriteImage"></div>\n            <div class="CabinetPage-noFavoriteText">{{ $root.i18n.cabinet.likeHint }}</div>\n          </div>\n          <div class="Hotel clearfix toggle"\n           dir-paginate="hotel in favorites | itemsPerPage: 10"\n          ng-class="{\'is-allPhoto\': hotel.allPhoto}" ng-mouseenter="hotel.marker.show()" ng-mouseleave="hotel.marker.hide()">\n            <div class="Hotel-photoBox" >\n              <div class="Hotel-like" ng-class="{\'is-liked\': hotel.liked}" hotel-like="hotel" data-city-id="hotel.cityId"></div>\n              <div class="Hotel-photo" ng-style="{\'background-image\': \'url(\' + u.hImage215(hotel.images[0], hotel.id) + \')\'}"></div>\n              <div class="Hotel-galleryIcon" ng-click="hotel.allPhoto = !hotel.allPhoto">\n                <div class="i-gallery"></div>\n                <span>{{ $root.i18n.cabinet.seeAllPhoto }}</span>\n              </div>\n            </div>\n            <div class="Hotel-rightBox">\n              <div class="Hotel-infoBox">\n                <div class="Hotel-name" ng-click="goToHotel(hotel)">{{ hotel.name }}</div>\n                <div class="Hotel-category">\n                  <div stars ng-model="hotel.categoryId"></div>\n                </div>\n                <div class="Hotel-tripBox pt5">\n                  <div hotel-rating="hotel.ta.rating"></div>\n                </div>\n                <div class="Hotel-address">{{ hotel.address}}</div>\n                <div class="Hotel-distance" ng-show="hotel.center">\n                  <i class="i-pointer"></i>\n                  <span>{{ hotel.center | distance }} {{ $root.i18n.cabinet.kmFromCenter }}</span>\n                </div>\n              </div>\n              <div class="Hotel-facilities">\n                <div class="i-wifi" ng-show="isFacilities(hotel, 2)" bs-tooltip data-title="{{i18n.common.facilities[2]}}" data-animation="popup-slide-down Tooltip Tooltip--info">\n                  <span>FREE WI-FI</span>\n                </div>\n                <!--internet-->\n                <div class="i-condition" ng-show="isFacilities(hotel, 1)"  bs-tooltip data-title="{{i18n.common.facilities[1]}}" data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n                <!--air conditioning-->\n                <div class="i-parking" ng-show="isFacilities(hotel, 5)"  bs-tooltip data-title="{{i18n.common.facilities[5]}}" data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n                <!--parking-->\n                <div class="i-pool" ng-show="isFacilities(hotel, 6)" bs-tooltip data-title="{{i18n.common.facilities[6]}}" data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n                <!--pool-->\n                <div class="i-tv" ng-show="isFacilities(hotel, 10)" bs-tooltip data-title="{{i18n.common.facilities[10]}}" data-animation="popup-slide-down Tooltip Tooltip--info"></div>\n                <!--tv-->\n                <!--<div class="Hotel-facility" ng-repeat="facility in hotel.mainFacilities" ng-class="u.getFacilityClass(facility)" bs-tooltip data-title="{{i18n.common.facilities[facility]}}" data-animation="popup-slide-down Tooltip Tooltip--info">-->\n                <!--<span ng-show="getFacilityText(facility)" ng-bind="getFacilityText(facility)"></span>-->\n                <!--</div>-->\n              </div>\n              <div class="Btn Btn--orange Btn--bro" ng-click="goToHotel(hotel)">{{ $root.i18n.cabinet.watch }}</div>\n            </div>\n            <div class="Hotel-photoGallery clearfix" ng-if="hotel.allPhoto">\n              <div class="Hotel-smallPhoto" ng-style="{\'background-image\': \'url(\' + u.hImage45(image, hotel.id) + \')\'}" ng-repeat="image in hotel.images"></div>\n            </div>\n          </div>\n          <div ng-click="scrollToTop()" class="Paginator mt10 mr5">\n            <dir-pagination-controls template-url="/views/directives/pagination-controls.7f7a88db8de672c51000.html"></dir-pagination-controls>\n          </div>\n        </div>\n\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/cabinet/settings.e1141aebcdede2dfb57b.html",
-            '<div class="CabinetSetting" auto-height perfect-scrollbar include-padding="true">\n  <div class="CabinetSetting-profile clearfix">\n    <div class="CabinetSetting-title">{{ $root.i18n.cabinet.profile }}</div>\n    <div class="Block Block--first">\n      <div class="clearfix CabinetSetting-profileName">\n        <div class="CabinetSetting-profileLabel">{{ $root.i18n.cabinet.name }}</div>\n        <div class="CabinetSetting-editText" editable-text="user.name">\n          <div class="CabinetSetting-editTextLabel" >{{user.name || $root.i18n.cabinet.nameNotSpecify}}</div>\n          <div class="CabinetSetting-editTextButton"><i class="i-pen"></i></div>\n        </div>\n      </div>\n      <div class="clearfix CabinetSetting-profileName">\n        <div class="CabinetSetting-profileLabel">{{ $root.i18n.cabinet.surname }}</div>\n        <div class="CabinetSetting-editText" editable-text="user.surname">\n          <div class="CabinetSetting-editTextLabel" >{{user.surname || $root.i18n.cabinet.surnameNotSpecify}}</div>\n          <div class="CabinetSetting-editTextButton"><i class="i-pen"></i></div>\n        </div>\n      </div>\n      <div class="clearfix CabinetSetting-profileName">\n        <div class="CabinetSetting-profileLabel">e-mail:</div>\n        <div class="CabinetSetting-editText" editable-text="user.email">\n          <div class="CabinetSetting-editTextLabel" >{{user.email}}</div>\n          <div class="CabinetSetting-editTextButton"><i class="i-pen"></i></div>\n        </div>\n      </div>\n      <div class="clearfix CabinetSetting-profileName">\n        <div class="CabinetSetting-profileLabel">{{ $root.i18n.cabinet.sex }}</div>\n        <div class="ml10 fl">\n          <button class="InlineDropdown btn btn-link" ng-class="{\'not-select\':!sex}" ng-model="sex" data-html="1" data-placeholder="{{ $root.i18n.cabinet.specify }}" ng-options="option.value as option.label for option in d.sex" bs-select></button>\n        </div>\n      </div>\n      <div class="clearfix CabinetSetting-profileName">\n        <div class="CabinetSetting-profileLabel">{{ $root.i18n.cabinet.phone }}</div>\n        <div class="CabinetSetting-editText" editable-text="user.tel">\n          <div class="CabinetSetting-editTextLabel" >{{user.tel || $root.i18n.cabinet.phoneNotSpecify}}</div>\n          <div class="CabinetSetting-editTextButton"><i class="i-pen"></i></div>\n        </div>\n      </div>\n      <!--<div class="clearfix pt10">\n        <div class="SocialBox">\n          <div class="SocialBoxIcon SocialBoxIcon--Ok"><i class="i-od"></i></div>\n          <div class="SocialBoxIcon-text">Указать</div>\n        </div>\n        <div class="SocialBox">\n          <div class="SocialBoxIcon SocialBoxIcon--Vk"><i class="i-vk"></i></div>\n          <div class="SocialBoxIcon-text">Указать</div>\n        </div>\n        <div class="SocialBox">\n          <div class="SocialBoxIcon SocialBoxIcon--Fb"><i class="i-fb"></i></div>\n          <div class="SocialBoxIcon-text">Указать</div>\n        </div>\n        <div class="SocialBox">\n          <div class="SocialBoxIcon SocialBoxIcon--Gl"><i class="i-gplus"></i></div>\n          <div class="SocialBoxIcon-text">Указать</div>\n        </div>\n        <span class="s12">Привяжите свои социальные аккаунты и получите + 10 бонусов за каждый!</span>\n      </div>-->\n      <div class="clearfix CabinetSetting-city">\n        <div class="CabinetSetting-cityTitle">{{ $root.i18n.cabinet.myCities }}</div>\n        <div class="CabinetSetting-cityBlock">\n          <div class="CabinetSetting-cityLabel" ng-repeat="city in user.citys">{{city}}</div>\n        </div>\n      </div>\n      <div class="clearfix CabinetSetting-city">\n        <div class="CabinetSetting-cityTitle">{{ $root.i18n.cabinet.myHotels }}</div>\n        <div class="CabinetSetting-cityBlock">\n          <div class="CabinetSetting-cityLabel" ng-repeat="hotel in user.hotels">{{hotel}}</div>\n        </div>\n      </div>\n    </div>\n    <div class="Block">\n      <div class="clearfix">\n        <div class="CabinetSetting-profileLabelBig">{{ $root.i18n.cabinet.language }}</div>\n        <div radio class="mt10 mr40" ng-model="user.lang" data-label="{{ $root.i18n.cabinet.russian }}" data-value="ru" data-name="lang"></div>\n        <div radio class="mt10" ng-model="user.lang" data-label="{{ $root.i18n.cabinet.english }}" data-value="en" data-name="lang"></div>\n      </div>\n    </div>\n  </div>\n  <!--<div class="CabinetSetting-cards Block Block--first">\n    <div class="CabinetSetting-title">Мои карточки</div>\n    <div class="clearfix mt15" ng-repeat="card in user.cards" ng-class="{pt30 : $first}">\n      <div class="fl" radio ng-model="user.currentCard" data-label="" data-value="{{$index}}"></div>\n      <div class="CabinetSetting-cardPic" ng-class="{isChecked : user.currentCard==$index}"></div>\n      <div class="CabinetSetting-cardLabel" ng-class="{isChecked : user.currentCard==$index}">{{card}}</div>\n      <div class="CabinetSetting-deleteCard" ng-click="deleteCard($index)">Удалить карту</div>\n    </div>\n    <div class="CabinetSetting-addCard mt20" ng-click="showCard = true">Добавить карту</div>\n    <form role="form" name="form" ng-show="showCard" form-validator="newCard" action="" method="" after-success="">\n      <div class="CabinetSetting-creditCard mt30">\n        <h4>Добавление новой карты</h4>\n        <div class="form-group CabinetSetting-creditCardNumber">\n          <label for="number">Номер карты: {{form.number.cardType}}</label>\n          <input id="number" data-credit-card-type ng-model="newCard.number" type="text" name="number" class="Input Input--Blue form-control" ui-mask="9999 9999 9999 9999" required="require"/>\n        </div>\n        <div class="form-group CabinetSetting-creditCardData">\n          <label for="data">Действительна до:</label>\n          <input id="data" ng-model="newCard.data" type="text" name="data" class="Input Input--Blue form-control" ui-mask="99/99" required="require"/>\n        </div>\n        <div class="form-group CabinetSetting-creditCardName">\n          <label for="data">Владелиц карты:</label>\n          <input id="name" ng-model="newCard.name" type="text" name="name" class="Input Input--Blue form-control" required="require"/>\n          <div class="CabinetSetting-cardPic"></div>\n        </div>\n      </div>\n      <div class="mt20 fl">\n        <div checkbox ng-model="add" data-label="Использовать для бронирования эту карту"></div>\n        <div class="Btn Btn--brick Btn--small Btn--submit CabinetSetting-addCardButton" type="button">Добавить</div>\n        <div class="CabinetSetting-addCardCancel" ng-click="$form.$cancel(); showCard = false">Отмена</div>\n      </div>\n\n    </form>\n\n  </div>\n  <div class="CabinetSetting-distribution Block">\n    <div class="CabinetSetting-title">Мои рассылки</div>\n    <div class="s12 pt35">Не упустите скидки от 50% и выше. Подпишитесь на рассылку новостей и получите доступ к Эксклюзивным предложениям.</div>\n    <div class="pt30">\n      <div class="CabinetSetting-checkBox Checkbox--blue" checkbox ng-model="newsletter1" data-label="Вдохновение по вторникам"></div>\n      <div class=\'CabinetSetting-distributionSeparator\' ng-class="{isChecked : newsletter1}"><i class="i-separator"></i></div>\n      <div class=\'CabinetSetting-distributionLabel\' ng-class="{isChecked : newsletter1}">Последние обновления цен в ваших любимых городах, лучшие предложения по направлениям вашей мечты и индивидуальные рекомендации. Время совершать подвиг!</div>\n    </div>\n    <div class="pt30">\n      <div class="CabinetSetting-checkBox Checkbox--blue" checkbox ng-model="newsletter2" data-label="Ваш помощник"></div>\n      <div class=\'CabinetSetting-distributionSeparator Checkbox--blue\' ng-class="{isChecked : newsletter2}"><i class="i-separator"></i></div>\n      <div class=\'CabinetSetting-distributionLabel\' ng-class="{isChecked : newsletter2}">Поездки удобно планировать с помощью индивидуально подобранных предложений и советов от наших экспертов. Сделаем бронирования проще!</div>\n    </div>\n    <div class="pt30">\n      <div class="CabinetSetting-checkBox Checkbox--blue" checkbox ng-model="newsletter3" data-label="Только предложения"></div>\n      <div class=\'CabinetSetting-distributionSeparator\' ng-class="{isChecked : newsletter3}"><i class="i-separator"></i></div>\n      <div class=\'CabinetSetting-distributionLabel\' ng-class="{isChecked : newsletter3}">Каждую пятницу мы сообщаем вам о самых больших скидках.</div>\n    </div>\n    <div class="pt30">\n      <div class="CabinetSetting-checkBox Checkbox--blue" checkbox ng-model="newsletter4" data-label="Новости Genius"></div>\n      <div class=\'CabinetSetting-distributionSeparator\' ng-class="{isChecked : newsletter4}"><i class="i-separator"></i></div>\n      <div class=\'CabinetSetting-distributionLabel\' ng-class="{isChecked : newsletter4}">Новости и актуальные изменения по вашему статусу Genius.</div>\n    </div>\n  </div>-->\n</div>\n'), a.put("/views/directives/autocomplete.cf3a5191c28dd26bef53.html",
-            '<div class="AutoComplete tooltip in" id="AutoComplete">\n  <div class="AutoComplete-group">\n    <div class="AutoComplete-title">\n      <div class="AutoComplete-titleIcon">\n        <div class="i-pointer i30"></div>\n      </div>\n      {{ $root.i18n.common.autocompleteCITY }}\n    </div>\n    <div class="AutoComplete-list" ng-show="locations.cities.length">\n      <div class="AutoComplete-item clearfix no-animate" ng-repeat="city in locations.cities | notZero:\'hotelCount\' | limitTo:6 " ng-click="select(city)">\n        <span class="pull-left AutoComplete-name" ng-bind-html="cityTitle(city)"></span>\n        <span class="pull-right"><span class="is-blue">{{city.hotelCount}}</span> {{ city.hotelCount | decline:$root.i18n.decline.hotel:true}}</span>\n      </div>\n    </div>\n    <div class="AutoComplete-list" ng-hide="locations.cities.length">\n      <div class="AutoComplete-error">{{ $root.i18n.common.autocompleteFail }} <b>"{{currentTerm}}"</b></div>\n    </div>\n    <div class="AutoComplete-group" ng-show="locations.hotels.length">\n      <div class="AutoComplete-title">\n        <div class="AutoComplete-titleIcon">\n          <div class="i-key i30"></div>\n        </div>\n        {{ $root.i18n.common.autocompleteHOTEL }}\n      </div>\n      <div class="AutoComplete-list">\n        <div class="AutoComplete-item clearfix no-animate" ng-repeat="hotel in locations.hotels | limitTo:6 " ng-click="select(hotel)">\n          <span class="pull-left AutoComplete-name" ng-bind-html="hotelTitle(hotel)"></span>\n          <span class="pull-right is-gray">{{ hotel.cityName}}, {{ hotel.countryName }}</span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div class="AutocompleteLoader" ng-show="loading" id="AutocompleLoader"></div>\n'), a.put("/views/directives/booking-conditions-inline.31e17bbce035b68824d3.html",
-            '<div class="BookingConditionsInline">\n  <div class="mt10"><i class="i-cancelation"></i><b>{{ $root.i18n.directives.cancilationConditions }}</b></div>\n  <div ng-repeat="rule in item.cancelConditions">\n    <span class="s11" compile="{{BookingConditions.getCancelText(rule)}}"></span>\n  </div>\n  <div><i class="i-cancelation"></i><b>{{ $root.i18n.directives.amendConditions }}</b></div>\n  <div ng-repeat="rule in item.amendConditions">\n    <span class="s12 BookingCondition--freeCancel" compile="{{BookingConditions.getAmendText(rule)}}"></span>\n  </div>\n</div>\n'), a.put("/views/directives/booking-conditions-tooltip.9bf1989596072ac6ee4b.html",
-            '<div class="tooltip in Tooltip Tooltip--info Tooltip--conditionBig">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner">\n    <div class="BookingConditionsInline">\n      <div><i class="i-cancelation"></i><b>{{ $root.i18n.directives.amendConditions }}</b></div>\n      <div ng-repeat="rule in item.amendConditions">\n        <span class="s12" compile="{{BookingConditions.getAmendText(rule)}}"></span>\n      </div>\n      <div class="mt10"><i class="i-cancelation"></i><b>{{ $root.i18n.directives.cancilationConditions }}</b></div>\n      <div ng-repeat="rule in item.cancelConditions">\n        <span class="s11" compile="{{BookingConditions.getCancelText(rule)}}"></span>\n      </div>\n    </div>\n\n  </div>\n</div>\n'), a.put("/views/directives/booking-conditions.a4377aa35c95611ffa28.html",
-            '<div class="tooltip in Tooltip--condition">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner clearfix">\n    <div class=" Tooltip-loader p10 clearfix" loading="!cancelConditions"></div>\n    <div class="CancelationConditions" ng-show="cancelConditions">\n      <div class="CancelationConditions-item" ng-repeat="item in cancelConditions">\n\n        <div ng-if="!item.hasCharge" class="clearfix">\n          <div class="CancelationConditions-icon i-V"></div>\n          <div class="CancelationConditions-info">\n            {{ $root.i18n.directives.orderCancelation }} <span ng-show="item.toDate">{{ $root.i18n.directives.upto }} {{item.toDate | dateTime | monthLocale}}</span> <b>{{ $root.i18n.directives.free }}</b>\n          </div>\n        </div>\n\n        <div ng-if="item.hasCharge && !item.fullCharge">\n          <div class="CancelationConditions-icon i-for-pay"></div>\n          <div class="CancelationConditions-info"``>\n            {{ $root.i18n.directives.orderCalcelFrom }} {{item.fromDate | dateTime | monthLocale}} <span ng-show="item.toDate">{{ $root.i18n.directives.upto }} {{item.toDate | dateTime | monthLocale}}</span> {{ $root.i18n.directives.willCharge }}\n            <b class="no-wrap">{{item.price | smartDigits}}<span currency ng-model="currency"></span></b>\n          </div>\n        </div>\n\n        <div ng-if="item.fullCharge">\n          <div class="CancelationConditions-icon i-for-pay"></div>\n          <div class="CancelationConditions-info">\n            {{ $root.i18n.directives.orderCalcelFrom }} {{item.fromDate | dateTime | monthLocale}} <span ng-show="item.toDate">{{ $root.i18n.directives.upto }} {{item.toDate | dateTime | monthLocale}}</span>\n            будет происходить с удержанием <b>полной</b> стоимости заказа\n          </div>\n        </div>\n      </div>\n    </div>\n    <!-- <div class="CancelationConditions-no" ng-show="cancelConditions.length === 0">\n      {{ $root.i18n.directives.noCancelation }}\n    </div> -->\n  </div>\n</div>\n'), a.put("/views/directives/date-range-control.e654d5e981bf8ce2b402.html",
-            '<div class="DateBox DateRangeBox">\n  <div class="DateBox-datesContainer">\n    <div class="DateBox-dateContainer">\n      <span class="DateBox-icon i40 i-calendar"></span>\n      <div class="DateBox-dayOfWeek" ng-show="dates[0]">\n        {{u.getDayOfWeek(dates[0])}}\n      </div>\n      <div class="DateBox-date" ng-show="dates[0]">\n        {{\'\'|dayMonth:dates[0].date():u.getMonth(dates[0])}}\n      </div>\n      <div ng-hide="dates[0]">{{ $root.i18n.landing.checkinDate }}</div>\n    </div>\n    <div class="DateBox-dateContainer">\n      <span class="DateBox-icon i40 i-calendar"></span>\n      <div class="DateBox-dayOfWeek" ng-show="dates[1]">\n        {{u.getDayOfWeek(dates[1])}}\n      </div>\n      <div class="DateBox-date" ng-show="dates[1]">\n        {{\'\'|dayMonth:dates[1].date():u.getMonth(dates[1])}}\n      </div>\n      <div ng-hide="dates[1]">{{ $root.i18n.landing.checkoutDate }}</div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/directives/date-range.1d97d7e7ed925dbaf027.html",
-            '<div class="tooltip in DateRange">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner DateRange-box clearfix">\n\n    <div class="DateRange-head">\n      <div class="DateRange-control is-left" ng-click="prevMonth()">\n        <i class="i-arrow-left"></i>\n      </div>\n      <div class="DateRange-control is-right" ng-click="nextMonth()">\n        <i class="i-arrow-right"></i>\n      </div>\n      <div class="DateRange-year" ng-bind="firstMonth.year">\n\n      </div>\n    </div>\n\n    <div class="DateRange-month">\n      <div class="DateRange-monthName" ng-bind="firstMonth.month"></div>\n      <div class="DateRange-weekdays">\n        <div class="DateRange-day" ng-repeat="day in weekdays" ng-bind="day"><span ng-bind="day"></span></div>\n      </div>\n      <div class="DateRange-calendar clearfix is-first">\n        <div class="DateRange-day" ng-repeat="day in firstMonth" ng-click="selectDay(day)" ng-class="{\'is-thisMonth\': day.month, \'is-today\': day.today, \'is-disabled\': day.disabled, \'is-selected\': day.selected, \'is-amid\': day.amid}"><span ng-bind="day.m.date()"></span></div>\n      </div>\n    </div>\n    <div class="DateRange-month">\n      <div class="DateRange-monthName" ng-bind="secondMonth.month"></div>\n      <div class="DateRange-weekdays">\n        <div class="DateRange-day" ng-repeat="day in weekdays"><span ng-bind="day"></span></div>\n      </div>\n      <div class="DateRange-calendar clearfix is-second">\n        <div class="DateRange-day" ng-repeat="day in secondMonth" ng-click="selectDay(day)"  ng-class="{\'is-thisMonth\': day.month, \'is-today\': day.today, \'is-disabled\': day.disabled, \'is-selected\': day.selected, \'is-amid\': day.amid}"><span ng-bind="day.m.date()"></span></div>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/directives/hb-pagination-controls.45b442bbee8f01257a0b.html",
-            '<ul class="pagination" ng-if="1 < pages.length">\n  <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.page == 1 }">\n      <a href="" ng-click="setCurrent(1)">&laquo;</a>\n  </li>\n  <!-- <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">\n      <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>\n  </li> -->\n  <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.page == pageNumber, disabled : pageNumber == \'...\' }">\n      <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>\n  </li>\n  <!--\n  <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">\n      <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>\n  </li> -->\n  <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.page == lastPage }">\n      <a href="" ng-click="setCurrent(lastPage)">&raquo;</a>\n  </li>\n</ul>\n'), a.put("/views/directives/hb-video.d4fe1c1f59ebcfd6f766.html",
-            '<div class="Video">\n  <video id="video">\n    <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv" type="video/ogg">\n    <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv" type="video/ogg">\n    <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv" type="video/ogg">\n  </video>\n  <div class="Video-playOnScreenWrapper" ng-click="stop($event);">\n    <div class="Video-playOnScreenBtn" ng-hide="state.isPlaying" ng-click="toggle($event);"></div>\n  </div>\n  <div class="Video-controls">\n    <div id="seekBar" class="Video-seekBar"></div>\n    <div class="Video-lowerControls">\n      <div class="Video-leftLowerControls">\n        <span class="Video-time">{{currentTime | time}} / {{totalTime | time}}</span>\n      </div>\n      <div class="Video-rightLowerControls">\n        <span>Vol</span>\n        <span ng-click="fullScreen()" class="i-large"></span>\n      </div>\n      <div class="Video-middleLowerControls">\n        <span ng-click="prev()" class="i-player-back-arrow Video-arrowBack"></span>\n        <span ng-class="{\'i-player-pause\' : state.isPlaying, \'i-player-play\' : !state.isPlaying}" ng-click="toggle($event)" class="Video-playBtn"></span>\n        <span ng-click="next()" class="i-player-forward-arrow Video-arrowForward"></span>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/directives/hotel-gallery.ca22740b6f22a71e806d.html",
-            '<div class="HotelGallery">\n  <div class="HotelGallery-noPhotos" ng-hide="images.length">\n    Извините, фотографий этого отеля не найдено\n  </div>\n  <div class="HotelGallery-leftArrow" ng-click="moveGallery(\'left\')">\n    <i class="i-arrow-left"></i>\n  </div>\n  <div class="HotelGallery-rightArrow" ng-click="moveGallery(\'right\')">\n    <i class="i-arrow-right"></i>\n  </div>\n  <div class="HotelGallery-images">\n    <!-- <span class="HotelGallery-image" ng-repeat="image in images track by $index" ng-style="{\'background-image\': \'url(\' + u.hImage215(image, targetId) + \')\'}" ng-click="showGallery($event, $index)"></span> -->\n    <span class="HotelGallery-image" ng-repeat="image in images track by $index"\n    ng-click="showGallery($event, $index)" >\n      <a ng-href="{{u.hImage(image, targetId)}}" class="lightbox" image-loader="{{u.hImage215(image, targetId)}}"></a>\n    </span>\n  </div>\n</div>\n'), a.put("/views/directives/hotel-like.5e6d2a3612604f0ae2bc.html",
-            '<div class="Hotel-like" ng-class="{\'is-liked\': hotel.liked}">\n  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">\n              <g opacity="0.5">\n                <path class="Hotel-likeOutline" d="M15,28l-0.7-0.5C12.9,26.5,0.5,17.8,0,11c-0.2-2.8,0.5-5.2,2.1-6.8C3.4,2.8,5.3,2,7.4,2\n                  c4.7,0,7.3,4.1,7.6,4.6l0,0C15.3,6.1,17.9,2,22.6,2c2.1,0,3.9,0.8,5.3,2.2c1.5,1.7,2.3,4,2.1,6.8c-0.5,6.7-12.9,15.5-14.3,16.5\n                  L15,28z M7.4,4.3C6,4.3,4.7,4.9,3.8,5.8c-1.1,1.2-1.6,3-1.4,5.1c0.3,4.4,8,11,12.6,14.3c4.6-3.3,12.3-9.9,12.6-14.3\n                  c0.2-2.2-0.3-3.9-1.4-5.1c-0.9-1-2.2-1.5-3.6-1.5c-3.4,0-5.4,3.1-5.6,3.4L15,11l-2-3.3C12.8,7.4,10.8,4.3,7.4,4.3z"/>\n              </g>\n              <g opacity="0.5">\n                <g>\n                  <path class="Hotel-likeFill" d="M2.4,10.9C2.2,8.8,2.7,7,3.8,5.8C4.7,4.9,6,4.3,7.4,4.3c3.4,0,5.4,3.1,5.6,3.4l2,3.3l2-3.3\n                    c0.2-0.3,2.2-3.4,5.6-3.4c1.4,0,2.7,0.5,3.6,1.5c1.1,1.2,1.6,2.9,1.4,5.1c-0.3,4.4-8,11-12.6,14.3C10.4,21.9,2.7,15.3,2.4,10.9z"\n                    />\n                </g>\n                <g>\n                </g>\n              </g>\n            </svg>\n</div>\n'), a.put("/views/directives/hotel-rating.c18c5ad9426d64201636.html",
-            '<div class="Trip clearfix">\n  <i class="i-CommonTrip"></i>\n  <div class="Trip-rating">\n    <span class="i-CommonRating"><span class="i-CommonRatingFull"></span></span>\n  </div>\n</div>'), a.put("/views/directives/loading.875a60cd969897979bf4.html",
-            '<div class="Loading" ng-show="loading">\n  <div class="Loading-content">\n    <div class="Loading-box">\n      <div class="Loading-svg" ng-include="svg ? svg : \'loading.svg\'"></div>\n      <div class="Loading-title" ng-bind="title"></div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/directives/map.60a6da2b5adec9168c1e.html",
-            '<div class="Map">\n  <div class="Map-loader" loading="showLoader"></div>\n  <div class="Map-mapBox"></div>\n  <div class="Map-controls">\n    <div class="Map-zoomIn">\n      <div class="glyphicon glyphicon-plus"></div>\n    </div>\n    <div class="Map-zoomOut">\n      <div class="glyphicon glyphicon-minus"></div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/directives/mark-control.1f096bd827adb73fe50c.html",
-            '<div class="MarkControl clearfix">\n  <div class="MarkControl-controls" ng-mouseleave="hover(0)">\n    <div class="MarkControl-control" ng-repeat="mark in [1,2,3,4,5,6,7,8,9,10]"\n    ng-click="select(mark)"\n    ng-mouseenter="hover(mark)"\n    ng-class="{\'MarkControl-control--hovered\' : mark <= hoveredMark, \'MarkControl-control--selected\': mark <= selectedMark}"\n    >\n    </div>\n  </div>\n  <div class="MarkControl-title">\n    {{title}}\n  </div>\n</div>\n'), a.put("/views/directives/multi-select.6fbad474b8eeb54e0462.html",
-            '<div class="MultiSelect clearfix">\n  <div class="MultiSelect-items" ng-repeat="item in selectedItems"><span ng-bind-html="getLabel(item)"></span>\n    <span class="glyphicon glyphicon-remove" ng-click="removeFromList($index, $event)"></span>\n  </div>\n  <div class="MultiSelect-choose"><span class="glyphicon glyphicon-plus"></span>{{label}}</div>\n</div>\n'), a.put("/views/directives/nouislider.22f43f5fc50864bfb101.html",
-            '<div class="NoUiSlider">\n  <div class="NoUiSlider-label">\n    <span class="NoUiSlider-fromBlock">\n      {{ $root.i18n.directives.from }}\n      <input type="text" class="NoUiSlider-input form-control" ng-model="range[0]"/>\n      <span class="NoUiSlider-measurement"></span>\n    </span>\n    <span class="NoUiSlider-toBlock">\n      {{ $root.i18n.directives.to }}\n      <input type="text" class="NoUiSlider-input form-control" ng-model="range[1]"/>\n      <span class="NoUiSlider-measurement"></span>\n    </span>\n  </div>\n  <div class="NoUiSlider-cont">\n    <!-- <div class="NoUiSlider-grid">\n      <div class="NoUiSlider-from"><span class="NoUiSlider-gridNumber" ng-bind="getLegendValue(0) | smartDigits"></span></div>\n      <div class="NoUiSlider-quarter"><span class="NoUiSlider-gridNumber" ng-bind="getLegendValue(0.25) | smartDigits"></span></div>\n      <div class="NoUiSlider-middle"><span class="NoUiSlider-gridNumber" ng-bind="getLegendValue(0.5) | smartDigits"></span></div>\n      <div class="NoUiSlider-threeQuarter"><span class="NoUiSlider-gridNumber" ng-bind="getLegendValue(0.75) | smartDigits"></span></div>\n      <div class="NoUiSlider-to"><span class="NoUiSlider-gridNumber" ng-bind="getLegendValue(1) | smartDigits"></span></div>\n    </div> -->\n    <div class="NoUiSlider-slider"></div>\n  </div>\n</div>\n'), a.put("/views/directives/pagination-controls.7f7a88db8de672c51000.html",
-            '<ul class="pagination" ng-if="1 < pages.length">\n    <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">\n        <a href="" ng-click="setCurrent(1)">&laquo;</a>\n    </li>\n    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">\n        <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>\n    </li>\n    <li ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == \'...\' }">\n        <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>\n    </li>\n\n    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">\n        <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>\n    </li>\n    <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">\n        <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>\n    </li>\n</ul>\n'), a.put("/views/directives/progressbar.d57c90eb8a800c69288a.html",
-            '<div class="Progressbar">\n  <div class="Progressbar-text" ng-bind="label"></div>\n  <div class="Progressbar-value" ng-style="{left: value + \'%\'}">{{value}}%</div>\n  <div class="Progressbar-progress" ng-style="{width: value + \'%\'}">\n    <div class="Progressbar-text" ng-bind="label"></div>\n    <div class="Progressbar-value">{{value}}%</div>\n  </div>\n</div>'), a.put("/views/directives/stars.e343cb87364ce248d473.html",
-            '<div class="Stars">\n  <div class="Stars-star i-star-holder" ng-show="starsVisibility[0]"><span class="Stars-starNumber">1</span></div>\n  <div class="Stars-star i-star-holder" ng-show="starsVisibility[1]"><span class="Stars-starNumber">2</span></div>\n  <div class="Stars-star i-star-holder" ng-show="starsVisibility[2]"><span class="Stars-starNumber">3</span></div>\n  <div class="Stars-star i-star-holder" ng-show="starsVisibility[3]"><span class="Stars-starNumber">4</span></div>\n  <div class="Stars-star i-star-holder" ng-show="starsVisibility[4]"><span class="Stars-starNumber">5</span></div>\n</div>\n'), a.put("/views/directives/statusbar.cd0fbc97719b254f06b8.html",
-            '<div class="StatusBar-content" ng-show="show">\n  <div class="StatusBar-loader" ng-show="showLoader"></div>\n  <div class="StatusBar-message">{{message}}</div>\n</div>\n'), a.put("/views/directives/top-destinations.b7e00da313399b5c7be5.html",
-            '<div class="TopDestinations clearfix">\n  <div class="TopDestinations-title">{{ $root.i18n.directives.topDestinations }}</div>\n  <div class="TopDestinations-content clearfix">\n    <div class="TopDestinations-filters">\n      <div class="TopDestinations-filtersItem" ng-class="{\'is-active\': select==$index}" ng-repeat="continent in destinations.continents" ng-click="chooseContinent($index)">\n        <div ng-bind-html="d.generateDropdownOption(continent.continentName ? continent.continentName : $root.i18n.directives.inYourCountry,icons[$index])" ></div>\n      </div>\n    </div>\n    <!-- <div class="TopDestinations-contentSeparator"><div></div></div> -->\n    <div class="TopDestinations-list">\n      <div class="TopDestinations-city" ng-repeat="city in destinations.continents[select].cities" ng-click="chooseCity(city)">\n        {{city.name}}<span class="TopDestinations-cityHotels"> ({{city.hotelCount | decline:$root.i18n.decline.hotel}})</span>\n      </div>\n    </div>\n  </div>\n\n</div>\n'), a.put("/views/directives/trip-rating-filter.9a97c88c13844abff39a.html",
-            '<div class="TripRatingFilter fl">\n  <div class="TripRatingFilter-imgWrpper" ng-click="setFilter(1);">\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/0.0-16463-4.gif" ng-show="mouseover && circles == 0 || !mouseover && !selectedCircle" class="TripRatingFilter-img"></img>\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/1.0-16463-4.gif" ng-show="mouseover && circles == 1 || !mouseover && selectedCircle == 1" class="TripRatingFilter-img"></img>\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/2.0-16463-4.gif" ng-show="mouseover && circles == 2 || !mouseover && selectedCircle == 2" class="TripRatingFilter-img"></img>\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/3.0-16463-4.gif" ng-show="mouseover && circles == 3 || !mouseover && selectedCircle == 3" class="TripRatingFilter-img"></img>\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.0-16463-4.gif" ng-show="mouseover && circles == 4 || !mouseover && selectedCircle == 4" class="TripRatingFilter-img"></img>\n    <img src="http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/5.0-16463-4.gif" ng-show="mouseover && circles == 5 || !mouseover && selectedCircle == 5" class="TripRatingFilter-img"></img>\n  </div>\n</div>\n'), a.put("/views/footer.f6efddab3696968022da.html",
-            '<footer class="Footer">\n  <div class="container">\n\n    <div class="fl">\n      <div class="i-CommonLogoFooter"></div>\n      <div class="TripAdviser">Отзывы об отелях от <span class="i-ta"></span></div>\n    </div>\n\n    <div class="fr Footer-siteInfo">\n      <div class="Footer-socialBox">\n        <div class="Footer-social">\n          <div class="i-vk"></div>\n        </div>\n        <div class="Footer-social">\n          <div class="i-od"></div>\n        </div>\n        <div class="Footer-social">\n          <div class="i-fb"></div>\n        </div>\n        <div class="Footer-social">\n          <div class="i-tw"></div>\n        </div>\n      </div>\n      <div class="Footer-phone"><span class="i-telefon"></span>{{ $root.i18n.common.footerCustomerService }}</div>\n      <div class="Footer-phoneNumber">8 (800) <b>100-4155</b></div>\n    </div>\n\n    <div class="Footer-middleBlock">\n      <ul class="Footer-menu clearfix">\n        <li><a ui-sref="hb.info.about">{{ $root.i18n.common.footerAboutHotelBook }}</a></li>\n        <li><a ui-sref="hb.info.faq">{{ $root.i18n.common.footerQuestionsAndAnswers }}</a></li>\n        <li><a href="javascript:void 0;">{{ $root.i18n.common.footerPress }}</a></li>\n        <li><a>{{ $root.i18n.common.footerPartnership }}</a></li>\n        <li><a ui-sref="hb.info.contacts">{{ $root.i18n.common.footerContacts }}</a></li>\n        <li>\n          <a href="http://hotelbook.pro/" target="_blank">\n            <span class="i-CommonProSmall"></span>{{ $root.i18n.common.enterAg }}\n          </a>\n        </li>\n      </ul>\n      <div>ООО «Хотелбук-Сервис» ИНН 7709878038 ОГРН 1117746391476</div>\n      <div class="lh17">\n        © {{:: $root.d.currentYear}} HotelBook. {{ $root.i18n.common.footerAllRightReserved }}\n        {{ $root.i18n.common.footerUTSGroupProject }}\n      </div>\n    </div>\n  </div>\n</footer>\n'), a.put("/views/hb-layout.0bd9c6dd788b4766509d.html",
-            '<div class="HbLayout" auto-height="min-height">\n  <div ng-include="includes.header" include-replace></div>\n  <div ui-view class="HbLayout-content" id="HbLayout-content"></div>\n  <div ng-include="includes.footer" ng-show="u.notInStates([\'hotels.map\', \'cabinet\'])"></div>\n</div>\n'), a.put("/views/hb/404.d1e11d0b3e96c0c6a033.html",
-            '<div class="NotFound" inherit-height>\n  <div class="NotFound-container">\n      <div class="s40">{{ $root.i18n.common.NotFoundError404 }}</div>\n      <div class="s21">{{ $root.i18n.common.NotFoundPageNotExists }}</div>\n      <div class="s16">{{ $root.i18n.common.NotFoundUseFormBellow }}</div>\n      <div class="SearchForm--blue SearchForm--inline" ng-include="\'/views/hb/search-form.34fcd68b1c92c0229a80.html\'"></div>\n      <div class="s16">{{ $root.i18n.common.NotFoundRoundTheClockSupport }}</div>\n      <div class="s15" ng-bind-html="$root.i18n.common.NotFoundFreeCall"></div>\n      <div class="NotFound-supportTel">8 (800) 100-41-55</div>\n      <div class="NotFound-supportPhoto"></div>\n  </div>\n</div>\n'), a.put("/views/hb/about.f8722cecae3ef43e0d57.html",
-            '<div class="About">\n  <div class="About-company container clearfix">\n    <div class="Company-leftBlock">\n      <img src="/images/keys.29b80c260f9b4f711808.jpg"></img>\n      <img src="/images/common/quote.cfc1b6b905814bf27f4d.png"></img>\n    </div>\n    <div class="Company-rightBlock">\n      <div class="text-blue s30 lh36 mb10">О компании</div>\n      <p>\n        <b>Нotelbook.ru</b> — проект холдинга <b>UTS Group</b>, берет свое начало в 2006 году,\n        когда туроператор UTS впервые разработал и внедрил корпоративную систему\n        online-бронирования отелей <b>HotelbookPRO</b>, чтобы помочь менеджерам туристических\n        компаний. На сегодня мы являемся генеральным провайдером бронирования для отелей\n        по всему миру.\n      </p>\n      <p>\n        Группа компаний <b>UTS</b>, основанная в 1994 году — это многолетний поставщик услуг для\n        туристических агентств сегмента Business Travel и FIT-туризма. Холдинг входит в\n        десятку лучших туроператоров России, а также состоит в Ассоциации туроператоров (АТОР),\n        Ассоциации содействия туристическим технологиям (АСТТ) и Ассоциации бизнес-туризма (АБТ).\n      </p>\n      <p>\n        <b>В октябре 2014 года мы отметили 20-ти летний юбилей холдинга на рынке туристических услуг.</b>\n        Этот колоссальный опыт позволяет нам справляться с любыми проектами, независимо от политической\n        и экономической обстановки. Центральный офис компании расположен в Москве, филиал — в Санкт-Петербурге.\n      </p>\n    </div>\n  </div>\n  <div class="About-backgroundPhoto" id="About-backgroundPhoto">\n    <div class="About-target">\n      <div class="Target-wrapper">\n        <div class="s30 lh36 mb10">Наша цель</div>\n        <div class="s16 lh19">\n          Сделать поиск и бронирование отелей в любой стране мира простыми и <br />\n          удобными для путешественников, вне зависимости от их бюджета. Помогать вам <br />\n          планировать отдых и деловые командировки, а также получать только позитивные <br />\n          впечатления от каждой поездки\n        </div>\n      </div>\n    </div>\n    <div class="About-offer">\n      <div class="Offer-wrapper">\n        <div class="s30 lh36">Что мы предлагаем?</div>\n        <div class="Offer-toClients">Клиентам</div>\n        <div class="Offer-offers container clearfix">\n          <div class="Offer-offer">\n            <i class="i-about-pointer"></i>\n            <div>\n              Удобную и надежную систему <br />\n              бронирований отелей в 235 <br />\n              странах мира\n            </div>\n          </div>\n          <div class="Offer-offer">\n            <i class="i-about-pig"></i>\n            <div>\n              Гибкие цены и возможность <br />\n              бюджетного размещения\n            </div>\n          </div>\n          <div class="Offer-offer">\n            <i class="i-about-phone"></i>\n            <div>\n              Поддержку клиентов <br />\n              в режиме 24/7\n            </div>\n          </div>\n          <div class="Offer-offer">\n            <i class="i-about-safe"></i>\n            <div>\n              Полную конфиденциальность <br />\n              личных и банковских данных\n            </div>\n          </div>\n          <div class="Offer-offer">\n            <i class="i-about-purse"></i>\n            <div>\n              Отсутствие комиссии за <br />\n              бронирование\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="About-roadMap">\n      <div class="RoadMap-wrapper">\n        <div class="s30 lh36">Направления деятельности компании</div>\n        <div class="RoadMap-icons s50">\n          <i class="i-about-globe"></i>\n          <i class="i-about-case"></i>\n          <i class="i-about-passport"></i>\n        </div>\n        <div class="RoadMap-iconLinks clearfix">\n          <div class="RoadMap-iconLink"></div>\n          <div class="RoadMap-iconLink"></div>\n        </div>\n        <div class="RoadMap-titles clearfix">\n          <div class="RoadMap-title s16 lh18">Работа с туристическими <br /> агентствами</div>\n          <div class="RoadMap-title s16 lh18">Обслуживание <br />корпоративных клиентов</div>\n          <div class="RoadMap-title s16 lh18">Прием иностранных туристов</div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="About-pride container">\n      <div class="Pride-wrapper clearfix">\n        <div class="Pride-leftBlock">\n          <img class="Pride-awardsPic" src="/images/common/cups.ec70521087e64ad525c7.png">\n          <div class="Pride-awardsInfo">\n            <div class="text-blue s30 lh36 mb10">Награды</div>\n            Холдинг UTS Group — победитель в номинации «Лучшее Business Travel Агентство»,\n            а также завоевал премию Russian Business Travel & MICE Award 2014.\n            Помимо этих наград, мы также являемся обладателем престижной международной\n            премии World Travel Market, как лучшая туристическая компания России.\n          </div>\n        </div>\n        <div class="Pride-rightBlock">\n          <img class="Pride-charityPic" src="/images/common/child.f2feb9578775e677ea27.png">\n          <div class="Pride-charityInfo pl10">\n            <div class="text-blue s30 lh36 mb10">Благотворительность</div>\n            Мы ежегодно участвуем в благотворительных проектах и оказываем помощь двум детским\n            домам Московской области.\n          </div>\n        </div>\n      </div>\n    </div>\n</div>\n'), a.put("/views/hb/booking.5afdcc50194210a101fc.html",
-            '<div class="BookingPage" auto-height="min-height" footer=".Footer" header=".Header">\n<div class="BookingPage-map" ng-class="{\'zi-5\' : step == 6}">\n  <div ng-if="step==6" class="BookingPage-mapContent" map ng-model="hotel.coords"></div>\n</div>\n\n<div class="PrgBar">\n  <div class="PrgBar-bg"></div>\n  <div class="container">\n    <div class="PrgBar-activeBg is-enterData" ng-class="{\'is-payment\': step>3 || order.paymentInProgress, \'is-ready\': step==6}"></div>\n    <div class="PrgBar-item i-one">{{ $root.i18n.booking.roomChoosing }}</div>\n    <div class="PrgBar-item i-two">{{ $root.i18n.booking.booking }}</div>\n    <div class="PrgBar-item i-three">{{ $root.i18n.booking.orderPayment }}</div>\n    <div class="PrgBar-item i-four">{{ $root.i18n.booking.result }}</div>\n  </div>\n</div>\n<div class="BookingPage-content container">\n<div ng-show="step==3 || step==4 || step==7" class="BookingPage-back" ng-click="goBack()"><i class="i-back"></i><span>{{ $root.i18n.booking.back }}</span></div>\n<div ng-show="step==1" class="BookingPage-contentColumn BookingPage-loader">\n  <div loading="step==1" class="mt50"></div>\n  <div class="BookingPage-loaderText">{{ $root.i18n.booking.weArePrepareRoom }}</div>\n</div>\n<div ng-show="step==2" class="BookingPage-contentColumn BookingPage-loader">\n  <div class="BookingPage-loaderText mt50">\n    {{ $root.i18n.booking.sorryThisRoomTaken }}\n    <div class="Btn Btn--orange mt50" ui-sref="hb.landing">{{ $root.i18n.booking.choodeOtherRoom }}</div>\n  </div>\n</div>\n<div ng-show="step==3" class="BookingPage-contentColumn">\n  <div class="BookingPage-block">\n    <form role="form" name="form" form-validator="data" after-validation="formValidSuccess" action="" method="">\n      <div class="form-group BookingPage-formLabel">{{ $root.i18n.booking.infoAboutBuyer }}</div>\n      <div class="clearfix">\n        <div class="InputBox i-letter c-i40 is-require mr15 mb20"\n             ng-class="{\'InputBox-error\': form.fieldHasError(\'email\') && form.submited}">\n          <input ng-model="data.hotelOrder.email"\n                 type="email" name="email" class="form-control" placeholder="{{ $root.i18n.booking.emailAddress }}" required\n                 tooltip-manager data-placement="top-left"/>\n          <div class="BookingPage-info">\n            <a href="javascript: void 0;" tabIndex="-1" bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-placement="right" data-title="{{ $root.i18n.booking.weWillSenOrderConfomationToThisAddress }}">\n              <i class="i-forgot"></i>\n              <span>{{ $root.i18n.booking.whyEnterEmail }}</span>\n            </a>\n          </div>\n        </div>\n        <div ng-hide="existEmail.flag" class="InputBox i-phone c-i40 is-require mb20"\n             ng-class="{\'InputBox-error\': form.fieldHasError(\'phone\') && form.submited}">\n          <input ng-model="data.hotelOrder.phone" type="text" name="phone" input-tel placeholder="{{ $root.i18n.booking.phoneNumber }}"\n                 class="form-control" required tooltip-manager data-placement="top-left"/>\n          <div class="BookingPage-info">\n            <a href="javascript: void 0;" tabIndex="-1" bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big" data-placement="right" data-title="{{ $root.i18n.booking.enterPhoneNumberForConnectionWithYou }}">\n              <i class="i-forgot"></i>\n              <span>{{ $root.i18n.booking.whyEnterPhoneNumber }}</span>\n            </a>\n          </div>\n        </div>\n      </div>\n      <div ng-show="!existEmail.flag" class="BookingPage-checkBox clearfix">\n        <div checkbox class="Checkbox--blue Checkbox--border" ng-model="notRoom" data-label="{{ $root.i18n.booking.iDontLiveInThisRoom }}"></div>\n      </div>\n      <div ng-show="notRoom && !existEmail.flag" class="form-group clearfix toggle">\n        <div class="InputBox i-person-info c-i40 is-require mr15"\n             ng-class="{\'InputBox-error\': form.fieldHasError(\'name\') && form.submited}">\n          <input ng-model="data.hotelOrder.name" type="text" name="name" class="form-control"\n                 placeholder="{{ $root.i18n.booking.name }}" required tooltip-manager data-placement="top-left"/>\n        </div>\n        <div class="InputBox i-person-info c-i40 is-require"\n             ng-class="{\'InputBox-error\': form.fieldHasError(\'surname\') && form.submited}">\n          <input ng-model="data.hotelOrder.surname" type="text" name="surname" class="form-control"\n                 placeholder="{{ $root.i18n.booking.surname }}" required tooltip-manager data-placement="top-left"/>\n        </div>\n      </div>\n      <div ng-repeat="item in order.items">\n        <div ng-repeat="room in item.rooms">\n          <div class="form-group BookingPage-formLabel">{{ $root.i18n.booking.informationAbout | template:{residents: (room.pax.length | decline:$root.i18n.decline.resident), roomName:room.roomName } }}</div>\n          <div class="form-group clearfix" ng-repeat="pax in room.pax track by $index">\n            <div class="clearfix">\n              <div class="BookingPage-formText fl mr30" name="{{\'title\'+$index}}" type="radio" tooltip-manager\n                   data-placement="top-left">{{pax == \'adult\' ? $root.i18n.booking.adult : $root.i18n.booking.children}}:\n              </div>\n              <div radio class="mr35"\n                   ng-model="data.hotelOrder.items[$parent.$parent.$index].rooms[$parent.$index].persons[$index].title"\n                   data-label="{{ $root.i18n.booking.male }}" data-value="mr" data-name="{{\'title\'+$index}}"></div>\n              <div radio\n                   ng-model="data.hotelOrder.items[$parent.$parent.$index].rooms[$parent.$index].persons[$index].title"\n                   data-label="{{ $root.i18n.booking.female }}" data-value="mrs" data-name="{{\'title\'+$index}}"></div>\n            </div>\n            <div class="InputBox i-person-info c-i40 is-require mr15"\n                 ng-class="{\'InputBox-error\': form.fieldHasError(\'personsName\'+$index) && form.submited}">\n              <input\n                ng-model="data.hotelOrder.items[$parent.$parent.$index].rooms[$parent.$index].persons[$index].name"\n                type="text" name="{{\'personsName\'+$index}}" class="form-control"\n                placeholder="{{ $root.i18n.booking.name }}" required ng-pattern="/^[a-z A-Z]+$/" tooltip-manager\n                data-placement="top-left"/>\n            </div>\n            <div class="InputBox i-person-info c-i40 is-require"\n                 ng-class="{\'InputBox-error\': form.fieldHasError(\'personsSurname\'+$index) && form.submited}">\n              <input\n                ng-model="data.hotelOrder.items[$parent.$parent.$index].rooms[$parent.$index].persons[$index].surname"\n                type="text" name="{{\'personsSurname\'+$index}}" class="form-control"\n                placeholder="{{ $root.i18n.booking.surname }}" required ng-pattern="/^[a-z A-Z]+$/" tooltip-manager\n                data-placement="top-left"/>\n            </div>\n            <div ng-if="pax == \'child\'" class="BookingPage-AgeBox mt10 fr clearfix">\n              <div class="BookingPage-AgeBoxText fl mr20">{{ $root.i18n.booking.childrenAge }}:</div>\n              <div class="InputBox is-require" ng-class="{\'InputBox-error\': form.fieldHasError(\'personsAge\'+$index) && form.submited}">\n                <input ng-model="data.hotelOrder.items[$parent.$parent.$parent.$index].rooms[$parent.$parent.$index].persons[$index].age" class="form-control"\n                       type="text" name="{{\'personsAge\'+$index}}" tooltip-manager data-placement="top-right" ng-pattern="/^[0-9]+$/" required/>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <div class="form-group clearfix BookingPage-wishes">\n          <span ng-init="wishes=false" class="Href" ng-click="wishes=!wishes" ng-class="{\'is-open\': wishes}">\n            {{ $root.i18n.booking.wishes }} <span class="caret"></span>\n          </span>\n        </div>\n        <div class="form-group clearfix" ng-show="wishes">\n          <textarea ng-model="data.hotelOrder.items[$index].comment" class="Textarea"\n                    placeholder="{{ $root.i18n.booking.yourComment }}"></textarea>\n        </div>\n      </div>\n      <div class="BookingPage-postponedPay clearfix" ng-show="order.dateToPay" class="form-group clearfix">\n        <div checkbox class="Checkbox--blue Checkbox--border fl" ng-model="data.hotelOrder.postponedPay" name="postponedPay" data-label="{{ $root.i18n.booking.payForOrderLayter }}"\n             bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info Tooltip--big"  data-placement="right" data-title="{{ $root.i18n.booking.youCanPayForOrderLater }} {{order.dateToPay  | dateFormat:\'DD MMMM YYYY\' }}"></div>\n      </div>\n      <div class="BookingPage-postponedPayText" ng-show="data.hotelOrder.postponedPay">{{ $root.i18n.booking.coastOfRoomCanChange }}</div>\n      <!-- считаем что только для экспедии такса больше 0 -->\n      <div class="mt10" ng-show="order.tax > 0"><a ng-href="{{d.lang == \'ru\' ? \'http://travel.ian.com/templates/336616/terms-of-use?lang=ru_RU\' : \'http://travel.ian.com/templates/336616/terms-of-use?lang=en_US\'}}">{{ $root.i18n.dictionary.TermsAndConditions }}</a></div>\n      <div class="clearfix mt10">\n        <div class="fl BookingPage-formLabel BookingPage-text">{{ $root.i18n.booking.youCloseToBook }}</div>\n        <div class="BookingPage-makeOrderLoaderContent">\n          <div ng-style="{\'opacity\': !makeOrderLoader ? 1 : 0 , \'pointer-events\': !makeOrderLoader ? \'auto\' : \'none\'}" class="Btn Btn--orange Btn--submit">{{ $root.i18n.booking.book }}</div>\n          <div loading="makeOrderLoader"></div>\n        </div>\n      </div>\n    </form>\n  </div>\n</div>\n<div ng-show="step==4" class="BookingPage-contentColumn BookingPage-loader">\n  <div class="BookingPage-loaderText">{{ $root.i18n.booking.paying }}</div>\n  <div loading="step==4" class="mt20"></div>\n  <div class="BookingPage-loaderText s16 pt10">\n    <span>{{$root.i18n.booking.timing | template:{time: redirectTime} }}</span>\n  </div>\n  <div class="BookingPage-loaderHref s12">\n    <a class="Href s12" ng-href="{{redirectHref}}">{{ $root.i18n.booking.goNow }}</a>\n  </div>\n</div>\n<div ng-show="step==5" class="BookingPage-contentColumn BookingPage-loader">\n  <div class="BookingPage-loaderText mt50">\n    <div>{{paymentError}}</div>\n    <div class="Btn Btn--orange mt50" ng-click="retry()">{{ $root.i18n.booking.check }}</div>\n  </div>\n</div>\n<div ng-show="step==7" class="BookingPage-contentColumn BookingPage-difPrice">\n  <div class="BookingPage-difPriceText">\n    <div>{{ $root.i18n.booking.attention }}</div>\n    <div class="s13 lh14">\n      <span>{{ $root.i18n.booking.differencePriceText | template : {differencePrice: (differencePrice>0 ? $root.i18n.booking.increased : $root.i18n.booking.decreased), differencePriceAbs: (differencePrice | abs | smartDigits)} }}</span>\n      <span currency class="s10 lh10" ng-model="order.currency"></span>.\n    </div>\n    <div class="s13 lh14">{{ $root.i18n.booking.attentionText }} <a class="Href" href="javascript: void 0;" ui-sref="hb.cabinet.booking">{{$root.i18n.booking.cabinet}}</a> {{ $root.i18n.booking.attentionText2 }}.</div>\n    <div class="Btn Btn--orange mt20" ng-click="redirect()">{{ $root.i18n.booking.bookingPayBtn }}</div>\n  </div>\n</div>\n<div ng-show="step>2" class="BookingPage-contentColumn" ng-class="{\'is-ready\': step==6, \'zi-10\' : step == 6}">\n  <div class="BookingPage-block">\n    <div class="HotelBox">\n      <div ng-show="step==6" class="HotelBox-payment clearfix HotelBox-first">\n        <div class="HotelBox-paymentTitle">{{ $root.i18n.booking.youSuccessefulyBookRoom }}</div>\n        <div class="HotelBox-payme ntNumber">№{{code}} {{ $root.i18n.booking.from }} {{order.createdAt | dateTime:true }}</div>\n        <div class="HotelBox-paymentText">{{ $root.i18n.booking.weWillSendEmail | template:{email: data.hotelOrder.email} }} </div>\n        <div class="Btn Btn--blue Btn--print fr" ng-click="print()">{{ $root.i18n.booking.print }}</div>\n      </div>\n      <div class="clearfix HotelBox-first">\n        <div class="HotelBox-image"\n             ng-style="{\'background-image\': \'url(\' + u.hImage215(hotel.images[0], hotel.id) + \')\'}"></div>\n        <div class="HotelBox-hotelInfo">\n          <div class="HotelBox-name">{{hotel.name}}</div>\n          <div stars ng-model="hotel.categoryId"></div>\n          <div class="HotelBox-address pt5" ng-class="{\'HotelBox-address--small\': order.tax}">{{ hotel.address}}</div>\n          <div class="HotelBox-data pt10">\n            <div class="i-calendar"></div>\n            <div class="HotelBox-dataLabel">{{ $root.i18n.booking.checkin }}</div>\n            <div><span>{{order.arrivalDate | dateTime:true }}</span>\n              <span ng-show="u.getHour(hotel.checkOutTime)!=00 && u.getHour(hotel.checkInTime)!=00">{{ $root.i18n.booking.in }} {{u.getHour(hotel.checkInTime)}}<sup>{{u.getMinutes(hotel.checkInTime)}}</sup></span>\n            </div>\n          </div>\n          <div class="HotelBox-data mb5">\n            <div class="i-calendar"></div>\n            <div class="HotelBox-dataLabel">{{ $root.i18n.booking.checkout }}</div>\n            <div><span>{{order.departureDate | dateTime:true }}</span>\n              <span ng-show="u.getHour(hotel.checkOutTime)!=00 && u.getHour(hotel.checkInTime)!=00">{{ $root.i18n.booking.in }} {{u.getHour(hotel.checkOutTime)}}<sup>{{u.getMinutes(hotel.checkOutTime)}}</sup></span>\n            </div>\n          </div>\n\n          <div ng-show="order.tax" class="HotelBox-orderPriceWithTax">\n            <div class="HotelBox-priceText">\n              {{ $root.i18n.booking.summery }}\n              <span class="HotelBox-price s16" ng-class="{\'is-through HotelBox-prevPrice\':step==7}">\n                {{ order.price | smartDigits}}\n                <span currency ng-model="order.currency" data-bold="true" ng-class="{\'s26 lh27\':step!=7, \'Currency-fix\': step == 7}"></span>\n              </span>\n              <span ng-show="step==7" class="HotelBox-price">\n                {{order.price + differencePrice | smartDigits}}\n                <span currency class="s26 lh27" ng-model="order.currency" data-bold="true"></span>\n              </span>\n            </div>\n            <div class="HotelBox-taxInfo">\n              {{ $root.i18n.dictionary.bookingRoomPirce }}\n              {{ step == 7 ? newPriceWithoutTax : order.priceWithoutTax | smartDigits}}\n              <span currency  ng-model="order.currency" data-bold="true"></span>\n            </div>\n            <div class="HotelBox-taxInfo">\n              {{ $root.i18n.dictionary.tax }}\n              {{ step == 7 ? newTax : order.tax | smartDigits}}\n              <span currency ng-model="order.currency" data-bold="true"></span>\n            </div>\n          </div>\n          <div class="clearfix fl pt20 w100" ng-show="!order.tax">\n            <div class="HotelBox-priceText fl">\n              {{ $root.i18n.booking.summery }}\n              <div class="s13 lh13">{{ $root.i18n.common.includingAllTaxes }}</div>\n            </div>\n            <div ng-show="step==7" class="HotelBox-price fr">\n              {{order.price + differencePrice | smartDigits}}\n              <span currency class="s26 lh27" ng-model="order.currency" data-bold="true"></span>\n            </div>\n            <div class="HotelBox-price fr" ng-class="{\'is-through HotelBox-priceNew\':step==7}">\n              {{ order.price | smartDigits}}\n              <span currency ng-model="order.currency" data-bold="true" ng-class="{\'s10 lh27\':step==7, \'s26 lh27\':step!=7}"></span>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class="HotelBox-first">\n        <div class="HotelBox-item" ng-repeat="item in order.items">\n          <div class="HotelBox-leftBox">\n            <div class="HotelBox-roomNameBox" ng-class="{\'is-multi\': item.rooms.length > 1}">\n              <div class="clearfix" ng-repeat="room in item.rooms">\n                <div class="HotelBox-roomName">\n                  {{order.items[$parent.$index].rooms[$index].roomName}}\n                </div>\n              </div>\n            </div>\n            <div class="Rooms-roomInfoItems">\n              <div class="Rooms-roomInfoItem"><i class="i-breackfast2"></i>{{d.meals[item.mealId]}}</div>\n              <div class="Rooms-roomInfoItem"><i class="i-view"></i>{{ $root.i18n.booking.withViewToTheCity }}</div>\n            </div>\n          </div>\n          <div class="HotelBox-roomInfo">\n            <div class="Rooms-roomInfoItem">\n              <div class="BookingConditionsInline" booking-conditions-inline="item.chargeConditions"></div>\n            </div>\n          </div>\n\n        </div>\n      </div>\n      <div ng-show="step>3" class="p20 clearfix HotelBox-first">\n        <div class="HotelBox-infoTitle">{{ $root.i18n.booking.infoAboutBuyer }}</div>\n        <div class="HotelBox-infoContext mt5 clearfix">\n          <div class="i-email"></div>\n          <div><b>{{data.hotelOrder.email}}</b></div>\n        </div>\n        <div class="HotelBox-infoContext mt5 clearfix">\n          <div class="i-phone"></div>\n          <div><b>{{data.hotelOrder.phone}}</b></div>\n        </div>\n        <div ng-repeat="item in data.hotelOrder.items">\n          <div ng-repeat="room in item.rooms">\n            <div class="HotelBox-infoTitle mt20">{{ $root.i18n.booking.infoAbout | template:{roomName: order.items[$parent.$index].rooms[$index].roomName, personCount: order.items[$parent.$index].rooms[$index].pax.length} }}\n            </div>\n            <div class="clearfix mt10">\n              <div class="HotelBox-infoContext clearfix" ng-repeat="person in room.persons ? room.persons : room.paxes">\n                <div class="HotelBox-infoContextType mr20">{{person.isChild ? $root.i18n.booking.children : $root.i18n.booking.adult}}:</div>\n                <div class="i-person-info"></div>\n                <div class="HotelBox-infoContextSex"><b>{{person.title==\'mr\' ? $root.i18n.booking.male : $root.i18n.booking.female}}</b></div>\n                <div><b>{{person.name}} {{person.surname}}</b></div>\n              </div>\n            </div>\n          </div>\n          <div class="clearfix" ng-show="item.comment">\n            <div ng-init="desire=false" class="Href mt20" ng-click="desire=!desire" ng-class="{\'is-open\': desire}">\n              {{ $root.i18n.booking.wishes }}\n            </div>\n          </div>\n          <div class="clearfix" ng-show="desire">\n            <div class="HotelBox-infoContext mt10">{{ $root.i18n.booking.comment }}</div>\n            <div class="HotelBox-infoContext mt5"><b>{{item.comment}}</b></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n</div>\n</div>\n'), a.put("/views/hb/contacts.e1963dc7f04c530fd043.html",
-            '<div class="Contacts">\n<div class="Contacts-contactsDetails">\n  <div class="container clearfix h100">\n    <div class="fl ContactsDetails-left">\n      <div class="s21 lh21 text-blue">{{ $root.i18n.common.contactDirections }}</div>\n      <div class="text-bold mt15 s16 lh19">{{ $root.i18n.common.contactsOOO }}</div>\n      <div class="text-bold s16 lh19" ng-bind-html="$root.i18n.common.contactsHotelbookService"></div>\n      <div class="s16 lh19">{{ $root.i18n.common.contactsAddressTitle }}</div>\n      <div class="s16 lh19">{{ $root.i18n.common.ContactsAddress }}</div>\n      <div class="s16 lh19">{{ $root.i18n.common.INN }} | {{ $root.i18n.common.RegNum }}</div>\n      <div class="s16 mt15 Btn Btn--orange hideForPrint" ng-click="print()">{{ $root.i18n.common.contactsPrintMapWithAddress }}</div>\n    </div>\n    <div class="fr ContactsDetails-right">\n      <div class="text-blue s21 lh21">{{ $root.i18n.common.contatcsFeedback }}</div>\n      <div class="ContactsDetails-phones clearfix mt15">\n        <div class="contactType fl">\n          <div class="text-bold s16 lh19 i-phone">{{ $root.i18n.common.contactsMoscow }}</div>\n          <div class="lh19 s16">+7 (495) 730-66-33</div>\n        </div>\n        <div class="contactType fl">\n          <div class="text-bold i-phone s16 lh19">{{ $root.i18n.common.contactsSaintPetersburg }}</div>\n          <div class="lh19 s16">+7 (812) 324-33-93</div>\n        </div>\n        <div class="contactType fl">\n          <div class="text-bold i-at s16 lh19">{{ $root.i18n.common.eMail }}</div>\n          <div class="lh23 s16 lh19">service@hotelbook.ru</div>\n        </div>\n      </div>\n      <div class="s14 lh15 mt15">{{ $root.i18n.common.NotFoundRoundTheClockSupport }}</div>\n      <div class="s14 lh15" ng-bind-html="$root.i18n.common.NotFoundFreeCall"></div>\n      <div class="text-bold lh30 s30">8 (800) 100-41-55</div>\n      <a class="text-blue s16 lh19 mt15 ContactsLink hideForPrint">{{ $root.i18n.common.contactsContactUs }}</a>\n    </div>\n    <div class="ContactsDetails-supportPhoto hideForPrint">\n    </div>\n  </div>\n</div>\n<div class="Contacts-map" map ng-model="coords" inherit-height offset-block=".Contacts-contactsDetails"></div>\n</div>\n'), a.put("/views/hb/external-hotel-search.c39fe8ba4d1380e59397.html",
-            '<div loading="true" data-title="Подготавливаем параметры поиска"></div>\n'), a.put("/views/hb/faq.83c283341e50ab8ebf66.html",
-            '<div class="FAQ">\n  <div class="container">\n    <div class="FAQ-title mb50">\n      <div class="s30 lh36 mb10 text-blue">{{ $root.i18n.dictionary.MostFrequentlyAskedQuestions }}</div>\n    </div>\n\n    <div class="FAQ-groups clearfix">\n      <div class="FAQ-group" ng-click="setActiveGroup(group)" ng-repeat="group in groups" ng-style="{\'background-image\':  \'url(\'+u.getCDNDomain() + \'upload/\' + d.env + group.file.path + group.file.id + \'.\' + group.file.extension + \')\'}">\n        <div class="FAQ-groupTitle" ng-class="{\'FAQ-groupTitle--active\' : group.id === activeGroup.id}">\n          <div class="s23">{{group.title}}</div>\n          {{group.description}}\n        </div>\n      </div>\n    </div>\n\n    <div class="FAQ-qa mt40">\n      <div class="FAQ-questions">\n        <a class="FAQ-question s16" ng-click="setActiveQuestion($index)"  ng-class="{\'FAQ-question--active\': $index == activeQuestionIndex}" ng-repeat="item in activeGroup track by $index">{{item.question}}</a>\n      </div>\n      <div class="FAQ-answer s16 lh19">\n        <div class="FAQ-answerArrow" ng-style="{top: activeQuestionIndex * 40 + \'px\'}"></div>\n        <div ng-bind-html="activeGroup[activeQuestionIndex].answer"></div>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/hb/feedback-layout.75b0fda2be85b4374506.html",
-            '<div class="FeedbackPage">\n  <div class="FeedbackPage-header container" ng-show="u.inStates([\'hb.feedback.new\'])">\n    <div class="FeedbackPage--hightlightText FeedbackPage--blueText">Поделитесь Вашими впечатлениями об отеле.</div>\n    <!-- <div>СПАСИБО ЗА «СПАСИБО»!</div> -->\n    <div class="mb5 mt5">Здравствуйте, <span class="FeedbackPage--blueText">{{order.fullname}}!</span> <div class="FeedbackPage-smile"></div></div>\n    <p>Если Вы побывали в нашем отеле, поделитесь своими впечатлениями с теми, кому это только предстоит.\n         Чем ярче и индивидуальней Ваш отзыв, тем проще будет Вашим последователям спланировать отдых, опираясь на Ваш опыт.\n    </p>\n    <div class="fr FeedbackPage--hightlightText">"С нами Ваши воспоминания будут жить вечно!" )))</div>\n  </div>\n  <div class="FeedbackPage-content container clearfix">\n    <div class="FeedbackPage--hightlightText" ng-show="u.inStates([\'hb.feedback.new\'])">\n      Оцените по 10-бальной шкале отель:\n    </div>\n    <div class="clearfix FeedbackPage-hotelInfo" ng-class="{\'FeedbackPage-content--saved\' : u.inStates([\'hb.feedback.saved\'])}">\n      <div class="HotelInfo-photo fl" ng-style="{\'background-image\': \'url(\' + u.hImage215(hotel.images[0], hotel.id) + \')\'}">\n      </div>\n      <div class="fl ml10">\n        <div class="clearfix">\n          <div class="FeedbackPage--blueText HotelInfo-hotelName fl">{{hotel.name}}</div>\n          <div class="ml5 fl" stars ng-model="hotel.categoryId"></div>\n        </div>\n        <div class="HotelInfo-address">{{hotel.address}}</div>\n        <div class="Hotel-data mt10">\n          <div class="i-calendar"></div>\n          <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkin }}</div>\n          <div>{{::order.arrivalDate | dateTime }}</div>\n        </div>\n        <div class="Hotel-data">\n          <div class="i-calendar"></div>\n          <div class="Hotel-dataLabel">{{ $root.i18n.cabinet.checkOut }}</div>\n          <div>{{::order.departureDate | dateTime }}</div>\n        </div>\n      </div>\n    </div>\n    <div ui-view ng-class="{\'FeedbackPage-saved\' : u.inStates([\'hb.feedback.saved\'])}"></div>\n  </div>\n</div>\n'), a.put("/views/hb/feedback-new.327f1d9a46beb1690121.html",
-            '<form role="form" name="reviewForm" form-validator="review" method="POST" action="{{::actionUrl}}" after-success="afterPost">\n  <div class="FeedbackPage-rateBlock clearfix">\n    <div class="RateBlock-controlsContainer">\n      <div class="RateBlock-rateControlsBlock">\n        <div class="MarkBlock">\n          <div class="MarkBlock-rateControlsHeader">\n            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>\n          </div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackCleanliness }}"\n            ng-model="hotelReview.cleanlinessRating"\n            name="cleanlinessRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'cleanlinessRating\') && reviewForm.submited}"\n          ></div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackComfort }}"\n            ng-model="hotelReview.comfortRating"\n            name="comfortRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'comfortRating\') && reviewForm.submited}"\n           ></div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackLocation }}"\n            ng-model="hotelReview.locationRating"\n            name="locationRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'locationRating\') && reviewForm.submited}"\n          ></div>\n        </div>\n        <div class="DropdownBlock">\n          <div class="FeedbackPage--hightlightText mb10">{{ $root.i18n.hotels.FeedbackChooseTripReason }}</div>\n          <button dropdown-patched ng-model="hotelReview.travelTypeId"\n              class="Dropdown"\n              ng-options="travelType.id as travelType.name for travelType in travelTypes"\n              data-placeholder="{{ $root.i18n.hotels.FeedbackNotSelected }}"\n              data-html="1"\n              name="travelTypeId"\n              required\n              tooltip-manager\n              data-placement="top-left"\n              ng-class="{\'Dropdown-error\': reviewForm.fieldHasError(\'travelTypeId\') && reviewForm.submited}"\n              type="dropdown"\n            ></button>\n        </div>\n        <div class="MessageBlock">\n          <div class="FeedbackPage--hightlightText FeedbackPage--greenText mb10">{{ $root.i18n.hotels.FeedbackHotelGoodPoints }}</div>\n          <textarea placeholder="Пожалуйста, введите текст"\n            ng-model="hotelReview.positiveComment"\n            name="positiveComment"\n            ng-class="{\'Textarea-error\': reviewForm.fieldHasError(\'positiveComment\') && reviewForm.submited}"\n            required\n            tooltip-manager\n            data-placement="top-left"\n            type="text"\n          ></textarea>\n        </div>\n      </div>\n    </div>\n    <div class="RateBlock-controlsContainer ml50">\n      <div class="RateBlock-rateControlsBlock">\n        <div class="MarkBlock">\n          <div class="MarkBlock-rateControlsHeader">\n            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>\n          </div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackStuff }}"\n            ng-model="hotelReview.staffRating"\n            name="staffRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'staffRating\') && reviewForm.submited}"\n          ></div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackPriceToQuality }}"\n            ng-model="hotelReview.valueForMoneyRating"\n            name="valueForMoneyRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'valueForMoneyRating\') && reviewForm.submited}"\n           ></div>\n          <div mark-control data-title="  -  {{ $root.i18n.hotels.FeedbackInternetQuality }}"\n            ng-model="hotelReview.wifiRating"\n            name="wifiRating"\n            required\n            ng-class="{\'Mark-error\': reviewForm.fieldHasError(\'wifiRating\') && reviewForm.submited}"\n          ></div>\n        </div>\n        <div class="DropdownBlock">\n          <div class="FeedbackPage--hightlightText mb10">{{ $root.i18n.hotels.FeedbackTravelerType }}</div>\n          <button dropdown-patched ng-model="hotelReview.travelerTypeId"\n            class="Dropdown"\n            ng-options="travelerType.id as travelerType.name for travelerType in travelerTypes"\n            data-placeholder="{{ $root.i18n.hotels.FeedbackNotSelected }}"\n            data-html="1"\n            required\n            tooltip-manager\n            data-placement="top-left"\n            name="travelerTypeId"\n            ng-class="{\'Dropdown-error\': reviewForm.fieldHasError(\'travelerTypeId\') && reviewForm.submited}"\n            type="dropdown"\n          ></button>\n        </div>\n        <div class="MessageBlock">\n          <div class="FeedbackPage--hightlightText FeedbackPage--redText mb10">{{ $root.i18n.hotels.FeedbackHotelWeekPoints }}</div>\n          <textarea placeholder="{{ $root.i18n.hotels.FeedbackPleaseTypeTextHere }}"\n            ng-model="hotelReview.negativeComment"\n            ng-class="{\'Textarea-error\': reviewForm.fieldHasError(\'negativeComment\') && reviewForm.submited}"\n            name="negativeComment"\n            required\n            tooltip-manager\n            data-placement="top-left"\n            type="text"\n          ></textarea>\n        </div>\n      </div>\n    </div>\n\n  </div>\n  <div class="Btn Btn--submit Btn--orange" ng-show="!alreadyDone">{{ $root.i18n.hotels.Submit }}</div>\n</form>\n'), a.put("/views/hb/feedback-saved.081d4b1e17dfc7f33d61.html",
-            '<div class="mt20">\n  <p class="s22">\n    <span class="FeedbackPage--hightlightText s22">Спасибо за ваш отзыв! </span><br />\n    Он будет очень полезен для других путешественников. Спасибо, что воспользовались нашим сервисом и помогаете нам сделать его еще лучше!\n  </p>\n  <div>\n    <button class="Btn Btn--orange" ui-sref="hb.landing">На главную</button>\n    <button class="Btn Btn--orange" ui-sref="hb.cabinet.booking">В кабинет</button>\n  </div>\n</div>\n'), a.put("/views/hb/hb-info-layout.95c0a30c38bfc462ccb5.html",
-            '<div class="Info">\n<div class="Info-header hideForPrint">\n  <div class="container clearfix">\n    <div class="fl">\n      <!-- <div class="Btn-flat Contacts-navBtn i-back-v2">{{ $root.i18n.common.Back }}</div> -->\n      <div class="Btn-flat Info-navBtn i-home-v2" ui-sref="hb.landing">{{ $root.i18n.common.ToMainpage }}</div>\n      <div class="Btn-flat Info-navBtn i-search-v2" ng-click="showSearchPopup()">{{ $root.i18n.common.FindHotel }}</div>\n      <div class="Btn-flat Info-navBtn i-print" ng-click="print()">{{ $root.i18n.common.PrintBtn }}</div>\n    </div>\n    <div class="fr">\n      <div ui-sref="hb.info.about" class="Btn-flat Info-btn" ng-class="{\'Btn-flat--disabled\': u.inStates([\'hb.info.about\'])}" >{{ $root.i18n.common.AboutHotelbook | template:d.includes }}</div>\n      <div ui-sref="hb.info.faq" class="Btn-flat Info-btn" ng-class="{\'Btn-flat--disabled\': u.inStates([\'hb.info.faq\'])}" >{{ $root.i18n.common.QuestionsAndAnswers }}</div>\n      <div class="Btn-flat Info-btn">{{ $root.i18n.common.Press }}</div>\n      <div ui-sref="hb.info.partner" class="Btn-flat Info-btn" ng-class="{\'Btn-flat--disabled\': u.inStates([\'hb.info.partner\'])}" >{{ $root.i18n.common.Partnership }}</div>\n      <div ui-sref="hb.info.contacts" class="Btn-flat Info-btn" ng-class="{\'Btn-flat--disabled\': u.inStates([\'hb.info.contacts\'])}">{{ $root.i18n.common.Contacts }}</div>\n    </div>\n  </div>\n</div>\n<div ui-view class="Info-container"></div>\n'), a.put("/views/hb/hotel.dec7dab2dca761932284.html",
-            '<div class="HotelPage Hotel clearfix" fixed-box-cont>\n<div class="HotelPage-searchBox" fixed-box="true">\n  <div class="HotelPage-searchBoxСontainer container h100">\n    <a class="HotelPage-backLink Link" ui-sref="hb.hotels.list.page(u.getHotelListParams(searchForm))">\n      <i class="i-back"></i> {{ $root.i18n.hotels.toHotelsList }}\n    </a>\n    <div class="HotelPage-datesInfo">\n      <div class="HotelPage-datesInfoLabel ">\n        <span class="HotelPage-searchBox--boldText">{{ $root.i18n.hotels.accommodationOptionsOnDates }}</span>\n        <br />\n        <span class="HotelPage-searchBox--smallText">{{ $root.i18n.hotels.roomPricesFor }} {{searchForm.daysCount | decline:$root.i18n.decline.night}}</span>\n      </div>\n      <div class="clearfix HotelPage-datesInfoCalendar" ng-show="searchForm.dates">\n        <div class="DateBox-leftArrow" ng-click="selectPreviousDate()"><i class="i-arrow-left"></i></div>\n        <div date-range ng-model="searchForm.dates" date-format="dd.MM.yyyy"\n          data-placement="top-left"\n          ng-required="!searchForm.formData.undefinedDates" name="dates"\n          data-placement="top-left"\n          ng-class="{\'disabled\': searchForm.formData.undefinedDates || hotelStates.hotelInfoLoading || hotelStates.roomsLoading}"\n          ng-disabled="hotelStates.hotelInfoLoading || hotelStates.roomsLoading"\n        >\n        </div>\n        <div class="DateBox-rightArrow" ng-click="selectNextDate()"><i class="i-arrow-right"></i></div>\n      </div>\n    </div>\n    <div class="HotelPage-placeInfo">\n      <div>\n        <span class="HotelPage-placeInfoText"   bs-tooltip data-placement="bottom" data-container="#TooltipContainer-placeInfo" data-title="{{searchForm.city.fullName}} {{u.guestsCount(searchForm.search.rooms, [\'(\',\')\'])}}">\n          <span class="HotelPage-searchBox--boldText ">{{ $root.i18n.hotels.yourSearch }}:</span>\n          <i class="i-globe-lines"></i>\n          <span>{{searchForm.city.fullName}},</span>\n          <span ng-show="isWithRoomsMode()">\n            {{u.guestsCount(searchForm.search.rooms, [\'(\',\')\'])}}\n          </span>\n        </span>\n        <span class="Href" ng-click="showSearchPopap()">{{ $root.i18n.hotels.changeSearchParams }}</span>\n      </div>\n    </div>\n  </div>\n</div>\n<div class="HotelPage-firstBox clearfix" ng-hide="hotelStates.hotelInfoLoading">\n  <div class="container pt20">\n    <div class="Hotel-infoBlock">\n      <div class="clearfix">\n        <div class="Hotel-name" ng-bind-html="hotel.name"></div>\n        <div stars ng-model="hotel.categoryId"></div>\n        <div class="Hotel-like" ng-class="{\'is-liked\': hotel.liked}" hotel-like="hotel" data-city-id="searchForm.city.id"></div>\n      </div>\n      <div class="Hotel-distance" ng-if="hotel.center" ng-click="headerInfo=\'map\'; u.event(\'show_hotel_on_map_dist\')">\n        <i class="i-pointer"></i>\n        <span>{{ hotel.center | distance }} {{ $root.i18n.hotels.kmFromCenter }}</span>\n      </div>\n      <div class="Hotel-address" ng-bind-html="hotel.address"></div>\n    </div>\n    <div class="Hotel-priceBlock">\n      <div class="Hotel-priceBox" ng-show="isWithRoomsMode() && !hotelStates.noRoomsInHotel">\n        <div ng-hide="hotelStates.roomsLoading || !hotel.cheapest.price">\n          <div class="Hotel-priceDays" ng-class="{\'Hotel-priceDays--eng\': d.lang === \'en\'}">{{ $root.i18n.hotels.priceInHotelFor }} {{searchForm.daysCount | decline:$root.i18n.decline.night}}</div>\n          <div class="Hotel-price">{{ hotel.cheapest.price | smartDigits}} <span class="s20 lh24" currency ng-model="hotel.cheapest.currency"\n                                                                                 data-bold="true"></span></div>\n\n        </div>\n      </div>\n      <div class="Hotel-time" ng-show="hotel.checkInTime!=\'00:00:00\' && hotel.checkOutTime!=\'00:00:00\'">\n        <div class="clearfix">\n          <div class="fl pr5">{{ $root.i18n.hotels.checkInTime }}</div>\n          <div class="fl b">{{::hotel.checkInTime.split(\':\')[0]}}<sup class="s10">{{::hotel.checkInTime.split(\':\')[1]}}</sup></div>\n          <div class="fl pr5">{{ $root.i18n.hotels.checkOutTime }}</div>\n          <div class="fl b">{{::hotel.checkOutTime.split(\':\')[0]}}<sup class="s10">{{::hotel.checkOutTime.split(\':\')[1]}}</sup></div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div fixed-box-cont class="HotelPage-infoContent" id="infoContent">\n  <div class="HotelPage-infoNavBar" ng-hide="hotelStates.hotelInfoLoading"  fixed-box="!hotelStates.hotelInfoLoading" ng-click="u.scrollTo(\'infoContent\')">\n    <div class="container">\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'gallery\'}" ng-click="headerInfo=\'gallery\'; u.event(\'show_gallery\')"><i class="i-gallery"></i>{{ $root.i18n.hotels.gallery }}</div>\n      <div class="HotelPage-tab" ng-show="hotel.videourl" ng-class="{\'is-active\':headerInfo==\'video\'}" ng-click="headerInfo=\'video\'; u.event(\'show_video\')"><i class="i-video"></i>{{ $root.i18n.hotels.videoTab }}</div>\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'map\'}" ng-click="headerInfo=\'map\'; u.event(\'show_hotel_on_map\')"><i class="i-map"></i>{{ $root.i18n.hotels.hotelOnMap }}</div>\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'description\'}" ng-click="headerInfo=\'description\'; u.event(\'show_description\')"><i class="i-hotel-info"></i>{{ $root.i18n.hotels.hotelInfo }}</div>\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'feedback\'}" ng-click="headerInfo=\'feedback\'; u.event(\'show_feedback\')"><i class="i-hotel-feedback"></i>{{ $root.i18n.hotels.feedback }}</div>\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'nearBy\'}" ng-click="headerInfo=\'nearBy\'; u.event(\'show_nearBy\')"><i class="i-places-nearby"></i>{{$root.i18n.hotels.placeAround}}</div>\n      <div class="HotelPage-tab" ng-class="{\'is-active\':headerInfo==\'book\'}" ng-click="headerInfo=\'book\'; u.event(\'show_book\')"><i class="i-air"></i>{{$root.i18n.hotels.book}}</div>\n    </div>\n  </div>\n  <div ng-switch="headerInfo" class="HotelPage-headerInfo" ng-init="headerInfo=\'book\'">\n    <div ng-switch-when="gallery" hotel-gallery="hotel.images" data-target-id="hotel.id"></div>\n    <div ng-switch-when="video" class="HotelPage-video">\n      <div class="HotelPage-videoIframeWrapper">\n        <iframe class="HotelPage-videoIframe" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true" msallowfullscreen="true" src="{{getVideoUrl()}}"></iframe>\n      </div>\n      <!-- ВИДЕО ПЛЕЕР С ПРЕВЬЮХАМИ  -->\n      <!-- <div class="HotelPage-videoLoading" loading="hotelStates.videoInfoLoading" data-title="{{ $root.i18n.common.hotelVideoLoading }}"></div> -->\n      <!-- <div class="HotelPage-noVideo">{{ $root.i18n.common.hotelVideoAbsent }}</div> -->\n      <!-- <div class="HotelPage-videoContainer clearfix"> -->\n        <!-- <hb-video class="HotelPage-videoPlayer"><hb-video> -->\n        <!-- <video ng-src="#" controls class="HotelPage-videoPlayer">\n        </video> -->\n        <!-- <div class="HotelPage-videoPreviewContainer"> -->\n          <!-- <div class="HotelPage-videoPreview" ng-repeat="a in [1,2,3]"></div> -->\n        <!-- </div> -->\n      <!-- </div> -->\n      <div class="HotelPage-headerInfoBorder"></div>\n    </div>\n    <div ng-switch-when="map" class="Hotel-map" map ng-model="hotel.coords"></div>\n    <div ng-switch-when="description" id="infoTab" class="HotelPage-headerInfoContainer">\n      <div class="container HotelPage-descriptionContainer">\n        <div class="HotelPage-description clearfix">\n          <div class="HotelPage-descriptionTitle mb10" ng-show="::hotel.description">{{ $root.i18n.hotels.hotelDescription }}</div>\n          <div class="HotelPage-descriptionContent"  is-overflow="hotelStates.isDescriptionOverflow" ng-class="{\'is-open\': showDescription}" ng-bind-html="hotel.description"></div>\n          <div class="HotelPage-descriptionGradient" ng-show="!showDescription && hotelStates.isDescriptionOverflow"></div>\n          <div class="Href pull-right mr20" ng-show="hotelStates.isDescriptionOverflow" ng-class="{\'is-open\': showDescription}" ng-click="showDescription = !showDescription">\n            <span ng-show="showDescription">{{ $root.i18n.hotels.hideFullHotelInfo }}</span>\n            <span ng-show="!showDescription">{{ $root.i18n.hotels.showFullHotelInfo }}</span>\n          </div>\n        </div>\n      </div>\n      <div class="HotelPage-headerInfoBorder"></div>\n    </div>\n    <div ng-switch-when="feedback"  id="feedbackTab" class="HotelPage-headerInfoContainer">\n      <div class="container HotelPage-feedback TAFeedback">\n        <img src="https://www.tripadvisor.com/img/cdsi/partner/transparent_pixel-27109-5.gif" style="position: absolute;">\n        <ta-rating ng-model="hotel.ta.subratings[1].value"></ta-rating>\n        <div class="TAFeedback-title clearfix">\n          Отзывы путешественников предоставлены вам  <img src="/images/common/TA-logo.93bb7330680d9f3da754.png" />\n        </div>\n        <div class="TAFeedback-hotelInfo">\n          <div class="s24">{{hotel.ta.name}}</div>\n          <div class="s12">{{hotel.ta.address_obj.address_string}}</div>\n          <div class="s14 mt10"><img ng-src="{{hotel.ta.rating_image_url}}" /> {{hotel.ta.num_reviews}} отзывов </div>\n          <div class="mb10"><span class="TAFeedback-hotelInfoRanking">№ {{hotel.ta.ranking_data.ranking}} из {{hotel.ta.ranking_data.ranking_out_of}}</span> отелей в {{hotel.ta.ranking_data.geo_location_name}}</div>\n          <div class="HotelInfo-awards clearfix s12">\n            <div class="HotelInfo-award" ng-repeat="award in hotel.ta.awards">\n              <img ng-src="{{award.images.small}}" />\n              {{award.display_name}}\n            </div>\n          </div>\n        </div>\n        <div class="s20">Оценка туристов TripAdvisor:</div>\n        <div class="TAFeedback-hotelRatings clearfix">\n          <div class="TAFeedback-hotelRatingsBlock">\n            <div class="HotelRating" ng-repeat="subrating in hotel.ta.subsubratigs">\n              <div class="HotelRating-title">{{subrating.localized_name}}</div>\n              <img ng-src="{{subrating.rating_image_url}}" />\n              <!-- <div ta-rating ng-model="subrating.value" class="TARating-small" ></div> -->\n            </div>\n          </div>\n          <div class="TAFeedback-hotelRatingsBlock">\n            <div ng-repeat="rating in hotel.ta.review_rating_count">\n              <div class="TAProgressBar" progressbar ng-model="rating.percents" label="{{rating.label}}" value="{{rating.value}}"></div>\n            </div>\n          </div>\n        </div>\n        <div class="s20 mt10 mb10" ng-if="showComments && hotel.ta.reviews.data.length">Последние отзывы:</div>\n        <div class="TAFeedback-feedbacks" ng-if="showComments && hotel.ta.reviews.data.length">\n          <div class="TAFeedback-feedback" ng-repeat="feedback in hotel.ta.reviews.data">\n            <div class="TAFeedback-feedbackAuthor">\n              <div class="FeedbackAuthor-name  b">{{feedback.user.username}}</div>\n              <div class="FeedbackAuthor-location">{{feedback.user.user_location.name}}</div>\n              <div class="FeedbackAuthor-travelType mt10"><b>Тип поездки</b>:</br>{{feedback.trip_type}}</div>\n            </div>\n            <div class="TAFeedback-feedbackContent">\n              <div class="FeedbackContent-title">{{feedback.title}}</div>\n              <div class="FeedbackContent-rate"><img ng-src="{{feedback.rating_image_url}}" /> {{feedback.published_date | dateFormat:\'DD MMM YYYY\'}}</div>\n              <div class="FeedbackContent-info" clip-text ng-model="feedback.text" clip-length="300"></div>\n            </div>\n          </div>\n          <div class="mt5">\n            <div class="Href fl" ng-click="showNextComments()" ng-show="parseInt(hotel.ta.reviews.paging.skipped != 0)">{{ $root.i18n.dictionary.PrevOne }}</div>\n            <div class="Href fr" ng-click="showPrevComments()" ng-show="parseInt(hotel.ta.reviews.paging.skipped) + parseInt(hotel.ta.reviews.paging.results) < parseInt(hotel.ta.reviews.paging.total_results)">{{ $root.i18n.dictionary.NextOne }}</div>\n            <div class="tac">{{parseInt(hotel.ta.reviews.paging.skipped) + 1}}-{{hotel.ta.reviews.paging.results}} {{ $root.i18n.dictionary.outOf }} {{hotel.ta.reviews.paging.total_results}} {{ $root.i18n.dictionary.Reviews }}</div>\n          </div>\n        </div>\n        <!-- <div class="mt10">These reviews are the subjective opinions of individual travellers and not of TripAdvisor LLC nor of its partners.</div> -->\n        <div class="Href mt10" ng-click="showComments = !showComments" ng-init="showComments=false">\n          <span ng-show="!showComments">{{ $root.i18n.hotels.showCommnets }}</span>\n          <span ng-show="showComments">{{ $root.i18n.hotels.hideComments }}</span>\n        </div>\n      </div>\n      <div class="HotelPage-headerInfoBorder"></div>\n    </div>\n    <div ng-switch-when="nearBy" class="HotelPage-placesNearby HotelPage-headerInfoContainer">\n      <div class="container">\n        <div class="HotelPage-placesList">\n          <div class="HotelPlace-placesList--title"><b>{{ $root.i18n.hotels.nearBy }}</b></div>\n          <div class="HotelPlace-placesList--loading" loading="placesStatus.loadingPlaces"></div>\n          <div class="HotelPlace-placesList--empty" ng-show="!placesStatus.loadingPlaces && placesNearBy.length == 0"><b>Ничего не найдено</b></div>\n          <div ng-repeat="place in placesNearBy | orderBy:\'distance\' track by place.id" class="HotelPage-place">\n            <span class="HotelPlace-placeDistance">{{u.mToKm(place.distance)}} kм</span>\n            <span class="HotelPlace-placeName" ng-click="openPlace(place)">{{place[placeNameField]}}</span>\n          </div>\n        </div>\n        <div  class="HotelPage-placesNearbyMap" map ng-model="hotel.coords"></div>\n      </div>\n      <div class="HotelPage-headerInfoBorder"></div>\n    </div>\n  </div>\n  <div class="container" ui-view>\n\n  </div>\n  <!-- <div class="HotelPage-ThirdBox" ng-switch="footerInfo" ng-init="footerInfo=\'description\'">\n    <div class="container HotelPage-feedback" ng-switch-when="feedback">\n      <iframe frameBorder="0" src="{{getFeedbackUrl()}}"></iframe>\n    </div>\n    <div class="container" ng-switch-when="roomFacilities">\n      <div class="HotelPage-roomFacilities">\n        <div class="HotelPage-roomFacilitiesTitle mb10">{{ $root.i18n.hotels.roomFacilities }}</div>\n        <div class="HotelPage-roomFacilitiesItem" ng-repeat="amenity in hotel.amenities track by $index">\n          <i class="i-amenities-{{amenity}}"></i>\n          <span ng-bind="d.amenities[amenity]"></span>\n        </div>\n      </div>\n    </div>\n  </div> -->\n  <div class="HotelPage-history"></div>\n  </div>\n</div>\n<div id="TooltipContainer-placeInfo" class="TooltipContainer-placeInfo"></div>\n<div class="GalleryLightBox">\n  <a ng-repeat="image in hotel.images" href="image"></a>\n </div>\n'), a.put("/views/hb/hotels-layout.089bbf99bea5c39ca9ad.html",
-            '<div class="h100">\n  <div class="ng-hide" style="color: #FFF">states.hotelsLoaded: {{states.hotelsLoaded}} states.roomsLoaded: {{states.roomsLoaded}} allHotels: {{rawData.allHotels.length}} hotels: {{rawData.hotels.length}} filtered: {{rawData.filtered.length}} favorites: {{rawData.favorites.length}} rooms: {{rawData.cityRooms.length}} searchForm.page: {{searchForm.page}}</div>\n  <!-- показываем лоадер до тех пор пока не загрузится отели и хотя-бы одна комната -->\n  <div loading="isInitialLoad()"  data-title="{{u.inStates([\'hotels.view\']) ? $root.i18n.common.weAreLoadingHotelInfo :  $root.i18n.hotels.weAreLookingForHotels }}" data-svg="preloader.svg" class="Loading--light zi-top"></div>\n  <div ui-view ng-show="!isInitialLoad()" class="h100" autoscroll="true"></div>\n</div>\n'), a.put("/views/hb/hotels-list.deade90aaa67d090346a.html",
-            '<div class="HotelsList" fixed-box-cont>\n  <!-- магический пиксель для того чтобы TA мог вести статистику  -->\n  <img ng-src="{{getMagicPixelUrl()}}" style="position: absolute;">\n  <div ng-include="\'/views/hb/top-search-form.e447ddc20c9162a60ade.html\'" class="HotelsList-searchFormBox" fixed-box="true"></div>\n  <div class="container HotelsList-resultBox">\n    <div class="row mp60" ng-hide="isShowNoHotels()">\n      <div class="col-xs-3">\n        <div ng-include="\'/views/hb/side-search-form.914a6d02beac24ab834c.html\'"></div>\n      </div>\n      <div class="col-xs-9">\n        <div class="mt10 mb10 clearfix">\n\n          <div class="HotelsList-sortBox clearfix">\n            <div class="HotelsList-sortLabel">\n              {{ $root.i18n.hotels.sortBy }}:\n              <button class="InlineDropdown btn btn-link" ng-model="searchForm.filters.sort" data-html="1"\n                      ng-options="sort.value as sort.label for sort in d.sorts" bs-select></button>\n            </div>\n            <div class="Link no-animate" ng-click="searchForm.filters.liked = true" ng-hide="searchForm.filters.liked || !rawData.favorites.length">\n              <i class="i-like"></i>\n              <span class="Counter">{{ $root.i18n.hotels.favorites }} <b class="Counter-label" bounce="hotelLike.liked">{{rawData.favorites.length}}</b></span>\n            </div>\n            <div class="Link no-animate" ng-click="searchForm.filters.liked = false" ng-show="searchForm.filters.liked">\n              <i class="i-accommodation"></i>\n              <span>{{ $root.i18n.hotels.allHotels }}</span>\n            </div>\n          </div>\n          <div class="HotelsList-sortBox HotelsList-currency ml20">\n              {{ $root.i18n.hotels.currency }}\n              <button class="InlineDropdown btn btn-link" ng-model="d.currency" data-html="1" ng-options="currency.value as currency.label for currency in d.currencies" bs-select ></button>\n          </div>\n          <a class="HotelsList-mapBtn col-xs-3" ng-click="u.event(\'look_at_map_click\')"\n             ui-sref="hb.hotels.map.page(u.getHotelListParams(searchForm))" >\n            <div class="HotelsList-mapBtnContent">\n              <div class="HotelsList-mapBtnText">\n                <i class="i-map-marker"></i>{{ $root.i18n.hotels.seeOnMap }}\n              </div>\n            </div>\n          </a>\n        </div>\n        <hotels-list hotels="rawData.filtered"></hotels-list>\n\n        <pagination-controls  total-items="rawData.filtered.length" pagination="searchForm.pagination" ng-hide="searchForm.filters.liked"></pagination-controls>\n\n        <!-- <div class="mt25 mb20" ng-show="rawData.filtered.length">\n          <dir-pagination-controls class="HotelsList-paginator" template-url="/bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>\n        </div> -->\n        <div class="HotelStub" ng-show="isShowNoFilters()">\n          <i class="HotelStub-icon i-no-filter"></i>\n          <div class="HotelStub-title">{{ $root.i18n.hotels.tooComplexFilters | template:{hotelsCount: (rawData.hotels.length | decline:$root.i18n.decline.hotel)} }}</div>\n          <div class="HotelStub-subtitle">{{ $root.i18n.hotels.probablyYouMakeTooComplexSearch }}</div>\n        </div>\n      </div>\n    </div>\n    <div class="HotelStub" ng-show="isShowNoHotels()">\n      <i class="HotelStub-icon i-no-search"></i>\n      <div class="HotelStub-title">{{ $root.i18n.hotels.weFoundNothing }}</div>\n      <div class="HotelStub-subtitle">{{ $root.i18n.hotels.probablyYouMakeTooComplexSearch }}</div>\n      <a class="Btn Btn--orange mt15" ui-sref="hb.landing">{{ $root.i18n.hotels.newSearch }}</a>\n    </div>\n  </div>\n  <div id="HoverImagePopupCOntainer"></div>\n  <!-- <div ng-include="includes.footer"></div> -->\n</div>\n'), a.put("/views/hb/hotels-map.4f990fd56aef95d6a154.html",
-            '<div class="HotelsMap">\n  <!-- магический пиксель для того чтобы TA мог вести статистику  -->\n  <img ng-src="{{getMagicPixelUrl()}}" style="position: absolute;">\n\n  <div ng-include="\'/views/hb/top-search-form.e447ddc20c9162a60ade.html\'"></div>\n  <div class="HotelsMap-content">\n\n    <div class="HotelsMap-filters" ng-class="{\'is-hide\': !showFiltersMenu}">\n      <div class="h100">\n        <div class="HotelsMap-filtersBox" auto-height perfect-scrollbar footer=".Header" suppress-scroll-x="true"\n             include-padding="true">\n          <div ng-include="\'/views/hb/side-search-map-form.1a12156c7b4911f2f974.html\'"></div>\n        </div>\n      </div>\n      <div class="HotelsMap-filtersMinBtn" ng-init="showFiltersMenu = true" ng-click="showFiltersMenu = !showFiltersMenu">\n        <div ng-show="!showFiltersMenu" class="i-arrow-right"></div>\n        <div ng-show="showFiltersMenu" class="i-arrow-left"></div>\n      </div>\n    </div>\n    <div class="HotelsMap-map" map data-show-loader="{{showLoader}}" ng-model="searchForm.city.coords"\n         ng-controller="HbHotelsMapListCtrl"></div>\n    <div class="HotelsMap-hotels">\n      <div class="HotelsMap-hotelsBox" auto-height perfect-scrollbar footer=".TopSearchForm" include-padding="true"\n           ng-class="{\'is-open\' : $parent.searchForm.isFull}">\n        <div class="HotelsMap-sortBox">\n          <div class="HotelsMap-sortLabel">\n            {{ $root.i18n.hotels.sortBy }}:\n            <button class="InlineDropdown btn btn-link" ng-model="searchForm.filters.sort" data-html="1"\n                    ng-options="sort.value as sort.label for sort in d.sorts" bs-select data-trigger="click"></button>\n          </div>\n\n          <div class="Link slide-left" ng-click="searchForm.filters.liked = true"\n               ng-hide="searchForm.filters.liked || !rawData.favorites.length">\n            <i class="i-like"></i>\n            <span class="Counter">{{ $root.i18n.hotels.favorites }} <b class="Counter-label" bounce="hotelLike.liked">{{rawData.favorites.length}}</b></span>\n          </div>\n          <div class="Link slide-left" ng-click="searchForm.filters.liked = false" ng-show="searchForm.filters.liked">\n            <i class="i-accommodation"></i>\n            <span>{{ $root.i18n.hotels.allHotels }}</span>\n          </div>\n\n        </div>\n\n        <div class="Hotel clearfix"\n             dir-paginate="hotel in rawData.filtered | orderBy:searchForm.filters.sort | itemsPerPage: searchForm.pagination.itemsPerPage"\n             ng-class="{\'is-allPhoto\': hotel.allPhoto}" current-page="searchForm.pagination.page"\n             ng-mouseenter="hotel.marker.show()" ng-mouseleave="hotel.marker.hide()">\n          <div class="Hotel-photoBox">\n            <div hotel-like="hotel" data-city-id="searchForm.city.id"></div>\n\n            <div class="Hotel-photo"\n                 ng-style="{\'background-image\': \'url(\' + u.hImage135(hotel.images[0], hotel.id) + \')\'}"></div>\n            <div class="Hotel-galleryIcon" ng-click="hotel.allPhoto = !hotel.allPhoto">\n              <div class="i-gallery"></div>\n              <span>{{ $root.i18n.hotels.seeAllPhoto }}</span>\n            </div>\n          </div>\n\n          <div class="Hotel-mainBox">\n            <div class="Hotel-infoBox">\n              <a class="Hotel-name" ui-sref="hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))"\n                ng-click="u.event(\'hotel_title_click\')">\n                <div>{{ hotel.name }}</div>\n              </a>\n              <div stars data-small="true" ng-model="hotel.categoryId"></div>\n              <div class="Hotel-tripBox">\n                <a hotel-rating="hotel.ta.rating" data-no-trip-logo="true"\n                  ui-sref="hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))">\n                </a>\n              </div>\n              <div class="Hotel-distance" ng-click="showOnMap(hotel)" ng-show="hotel.center">\n                <i class="i-pointer"></i>\n                <span>{{ hotel.center | distance }} {{ $root.i18n.hotels.km }}</span>\n              </div>\n              <div class="Hotel-priceBoxWrapper">\n                <div class="Hotel-priceBox" ng-show="hotel.rooms">\n                  <div loading="roomloading"></div>\n                  <div ng-show="!roomloading">\n                    <span class="Hotel-pricePrefix">{{ $root.i18n.hotels.from }}</span>\n                    <span class="Hotel-price">{{ hotel.rooms[0].price | smartDigits}} <span currency\n                                                                                            ng-model="d.currency"\n                                                                                            data-bold="true"></span></span>\n                    <div class="Hotel-priceDays">{{ $root.i18n.hotels.bestPriceFor }} {{ u.daysCount(searchForm.dates) |\n                      decline:$root.i18n.decline.night}}\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n            <div class="Hotel-roomsHidden"\n                 ng-repeat="item in hotel.filteredRooms = (hotel.rooms | food:selections.food | price:searchForm.filters.price)"></div>\n            <div class="Hotel-bottomBox">\n              <div class="Hotel-facilities clearfix">\n                <div class="i-condition" ng-show="isFacilities(hotel, 1)"></div>\n                <!--air conditioning-->\n                <div class="i-parking" ng-show="isFacilities(hotel, 5)"></div>\n                <!--parking-->\n                <div class="i-pool" ng-show="isFacilities(hotel, 6)"></div>\n                <!--pool-->\n                <div class="i-tv" ng-show="isFacilities(hotel, 10)"></div>\n                <!--tv-->\n                <div class="i-wifi" ng-show="isFacilities(hotel, 2)"></div>\n                <!--internet-->\n              </div>\n              <div class="Hotel-bookBtn">\n                <a class="Btn Btn--orange" ui-sref="hb.hotels.view.rooms(u.getHotelParams(hotel, searchForm))"\n                  ng-click="u.event(\'book_btn_click\')">{{ $root.i18n.hotels.see }}\n                </a>\n              </div>\n            </div>\n          </div>\n          <div class="Hotel-photoGallery clearfix" ng-if="hotel.allPhoto" hover-gallery position="horizontal" data-target-id="hotel.id">\n            <div class="Hotel-smallPhoto" ng-style="{\'background-image\': \'url(\' + u.hImage45(image, hotel.id) + \')\'}" ng-repeat="image in hotel.images | limitTo:8"  hover-gallery-image="image" ></div>\n          </div>\n        </div>\n        <div ng-click="u.scrollToInPerfectScrollbar($event)" class="Paginator" ng-show="rawData.filtered.length > 10">\n          <dir-pagination-controls max-size="6"\n                                   template-url="/bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>\n        </div>\n        <div class="HotelStub" ng-show="!rawData.filtered.length && !roomloading && !noRoom">\n          <i class="HotelStub-icon i-no-filter"></i>\n\n          <div class="HotelStub-title">{{ $root.i18n.hotels.tooComplexFilters | template:{hotelsCount:\n            (rawData.hotels.length | decline:$root.i18n.decline.hotel)} }}\n          </div>\n          <div class="HotelStub-subtitle">{{ $root.i18n.hotels.probablyYouMakeTooComplexSearch }}</div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n</div>\n'), a.put("/views/hb/landing.83f45e6cd2132a9903c9.html",
-            '<div class="LandingPage" window-scroll>\n<div class="LandingPage-photoBox" landing-banner>\n  <div class="LandingPage-header" ng-controller="HeaderCtrl">\n    <div class="LandingPage-headerControls clearfix">\n      <div ng-show="d.user" class="fl ml5">\n        <a class="Header-link" ui-sref="hb.cabinet.booking">\n          <i class="i-cabinet-profile Header-linkIcon"></i>\n          {{ $root.i18n.common.headerUserCabinet }}\n        </a>\n      </div>\n      <div ng-if="!d.user" class="fl ml5"  ng-click="showRegistrationModal()">\n        <a class="Header-link">\n          <i class="i-login"></i>\n          {{ $root.i18n.common.headerLogin }}\n        </a>\n      </div>\n      <div class="fl ml5" ng-click="d.lang = \'ru\'">\n        <div class="Header-switch" ng-class="{\'is-active\' : d.lang == \'ru\'}">\n          <span class="i-CommonRu"></span>\n        </div>\n      </div>\n      <div class="fl ml5" ng-click="d.lang = \'en\'">\n        <div class="Header-switch" ng-class="{\'is-active\' : d.lang == \'en\'}">\n          <span class="i-CommonEn"></span>\n        </div>\n      </div>\n      <div ng-show="d.user" class="fl ml5"  ng-click="logout()">\n        <a class="Header-link">\n          <i class="i-login"></i>\n          {{ $root.i18n.common.headerLogout }}\n        </a>\n      </div>\n    </div>\n    <div class="Header-logo"></div>\n  </div>\n  <div class="LandingPage-form" search-form-animation data-offset="60"  ng-class="{\'LandingPage-formFull\' : searchForm.isFull}" ng-include="\'/views/hb/search-form.34fcd68b1c92c0229a80.html\'"></div>\n\n  <div class="LandingPage-benefits" ng-hide="searchForm.isFull">\n    <!-- <div class="LandingPage-benefitTitle">\n      {{ $root.i18n.landing.WhyHotelbook }}\n    </div> -->\n    <div class="LandingPage-benefitsList">\n      <div class="container">\n        <div class="LandingBenefit">\n          <div class="LandingBenefit-icon">\n            <div class="i-vibor-est"></div>\n          </div>\n          <div class="s21">{{ $root.i18n.landing.ChoiseExists }}</div>\n          <div class="LandingBenefit-text">{{ $root.i18n.landing.alotofhotels }}</div>\n        </div>\n        <div class="LandingBenefit">\n          <div class="LandingBenefit-icon">\n            <div class="i-payment"></div>\n          </div>\n          <div class="s21">{{ $root.i18n.landing.dontPayForAir }}</div>\n          <div class="LandingBenefit-text">{{ $root.i18n.landing.pricesInfo }}</div>\n        </div>\n        <div class="LandingBenefit">\n          <div class="LandingBenefit-icon">\n            <div class="i-help"></div>\n          </div>\n          <div class="s21">{{ $root.i18n.landing.ComeToHelp }}</div>\n          <div class="LandingBenefit-text">{{ $root.i18n.landing.whereIsAChoise }}</div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div class="LandingPage-title i-best-href"  ng-click="goToBestOffer()" ng-bind-html="includes.name === \'aeroflot\' ?  $root.i18n.landing.bestAeroflotOffers  : $root.i18n.landing.bestHotelbookOffers ">\n</div>\n<div class="TopOffers-loading" loading="!topOffersLoaded" title="Загружаем лучшие предложения">\n</div>\n<div class="LandingPage-bestBox pb40" id="bestOffer" ng-show="topOffersLoaded">\n  <div class="LandingPage-offerCity mb5">\n    <div class="container LandingPage-offerCityContainer">\n      <div class="OfferCity-title">{{ $root.i18n.landing.TravelToRussia }}</div>\n      <div class="OfferCity-name">{{ $root.i18n.landing.Moscoe }}</div>\n      <div class="OfferCity-hotelsCount">{{topOffers.Moscow[0].hotelCount | decline:$root.i18n.decline.hotelCount}}</div>\n      <div class="OfferCity-weather">\n        <div class="i-weather-{{::topOffers.Moscow[0].weather.type}}"></div>\n        <div class="Weather-temperature">{{::topOffers.Moscow[0].weather.temperature}} C</div>\n      </div>\n      <div class="OfferCity-searchBtn Btn Btn--orange" ng-click="goToCity(topOffers.Moscow[0])">{{ $root.i18n.landing.ShowAllMoscowHotels }}</div>\n    </div>\n  </div>\n  <div class="LandingPage-offersBlock">\n    <div class="OffersBlock-title">{{ $root.i18n.landing.RussiaCoolPlaces }}</div>\n    <div class="CountryPlaces" images-auto-align inner="topOffers.Russia" total-blocks="topOffers.Russia.length" data-min-width="350" data-margin-block="5">\n      <div class="CountryPlaces-place" ng-click="goToCity(place)" ng-repeat="place in topOffers.Russia" ng-style="{\'background-image\':  \'url(\'+u.getCDNDomain() + \'upload/\' + d.env + place.files[0].path + place.files[0].id + \'.jpg)\'}">\n        <div class="CountryPlaces-placeInfo">\n          <p>{{place.description}}</p>\n        </div>\n        <div class="CountryPlaces-placeGradient"></div>\n        <div class="CountryPlaces-placeName">{{::place.cityName}}</div>\n        <div class="CountryPlaces-placeHotelsNum">{{::place.hotelCount}} {{::place.hotelCount | decline:$root.i18n.decline.hotel:true}}</div>\n        <div class="CountryPlaces-placeWeather">\n          <div class="i-weather-{{::place.weather.type}}"></div>\n          <div class="Weather-temperature">{{::place.weather.temperature}} C</div>\n        </div>\n      </div>\n    </div>\n    <!-- <div class="CountryPlaces" images-auto-align data-min-width="250" data-margin-block="5">\n      <div class="CountryPlaces-place" ng-repeat="place in countryPlaces" ng-style="{\'background-image\': \'url(\' + place.src + \')\'}">\n        <div class="CountryPlaces-placeInfo">\n          <p>Сдесь можно написать какой нибудь текст о городе, достопримечательостях, почему стоит там побывать или еще что-то</p>\n        </div>\n        <div class="CountryPlaces-placeGradient"></div>\n        <div class="CountryPlaces-placeName">{{place.name}}</div>\n        <div class="CountryPlaces-placeHotelsNum">375 {{ 375 | decline:$root.i18n.decline.hotel:true}}</div>\n      </div>\n    </div> -->\n  </div>\n  <div class="LandingPage-offersBlock container">\n    <div class="OffersBlock-title">{{ $root.i18n.landing.WorldMostPopularCities }}</div>\n    <div class="OffersBlock-worldwide">\n      <div class="Worldwide-country" ng-repeat="offer in topOffers.Worldwide | limitTo:6 track by $index">\n        <div class="Worldwide-capital"\n         ng-click="goToCity(offer)"\n         ng-style="{\'background-image\': \'url(\'+u.getCDNDomain() + \'upload/\' + d.env + offer.files[0].path+offer.files[0].id + \'.jpg)\'}"\n        >\n          <div class="Worldwide-countryGradient"></div>\n          <div class="Wolrdwide-countryCaptialExtraInfo">\n            <div class="Worldwide-countryCapitalTextBorder"></div>\n            <div class="Wolrdwide-countryCapitalText">{{offer.description}}</div>\n          </div>\n          <div class="Worldwide-capitalWeather">\n            <div class="i-weather-{{offer.weather.type}}"></div>\n            <div class="Weather-temperature">{{offer.weather.temperature}} C</div>\n          </div>\n          <div class="Worldwide-capitalName">{{offer.cityName}}</div>\n          <div class="Worldwide-capitalCountry">{{offer.countryName}}</div>\n        </div>\n        <div class="Worldwide-hotels clearfix">\n          <div class="Worldwide-hotel"\n           ng-repeat="hotel in offer.hotels"\n           ng-style="{\'background-image\': \'url(\' + u.hImage215(hotel.images[0], hotel.id) + \')\'}"\n           ng-click="goToHotel(hotel)"\n          >\n            <div class="Worldwide-hotelGradient"></div>\n            <div class="Worldwide-hotelName">{{hotel.name}}</div>\n            <div class="Worldwide-hotelStars" stars ng-model="hotel.categoryId" data-show-star-holders="false"></div>\n            <div class="Worldwide-hotelPrice lh17">\n              <span class="s14">{{ $root.i18n.common.from }} </span>\n              <span class="s17">{{ hotel.price | smartDigits}}</span>\n              <span class="s14 Worldwide-currency" ng-class="{\'i-ruble-new\' : d.currency == \'RUB\', \'i-currency-eur\' : d.currency == \'EUR\', \'i-currency-usd\' : d.currency == \'USD\'}"></span>\n              <!-- <span class="s17 question-circle" container="body" bs-tooltip data-title="Цена за 1 ночь<br /> <b>включая все налоги и сборы</b>" data-html="1" data-animation="popup-slide-down Tooltip Tooltip--info"></span> -->\n            </div>\n            <div class="Worldwide-hotelLike" ng-class="{\'is-liked\': hotel.liked}" hotel-like="hotel" data-city-id="searchForm.city.id">\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n<div class="LandingPage-bottomBox">\n  <div class="BottomBox-bgImage"></div>\n  <div class="container">\n    <div class="BottomBox-info clearfix">\n      <div class="BottomBox-infoText">\n        <div class="s30 lh30 mb25">{{ $root.i18n.landing.searchForHotelsInfo }}</div>\n        <div class="s18 lh21">{{$root.i18n.landing.bottomText[u.getPartnerId()]}}</div>\n        <div class="s30 lh30 mt25">{{ $root.i18n.landing.packBags }}</div>\n      </div>\n      <div class="BottomBox-infoImage mt10 mb5"></div>\n    </div>\n    <div class="BottomBox-searchForm mb30" ng-include="\'/views/hb/search-form.34fcd68b1c92c0229a80.html\'"></div>\n  </div>\n</div>\n</div>\n'), a.put("/views/hb/partner.f7c739c95f5b10d2df80.html",
-            '\n<div class="Partner">\n  <div class="Partner-section PartnerSection PartnerSection1">\n    <div class="container">\n      <div class="PartnerSection-title">Есть сайт или блог о туризме или путешествиях?</div>\n      <div class="PartnerSection-subtitle">Значит Вы можете начать зарабатывать на бронировании отелей!</div>\n      <div class="PartnerSection1-text">\n        <p>Для этого разместите нашу форму бронирования на Вашем ресурсе и получайте от <em>50%</em> до <em>70%</em> с доходов от заказа. В среднем, это означает по <em>500<span class="rub"></span></em> прибыли с каждого бронирования отеля. Каждый реферал привязывается к ссылке на 30 дней, в течение этого срока все<span style="display:inline-block; width:100%; text-align:center;"> его операции на hotelbook.ru будут приносить Вам доход.</span></p>\n        <p>Прибавьте к этому 5% с дохода других ресурсов-аффилиатов, если Вы<span style="display:inline-block; width:100%; text-align:center;"> сможете убедить их поучаствовать в партнерской программе.</span></p>\n      </div>\n      <a class="PartnerSection1-btn Btn Btn--orange" ng-click="showPartnerRegistrationModal()">Участвовать в партнерской программе</a>\n    </div>\n  </div>\n  <div class="Partner-section PartnerSection PartnerSection2">\n    <div class="container">\n      <div class="PartnerSection-title PartnerSection2-title">Мы готовы сотрудничать, если Вы...</div>\n      <div class="PartnerSection2-figures">\n        <div class="row">\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--web"></div>\n            <div class="PartnerSection2-figureTitle">Владелец веб-сайта</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">по тематике: туризм, путешествия.</div>\n              <div class="PartnerSection2-figureTextLine">Регионального портала, медиа-издания, форума...</div>\n            </div>\n          </div>\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--blog"></div>\n            <div class="PartnerSection2-figureTitle">Блогер,</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">ведущий блог в релевантной тематике</div>\n            </div>\n          </div>\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--group"></div>\n            <div class="PartnerSection2-figureTitle">Владелец группы</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">в социальных сетях</div>\n            </div>\n          </div>\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--seo"></div>\n            <div class="PartnerSection2-figureTitle">SEO-специалист</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">(допустимые типы трафика</div>\n              <div class="PartnerSection2-figureTextLine">"White hat SEO")</div>\n            </div>\n          </div>\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--agent"></div>\n            <div class="PartnerSection2-figureTitle">Турагенство</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">(частые вопросы от турагенств)</div>\n            </div>\n          </div>\n          <div class="PartnerSection2-figure col-xs-4">\n            <div class="PartnerSection2-figureIcon PartnerSection2-figureIcon--person"></div>\n            <div class="PartnerSection2-figureTitle">Просто хотите зарабатывать</div>\n            <div class="PartnerSection2-figureText">\n              <div class="PartnerSection2-figureTextLine">на бронировании отелей,</div>\n              <div class="PartnerSection2-figureTextLine">но пока не знаете как это делать</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Partner-section PartnerSection PartnerSection3">\n    <div class="container">\n      <div class="PartnerSection-title">Когда будет начислена первая выплата?</div>\n      <div class="PartnerSection-subtitle">Выплаты производятся раз в месяц, всегда в срок. Минимальная выплата составляет 500Р.<br>Для выплат мы используем следующие платформы:</div>\n      <div class="PartnerSection3-services">\n        <div class="PartnerSection3-service">\n          <div class="PartnerSection3-serviceIcon PartnerSection3-serviceIcon--wm"></div>\n        </div>\n        <div class="PartnerSection3-service">\n          <div class="PartnerSection3-serviceIcon PartnerSection3-serviceIcon--ym"></div>\n        </div>\n        <div class="PartnerSection3-service">\n          <div class="PartnerSection3-serviceIcon PartnerSection3-serviceIcon--card"></div>\n        </div>\n        <div class="PartnerSection3-service">\n          <div class="PartnerSection3-serviceIcon PartnerSection3-serviceIcon--epay"></div>\n        </div>\n        <div class="PartnerSection3-service">\n          <div class="PartnerSection3-serviceIcon PartnerSection3-serviceIcon--pp"></div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Partner-section PartnerSection PartnerSection4">\n    <div class="container">\n      <div class="PartnerSection-title">Что делать дальше?</div>\n      <div class="PartnerSection4-figures">\n        <div class="PartnerSection4-figure PartnerSection4-figure--form">\n          <div class="PartnerSection4-figureIcon"></div>\n          <div class="PartnerSection4-figureText">\n            Перед тем, как разместить форму на своем веб-сайте или в блоге, зарегистрируйтесь в качестве аффилиата.<span style="display:inline-block; width:100%; text-align:center;"> Это займет не&nbsp;больше двух минут</span>\n          </div>\n          <a class="PartnerSection4-figureBtn Btn Btn--orange" ng-click="showPartnerRegistrationModal()">Зарегистрироваться</a>\n        </div>\n        <div class="PartnerSection4-figure PartnerSection4-figure--mail">\n          <div class="PartnerSection4-figureIcon"></div>\n          <div class="PartnerSection4-figureText">\n            После этого на электронную почту придет письмо со&nbsp;ссылкой для активации вашей учетной записи&nbsp;в<span style="display:inline-block; width:100%; text-align:center;"> <a href="#">«Личном кабинете»</a></span>\n          </div>\n        </div>\n        <div class="PartnerSection4-figure PartnerSection4-figure--html">\n          <div class="PartnerSection4-figureIcon"></div>\n          <div class="PartnerSection4-figureText">\n            В «Личном кабинете», скопируйте html-код поисковой <span style="display:inline-block; width:100%; text-align:center;"> формы и&nbsp;вставьте его на&nbsp;свой ресурс</span>\n          </div>\n        </div>\n        <div class="PartnerSection4-figure PartnerSection4-figure--grow">\n          <div class="PartnerSection4-figureIcon"></div>\n          <div class="PartnerSection4-figureText">\n            Используйте различные методики стимулирования пользователей для&nbsp;того, чтобы увеличить уровень<span style="display:inline-block; width:100%; text-align:center;"> вашего дохода</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Partner-section PartnerSection PartnerSection5">\n    <div class="container">\n      <div class="PartnerSection-title">Прочитайте отзывы наших партнеров!</div>\n      <div class="PartnerSection5-quotes">\n        <div class="PartnerSection5-quotesHead">\n          <div class="PartnerSection5-quotesHeadCol">\n            <div class="PartnerSection5-quoteIcon"></div>\n          </div>\n          <div class="PartnerSection5-quotesHeadCol">\n            <div class="PartnerSection5-quoteIcon"></div>\n          </div>\n        </div>\n        <div class="PartnerSection5-quotesBody">\n          <div class="PartnerSection5-quotesBodyCol">\n            <div class="PartnerSection5-quote">\n              <p>В отличии от многих партнерских программ, слова про техническую функциональность и обилие промо&nbsp;&mdash; не пустой звук. Дизайн. удобство в работе с партнерскими инструментами, техподдержка,<span style="display:inline-block; width:100%; text-align:center;"> выплаты&nbsp;&mdash; всё на высшем уровне!</span></p>\n            </div>\n          </div>\n          <div class="PartnerSection5-quotesBodyCol">\n            <div class="PartnerSection5-quote">\n              <p>Партнерская программа от hotelbook.ru&nbsp;&mdash; это всегда стабильные выплаты, отзывчивая поддержка и команда, открытая к новым идеям и предложениям. Существенным плюсом также является то, что для участия в программе можно даже не иметь своего сайта. Для того, чтобы заработать уже сегодня, можно просто вести<span style="display:inline-block; width:100%; text-align:center;"> интересный блог о туризме и путешествиях</span></p>\n            </div>\n          </div>\n        </div>\n        <div class="PartnerSection5-quotesFoot">\n          <div class="PartnerSection5-quotesFootCol">\n            <div class="PartnerSection5-quoteIcon"></div>\n            <div class="PartnerSection5-quoteAuthor">Форум <a href="#">SearchEngines.ru</a></div>\n            <div class="PartnerSection5-quoteAuthorAvatar PartnerSection5-quoteAuthorAvatar--searchengines"></div>\n          </div>\n          <div class="PartnerSection5-quotesFootCol">\n            <div class="PartnerSection5-quoteIcon"></div>\n            <div class="PartnerSection5-quoteAuthor">Блогер <a href="#">Маша Машина</a></div>\n            <div class="PartnerSection5-quoteAuthorAvatar PartnerSection5-quoteAuthorAvatar--masha"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/hb/rooms.5272f394ee67f1066919.html",
-            '<div class="HotelPage-secondBox clearfix" ng-class="{\'is-minHeight\': roomsStates.roomsLoading}">\n<!-- <div loading="roomsStates.roomsLoading"  class="Loading--rooms" data-title="{{ $root.i18n.hotels.roomChekingLabel }}"></div>\n<div ng-hide="roomsStates.roomsLoading || !isWithRoomsMode()" id="room-block" class="HotelPage-secondBoxContent"> -->\n<div class="HotelPage-secondBoxLeft">\n  <div class="HotelPage-roomLoading" ng-show="roomsStates.roomsLoading">\n    <div class="i-booking-wait HotelPage-roomLoadingSmallBg" ></div>\n    <div class="HotelPage-roomLoadingSmall" loading="roomsStates.roomsLoading"  data-title="{{ $root.i18n.common.waitWhileRoomsLoading }}"></div>\n  </div>\n<div class="HotelPage-noDates" ng-show="searchForm.formData.undefinedDates">\n  <i class="i-select-date"></i> {{ $root.i18n.hotels.selectDates }}\n</div>\n\n\n\n<!-- =================================== TEAM ROOMS ================================= -->\n\n<div class="Rooms clearfix Rooms--group" ng-show="teamRooms.length && !roomsStates.roomsLoading">\n  <div class="Rooms-group">\n    <div class="Rooms-typeName mb15">{{ $root.i18n.hotels.offersForYourGroup }}</div>\n  </div>\n\n  <div class="Rooms-content" ng-show="$index<3 || showAllRoom" ng-repeat="item in teamRooms" ng-class="{\'is-cheapest\': item.isCheapest, \'is-disabled\': item.error}" id="{{item.hash}}">\n    <div class="Rooms-roomBlock">\n      <div ng-show="item.bookingLoader || item.bookingError" class="HotelPage-bookingBoxLoader">\n        <div class="i-booking-error" ng-show="item.bookingError"></div>\n        <div class="HotelPage-bookingBoxError" ng-show="item.bookingError">\n          <p>{{ $root.i18n.hotels.roomIsTaken }}</p>\n          {{ $root.i18n.hotels.roomAlreadyBooked }}\n        </div>\n        <div class="i-booking-wait" ng-show="item.bookingLoader"></div>\n        <div loading="item.bookingLoader"></div>\n        <div class="HotelPage-bookingBoxLoaderText" ng-show="item.bookingLoader">{{ $root.i18n.hotels.bookingProcessLabel }}</div>\n      </div>\n      <div class="Rooms-roomsBox" ng-class="{\'is-multi\': item.rooms.length > 1}">\n        <div class="Rooms-room clearfix" ng-repeat="room in item.rooms" ng-class="{\'no-data\': !room.data}">\n          <div class="dt">\n            <div class="Rooms-photo dtc" ng-show="room.data.photos">\n              <div data-classes="is-small" data-room="true" data-target-id="room.data.photos[0].providerId"\n                   ng-style="{\'background-image\': \'url(\' + u.rImage150(room.data.photos[0].id, room.data.photos[0].providerId) + \')\'}"></div>\n              <div class="Rooms-galleryIcon" ng-show="room.data.photos.length > 0" ng-click="showWhat=(showWhat==\'photo\' ? \'\' : \'photo\')">\n                <div class="i-gallery"></div>\n                <span>{{ $root.i18n.hotels.seeAllPhoto }}</span>\n              </div>\n            </div>\n            <div class="Rooms-roomInfo dtc">\n              <div class="Rooms-roomNameBox dtc">\n                <div class="Rooms-roomName" ng-bind="::room.roomName"></div>\n              </div>\n              <div class="Rooms-extraInfoBox dt" ng-show="room.data">\n                <div class="Rooms-extraInfoNumbers dtc">\n                  <i class="i-room-size{{room.roomTypeId}}"></i>\n                  <span class="pr10"><span class="s13 b">{{room.roomTypeId | decline:$root.i18n.decline.maxGuests:true}}</span></span>\n                  <i class="i-area"></i>\n                  <span><span class="s15 b">{{room.data.area}}</span> <span class="s15 b">м</span><sup>2</sup></span>\n                </div>\n                <div class="Rooms-features clearfix dtc">\n                  <div class="Rooms-feature" ng-repeat="feature in room.data.features | limitTo:3"><i class="i-room-facilities-{{feature}}" bs-tooltip=""\n                                                                                                      data-animation="Tooltip Tooltip--info popup-slide-down"\n                                                                                                      data-title="{{d.roomFacilities[feature]}}"></i></div>\n                  <div class="Btn Btn--blue Btn--moreFeatures mt10" ng-show="room.data.features && room.data.features.length>3" ng-click="showWhat=(showWhat==\'features\' ? \'\' : \'features\')">\n                    {{ $root.i18n.hotels.allServices }}\n                  </div>\n                </div>\n                <div class="Rooms-extraInfoLink dtc">\n                  <div class="Href ml0" ng-init="room.data ? showWhat=\'description\' : showWhat=\'\'" ng-click="showWhat=(showWhat==\'description\' ? \'\' : \'description\')" ng-class="{\'is-open\':showWhat==\'description\'}"><span>{{ $root.i18n.hotels.description }}</span></div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class="Rooms-description" ng-show="showWhat==\'description\'">{{ d.lang == \'ru\' ? room.data.description.ru : room.data.description.en}}</div>\n          <div class="Rooms-description pr0 clearfix" ng-show="showWhat==\'features\'">\n            <div class="Rooms-featureTitle pb5">{{ $root.i18n.hotels.listOfServices }}</div>\n            <div class="Rooms-featureConteiner clearfix">\n              <div class="Rooms-featureBorder"></div>\n              <div class="Rooms-feature" ng-repeat="feature in room.data.features"><i class="i-room-facilities-{{feature}}"></i><span>{{d.roomFacilities[feature]}}</span></div>\n            </div>\n            <div class="clearfix">\n              <div class="Href is-open mr35 pull-right" ng-click="showWhat=\'\'">{{ $root.i18n.hotels.hideListOfServices }}</div>\n            </div>\n          </div>\n          <div class="Rooms-photos" ng-class="{\'is-shown\':showWhat==\'photo\'}">\n            <div ng-repeat="photo in room.data.photos" hover-gallery="photo.id" data-position="vertical" data-room="true"\n                 data-classes="is-small" data-target-id="photo.providerId" data-trigger="hover"\n                 ng-style="{\'background-image\': \'url(\' + u.rImage45(photo.id, photo.providerId) + \')\'}"></div>\n          </div>\n        </div>\n      </div>\n      <div class="dt p10">\n        <div class="Rooms-roomInfo dtc">\n          <div class="Rooms-roomInfoItem"><i class="i-breackfast2"></i>{{::d.meals[item.mealId]}}</div>\n          <div class="Rooms-roomInfoItem">\n            <i class="i-cancelation"></i>\n\n            <div class="BookingConditions cp" booking-conditions  data-extended="true" ng-model="item" data-search-id="{{$stateParams.searchId}}"></div>\n          </div>\n        </div>\n        <div class="Rooms-roomPriceBox dtc">\n          <div class="Rooms-roomPrice">\n            <i class="i-best-price Rooms-roomBestPriceIcon"></i>\n\n            <div>{{ item.price | smartDigits}} <span currency ng-model="item.currency" data-bold="true"></span></div>\n            <div class="Rooms-roomBestPrice">{{ $root.i18n.hotels.bestPriceInHotel }}</div>\n            <div class="Rooms-tax" ng-show="item.tax">{{ $root.i18n.common.includingTax }} {{item.tax}}<span currency ng-model="item.currency" data-bold="true"></span></div>\n            <div class="Rooms-tax" ng-hide="item.tax">{{ $root.i18n.common.includingAllTaxes }}</div>\n          </div>\n        </div>\n        <div class="Rooms-roomBookBtn dtc">\n          <div class="Btn Btn--orange Btn--small no-animate" ng-click="selectRoom(item)" ng-show="!item.selected">{{ $root.i18n.hotels.book }}</div>\n          <div class="Btn Btn--orange Btn--small no-animate" ng-click="removeRoom(item)" ng-show="item.selected">{{ $root.i18n.hotels.cancel }}</div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Rooms-showMore" ng-show="teamRooms.length>3">\n    <div class="Href no-animate" ng-click="showAllRoom=!showAllRoom">\n      {{showAllRoom ? $root.i18n.hotels.hideBookingDetails : $root.i18n.hotels.showBookingDetails}}\n    </div>\n  </div>\n</div>\n\n\n<!-- ======================== NORMAL ROOMS ============================================ -->\n\n<div class="Rooms clearfix" ng-repeat="group in roomsByType" ng-show="!roomsStates.roomsLoading">\n  <div class="Rooms-group clearfix" ng-show="group.data">\n    <div class="Rooms-photo">\n      <div data-room="true" data-target-id="group.data.photos[0].providerId"\n           ng-style="{\'background-image\': \'url(\' + u.rImage150(group.data.photos[0].id, group.data.photos[0].providerId)  + \')\'}"></div>\n      <div class="Rooms-galleryIcon" ng-show="group.data.photos.length > 0" ng-click="showWhat=(showWhat==\'photo\' ? \'\' : \'photo\')">\n        <div class="i-gallery"></div>\n        <span>{{ $root.i18n.hotels.seeAllPhoto }}</span>\n      </div>\n    </div>\n    <div class="Rooms-infoBox">\n      <div class="Rooms-priceSubscription">\n        <span ng-hide="isSubscribed(group[0].rooms[0].roomConnectId)">\n          <i class="i-cabinet-recently"></i>\n          <span class="Href" ng-click="subscribeOnPriceChange(group)">{{ $root.i18n.common.subscribeOnPriceChange }}</span>\n        </span>\n        <span ng-show="isSubscribed(group[0].rooms[0].roomConnectId)" class="Rooms-unsubscribe">\n          <i class="i-vibor-est"></i>\n          <span class="fr">{{ $root.i18n.common.subscriptionMade }}</span>\n        </span>\n      </div>\n      <div class="Rooms-typeNameBox">\n        <div class="Rooms-typeName" ng-bind="d.roomConnects[group.data.roomTypeId]"></div>\n        <div class="Rooms-features clearfix">\n          <div class="Rooms-featureTitle pt5">{{ $root.i18n.hotels.listOfServices }}</div>\n          <div class="Rooms-feature" ng-repeat="feature in group.data.features | limitTo:3"><i class="i-room-facilities-{{feature}}"></i><span>{{d.roomFacilities[feature]}}</span></div>\n          <div class="Btn Btn--blue Btn--moreFeatures" ng-click="showWhat=(showWhat==\'feature\' ? \'\' : \'feature\')">{{ $root.i18n.hotels.allServices }}</div>\n        </div>\n      </div>\n      <div class="Rooms-extraInfoBox">\n        <div class="Rooms-extraInfoNumbers">\n          <i class="i-room-size{{group.data.maxPersons}}"></i>\n          <span class="pr10"><span class="s15 b">{{group.data.maxPersons | decline:$root.i18n.decline.maxGuests:true}}</span></span>\n          <i class="i-area pr3"></i>\n          <span><span class="s15 b">{{group.data.area}}</span> <span class="s15 b">м</span><sup>2</sup></span>\n        </div>\n        <div class="Rooms-extraInfoLink" ng-class="{\'is-featuresShow\': showWhat==\'feature\'}">\n          <div class="Href" ng-init="group.data ? showWhat=\'description\' : showWhat=\'\'"  ng-click="showWhat=(showWhat==\'description\' ? \'\' : \'description\')" ng-class="{\'is-open\':showWhat==\'description\'}"><span>{{ $root.i18n.hotels.roomDescription }}</span></div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Rooms-group clearfix" ng-hide="group.data">\n    <div class="Rooms-priceSubscription">\n      <span ng-hide="isSubscribed(group[0].rooms[0].roomConnectId)">\n        <i class="i-cabinet-recently"></i>\n        <span class="Href" ng-click="subscribeOnPriceChange(group)">{{ $root.i18n.common.subscribeOnPriceChange }}</span>\n      </span>\n      <span ng-show="isSubscribed(group[0].rooms[0].roomConnectId)" class="Rooms-unsubscribe">\n        <i class="i-vibor-est"></i>\n        <span class="fr">{{ $root.i18n.common.subscriptionMade }}</span>\n      </span>\n    </div>\n    <div class="Rooms-typeName p15" ng-show="group[0].rooms[0].roomConnectId === false || !group[0].rooms[0].roomConnectId">{{ $root.i18n.hotels.otherRooms }}</div>\n    <div class="Rooms-typeName p15" ng-hide="group[0].rooms[0].roomConnectId === false || !group[0].rooms[0].roomConnectId" ng-bind="d.roomConnects[group[0].rooms[0].roomConnectId]"></div>\n  </div>\n  <div class="Rooms-description" ng-show="showWhat==\'description\'">{{ d.lang == \'ru\' ? group.data.description.ru : group.data.description.en}}</div>\n  <div class="Rooms-description pr0 clearfix" ng-show="showWhat==\'feature\'">\n    <div class="Rooms-featureTitle pb5">{{ $root.i18n.hotels.listOfServices }}</div>\n    <div class="Rooms-featureConteiner clearfix">\n      <div class="Rooms-featureBorder"></div>\n      <div class="Rooms-feature" ng-repeat="feature in group.data.features"><i class="i-room-facilities-{{feature}}"></i><span>{{d.roomFacilities[feature]}}</span></div>\n    </div>\n    <div class="clearfix">\n      <div class="Href is-open pull-right mr35" ng-click="showWhat = \'\'">{{ $root.i18n.hotels.hideListOfServices }}</div>\n    </div>\n  </div>\n  <div class="Rooms-photos" ng-class="{\'is-shown\':showWhat==\'photo\'}">\n    <div ng-repeat="photo in group.data.photos" hover-gallery="photo.id" data-trigger="hover" data-position="vertical" data-classes="is-small" data-room="true"\n         data-target-id="photo.providerId"\n         ng-style="{\'background-image\': \'url(\' + u.rImage45(photo.id, photo.providerId)  + \')\'}"></div>\n  </div>\n  <div class="Rooms-content" ng-show="$index<3 || showAllRoom" ng-repeat="item in group" ng-class="{\'is-cheapest\': item.isCheapest, \'is-disabled\': item.error, \'pt15\': $first}"\n       id="{{item.hash}}">\n    <div class="Rooms-roomBlock">\n      <div ng-show="item.bookingLoader || item.bookingError" class="HotelPage-bookingBoxLoader">\n        <div class="i-booking-error" ng-show="item.bookingError"></div>\n        <div class="HotelPage-bookingBoxError" ng-show="item.bookingError">\n          <p>{{ $root.i18n.hotels.roomIsTaken }}</p>\n          {{ $root.i18n.hotels.roomAlreadyBooked }}\n        </div>\n        <div class="i-booking-wait" ng-show="item.bookingLoader"></div>\n        <div loading="item.bookingLoader"></div>\n        <div class="HotelPage-bookingBoxLoaderText" ng-show="item.bookingLoader">{{ $root.i18n.hotels.bookingProcessLabel }}</div>\n      </div>\n      <div class="Rooms-roomNameBox" ng-class="{\'is-multi\': item.rooms.length > 1}">\n        <div class="clearfix" ng-repeat="room in item.rooms">\n          <div class="Rooms-roomName" ng-bind="::room.roomName"></div>\n          <div class="Rooms-roomGuests">\n            <div room-size ng-model="room.roomTypeId" data-class="Tooltip--infoDark" data-container="body"></div>\n          </div>\n        </div>\n      </div>\n      <div class="Rooms-roomInfo">\n        <div class="Rooms-roomInfoItem"><i class="i-breackfast2"></i>{{d.meals[item.mealId]}}</div>\n        <div class="Rooms-roomInfoItem"><i class="i-view"></i>{{ $root.i18n.hotels.withViewTOCity }}</div>\n        <div class="Rooms-roomInfoItem">\n          <i class="i-cancelation"></i>\n\n          <div class="BookingConditions cp" booking-conditions data-extended="true" ng-model="item" data-search-id="{{$stateParams.searchId}}"></div>\n        </div>\n      </div>\n      <div class="Rooms-roomPriceBox">\n        <div class="Rooms-roomPrice">\n          <i class="i-best-price Rooms-roomBestPriceIcon"></i>\n\n          <div>{{ item.price | smartDigits}} <span currency ng-model="hotel.cheapest.currency" data-bold="true"></span></div>\n          <div class="Rooms-roomBestPrice">{{ $root.i18n.hotels.bestPriceInHotel }}</div>\n          <div class="Rooms-tax" ng-show="item.tax">{{ $root.i18n.common.includingTax }} {{item.tax}}<span currency ng-model="item.currency" data-bold="true"></span></div>\n          <div class="Rooms-tax" ng-hide="item.tax">{{ $root.i18n.common.includingAllTaxes }}</div>\n        </div>\n        <div class="Rooms-roomBookBtn" ng-hide="item.bookingLoader || item.bookingError">\n          <div class="Btn Btn--orange Btn--small no-animate" ng-click="selectRoom(item)" ng-show="!item.selected">{{ $root.i18n.hotels.book }}</div>\n          <div class="Btn Btn--orange Btn--small no-animate" ng-click="removeRoom(item)" ng-show="item.selected">{{ $root.i18n.hotels.cancel }}</div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class="Rooms-showMore" ng-show="group.length>3">\n    <div class="Href no-animate" ng-click="showAllRoom=!showAllRoom">\n      {{showAllRoom ? $root.i18n.hotels.hidePlacingVariants : $root.i18n.hotels.allPlacingVariants}}\n    </div>\n  </div>\n</div>\n\n\n<div class="HotelPage-noRoomsMessage" ng-show="roomsStates.noRoomsInHotel && !datesReloading">\n  <div class="i-no-search"></div>\n  {{ $root.i18n.hotels.noRoomInPeriod | template:{dateFrom: searchForm.dates[0].format(d.viewFormat), dateTo: searchForm.dates[1].format(d.viewFormat)} }}\n  <div>\n    <a class="Btn Btn--orange mt15" ui-sref="hb.hotels.list.page(u.getHotelListParams(searchForm))">{{ $root.i18n.hotels.seeHotelsAround }}</a>\n  </div>\n</div>\n</div>\n<div class="HotelPage-secondBoxRight" fixed-box-cont>\n  <div fixed-box="!hotelStates.hotelInfoLoading" data-top="110">\n    <div class="HotelPage-bookingBox mb20" ng-show="(bucket.length || bookingError) && bookingNotFull">\n      <div ng-show="bookingLoader || bookingError" class="HotelPage-bookingBoxLoader">\n        <div class="i-booking-error" ng-show="bookingError"></div>\n        <div class="HotelPage-bookingBoxError" ng-show="bookingError">\n          <p>{{ $root.i18n.hotels.roomIsTaken }}</p>\n          {{ $root.i18n.hotels.roomAlreadyBooked }}\n        </div>\n        <div class="i-booking-wait" ng-show="bookingLoader"></div>\n        <div loading="bookingLoader"></div>\n        <div class="HotelPage-bookingBoxLoaderText" ng-show="bookingLoader">{{ $root.i18n.hotels.bookingProcessLabel }}</div>\n      </div>\n      <div class="HotelPage-bookingBoxTitle pt10">{{ $root.i18n.hotels.yourOrder }}</div>\n      <div class="HotelPage-bookingTitles">\n        <div class="HotelPage-bookingFirstCol">{{ $root.i18n.hotels.roomName }}</div>\n        <div class="HotelPage-bookingSecondCol">{{ $root.i18n.hotels.count }}</div>\n        <div class="HotelPage-bookingThirdCol">{{ $root.i18n.hotels.price }}</div>\n      </div>\n      <div class="HotelPage-bookingRooms" ng-repeat="item in bucket">\n        <div class="HotelPage-bookingFirstCol">{{item.item.rooms[0].roomName}}</div>\n        <div class="HotelPage-bookingSecondCol">\n          <div number-picker data-class="NumberPicker--hotelPage NumberPicker--small" ng-model="item.count" data-label="" data-icon-class="" data-min="1" data-max="9"></div>\n        </div>\n        <div class="HotelPage-bookingThirdCol">\n          <div class="fl">\n            <span class="Hotel-price">{{ item.item.price*item.count | smartDigits}} <span currency class="s20 lh24" ng-model="item.item.currency" data-bold="true"></span></span>\n          </div>\n          <div class="HotelPage-bookingRemove" ng-click="removeFromBucket(item)">\n            <div class="glyphicon glyphicon-minus"></div>\n          </div>\n        </div>\n      </div>\n      <div class="HotelPage-bookingTotal clearfix">\n        <span class="Hotel-price">{{ $root.i18n.hotels.summary | template:{sum: (roomsSum() | smartDigits)} }} <span currency class="s20 lh36" ng-model="hotel.cheapest.currency" data-bold="true"></span></span>\n        <div class="Btn Btn--orange fr" ng-click="booking()">{{ $root.i18n.hotels.book }}</div>\n      </div>\n\n    </div>\n    <div class="HotelPage-ratingBox clearfix" ng-show="hotel.ta">\n      <div class="Hotel-ratingsBlock">\n        <div class="mt5" ng-show="hotel.ta.percent_recommended">\n          <div class="Hotel-ratingsPercent">{{hotel.ta.percent_recommended}}%</div>\n          <div class="Hotel-ratingsPercentText">{{ $root.i18n.hotels.travalersRocomend }}</div>\n        </div>\n        <div class="Hotel-ratingsTrip mt10">{{ $root.i18n.hotels.tripAdvisorRating }}</div>\n        <div hotel-rating="hotel.ta.rating"></div>\n        <div class="Hotel-ratingsCount">{{ $root.i18n.hotels.basedOn | template:{feedbackCount: (hotel.ta.num_reviews | decline:$root.i18n.decline.feedback)} }}</div>\n        <div class="Link mt10" ng-click="goToFeedBack()"><span>{{ $root.i18n.hotels.readFeedback }}</span></div>\n      </div>\n      <div class="Hotel-ratingsBlock" ng-show="hotel.ta">\n        <div class="Hotel-ratingsText">{{ $root.i18n.hotels.touristEstimationTripAdvisor }}</div>\n        <!-- <div progressbar ng-init="val = 100*rating.value/5" ng-model="val" data-label="{{ rating.localized_name }}" ng-repeat="rating in hotel.ta.subratings"></div> -->\n        <div ng-repeat="rating in hotel.ta.subratings" class="clearfix">\n          <div class="fl">{{rating.localized_name}}</div> <img class="fr ratingImage" ng-src="{{rating.rating_image_url}}" />\n        </div>\n      </div>\n    </div>\n    <div class="HotelPage-guide mt10">\n      <div class="HotelPage-guideItem" ng-class="{\'is-open\': showText==1}" ng-click="showText=1">\n        <div class="HotelPage-guideCount">\n          <span class="i-help-steps-1"></span>\n        </div>\n        <div class="HotelPage-guideTitle">{{ $root.i18n.hotels.stepChooseRoom }}</div>\n      </div>\n      <div class="HotelPage-guideText" ng-show="showText==1">\n        {{ $root.i18n.hotels.stepDescriptionChooseRoom }}\n      </div>\n      <div class="HotelPage-guideItem" ng-class="{\'is-open\': showText==2}" ng-click="showText=2">\n        <div class="HotelPage-guideCount">\n          <span class="i-help-steps-2"></span>\n        </div>\n        <div class="HotelPage-guideTitle">{{ $root.i18n.hotels.stepFillBookingFrom }}</div>\n      </div>\n      <div class="HotelPage-guideText" ng-show="showText==2">\n        {{ $root.i18n.hotels.stepFillBookingFromDescription | template:d.includes }}\n      </div>\n      <div class="HotelPage-guideItem" ng-class="{\'is-open\': showText==3}" ng-click="showText=3">\n        <div class="HotelPage-guideCount">\n          <span class="i-help-steps-3"></span>\n        </div>\n        <div class="HotelPage-guideTitle">{{ $root.i18n.hotels.stepPayBooking }}</div>\n      </div>\n      <div class="HotelPage-guideText" ng-show="showText==3">\n        {{ $root.i18n.hotels.stepPayBookingDescription | template:d.includes }}\n      </div>\n      <div class="HotelPage-guideItem" ng-class="{\'is-open\': showText==4}" ng-click="showText=4">\n        <div class="HotelPage-guideCount">\n          <span class="i-help-steps-4"></span>\n        </div>\n        <div class="HotelPage-guideTitle">{{ $root.i18n.hotels.stepGetVaucher }}</div>\n      </div>\n      <div class="HotelPage-guideText" ng-show="showText==4">\n        {{ $root.i18n.hotels.stepGetVaucherDescription }}\n      </div>\n      <div class="HotelPage-guideItem" ng-class="{\'is-open\': showText==5}" ng-click="showText=5">\n        <div class="HotelPage-guideCount">\n          <span class="i-help-steps-5"></span>\n        </div>\n        <div class="HotelPage-guideTitle">{{ $root.i18n.hotels.bookingControlOnline }}</div>\n      </div>\n      <div class="HotelPage-guideText" ng-show="showText==5">\n        {{ $root.i18n.hotels.bookingControlOnlineDescription }}\n      </div>\n    </div>\n  </div>\n</div>\n</div>\n</div>\n'), a.put("/views/hb/search-form.34fcd68b1c92c0229a80.html",
-            '<div class="SearchForm">\n  <div class="SearchForm-searchHeader">\n    <div>{{ $root.i18n.landing.searchFormTitle }}</div>\n  </div>\n  <form role="form" name="form" class="HotelSearch">\n    <div class="HotelSearch-upBox">\n      <div class="clearfix">\n        <div class="HotelSearch-autocompleteInputBox" ng-class="{\'InputBox-error\': searchForm.errors.city.flag}">\n          <input\n            ng-model="searchForm.formData.city"\n            top-destinations\n            autocomplete\n            data-locations-model="searchForm.locations"\n            required\n            data-placement="top-left"\n            name="city"\n            type="text"\n            tooltip-manager="searchForm.errors.city"\n            data-tooltip-manager-class="Tooltip--error Tooltip popup-slide-down"\n            class="form-control input-sm HotelSearch-autocomplete"\n            placeholder="{{ $root.i18n.landing.nameOfCityOrHotel }}" data-label="fullName"\n            data-model="id"\n            data-classes="i-globe-lines c-i50"\n            data-city-model="searchForm.city"\n            data-hotel-model="searchForm.hotel"/>\n        </div>\n        <div class="HotelSearch-dateRangeBox">\n          <div\n            date-range\n            ng-model="searchForm.dates"\n            date-format="dd.MM.yyyy"\n            data-placement="top-left"\n            ng-required="!searchForm.formData.undefinedDates" name="dates"\n            data-placement="top-left"\n            ng-disabled="searchForm.formData.undefinedDates"\n            tooltip-manager="searchForm.errors.dates"\n            ng-class="{\'disabled\': searchForm.formData.undefinedDates}"\n            data-tooltip-manager-class="Tooltip--error Tooltip popup-slide-down">\n          </div>\n        </div>\n        <div id="DateRangeContainer"></div>\n        <!--<button class="Dropdown HotelSearch-persons Dropdown--noIcon" -->\n        <button\n           class="Dropdown HotelSearch-persons Dropdown--noIcon"\n           ng-model="searchForm.peopleCount"\n           dropdown-patched\n           ng-options="person.value as person.label for person in d.personList"\n           data-html="1"\n           data-placeholder="{{d.personList[d.personList.length-1].label}}"\n           placement="bottom"\n         ></button>\n\n\n\n        <div class="Btn Btn--orange HotelSearch-searchBtn" ng-click="search($event)">\n          {{ $root.i18n.landing.serachHotels }}\n        </div>\n      </div>\n      <div class="clearfix">\n        <div class="HotelSearch-hint">\n          {{ $root.i18n.landing.whereYouWouldLikeToGo }}&nbsp;<a href="javascript: void 0;" ng-bind="suggestedCity.name" ng-click="searchForm.applySuggestion(suggestedCity)"></a>{{\n          $root.i18n.landing.forExample }}\n        </div>\n        <div checkbox ng-model="searchForm.formData.undefinedDates" data-name="noDates" data-label="{{ $root.i18n.landing.exactDates }}" class="HotelSearch-noDate Checkbox--searchblock"></div>\n        <div class="SearchForm-formCollapse no-animate" ng-click="searchForm.showFull()" ng-hide="searchForm.isFull">\n          {{ $root.i18n.landing.showAditional }}\n        </div>\n        <div class="SearchForm-formCollapse no-animate full" ng-click="searchForm.hideFull()" ng-show="searchForm.isFull">\n          {{ $root.i18n.landing.hideAditional }}\n        </div>\n      </div>\n    </div>\n\n    <div class="HotelSearch-downBox toggle" ng-show="searchForm.isFull">\n      <div class="form-group clearfix slide-down-delay" >\n        <div class="HotelSearch-stars c-i50 i-hotel-stars">\n          <span class="HotelSearch-starsTitle">{{ $root.i18n.landing.starsCount }}</span>\n\n          <div stars data-select="true" ng-model="searchForm.filters.stars"></div>\n        </div>\n        <button class="Dropdown HotelSearch-rating Dropdown--noIcon" ng-model="searchForm.filters.rating" bs-select ng-options="rating.value as rating.label for rating in d.ratings"\n                data-placeholder="{{ \'<i class=\\\'i40 i-popularity\\\'></i>\' + \' \' + $root.i18n.landing.feedbackRating}}"  data-html="1" type="button"></button>\n      </div>\n      <div class="form-group clearfix HotelSearch-roomBox scale-fade mb0" ng-repeat="room in searchForm.formData.rooms">\n        <div class="HotelSearch-roomNumber mr10">\n          {{ $root.i18n.landing.room }} {{ $index + 1 }}\n        </div>\n        <div number-picker ng-model="room.adults" data-label="{{ $root.i18n.landing.guests }}" data-icon-class="i-room-size2 i50" class="HotelSearch-roomGuests" data-max="8" data-min="1"></div>\n        <div number-picker ng-model="room.children" data-label="{{ $root.i18n.landing.children }}" data-icon-class="i-baby i40" class="HotelSearch-roomChildren" data-min="0" data-max="4"></div>\n        <div input-set ng-model="room.childrenAges" data-label="{{ $root.i18n.landing.age }}" data-icon-class="i-age i40" class="HotelSearch-roomAges mr20" data-counter="room.children"\n             data-class="HotelSearch-childrenAge" data-tooltip-manager-datas="searchForm.errors.rooms[$index].childrenAges" name="{{\'childrenAges\'+$index}}"\n             ng-class="{\'is-error\': searchForm.errors.rooms[$index].childrenAges.flag}"></div>\n        <div class="HotelSearch-roomRemove" ng-show="searchForm.formData.rooms.length > 1" ng-click="searchForm.removeRoom(room)">\n          {{ $root.i18n.common.remove }}\n        </div>\n        <div class="HotelSearch-roomAdd  clearfix" ng-hide="searchForm.formData.rooms.length === 4 || $index !== (searchForm.formData.rooms.length - 1)" ng-click="searchForm.addRoom()" >\n          {{ $root.i18n.landing.addRoom }}\n        </div>\n\n      </div>\n    </div>\n  </form>\n</div>\n'), a.put("/views/hb/side-search-form.914a6d02beac24ab834c.html",
-            '<form role="form" name="form" class="SSForm" ng-class="{\'is-collapsed\': searchForm.isFull}">\n  <div class="SSForm-box">\n    <div class="SSForm-hotelsCount" ng-show="rawData.hotels.length">\n      <b>{{ $root.i18n.hotels.shown }} {{rawData.filtered.length | decline:$root.i18n.decline.hotel}} {{ $root.i18n.hotels.from }} {{rawData.hotels.length}}</b>\n    </div>\n    <div ng-show="isShowRoomStaff()" class="mt20">\n      <div class="SSForm-label" ng-if="searchForm.dates">\n        {{ $root.i18n.common.roomPricePerNight}}:\n      </div>\n      <div nouislider ng-model="searchForm.price" from="searchForm.priceOpt.from" to="searchForm.priceOpt.to"  step="searchForm.priceOpt.step" measurement="\'<span currency ng-model=\\\'$root.d.currency\\\' class=\\\'lh30\\\'></span>\'"></div>\n    </div>\n  </div>\n\n  <div class="SSForm-box">\n    <div class="SSForm-label">{{ $root.i18n.hotels.distanceFromCenter }}</div>\n    <div nouislider ng-model="searchForm.filters.center" from="searchForm.distanceOpt.from" to="searchForm.distanceOpt.to"  step="searchForm.distanceOpt.step" measurement="\'<span>м</span>\'"></div>\n  </div>\n  <div class="SSForm-box clearfix">\n    <div class="SSForm-label SSForm--starsCount">{{ $root.i18n.hotels.starsCount }}</div>\n    <div class="fl">\n      <div stars ng-model="searchForm.filters.stars" data-select="true"></div>\n    </div>\n  </div>\n  <div class="SSForm-box clearfix TripRatingFilter">\n    <div class="SSForm-label fl mr5">{{ $root.i18n.dictionary.tripAdvisorRaiting }}</div>\n    <div trip-rating-filter ng-model="searchForm.filters.rating"></div>\n  </div>\n  <div class="SSForm-box" ng-show="isShowRoomStaff()">\n    <button class="Dropdown HotelSearch-rating Dropdown--noIcon"\n    ng-model="searchForm.filters.food"\n    dropdown-patched ng-options="option.value as option.label for option in d.food"\n    data-placeholder="<i class=\'i40 i-food mr10\'></i>{{ $root.i18n.hotels.food }}"\n    data-html="1"></button>\n  </div>\n  <div class="SSForm-box" ng-show="showVideoFilter">\n    <div class="i-video SSForm-videoFilter SSForm-label">{{ $root.i18n.common.hotelsWithVideoReview }}</div>\n    <div checkbox data-class="Checkbox--blue Checkbox--border" ng-model="searchForm.filters.video" name="video" label="{{ $root.i18n.common.showHotelWithVideoReview }}"></div>\n  </div>\n  <div class="SSForm-box" ng-if="d.filteredFacilities.length">\n    <div class="SSForm-label mb10">{{ $root.i18n.hotels.chooseFacilities }}:</div>\n    <div checkbox data-class="Checkbox--blue Checkbox--border" ng-model="facilities[3]" name="d.facilities[\'3\']" label="{{d.facilities[\'3\']}}"></div>\n    <div class="SSForm-facilitiesList" ng-repeat="(key, facility) in d.facilities">\n      <div checkbox data-class="Checkbox--blue Checkbox--border" ng-show="key != \'3\'" ng-model="facilities[key]" name="facility" label="{{facility}}"></div>\n    </div>\n  </div>\n</form>\n'), a.put("/views/hb/side-search-map-form.1a12156c7b4911f2f974.html",
-            '<form role="form" class="SSForm" ng-class="{\'is-collapsed\': searchForm.isFull}">\n  <a class="Aeroflot-backLink Aeroflot-backLink--sidebar" ui-sref="hb.hotels.list.page(u.getHotelListParams(searchForm))">\n    <i class="i-back"> </i>\n    <span class="Link">{{ $root.i18n.hotels.toHotelsList }}</span>\n  </a>\n  <div class="SSForm-box" ng-show="isShowRoomStaff()">\n    <div class="SSForm-hotelsCount mb20" ng-show="rawData.hotels.length">\n      {{rawData.filtered.length | decline:$root.i18n.decline.hotel}} {{ $root.i18n.hotels.from }} {{rawData.hotels.length}}\n    </div>\n    <div class="SSForm-label tac" ng-if="searchForm.dates">{{ $root.i18n.hotels.priceForOneNight }}</div>\n    <div nouislider ng-model="searchForm.price" from="searchForm.priceOpt.from" to="searchForm.priceOpt.to"  step="searchForm.priceOpt.step" measurement="\'<span currency ng-model=\\\'$root.d.currency\\\' class=\\\'lh30\\\'></span>\'"></div>\n  </div>\n\n  <div class="SSForm-box">\n    <div class="SSForm-label tac">{{ $root.i18n.hotels.distanceFromCenter }}</div>\n    <div nouislider ng-model="searchForm.filters.center" from="searchForm.distanceOpt.from" to="searchForm.distanceOpt.to"  step="searchForm.distanceOpt.step" measurement="\'<span>м</span>\'"></div>\n  </div>\n  <div class="SSForm-box">\n    <div class="SSForm-label">{{ $root.i18n.hotels.starsCount }}</div>\n    <div class="">\n      <span stars ng-model="searchForm.filters.stars" data-select="true"></span>\n    </div>\n  </div>\n  <div class="SSForm-box">\n    <button dropdown-patched\n    ng-model="searchForm.filters.rating"\n    class="Dropdown HotelSearch-rating Dropdown--noIcon"\n    ng-options="rating.value as rating.label for rating in d.ratings"\n    data-placeholder="<i class=\'i40 i-rating-full mr10\'></i>{{ $root.i18n.common.mapFeedbackEstimation }}"\n    data-html="1"\n    data-caret-html="<div class=\'CaretBg CaretBg--right\'><div class=\'caret\'></div></div>"\n    data-container="#Dropdown-raitings"\n    data-placement="auto-patched"\n    ></button>\n    <div class="Dropdown-container Dropdown--noIcon" id="Dropdown-raitings"></div>\n  </div>\n  <div class="SSForm-box" ng-show="isShowRoomStaff()">\n    <button class="Dropdown HotelSearch-rating Dropdown--noIcon"\n    ng-model="searchForm.filters.food"\n    dropdown-patched ng-options="option.value as option.label for option in d.food"\n    data-placeholder="<i class=\'i40 i-food mr10\'></i>{{ $root.i18n.hotels.food }}"\n    data-html="1"\n    data-caret-html="<div class=\'CaretBg CaretBg--right\'><div class=\'caret\'></div></div>"\n    data-container="#Dropdown-food"\n    data-placement="auto-patched"\n    ></button>\n    <div class="Dropdown-container Dropdown--noIcon" id="Dropdown-food"></div>\n  </div>\n  <div class="SSForm-box" ng-show="showVideoFilter">\n    <div class="i-video SSForm-videoFilter SSForm-label">{{ $root.i18n.common.hotelsWithVideoReview }}</div>\n    <div checkbox data-class="Checkbox--blue Checkbox--border" ng-model="searchForm.filters.video" name="video" label="{{ $root.i18n.common.showHotelWithVideoReview }}"></div>\n  </div>\n  <div class="SSForm-box" ng-if="d.filteredFacilities.length">\n    <div class="SSForm-label mb10">{{ $root.i18n.hotels.chooseFacilities }}:</div>\n    <div checkbox data-class="Checkbox--blue Checkbox--border" ng-model="facilities[3]" name="d.facilities[\'3\']" label="{{d.facilities[\'3\']}}"></div>\n    <div class="SSForm-facilitiesList" ng-repeat="(key, facility) in d.facilities">\n      <div checkbox data-class="Checkbox--blue Checkbox--border" ng-show="key != \'3\'" ng-model="facilities[key]" name="facility" label="{{facility}}"></div>\n    </div>\n  </div>\n</form>\n'), a.put("/views/hb/top-search-form.e447ddc20c9162a60ade.html",
-            '<div class="TopSearchForm">\n  <form role="form" name="searchOpions">\n    <div class="TopSearchForm-mainSearch clearfix">\n      <div class="container TopSearchForm-container">\n        <a class="Aeroflot-backLink Aeroflot-backLink--topbar" ui-sref="hb.hotels.list.page(u.getHotelListParams(searchForm))">\n          <i class="i-back"> </i>\n          <span class="Link">{{ $root.i18n.hotels.toHotelsList }}</span>\n        </a>\n        <input ng-model="searchForm.formData.city"\n          autocomplete\n          data-locations-model="searchForm.locations"\n          required data-placement="top-left"\n          name="city"\n          type="search"\n          tooltip-manager="searchForm.errors.city"\n          data-tooltip-manager-class="Tooltip--error Tooltip popup-slide-down"\n          class="form-control  SSForm-city TopSearchForm-city"\n          placeholder="{{ $root.i18n.landing.nameOfCityOrHotel }}"\n          data-label="fullName"\n          data-model="id"\n          data-classes="i-globe c-i40"\n          data-city-model="searchForm.city"\n          data-hotel-model="searchForm.hotel"\n        />\n        <div date-range ng-model="searchForm.dates" date-format="dd.MM.yyyy"\n          data-placement="top-left"\n          ng-required="!searchForm.formData.undefinedDates" name="dates"\n          data-placement="top-left"\n          ng-class="{\'disabled\': searchForm.formData.undefinedDates}"\n          tooltip-manager="searchForm.errors.dates"\n          data-format="YYYY-MM-DD"\n          data-tooltip-manager-class="Tooltip--error Tooltip popup-slide-down">\n        </div>\n        <button class="Dropdown Dropdown--noIcon SSForm-persons TopSearchForm-persons fl"\n           ng-model="searchForm.peopleCount"\n           dropdown-patched\n           ng-options="person.value as person.label for person in d.personList"\n           data-html="1"\n           data-placeholder="{{d.personList[d.personList.length-1].label}}"\n           placement="bottom"\n         >\n         </button>\n         <div class="TopSearchForm-link TopSearchForm-link--showSearch" ng-click="searchForm.showFull()" ng-hide="searchForm.isFull">\n          <span>{{ $root.i18n.landing.showAditional }}</span>\n        </div>\n        <div class="TopSearchForm-link TopSearchForm-link--hideSearch" ng-click="searchForm.hideFull()" ng-show="searchForm.isFull">\n          <span>{{ $root.i18n.landing.hideAditional }}</span>\n        </div>\n        <div class="Btn Btn--blue SSForm-searchBtn TopSearchForm-searchBtn" ng-click="search($event)">\n          {{ $root.i18n.hotels.searchHotels }}\n        </div>\n      </div>\n    </div>\n    <div class="TopSearchForm-extendedSearch clearfix scale-fade" ng-show="searchForm.isFull">\n      <div class="container TopSearchForm-container">\n        <div class="TopSearchForm-roomBox  scale-fade" ng-repeat="room in searchForm.formData.rooms">\n          <div class="TopSearchForm-roomNumber mr25">\n            {{ $root.i18n.landing.room }} {{ $index + 1 }}\n          </div>\n          <div number-picker ng-model="room.adults" data-label="{{ $root.i18n.landing.guests }}" data-icon-class="i-room-size2 i50" class="TopSearchForm-roomGuests" data-max="8" data-min="1">\n          </div>\n          <div number-picker ng-model="room.children" data-label="{{ $root.i18n.landing.children }}" data-icon-class="i-baby i40" class="TopSearchForm-roomChildren" data-min="0" data-max="4">\n          </div>\n          <div input-set ng-model="room.childrenAges" data-label="{{ $root.i18n.landing.age }}" data-icon-class="i-age i40" class="TopSearchForm-roomAges mr20" data-counter="room.children" data-class="HotelSearch-childrenAge" data-tooltip-manager-datas="searchForm.errors.rooms[$index].childrenAges"\n          name="{{\'childrenAges\'+$index}}" ng-class="{\'is-error\': searchForm.errors.rooms[$index].childrenAges.flag}"></div>\n          <div class="TopSearchForm-roomRemove" ng-show="searchForm.formData.rooms.length > 1" ng-click="searchForm.removeRoom(room)">\n            <span class="TopSearchForm-roomRemoveIcon"><i class="glyphicon glyphicon-minus HotelSearch-roomRemoveIcon"></i>\n            </span>\n            <span>{{ $root.i18n.landing.room }}</span>\n          </div>\n          <div ng-show="$last && $index !== 3" class="TopSearchForm-roomAdd  clearfix" ng-click="searchForm.addRoom()">\n            <span class="TopSearchForm-roomAddIcon"><i class="glyphicon glyphicon-plus HotelSearch-roomAddIcon"></i>\n            </span>\n            <span>{{ $root.i18n.landing.addRoom }}</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </form>\n</div>\n'), a.put("/views/hb/unsubscribe.2743d43fceda6c0510cb.html",
-            '<div class="CabinetUnsubscribe" inherit-height>\n  <div loading="unsubscribing"></div>\n  <div ng-hide="unsubscribing" class="CabinetUnsubscribe-status i-vibor-est">Подписка успешно отменена.</div>\n</div>\n'), a.put("/views/header.19d646cd5808761ddb76.html",
-            '<header class="Header" ng-controller="HeaderCtrl" id="header" ng-hide="$state.$current.name === \'hb.landing\'">\n  <div class="container">\n    <div class="Header-left" ng-show="$state.$current.name === \'hb.hotels.map.page\'">\n      <a class="Header-link Header-backLink" ui-sref="hb.hotels.list.page({params: $stateParams.params, searchType: $stateParams.searchType, searchId: $stateParams.searchId, page: $stateParams.page})">\n        <i class="i-back-arrow"></i>\n        {{ $root.i18n.common.headerToHotelsList }}</a>\n      <span class="Header-linkSeparator"></span>\n    </div>\n    <div class="Header-left mt15">\n      <a class="Header-logo" href="/"></a>\n    </div>\n    <div ng-if="!d.user" class="Header-right ml5"  ng-click="showRegistrationModal()">\n      <a class="Header-link">\n        <i class="i-login"></i>\n        {{ $root.i18n.common.headerLogin }}\n      </a>\n    </div>\n    <div ng-show="d.user" class="Header-right ml5"  ng-click="logout()">\n      <a class="Header-link">\n        <i class="i-login"></i>\n        {{ $root.i18n.common.headerLogout }}\n      </a>\n    </div>\n    <div class="StatusBar ng-hide" status-bar ng-class="{\'StatusBar--landing\':  $state.$current.name === \'hb.landing\'}"></div>\n\n    <div class="Header-right ml5">\n      <button class="Dropdown Dropdown--head" ng-model="d.currency" data-html="1"\n              ng-options="currency.value as currency.label for currency in d.currencies" bs-select>\n        Action <span class="caret"></span>\n      </button>\n    </div>\n\n    <div class="Header-right ml5" ng-click="d.lang = \'ru\'">\n      <div class="Header-switch" ng-class="{\'is-active\' : d.lang == \'ru\'}">\n        <span class="i-CommonRu"></span>\n      </div>\n    </div>\n    <div class="Header-right ml15" ng-click="d.lang = \'en\'">\n      <div class="Header-switch" ng-class="{\'is-active\' : d.lang == \'en\'}">\n        <span class="i-CommonEn"></span>\n      </div>\n    </div>\n\n    <div ng-show="d.user && $state.$current.name.indexOf(\'hb.cabinet\') === -1" class="Header-right ml15">\n      <a class="Header-link" ui-sref="hb.cabinet.booking">\n        <i class="i-cabinet-profile Header-linkIcon"></i>\n        {{ $root.i18n.common.headerUserCabinet }}\n      </a>\n    </div>\n    <div ng-show="$state.$current.name.indexOf(\'hb.cabinet\') !== -1" class="Header-right ml15">\n      <a class="Header-link" ui-sref="hb.landing">\n        <i class="i-home Header-linkIcon"></i>\n        {{ $root.i18n.common.headerToMainpage }}\n      </a>\n    </div>\n    <div class="Header-right Header-pro">\n      <a class="Header-link" href="http://hotelbook.pro/" target="_blank">\n        <span class="i-CommonPro"></span>\n        {{ $root.i18n.common.enterAg }}\n      </a>\n    </div>\n  </div>\n</header>\n'), a.put("/views/landing-footer.3c1202cc33db8c8a66ee.html",
-            '<footer class="Footer">\n  <div class="Footer-socialBox">\n    <div class="Footer-social">\n      <div class="i-vk"></div>\n    </div>\n    <div class="Footer-social">\n      <div class="i-od"></div>\n    </div>\n    <div class="Footer-social">\n      <div class="i-fb"></div>\n    </div>\n    <div class="Footer-social">\n      <div class="i-tw"></div>\n    </div>\n  </div>\n  <div class="container">\n    <div class="row">\n      <div class="col-xs-3">\n        <div class="u-vAlign">\n          <div>\n            <div class="i-CommonLogoFooter"></div>\n          </div>\n        </div>\n      </div>\n      <div class="col-xs-6">\n        <div><span class="i-telefon"></span>{{ $root.i18n.common.footerCustomerService }}</div>\n        <div class="Footer-phoneNumber mb15">8 (800) <b>100-4155</b></div>\n        <ul class="Footer-menu">\n          <li><a href="javascrip:void 0;">{{ $root.i18n.common.footerAboutHotelBook }}</a></li>\n          <li><a href="javascrip:void 0;">{{ $root.i18n.common.footerQuestionsAndAnswers }}</a></li>\n          <li><a href="javascrip:void 0;">{{ $root.i18n.common.footerPress }}</a></li>\n          <li><a href="javascrip:void 0;">{{ $root.i18n.common.footerPartnership }}</a></li>\n          <li><a href="javascrip:void 0;">{{ $root.i18n.common.footerContacts }}</a></li>\n        </ul>\n      </div>\n      <div class="col-xs-3 Footer-siteInfo">\n        <div>ООО «Хотелбук-Сервис»</div>\n        <div>ИНН 7716697924 ОГРН 1117746723808</div>\n        <br/>\n\n        <div>© {{:: $root.d.currentYear}} HotelBook. {{ $root.i18n.common.footerAllRightReserved }}</div>\n        <div>{{ $root.i18n.common.footerUTSGroupProject }}</div>\n      </div>\n\n    </div>\n  </div>\n</footer>\n'), a.put("/views/modal/authorization.a1cbdc4ebc7f42920c51.html",
-            '<div class="modal AuthModal" tabindex="-1" role="dialog" ng-controller="ModalAuthorizationCtrl">\n  <div class="modal-dialog modal-vertical-centered">\n    <div class="modal-content">\n      <div class="modal-body">\n        <ul class="nav nav-tabs">\n          <li class="AuthModal-navLogin" ng-class="{\'active\':tab==1}"><a href="javascript: void 0;" ng-click="tab=1">{{ $root.i18n.modal.enter }}</a></li>\n          <li class="AuthModal-navPin" ng-class="{\'active\':tab==2}"><a href="javascript: void 0;" ng-click="tab=2">{{ $root.i18n.modal.enterViaPin }}</a></li>\n          <li class="AuthModal-navReg" ng-class="{\'active\':tab==3}"><a href="javascript: void 0;" ng-click="tab=3">{{ $root.i18n.modal.signUp }}</a></li>\n        </ul>\n        <div class="AuthModal-content">\n          <div ng-show="tab==1" class="AuthModal-login">\n            <form ng-hide="showRestore" role="form" name="loginForm" form-validator="loginData" action="/login" method="POST" after-success="login">\n              <div class="form-group InputBox i-email c-i40 is-require" ng-class="{\'InputBox-error\': loginForm.fieldHasError(\'email\') && loginForm.submited}">\n                <input ng-model="loginData.login.email" class="form-control" type="email" name="email" placeholder="{{ $root.i18n.modal.emaliAddress }}" required tooltip-manager data-placement="top-left"/>\n              </div>\n              <div class="form-group mb0 InputBox i-password c-i40 is-require" ng-class="{\'InputBox-error\': loginForm.fieldHasError(\'password\') && loginForm.submited}">\n                <input ng-model="loginData.login.password" type="password" name="password" class="form-control authorization-input" placeholder="{{ $root.i18n.modal.password }}" required tooltip-manager data-placement="top-left"/>\n                <div class="AuthModal-loginForget" ng-click="showRestore = true">\n                  <a href="javascript: void 0;">\n                    <i class="i-forgot"></i>\n                    <span>{{ $root.i18n.modal.forgetPassword }}</span>\n                  </a>\n                </div>\n                <div class="Btn Btn--orange Btn--submit fr" type="button"><i class="i-login"></i>{{ $root.i18n.modal.enter }}</div>\n              </div>\n            </form>\n            <div class="AuthModal-restore" ng-show="showRestore">\n              <div class="AuthModal-restoreSuccess clearfix" ng-show="restoreSentSuccess">\n                <p>На ваш email было отправлено письмо с инструкциями по восстановлению пароля</p>\n                <div class="Btn Btn--orange fr" type="button" ng-click="showRestore = false">Войти</div>\n                <div class="Btn Btn--blue fr" type="button" ng-click="restoreSentSuccess = false">Повторить</div>\n              </div>\n              <form ng-hide="restoreSentSuccess" role="form" name="restoreForm" form-validator="restoreData" action="/user/forget" method="POST" after-success="restoreSuccess">\n                <p>Укажите email на который была выполнена регистрация. Мы вышлем письмо с инструкцией по восстановлению пароля.</p>\n                <div class="form-group InputBox i-email c-i40 is-require" ng-class="{\'InputBox-error\': restoreForm.fieldHasError(\'email\') && restoreForm.submited}">\n                  <input ng-model="restoreData.email" class="form-control" type="email" name="email" placeholder="{{ $root.i18n.modal.emaliAddress }}" required tooltip-manager data-placement="top-left"/>\n                  <div class="Btn Btn--orange Btn--submit fr" type="button">Отправить</div>\n                  <div class="Btn Btn--blue fr" type="button" ng-click="showRestore = false">Назад</div>\n                </div>\n              </form>\n            </div>\n          </div>\n          <div ng-show="tab==2" class="AuthModal-login">\n            <form role="form" name="orderForm" form-validator="orderData" action="/order/auth" method="POST" after-success="login">\n              <div class="form-group InputBox i-cabinet-bron c-i40 is-require" ng-class="{\'InputBox-error\': orderForm.fieldHasError(\'orderCode\') && orderForm.submited}">\n                <input ng-model="orderData.orderCode" class="form-control" type="text" name="orderCode" placeholder="{{ $root.i18n.modal.orderNumber }}" required tooltip-manager data-placement="top-left"/>\n              </div>\n              <div class="form-group mb0 InputBox i-password c-i40 is-require" ng-class="{\'InputBox-error\': orderForm.fieldHasError(\'pin\') && orderForm.submited}">\n                <input ng-model="orderData.pin" type="text" name="pin" class="form-control authorization-input" placeholder="{{ $root.i18n.modal.pinCode }}" required tooltip-manager data-placement="top-left"/>\n                <div class="AuthModal-loginForget">\n                  <a href="javascript: void 0;" bs-tooltip data-animation="popup-slide-down Tooltip Tooltip--info" data-title="{{ $root.i18n.modal.ifYouMakeBooking }}">\n                    <i class="i-forgot"></i>\n                    <span>{{ $root.i18n.modal.whereICanFindThisInfo }}</span>\n                  </a>\n                </div>\n                <div class="Btn Btn--orange Btn--submit fr" type="button"><i class="i-login"></i>{{ $root.i18n.modal.enter }}</div>\n              </div>\n            </form>\n          </div>\n          <div ng-show="tab==3" class="AuthModal-registration">\n            <form role="form" name="regForm" form-validator="regData" action="/user/register" method="POST" after-success="registration">\n              <div class="form-group InputBox i-email c-i40 is-require" ng-class="{\'InputBox-error\': regForm.fieldHasError(\'email\') && regForm.submited}">\n                <input ng-model="regData.userRegister.email" name="email" type="email" class="form-control" placeholder="{{ $root.i18n.modal.emailAddress }}" required tooltip-manager/>\n              </div>\n              <div class="form-group InputBox i-password c-i40 is-require" ng-class="{\'InputBox-error\': regForm.fieldHasError(\'password\') && regForm.submited}">\n                <input ng-model="regData.userRegister.password" name="password" type="password" class="form-control" placeholder="{{ $root.i18n.modal.password }}" required tooltip-manager/>\n              </div>\n              <div class="form-group mb0 InputBox i-password c-i40 is-require" ng-class="{\'InputBox-error\': regForm.fieldHasError(\'repeatPassword\') && regForm.submited}">\n                <input ng-model="regData.userRegister.repeatPassword" name="repeatPassword" type="password" class="form-control" placeholder="{{ $root.i18n.modal.repeatPassword }}" required tooltip-manager/>\n                <div class="Btn Btn--orange Btn--submit fr"><i class="i-newuser"></i> {{ $root.i18n.modal.createProfile }}</div>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/modal/modal-email-form.d3373ed55879175d8161.html",
-            '<div class="ModalSubscription">\n  <form name="subscriptionEmailForm" role="form" class="ModalSubscription-form clearfix">\n    <label for="subsEmail" class="s16">Введите email, на который буду присылаться письма об изменении цены</label>\n    <input class="ModalSubscription-formEmail InputBox mb10" tooltip-manager data-placement="top-left" type="email" id="subsEmail" name="email" placeholder="email" ng-model="email" required>\n    <div class="Btn Btn--orange fr" ng-click="submit();">Подписаться</div>\n  </form>\n</div>\n'), a.put("/views/modal/modal-notification.33b8979a643cb5629451.html",
-            '<div class="ModalNotification">\n  <div class="ModalNotification-title" ng-show="title" ng-bind-html="title"></div>\n  <div class="ModalNotification-content" ng-bind-html="content"></div>\n  <duv class="Btn Btn--orange fr mr20" ui-sref="hb.landing" ng-click="$hide()">{{ $root.i18n.common.toMainPage }}</div>\n</div>\n'), a.put("/views/modal/modal-search-form.eedc1948e1f130414392.html",
-            '<div class="SearchFormModal-closeBtn i-close" ng-click="angular.element(\'.am-fade\').click()"></div>\n<div class="modal SearchFormModal SearchForm--blue" tabindex="-1" role="dialog">\n  <div class="modal-dialog" ng-include="\'/views/hb/search-form.34fcd68b1c92c0229a80.html\'">\n  </div>\n</div>\n'), a.put("/views/modal/partner-registration.dba349137b6019a8e095.html",
-            '<div class="ModalPartnerRegistration">\n  <form name="partnerRegistrationForm" role="form" class="ModalPartnerRegistration-form PartnerRegistrationForm">\n    <div class="PartnerRegistrationForm-fieldset">\n      <div class="PartnerRegistrationForm-fieldsetLegend">Информация о сайте</div>\n      <div class="row no-padding">\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="text" name="siteUrl" placeholder="Адрес сайта" ng-model="partnerRegistrationData.siteUrl" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox">\n            <input class="InputBox" type="text" name="siteTraffic" placeholder="Трафик вашего сайта" ng-model="partnerRegistrationData.siteTraffic" required>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="PartnerRegistrationForm-fieldset">\n      <div class="PartnerRegistrationForm-fieldsetLegend">Контактная информация</div>\n      <div class="row no-padding">\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="text" name="contactName" placeholder="Контактное лицо" ng-model="partnerRegistrationData.contactName" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="text" name="contactPhone" placeholder="+7 (xxx) xxx-xx-xx" ng-model="partnerRegistrationData.contactPhone" required>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="PartnerRegistrationForm-fieldset">\n      <div class="PartnerRegistrationForm-fieldsetLegend">Регистрация в партнерской программе</div>\n      <div class="row no-padding">\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="text" name="login" placeholder="Партнерский логин" ng-model="partnerRegistrationData.login" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="email" name="email" placeholder="Электронная почта" ng-model="partnerRegistrationData.email" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="password" name="password" placeholder="Пароль" ng-model="partnerRegistrationData.password" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="password" name="passwordConfirm" placeholder="Подтверждение пароля" ng-model="partnerRegistrationData.passwordConfirm" required>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field PartnerRegistrationForm-field--captcha InputBox">\n            <input class="InputBox" value="Код подтверждения" readonly>\n          </div>\n        </div>\n        <div class="PartnerRegistrationForm-fieldContainer col-xs-6">\n          <div class="PartnerRegistrationForm-field InputBox is-require">\n            <input class="InputBox" type="text" name="captcha" placeholder="Введите код" ng-model="partnerRegistrationData.captcha" required>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="PartnerRegistrationForm-acts">\n      <div class="PartnerRegistrationForm-act Btn Btn--orange" ng-click="submit();">Зарегистрироваться</div>\n    </div>\n  </form>\n</div>\n'), a.put("/views/modal/search-dead.37a51ecf4660c4a29e53.html",
-            '<div class="modal SearchDead" tabindex="-1" role="dialog" ng-controller="ModalAuthorizationCtrl">\n  <div class="modal-dialog modal-vertical-centered">\n    <div class="modal-content">\n      <div class="i-refresh"></div>\n      <div class="SearchDead-title">{{ $root.i18n.modal.searchResultExpired }}</div>\n      <div class="SearchDead-text">{{ $root.i18n.modal.forSeeResultsUpdatePage }}</div>\n      <div class="Btn Btn--orange mt30">{{ $root.i18n.modal.updateResults }}</div>\n    </div>\n  </div>\n</div>\n'), a.put("/views/popovers/datepicker.10d4c6320dac80c4a856.html",
-            '<div class="popover popover-datepicker" ng-click="$event.preventDefault();$event.stopPropagation()">\n  <div class="arrow"></div>\n  <div class="popover-content">\n    <div date-range start="a" end="b"></div>\n  </div>\n</div>'), a.put("/views/popovers/hotel-rich-marker.5ee808bd587632dd7bfa.html",
-            '<div class="MapMarker" id="content">\n  <div ng-click="u.goToHotel($event, obj, searchForm)" class="MapMarker-body popup-slide-down">\n    <div class="MapMarker-image" ng-style="{\'background-image\': \'url(\' +  $root.u.hImage135(obj.images[0], obj.id) + \')\'}"></div>\n    <div class="glyphicon glyphicon-remove" ng-click="hideInfoBox($event)"></div>\n    <div class="MapMarker-infoBox">\n      <a class="MapMarker-name" ng-href="{{href}}">{{obj.name}}</a>\n      <div stars class="Stars--tiny" ng-model="obj.categoryId"></div>\n      <div class="MapMarker-address" ng-bind="obj.address"></div>\n      <div class="MapMarker-price" ng-show="obj.rooms">от\n        <span ng-bind="obj.rooms[0].price | smartDigits"> </span>\n        <span currency class="s20 lh34" ng-model="d.currency"></span>\n        </span>\n      </div>\n    </div>\n    <div class="MapMarker-triangle"></div>\n  </div>\n</div>\n'), a.put("/views/popovers/place-rich-marker.fc32aee42016ba137b46.html",
-            '<div class="MapMarker" id="content">\n  <div class="MapMarker-body popup-slide-down">\n    <div class="MapMarker-image" ng-style="{\'background-image\': \'url(\' + obj.photo.url + \')\'}"></div>\n    <div class="glyphicon glyphicon-remove" ng-click="hideInfoBox($event)"></div>\n    <div class="MapMarker-infoBox">\n      <div class="MapMarker-name" >{{obj.name}}</div>\n      <div class="MapMarker-address MapMarker-address--multiline" ng-bind="obj.address">{{obj.address}}</div>\n    </div>\n    <div class="MapMarker-triangle"></div>\n  </div>\n</div>\n'), a.put("/views/restore-password.b4d38c46372ffa01f3f0.html",
-            '<div class="RestorePasswordPage" inherit-height>\n  <div class="RestorePasswordPage-wrapper container">\n    <div class="RestorePasswordPage-contentBlock">\n      <h2 class="RestorePasswordPage-title s22">Изменить пароль учетной записи</h2>\n      <p class="RestorePasswordPage-text s16">Задайте новый пароль для учетной записи <b>{{email}}</b></p>\n      <form role="form" name="form" form-validator="data" action="{{action}}" method="PUT" after-success="restored">\n        <div class="form-group InputBox i-lock c-i40 is-require" ng-class="{\'InputBox-error\': form.fieldHasError(\'password\') && form.submited}">\n          <input ng-model="data.restorePassword.password" type="password" name="password" class="form-control authorization-input" placeholder="Новый пароль" required tooltip-manager data-placement="top-left"/>\n        </div>\n        <div class="form-group InputBox i-lock c-i40 is-require" ng-class="{\'InputBox-error\': form.fieldHasError(\'repeatPassword\') && form.submited}">\n          <input ng-model="data.restorePassword.repeatPassword" type="password" name="repeatPassword" class="form-control authorization-input" placeholder="Подтвердите новый пароль" required tooltip-manager data-placement="top-left"/>\n        </div>\n        <div class="Btn Btn--orange Btn--submit fr" type="button">{{ $root.i18n.common.Change }}</div>\n        <div class="Btn Btn--blue fr mr20" type="button">{{ $root.i18n.common.Cancel }}</div>\n      </form>\n    </div>\n  </div>\n</div>\n')
-}]),function m(a, b, c) {
-    function d(f, g) {
-        if (!b[f]) {
-            if (!a[f]) {
-                var h = "function" == typeof require && require;
-                if (!g && h) {
-                    return h(f, !0);
-                }
-                if (e) {
-                    return e(f, !0);
-                }
-                var i = new Error("Cannot find module '" + f + "'");
-                throw i.code = "MODULE_NOT_FOUND", i
+            var i = window.getComputedStyle(e, null).getPropertyValue("height"), r = parseFloat(i);
+            return (isNaN(r) || i.indexOf("%") > 0 || 0 > r) && (r =
+                    e.offsetHeight - parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-top")) -
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-bottom"))), t && (r +=
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-top")) +
+                    parseFloat(window.getComputedStyle(e, null).getPropertyValue("padding-bottom"))), n ? Math.ceil(r) : r
+        }, getOffset: function (e) {
+            "use strict";
+            var t = e.getBoundingClientRect(), n = document.body, i = e.clientTop || n.clientTop || 0, r = e.clientLeft || n.clientLeft ||
+                    0, o = window.pageYOffset || e.scrollTop, a = window.pageXOffset || e.scrollLeft;
+            return document.documentElement && !window.pageYOffset && (o = document.documentElement.scrollTop, a = document.documentElement.scrollLeft), {
+                top: t.top + o - i, left: t.left + a - r
             }
-            var j = b[f] = {exports: {}};
-            a[f][0].call(j.exports, function (b) {
-                var c = a[f][1][b];
-                return d(c ? c : b)
-            }, j, j.exports, m, a, b, c)
+        }, windowWidth: function () {
+            "use strict";
+            return window.innerWidth ? window.innerWidth :
+                    document.documentElement && document.documentElement.clientWidth ? document.documentElement.clientWidth : void 0
+        }, windowHeight: function () {
+            "use strict";
+            return window.innerHeight ? window.innerHeight :
+                    document.documentElement && document.documentElement.clientHeight ? document.documentElement.clientHeight : void 0
+        }, windowScroll: function () {
+            "use strict";
+            return "undefined" != typeof pageYOffset ? {left: window.pageXOffset, top: window.pageYOffset} :
+                    document.documentElement ? {left: document.documentElement.scrollLeft, top: document.documentElement.scrollTop} : void 0
+        }, addEventListener: function (e, t, n, i) {
+            "use strict";
+            "undefined" == typeof i && (i = !1), e.addEventListener ? e.addEventListener(t, n, i) : e.attachEvent && e.attachEvent("on" + t, n)
+        }, removeEventListener: function (e, t, n, i) {
+            "use strict";
+            "undefined" == typeof i && (i = !1), e.removeEventListener ? e.removeEventListener(t, n, i) : e.detachEvent && e.detachEvent("on" + t, n)
         }
-        return b[f].exports
-    }
-
-    for (var e = "function" == typeof require && require, f = 0; f < c.length; f++) {
-        d(c[f]);
-    }
-    return d
-}({
-    1: [function (a, b) {
-        var c = {
-            componentDidMount: function () {
-                var a = this.getDOMNode();
-                a && (a.addEventListener("mouseenter", this.mouseenter, !1), a.addEventListener("mouseleave", this.mouseleave, !1))
-            }, componentWillUnmount: function () {
-                var a = this.getDOMNode();
-                a && (a.removeEventListener("mouseenter", this.mouseenter), a.removeEventListener("mouseleave", this.mouseleave))
-            }, componentWillUpdate: function () {
-                if (this.shown && this.getTooltipContent && _.isFunction(this.getTooltipContent)) {
-                    {
-                        $(this.getDOMNode())
-                    }
-                    $(".tooltip-inner").html(React.renderToString(this.getTooltipContent()))
-                }
-            }, mouseenter: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip({
-                    trigger: "manual",
-                    template: '<div class="tooltip Tooltip Tooltip--info in" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-                    html: !0,
-                    animation: !0
-                }), this.getTooltipContent && _.isFunction(this.getTooltipContent) &&
-                a.attr("title", React.renderToString(this.getTooltipContent())).tooltip("fixTitle"), a.tooltip("show"), this.shown = !0
-            }, mouseleave: function () {
-                var a = $(this.getDOMNode());
-                a.tooltip("hide").tooltip("destroy"), setTimeout(function () {
-                    a.tooltip("destroy")
-                }, 100), this.shown = !1
-            }, shown: !1
-        }, d = React.createClass({
-            displayName: "BSTooltip", mixins: [c], render: function () {
-                return this.props.children
+    }, setTransform: function (e, t) {
+        "use strict";
+        var n = e.style;
+        n.webkitTransform = n.MsTransform = n.msTransform = n.MozTransform = n.OTransform = n.transform = t
+    }, setTranslate: function (e, t) {
+        "use strict";
+        var n = e.style, i = {x: t.x || 0, y: t.y || 0, z: t.z || 0}, r = this.support.transforms3d ? "translate3d(" + i.x + "px," + i.y + "px," + i.z + "px)" :
+        "translate(" + i.x + "px," + i.y + "px)";
+        n.webkitTransform = n.MsTransform = n.msTransform = n.MozTransform = n.OTransform = n.transform = r, this.support.transforms ||
+        (n.left = i.x + "px", n.top = i.y + "px")
+    }, setTransition: function (e, t) {
+        "use strict";
+        var n = e.style;
+        n.webkitTransitionDuration =
+                n.MsTransitionDuration = n.msTransitionDuration = n.MozTransitionDuration = n.OTransitionDuration = n.transitionDuration = t + "ms"
+    }, support: {
+        touch: window.Modernizr && Modernizr.touch === !0 || function () {
+            "use strict";
+            return !!("ontouchstart"in window || window.DocumentTouch && document instanceof DocumentTouch)
+        }(), transforms3d: window.Modernizr && Modernizr.csstransforms3d === !0 || function () {
+            "use strict";
+            var e = document.createElement("div").style;
+            return "webkitPerspective"in e || "MozPerspective"in e || "OPerspective"in e || "MsPerspective"in e || "perspective"in e
+        }(), transforms: window.Modernizr && Modernizr.csstransforms === !0 || function () {
+            "use strict";
+            var e = document.createElement("div").style;
+            return "transform"in e || "WebkitTransform"in e || "MozTransform"in e || "msTransform"in e || "MsTransform"in e || "OTransform"in e
+        }(), transitions: window.Modernizr && Modernizr.csstransitions === !0 || function () {
+            "use strict";
+            var e = document.createElement("div").style;
+            return "transition"in e || "WebkitTransition"in e || "MozTransition"in e || "msTransition"in e || "MsTransition"in e || "OTransition"in e
+        }(), classList: function () {
+            "use strict";
+            var e = document.createElement("div");
+            return "classList"in e
+        }()
+    }, browser: {
+        ie8: function () {
+            "use strict";
+            var e = -1;
+            if ("Microsoft Internet Explorer" === navigator.appName) {
+                var t = navigator.userAgent, n = new RegExp(/MSIE ([0-9]{1,}[\.0-9]{0,})/);
+                null !== n.exec(t) && (e = parseFloat(RegExp.$1))
             }
-        });
-        b.exports.tooltipMixing = c, b.exports.BSTooltip = d
-    }, {}]
-}, {}, [1]);
+            return -1 !== e && 9 > e
+        }(), ie10: window.navigator.msPointerEnabled, ie11: window.navigator.pointerEnabled
+    }
+}, (window.jQuery || window.Zepto) && !function (e) {
+    "use strict";
+    e.fn.swiper = function (t) {
+        var n;
+        return this.each(function (i) {
+            var r = e(this), o = new Swiper(r[0], t);
+            i || (n = o), r.data("swiper", o)
+        }), n
+    }
+}(window.jQuery || window.Zepto), "undefined" != typeof module && (module.exports = Swiper), "function" == typeof define && define.amd &&
+define([], function () {
+    "use strict";
+    return Swiper
+}), function () {
+    var e, t, n, i, r, o, a, s, l, u;
+    e = window.device, window.device = {}, n = window.document.documentElement, u = window.navigator.userAgent.toLowerCase(), device.ios = function () {
+        return device.iphone() || device.ipod() || device.ipad()
+    }, device.iphone = function () {
+        return i("iphone")
+    }, device.ipod = function () {
+        return i("ipod")
+    }, device.ipad = function () {
+        return i("ipad")
+    }, device.android = function () {
+        return i("android")
+    }, device.androidPhone = function () {
+        return device.android() && i("mobile")
+    }, device.androidTablet = function () {
+        return device.android() && !i("mobile")
+    }, device.blackberry = function () {
+        return i("blackberry") || i("bb10") || i("rim")
+    }, device.blackberryPhone = function () {
+        return device.blackberry() && !i("tablet")
+    }, device.blackberryTablet = function () {
+        return device.blackberry() && i("tablet")
+    }, device.windows = function () {
+        return i("windows")
+    }, device.windowsPhone = function () {
+        return device.windows() && i("phone")
+    }, device.windowsTablet = function () {
+        return device.windows() && i("touch") && !device.windowsPhone()
+    }, device.fxos = function () {
+        return (i("(mobile;") || i("(tablet;")) && i("; rv:")
+    }, device.fxosPhone = function () {
+        return device.fxos() && i("mobile")
+    }, device.fxosTablet = function () {
+        return device.fxos() && i("tablet")
+    }, device.meego = function () {
+        return i("meego")
+    }, device.cordova = function () {
+        return window.cordova && "file:" === location.protocol
+    }, device.nodeWebkit = function () {
+        return "object" == typeof window.process
+    }, device.mobile = function () {
+        return device.androidPhone() || device.iphone() || device.ipod() || device.windowsPhone() || device.blackberryPhone() || device.fxosPhone() ||
+                device.meego()
+    }, device.tablet = function () {
+        return device.ipad() || device.androidTablet() || device.blackberryTablet() || device.windowsTablet() || device.fxosTablet()
+    }, device.desktop = function () {
+        return !device.tablet() && !device.mobile()
+    }, device.portrait = function () {
+        return window.innerHeight / window.innerWidth > 1
+    }, device.landscape = function () {
+        return window.innerHeight / window.innerWidth < 1
+    }, device.noConflict = function () {
+        return window.device = e, this
+    }, i = function (e) {
+        return -1 !== u.indexOf(e)
+    }, o = function (e) {
+        var t;
+        return t = new RegExp(e, "i"), n.className.match(t)
+    }, t = function (e) {
+        return o(e) ? void 0 : n.className += " " + e
+    }, s = function (e) {
+        return o(e) ? n.className = n.className.replace(e, "") : void 0
+    }, device.ios() ? device.ipad() ? t("ios ipad tablet") : device.iphone() ? t("ios iphone mobile") : device.ipod() && t("ios ipod mobile") :
+            t(device.android() ? device.androidTablet() ? "android tablet" : "android mobile" :
+                    device.blackberry() ? device.blackberryTablet() ? "blackberry tablet" : "blackberry mobile" :
+                            device.windows() ? device.windowsTablet() ? "windows tablet" : device.windowsPhone() ? "windows mobile" : "desktop" :
+                                    device.fxos() ? device.fxosTablet() ? "fxos tablet" : "fxos mobile" :
+                                            device.meego() ? "meego mobile" : device.nodeWebkit() ? "node-webkit" : "desktop"), device.cordova() &&
+    t("cordova"), r = function () {
+        return device.landscape() ? (s("portrait"), t("landscape")) : (s("landscape"), t("portrait"))
+    }, l = "onorientationchange"in window, a = l ? "orientationchange" : "resize", window.addEventListener ? window.addEventListener(a, r, !1) :
+            window.attachEvent ? window.attachEvent(a, r) : window[a] = r, r()
+}.call(this), !function (e, t) {
+    "use strict";
+    var n, i, r, o = "._tap", a = "._tapActive", s = "tap", l = "clientX clientY screenX screenY pageX pageY".split(" "), u = {
+        count: 0,
+        event: 0
+    }, c = function (e, n) {
+        var i = n.originalEvent, r = t.Event(i);
+        r.type = e;
+        for (var o = 0, a = l.length; a > o; o++) {
+            r[l[o]] = n[l[o]];
+        }
+        return r
+    }, d = function (e) {
+        if (e.isTrigger) {
+            return !1;
+        }
+        var n = u.event, i = Math.abs(e.pageX - n.pageX), r = Math.abs(e.pageY - n.pageY), o = Math.max(i, r);
+        return e.timeStamp - n.timeStamp < t.tap.TIME_DELTA && o < t.tap.POSITION_DELTA && (!n.touches || 1 === u.count) && h.isTracking
+    }, p = function (e) {
+        if (!r) {
+            return !1;
+        }
+        var n = Math.abs(e.pageX - r.pageX), i = Math.abs(e.pageY - r.pageY), o = Math.max(n, i);
+        return Math.abs(e.timeStamp - r.timeStamp) < 750 && o < t.tap.POSITION_DELTA
+    }, f = function (e) {
+        if (0 === e.type.indexOf("touch")) {
+            e.touches = e.originalEvent.changedTouches;
+            for (var t = e.touches[0], n = 0, i = l.length; i > n; n++) {
+                e[l[n]] = t[l[n]]
+            }
+        }
+        e.timeStamp = Date.now ? Date.now() : +new Date
+    }, h = {
+        isEnabled: !1, isTracking: !1, enable: function () {
+            h.isEnabled || (h.isEnabled = !0, n = t(e.body).on("touchstart" + o, h.onStart).on("mousedown" + o, h.onStart).on("click" + o, h.onClick))
+        }, disable: function () {
+            h.isEnabled && (h.isEnabled = !1, n.off(o))
+        }, onStart: function (e) {
+            e.isTrigger || (f(e), (!t.tap.LEFT_BUTTON_ONLY || e.touches || 1 === e.which) && (e.touches && (u.count = e.touches.length), h.isTracking ||
+            (e.touches || !p(e)) &&
+            (h.isTracking = !0, u.event = e, e.touches ? (r = e, n.on("touchend" + o + a, h.onEnd).on("touchcancel" + o + a, h.onCancel)) :
+                    n.on("mouseup" + o + a, h.onEnd))))
+        }, onEnd: function (e) {
+            var n;
+            e.isTrigger || (f(e), d(e) && (n = c(s, e), i = n, t(u.event.target).trigger(n)), h.onCancel(e))
+        }, onCancel: function (e) {
+            e && "touchcancel" === e.type && e.preventDefault(), h.isTracking = !1, n.off(a)
+        }, onClick: function (e) {
+            return !e.isTrigger && i && i.isDefaultPrevented() && i.target === e.target && i.pageX === e.pageX && i.pageY === e.pageY &&
+            e.timeStamp - i.timeStamp < 750 ? (i = null, !1) : void 0
+        }
+    };
+    t(e).ready(h.enable), t.tap = {POSITION_DELTA: 10, TIME_DELTA: 400, LEFT_BUTTON_ONLY: !0}
+}(document, jQuery), $(function () {
+    "use strict";
+    var e = $("#products"), t = e.find(".js-control"), n = e.swiper({speed: 700, mode: "horizontal", loop: !0});
+    t.on("tap", function () {
+        "next" === $(this).data("dir") ? n.swipeNext() : n.swipePrev()
+    });
+    var i = $(window), r = $("#video"), o = $("#mouse"), a = $("#paralax"), s = $("#vitamins"), l = $("#minerals"), u = $(".js-popup"), c = $(".js-nav-link"), d = !1, p = "b-mouse_hidden";
+    $(".js-show-popup").on("tap", function () {
+        u.addClass("b-popup_visible"), o.addClass(p)
+    }), $(".js-hide-popup").on("tap", function () {
+        u.removeClass("b-popup_visible"), $(".js-video")[0].contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', "*")
+    }), u.on("tap", function (e) {
+        var t = $(e.target);
+        0 === t.closest(".js-popup-inner").length && $(".js-hide-popup").trigger("tap")
+    }), i.on("scroll", function () {
+        var e = i.scrollTop();
+        if (!u.hasClass("b-popup_visible")) {
+            var t = !1;
+            t = r.length ? e + i.height() > r.offset().top + r.height() : e > 500, o.toggleClass(p, t)
+        }
+        if (!d && a.length) {
+            var n = e + i.height() / 4 - a.offset().top;
+            n > 0 && (s.addClass("b-vitamins_animate"), l.addClass("b-minerals_animate"), d = !0)
+        }
+        var f = c.length - 1;
+        c.each(function (t) {
+            var n = $(this).data("panel"), r = $("#" + n), o = r.offset().top;
+            return e + i.height() / 2 < o ? (f = 0 === t ? 0 : t - 1, !1) : void 0
+        }), c.removeClass("b-pages__item_state_active").eq(f).addClass("b-pages__item_state_active")
+    }).trigger("scroll"), c.on("click", function () {
+        var e = $(this).data("panel");
+        $("html,body").animate({scrollTop: $("#" + e).offset().top}, 500, function () {
+            i.trigger("scroll")
+        })
+    }), $(".js-social").on("click", function (e) {
+        e.preventDefault();
+        var t = $(this), n = t.data("type"), i = $('meta[property="og:url"]').attr("content"), r = $('meta[property="og:title"]').attr("content"), o = $('meta[property="og:description"]').attr("content"), a = $('meta[property="og:image"]').attr("content"), s = "";
+        switch (n) {
+            case"fb":
+                s = "http://www.facebook.com/sharer.php?s=100", s += "&p[title]=" + r, s += "&p[summary]=" + o, s += "&p[url]=" + i, s += "&p[images][0]=" + a;
+                break;
+            case"vk":
+                s = "http://vkontakte.ru/share.php?", s += "url=" + i, s += "&title=" + r, s += "&description=" + o, s += "&image=" + a, s += "&noparse=true";
+                break;
+            case"ok":
+                s = "http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1", s += "&st.comments=" + o, s += "&st._surl=" + i
+        }
+        window.open(s, "", "toolbar=0, status=0, width=626, height=436")
+    }), $(".js-toggle-menu").on("click", function () {
+        $(".js-menu").toggleClass("b-nav__list_active"), $(this).toggleClass("b-nav__open_active")
+    }), device.tablet() && $("#viewport").attr("content", "width=1000 minimal-ui")
+});

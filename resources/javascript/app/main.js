@@ -71,7 +71,7 @@ $(document).ready(function () {
             resize: false,
             sectionsColor: ['ivory', 'ivory', 'ivory', 'ivory'],
             //paddingTop: '3em',
-            //paddingBottom: '3%',
+            paddingBottom: '10px',
             //fixedElements: '#header, .footer',
             responsive: 0,
 
@@ -79,7 +79,7 @@ $(document).ready(function () {
             css3: true,
             scrollingSpeed: 700,
             autoScrolling: false,
-            fitToSection: true,
+            fitToSection: false,
             scrollBar: false
         });
     });

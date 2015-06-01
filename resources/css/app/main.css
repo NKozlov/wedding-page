@@ -315,7 +315,7 @@ div[class~="testColor"] {
 .post {
     background: ivory !important;
     text-align: left;
-    margin-bottom: 1.5%;
+    margin-bottom: 0.1%;
 }
 
 time {

@@ -2,6 +2,12 @@ div[class~="testColor"] {
     background-color: bisque;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+/* menu */
+
 #menu li {
     display: inline-block;
     margin: 10px;
@@ -86,7 +92,7 @@ div[class~="testColor"] {
     text-align: center;
     top: 4%;
     min-height: 20%;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 240, 0.7);
     position: relative;
 }
 
@@ -96,7 +102,7 @@ div[class~="testColor"] {
 
 .header-title {
     font-family: 'Pudelinka', sans-serif;
-    font-size: 6em;
+    font-size: 4.5vw;
     font-weight: normal;
     font-style: normal;
     text-align: center;
@@ -107,7 +113,7 @@ div[class~="testColor"] {
     width: 50%;
     margin-left: auto;
     margin-right: auto;
-    font-size: 1.1em;
+    font-size: 0.8vw;
     text-align: center;
     padding-top: 2%;
 }
@@ -134,7 +140,7 @@ div[class~="testColor"] {
     text-transform: none;
     color: #ec6d65;
     font-weight: normal;
-    font-size: 1.8em;
+    font-size: 1.3vw;
     margin-top: 1%;
 }
 
@@ -183,10 +189,6 @@ div[class~="testColor"] {
     content: "";
 }
 
-.days-label {
-
-}
-
 .subline {
     font-family: Myriad Pro, Tahoma, sans-serif;
     font-weight: bold;
@@ -227,26 +229,191 @@ div[class~="testColor"] {
     font-size: 3vw;
 }
 
-.title-time-text {
+/*section 2*/
+
+.section-title {
+    position: relative;
+    color: #de675f;
     display: inline-block;
     font-family: Cambria, Georgia, sans-serif;
-    font-size: 50px;
-}
-
-.photoBox-container {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2.5vw;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0;
+    padding-bottom: 3%;
+    /*padding-bottom: 2.6rem;*/
     width: 100%;
-    height: 600px;
+    /*border-bottom: 4px double #ec6d65;*/
+    /*border-color: #ec6d65 !important;*/
 
-    /*fix XZ bug*/
-    min-height: 600px;
-    position: absolute;
 }
 
-.landingPage-lists {
+.section-title.border-bottom {
+    border-bottom: 4px double #ec6d65;
+}
+
+.fp-tableCell {
+    display: table-cell;
+    vertical-align: top;
     width: 100%;
-    position: absolute;
-    /*bottom: 0;*/
-    /*height: 10%;*/
+    height: 100%;
 }
 
-/* after vegas show*/
+.header-section {
+    margin-bottom: 2%;
+    background: rgba(255, 255, 240, 0.7);
+    padding-bottom: 1%;
+}
+
+.entry-content {
+    position: relative;
+}
+
+.entry-content.excerpt {
+    padding: 1% 1% 1%;
+}
+
+.entry-content.excerpt h3 {
+    margin-top: 1%;
+}
+
+.post-title {
+    float: left;
+    text-transform: uppercase;
+    color: #553736;
+    font-size: 1vw;
+    font-weight: bold;
+    margin-right: 1%;
+}
+
+.post-place {
+    float: left;
+    text-transform: uppercase;
+    color: #553736;
+    font-size: 1vw;
+}
+
+.addr {
+    float: left;
+    width: 100%;
+    color: #de675f;
+    margin-bottom: 2%;
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 1vw;
+    line-height: 1.1em;
+}
+
+.clear {
+    clear: both;
+}
+
+.post {
+    background: ivory !important;
+    text-align: left;
+    margin-bottom: 1.5%;
+}
+
+time {
+    position: absolute;
+    top: 10%;
+    right: 1%;
+}
+
+.post time {
+    font-size: 1.5vw;
+    color: #553736;
+    font-weight: normal;
+}
+
+.post p {
+    margin-bottom: 0;
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 1vw;
+    line-height: 1.4em;
+    color: #553736;
+}
+
+/*section 3*/
+.section-title h1 {
+    color: #de675f;
+    padding: 1% 0 0.6%;
+    margin: 0;
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 2vw;
+}
+
+strong, b {
+    font-weight: bold;
+    line-height: inherit;
+}
+
+.subline.contact-title {
+    font-size: 1vw !important;
+    margin-top: 3%;
+}
+
+.subline.contact-title.contact-addr {
+    font-weight: normal;
+    margin-top: 1%;
+}
+
+.ymaps {
+    width: 100%;
+    height: 500px;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.phone-email {
+    padding-top: 3%;
+    text-align: center;
+    padding-bottom: 2%;
+}
+
+.phone-email span {
+    text-transform: uppercase;
+    color: #553736;
+    font-size: 1vw;
+    display: inline-block;
+    padding: 0 1%;
+}
+
+.phone-email span a {
+    font-family: Cambria, Georgia, sans-serif;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+a {
+    color: #de675f;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+
+/*footer*/
+
+.footer {
+    margin-top: 3%;
+    background-color: #de675f;
+    bottom: 0;
+    height: 12%;
+    overflow: hidden;
+    text-align: center;
+    /*height: 63px;*/
+    font-size: 0.6vw;
+    color: #f3b0ac;
+    padding: 1% 1% 0;
+}
+
+.footer a {
+    color: #f3b0ac;
+}

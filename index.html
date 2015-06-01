@@ -12,6 +12,9 @@
     <!-- jquery.fullPage js-->
     <script src="resources/javascript/lib/jquery.fullPage-2.6.5.js"></script>
 
+    <!-- yandex map api-->
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
 
     <!-- my js file-->
     <script src="resources/javascript/app/main.js"></script>
@@ -50,7 +53,7 @@
 <!--</ul>-->
 
 <div id="fullpage">
-    <div id="slideShow" class="section">
+    <div id="header" class="section">
         <div class="header">
             <div class="container-fluid">
                 <div class="row">
@@ -86,18 +89,163 @@
             </div>
         </div>
 
-        <div class="photoBox-container"></div>
-
     </div>
-    <div class="section">
-        <div class="container-fluid landingPage-lists">
+    <div id="timetable" class="section">
+
+        <div class="container-fluid header-section">
             <div class="row">
-                <div class="col-xs-6">11111111</div>
-                <div class="col-xs-6">22222222</div>
+                <div class="col-xs-7 col-sm-4"></div>
+                <div class="col-xs-7 col-sm-4">
+                    <div class="section-title border-bottom"><i class="fa fa-heart"></i> Программа <i class="fa fa-heart"></i></div>
+                </div>
+                <div class="col-xs-7 col-sm-4"></div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12 post">
+                    <div class="entry-content excerpt">
+                        <h3 class="post-title">Выездная регистрация</h3>
+
+                        <h3 class="post-place">Яхт-клуб "Нептун"</h3>
+
+                        <div class="addr">
+                            <i class="fa fa-map-marker"></i>
+                            ул. Набережная, 18, г. Долгопрудный
+                        </div>
+                        <div class="clear"></div>
+                        <time>
+                            <i class="fa fa-clock-o"></i>
+                            15:00
+                        </time>
+                        <p>Очень скоро состоится прекрасное событие - день нашей свадьбы. Мы будем рады видеть наших близких и друзей в этот прекрасный
+                            день. До места назначения заказан трансфер.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-12 post">
+                    <div class="entry-content excerpt">
+                        <h3 class="post-title">Прогулка</h3>
+
+                        <h3 class="post-place">Яхт-клуб "Нептун"</h3>
+
+                        <div class="addr">
+                            <i class="fa fa-map-marker"></i>
+                            ул. Набережная, 18, г. Долгопрудный
+                        </div>
+                        <div class="clear"></div>
+                        <time>
+                            <i class="fa fa-clock-o"></i>
+                            16:00
+                        </time>
+                        <p>После регистрации мы все отправимся на прогулку по живописным местам, где для гостей и молодоженов будет организована фотосессия.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-12 post">
+                    <div class="entry-content excerpt">
+                        <h3 class="post-title">Ужин</h3>
+
+                        <h3 class="post-place">Ресторан "Нептун"</h3>
+
+                        <div class="addr">
+                            <i class="fa fa-map-marker"></i>
+                            ул. Набережная, 18, г. Долгопрудный
+                        </div>
+                        <div class="clear"></div>
+                        <time>
+                            <i class="fa fa-clock-o"></i>
+                            18:00
+                        </time>
+                        <p>После прогулки мы отправимся в банкетный зал ресторана "Нептун". Здесь нас ожидают праздничный стол и напитки, увеселительная
+                            программа от ведущего и зажигательные танцы.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-12 post">
+                    <div class="entry-content excerpt">
+                        <h3 class="post-title">After Party</h3>
+
+                        <h3 class="post-place">Яхт-клуб "Нептун"</h3>
+
+                        <div class="addr">
+                            <i class="fa fa-map-marker"></i>
+                            ул. Набережная, 18, г. Долгопрудный
+                        </div>
+                        <div class="clear"></div>
+                        <time>
+                            <i class="fa fa-clock-o"></i>
+                            23:00
+                        </time>
+                        <p>Все гости после ужина будут размещены в гостиничном комплексе. Для желающих продолжить будет after party.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <div id="contacts" class="section">
+        <div class="container-fluid header-section">
+            <div class="row">
+                <div class="col-xs-7 col-sm-4"></div>
+                <div class="col-xs-7 col-sm-4">
+                    <div class="section-title"><h1>Схема проезда</h1>
+
+                        <p class="subline contact-title">ул. Набережная, 18, г. Долгопрудный</p>
+
+                        <p class="subline contact-title contact-addr">Воскресение, 12 июля в 15:00</p>
+                    </div>
+                </div>
+                <div class="col-xs-7 col-sm-4"></div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div id="map" class="ymaps"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="phone-email">
+                        <span>Телефон <strong>+7 926 297 77 68</strong></span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="phone-email">
+                        <span>Email <a href="mailto:pochitalkin@mail.ru">pochitalkin@mail.ru</a> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <!--<div class="container">-->
+            <!--<div class="row">-->
+            <!--<div class="col-xs-12 col-md-12">-->
+            <div class="footer-text"><i class="fa fa-copyright"></i>2015 Nikita Kozlov (<a href="https://github.com/NKozlov">https://github.com/NKozlov</a>)
+            </div>
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+
+    </div>
+
+
 </div>
+
+
 </body>
 </html>

@@ -21,15 +21,6 @@ $(document).ready(function () {
         cover: true
     });
 
-    $("#timetable").vegas({
-        slides: imgs,
-        transition: 'fade',
-        timer: false,
-        delay: 5000,
-        overlay: "resources/imgs/vegas/overlays/01.png",
-        cover: true
-    });
-
     $('#clock').countdown('2015/07/12').on('update.countdown', function (event) {
         var $this = $(this).html(event.strftime(''
                 + '<div class="countdown_section">'
@@ -69,7 +60,7 @@ $(document).ready(function () {
             controlArrows: true,
             //verticalCentered: true,
             resize: false,
-            sectionsColor: ['ivory', 'ivory', 'ivory', 'ivory'],
+            sectionsColor: ['ivory', 'ivory', 'ivory'],
             //paddingTop: '3em',
             paddingBottom: '10px',
             //fixedElements: '#header, .footer',

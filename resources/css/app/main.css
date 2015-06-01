@@ -315,6 +315,7 @@ div[class~="testColor"] {
 .post {
     background: ivory !important;
     text-align: left;
+    border-bottom: 1px solid #2d003f;
     margin-bottom: 0.1%;
 }
 
